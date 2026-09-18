@@ -1,8 +1,7 @@
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { Container, Box, Divider } from '@mui/material';
 import { FavoriteBorder, Diamond } from '@mui/icons-material';
 import { Text } from '../utils/MUIComponents';
-import ButterflyAnimation from '../utils/ButterflyAnimation';
 import GlobalButterflies from '../utils/GlobalButterfliesAnimation';
 
 // Assets
@@ -56,7 +55,13 @@ export default function TheWedding() {
                     />
 
                     <Text variant="h6" className="cormorant-garamond-regular mt-3">
-                        {oI18n("envelope_waxSeal")}
+                        <Trans 
+                            i18nKey="envelope_waxSeal"
+                            components={{
+                                // Maps the <span> tag from JSON to custom styles or MUI styling
+                                span: <span className="text-gold fs-3 fw-bolder" />
+                            }}
+                        />
                     </Text>
                 </Box>
 
