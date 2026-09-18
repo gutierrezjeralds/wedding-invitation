@@ -1,6 +1,10 @@
 {
     "title_name": "Jerald & Sheila",
+    "title_date": "Saturday, July 17, 2027 \nat 10:00 AM",
+    "title_church": "St. Augustine Parish",
     "envelope_yourInvited": "YOU'RE CORDIALLY INVITED!",
-    "envelope_toCelebrate": "to celebrate our wedding"
-
+    "envelope_toCelebrate": "to celebrate our wedding",
+    "envelope_waxSeal": "Tap the Wax Seal to Open",
+    "envelope_bibleVerse": "And now these three remain: faith, hope and love, \nBut the greatest of these is love.",
+    "enveloper_bibleVerse_id": "— 1 CORINTHIANS 13:13 —"
 }
