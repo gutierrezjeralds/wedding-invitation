@@ -7,10 +7,11 @@ export default function App() {
   const location = useLocation();
 
   const isHomePage = location.pathname === '/';
+  const isTheWeddingPage = location.pathname === '/thewedding';
 
   return (
     <>
-      {!isHomePage && <Header />}
+      {(!isHomePage && !isTheWeddingPage) && <Header />}
 
       {location.pathname === '/' && <Envelope />}
       {location.pathname === '/thewedding' && <TheWedding />}

@@ -7,7 +7,7 @@ import GlobalButterflies from '../utils/GlobalButterfliesAnimation';
 // Assets
 import envelopeSvg from '../../assets/img/envelope/envelope.svg';
 
-export default function TheWedding() {
+export default function Envelope() {
     const { t: oI18n } = useTranslation();
     return (
         <Box>
