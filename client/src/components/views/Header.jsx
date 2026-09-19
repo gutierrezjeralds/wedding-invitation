@@ -18,10 +18,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 const navItems = [
     { label: 'Home', href: '/home' },
-    { label: 'The Wedding', href: '/thewedding' },
-    { label: 'How We Met', href: '/ourstory' },
+    { label: 'Story', href: '/story' },
+    { label: 'Wedding', href: '/wedding' },
     { label: 'Entourage', href: '/entourage' },
-    { label: 'Dress Code', href: '/dresscode' },
+    { label: 'Attire', href: '/attire' },
 ];
 
 export default function Header() {

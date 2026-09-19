@@ -1,10 +1,20 @@
 {
     "title_name": "Jerald <span>&</span> Sheila",
     "title_date": "Saturday, July 17, 2027 \nat 10:00 AM",
+    "title_date_v2": "07 • 17 • 27",
     "title_church": "St. Augustine Parish",
+    "page_title_home": "Home",
+    "page_title_story": "Story",
+    "page_title_wedding": "Wedding",
+    "page_title_entourage": "Entourage",
+    "page_title_attire": "Attire",
     "envelope_yourInvited": "YOU'RE CORDIALLY INVITED!",
     "envelope_toCelebrate": "to celebrate our wedding",
     "envelope_waxSeal": "Tap the <span>Wax Seal</span> to Open",
     "envelope_bibleVerse": "And now these three remain: faith, hope and love, \nBut the greatest of these is love.",
-    "enveloper_bibleVerse_id": "— 1 CORINTHIANS 13:13 —"
+    "enveloper_bibleVerse_id": "— 1 CORINTHIANS 13:13 —",
+    "home_gettingMarried": "We're Getting Married!",
+    "home_quote": "Two souls, one love, and a lifetime of moments yet to be written.",
+    "home_page_title": "Everything You Need to Know",
+    "home_page_subtitle": "about our special day, thoughtfully gathered in one place."
 }

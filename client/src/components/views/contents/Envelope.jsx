@@ -11,7 +11,7 @@ import envelopeSvg from '../../assets/img/envelope/envelope.svg';
 export default function Envelope() {
     const { t: oI18n } = useTranslation();
     return (
-        <Box>
+        <React.Fragment>
             <GlobalButterflies primary="#722F37" secondary="#F8C8DC" />
 
             <Container maxWidth="lg">
@@ -84,6 +84,6 @@ export default function Envelope() {
                     </Text>
                 </Box>
             </Container>
-        </Box>
+        </React.Fragment>
     );
 }
