@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import { Container, Box, Divider, Link } from '@mui/material';
