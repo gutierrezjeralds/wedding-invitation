@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 
 // Reusable Text Component
-export function Text({ letterSpacing, preserveNewlines = false, sx, ...props }) {
+export function Text({ letterSpacing, preserveNewlines = true, sx, ...props }) {
     // Pre-defined presets for clean prop usage
     const letterSpacingPresets = {
         tight: '-0.05em',

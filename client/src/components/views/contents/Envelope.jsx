@@ -1,6 +1,7 @@
+import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
-import { Container, Box, Divider } from '@mui/material';
-import { FavoriteBorder, Diamond } from '@mui/icons-material';
+import { Container, Box, Divider, Link } from '@mui/material';
+import { FavoriteBorder } from '@mui/icons-material';
 import { Text } from '../utils/MUIComponents';
 import GlobalButterflies from '../utils/GlobalButterfliesAnimation';
 
@@ -28,10 +29,16 @@ export default function Envelope() {
                     </Divider>
 
                     <Text letterSpacing="wide" variant="h3" className="great-vibes-regular">
-                        {oI18n("title_name")}
+                        <Trans 
+                            i18nKey="title_name"
+                            components={{
+                                // Maps the <span> tag from JSON to custom styles or MUI styling
+                                span: <span className="pinyon-script-regular" />
+                            }}
+                        />
                     </Text>
 
-                    <Text preserveNewlines={true} variant="h6" className="cormorant-garamond-regular mt-5">
+                    <Text variant="h6" className="cormorant-garamond-regular mt-5">
                         {oI18n("title_date")}
                     </Text>
 
@@ -41,18 +48,20 @@ export default function Envelope() {
                 </Box>
 
                 <Box className="text-center">
-                    <Box
-                        component="img"
-                        src={envelopeSvg}
-                        alt="Envelope"
-                        sx={{
-                            width: '100%',          // Responsive width
-                            maxWidth: 400,          // Maximum width limit
-                            height: 'auto',         // Maintain aspect ratio
-                            display: 'block',
-                            mx: 'auto',             // Center horizontally
-                        }}
-                    />
+                    <Link component={RouterLink} to="/home" className='d-inline-block'>
+                        <Box
+                            component="img"
+                            src={envelopeSvg}
+                            alt="Envelope"
+                            sx={{
+                                width: '100%',          // Responsive width
+                                maxWidth: 400,          // Maximum width limit
+                                height: 'auto',         // Maintain aspect ratio
+                                display: 'block',
+                                mx: 'auto',             // Center horizontally
+                            }}
+                        />
+                    </Link>
 
                     <Text variant="h6" className="cormorant-garamond-regular mt-3">
                         <Trans 
@@ -66,7 +75,7 @@ export default function Envelope() {
                 </Box>
 
                 <Box className="text-center" sx={{ py: 4 }}>
-                    <Text preserveNewlines={true} variant="body1" className="cormorant-garamond-regular mt-3">
+                    <Text variant="body1" className="cormorant-garamond-regular mt-3">
                         {oI18n("envelope_bibleVerse")}
                     </Text>
 

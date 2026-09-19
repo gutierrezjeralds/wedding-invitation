@@ -17,6 +17,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 
 const navItems = [
+    { label: 'Home', href: '/home' },
     { label: 'The Wedding', href: '/thewedding' },
     { label: 'How We Met', href: '/ourstory' },
     { label: 'Entourage', href: '/entourage' },
