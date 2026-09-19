@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
+import bannerImage from '../assets/img/header_banner.jpeg';
 
 export default function Header() {
   const { t: oI18n } = useTranslation();
@@ -39,20 +40,23 @@ export default function Header() {
   return (
     <Box>
       {/* =========================
-          FULL-WIDTH BANNER
+          HALF-PAGE BANNER WITH IMAGE
       ========================== */}
       <Box
           sx={{
             width: '100%',
-            py: {
-              xs: 2,
-              sm: 3,
-            },
-            bgcolor: 'primary.main',
-            color: 'primary.contrastText',
+            height: '70vh',
+            backgroundImage: `url(${bannerImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
           }}
       >
-        <Container maxWidth="lg">
+        {/* <Container maxWidth="lg">
             <Typography
               component="h1"
               variant="h4"
@@ -71,7 +75,7 @@ export default function Header() {
             >
               My Website
             </Typography>
-        </Container>
+        </Container> */}
       </Box>
 
       {/* =========================
@@ -92,7 +96,7 @@ export default function Header() {
             <Typography
               variant="h6"
               component={RouterLink}
-              to="/home"
+              to="/"
               sx={{
                 flexGrow: 1,
                 fontSize: {
