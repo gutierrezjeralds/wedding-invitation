@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
     AppBar,
     Box,
@@ -16,164 +18,203 @@ import {
 
 import MenuIcon from '@mui/icons-material/Menu';
 
-const navItems = [
-    { label: 'Home', href: '/home' },
-    { label: 'Story', href: '/story' },
-    { label: 'Wedding', href: '/wedding' },
-    { label: 'Entourage', href: '/entourage' },
-    { label: 'Attire', href: '/attire' },
-];
-
 export default function Header() {
-    const [mobileOpen, setMobileOpen] = useState(false);
+  const { t: oI18n } = useTranslation();
+  const location = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-    const handleDrawerToggle = () => {
-        setMobileOpen((prev) => !prev);
-    };
+  const navItems = [
+      { label: oI18n("page_title_home"), href: '/home' },
+      { label: oI18n("page_title_story"), href: '/story' },
+      { label: oI18n("page_title_wedding"), href: '/wedding' },
+      { label: oI18n("page_title_entourage"), href: '/entourage' },
+      { label: oI18n("page_title_attire"), href: '/attire' },
+      { label: oI18n("page_title_faq"), href: '/faq' },
+  ];
 
-    return (
-      <Box>
-        {/* =========================
-            FULL-WIDTH BANNER
-        ========================== */}
-        <Box
-            sx={{
-              width: '100%',
-              py: {
-                xs: 2,
-                sm: 3,
-              },
-              bgcolor: 'primary.main',
-              color: 'primary.contrastText',
-            }}
-        >
-          <Container maxWidth="lg">
-              <Typography
-                component="h1"
-                variant="h4"
-                sx={{
-                  textAlign: {
-                    xs: 'center',
-                    sm: 'left',
-                  },
-                  fontSize: {
-                    xs: '1.5rem',
-                    sm: '2rem',
-                    md: '2.125rem',
-                  },
-                  fontWeight: 'bold',
-                }}
-              >
-                My Website
-              </Typography>
-          </Container>
-        </Box>
+  const handleDrawerToggle = () => {
+      setMobileOpen((prev) => !prev);
+  };
 
-        {/* =========================
-            FULL-WIDTH NAVIGATION
-        ========================== */}
-        <AppBar position="static" color="default" elevation={1}>
-          <Container maxWidth="lg">
-            <Toolbar
-              disableGutters
+  return (
+    <Box>
+      {/* =========================
+          FULL-WIDTH BANNER
+      ========================== */}
+      <Box
+          sx={{
+            width: '100%',
+            py: {
+              xs: 2,
+              sm: 3,
+            },
+            bgcolor: 'primary.main',
+            color: 'primary.contrastText',
+          }}
+      >
+        <Container maxWidth="lg">
+            <Typography
+              component="h1"
+              variant="h4"
               sx={{
-                minHeight: {
-                  xs: 56,
-                  sm: 64,
+                textAlign: {
+                  xs: 'center',
+                  sm: 'left',
                 },
+                fontSize: {
+                  xs: '1.5rem',
+                  sm: '2rem',
+                  md: '2.125rem',
+                },
+                fontWeight: 'bold',
               }}
             >
-              {/* Logo */}
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{
-                  flexGrow: 1,
-                  fontSize: {
-                    xs: '1.1rem',
-                    sm: '1.25rem',
-                  },
-                }}
-              >
-                Logo
-              </Typography>
+              My Website
+            </Typography>
+        </Container>
+      </Box>
 
-              {/* =========================
-                  DESKTOP NAVIGATION
-              ========================== */}
-              <Box
-                sx={{
-                  display: {
-                    xs: 'none',
-                    sm: 'flex',
-                  },
-                  gap: 1,
-                }}
-              >
-                {navItems.map((item) => (
+      {/* =========================
+          FULL-WIDTH NAVIGATION
+      ========================== */}
+      <AppBar position="static" color="default" elevation={1}>
+        <Container maxWidth="lg">
+          <Toolbar
+            disableGutters
+            sx={{
+              minHeight: {
+                xs: 56,
+                sm: 64,
+              },
+            }}
+          >
+            {/* Logo */}
+            <Typography
+              variant="h6"
+              component={RouterLink}
+              to="/home"
+              sx={{
+                flexGrow: 1,
+                fontSize: {
+                  xs: '1.1rem',
+                  sm: '1.25rem',
+                },
+                textDecoration: 'none',
+                color: 'inherit',
+              }}
+            >
+              Logo
+            </Typography>
+
+            {/* =========================
+                DESKTOP NAVIGATION
+            ========================== */}
+            <Box
+              sx={{
+                display: {
+                  xs: 'none',
+                  sm: 'flex',
+                },
+                gap: 1,
+              }}
+            >
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.href;
+                return (
                   <Button
                     key={item.href}
+                    component={RouterLink}
+                    to={item.href}
                     color="inherit"
-                    href={item.href}
+                    sx={{
+                      fontWeight: isActive ? 'bold' : 'normal',
+                      borderBottom: isActive ? 2 : 0,
+                      borderColor: 'primary.main',
+                      borderRadius: 0,
+                      opacity: isActive ? 1 : 0.8,
+                      '&:hover': {
+                        opacity: 1,
+                        bgcolor: 'action.hover',
+                      },
+                    }}
                   >
                     {item.label}
                   </Button>
-                ))}
-              </Box>
+                );
+              })}
+            </Box>
 
-              {/* =========================
-                  MOBILE MENU BUTTON
-              ========================== */}
-              <IconButton
-                color="inherit"
-                edge="end"
-                onClick={handleDrawerToggle}
-                sx={{
-                  display: {
-                    xs: 'flex',
-                    sm: 'none',
-                  },
-                }}
-                aria-label="open navigation menu"
-              >
-                <MenuIcon />
-              </IconButton>
-            </Toolbar>
-          </Container>
-        </AppBar>
+            {/* =========================
+                MOBILE MENU BUTTON
+            ========================== */}
+            <IconButton
+              color="inherit"
+              edge="end"
+              onClick={handleDrawerToggle}
+              sx={{
+                display: {
+                  xs: 'flex',
+                  sm: 'none',
+                },
+              }}
+              aria-label="open navigation menu"
+            >
+              <MenuIcon />
+            </IconButton>
+          </Toolbar>
+        </Container>
+      </AppBar>
 
-        {/* =========================
-            MOBILE DRAWER
-        ========================== */}
-        <Drawer
-          anchor="right"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
+      {/* =========================
+          MOBILE DRAWER
+      ========================== */}
+      <Drawer
+        anchor="right"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+      >
+        <Box
+          sx={{
+            width: {
+              xs: '80vw',
+              sm: 300,
+            },
+          }}
+          role="presentation"
         >
-          <Box
-            sx={{
-              width: {
-                xs: '80vw',
-                sm: 300,
-              },
-            }}
-            role="presentation"
-          >
-            <List>
-              {navItems.map((item) => (
+          <List>
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.href;
+              return (
                 <ListItem key={item.href} disablePadding>
                   <ListItemButton
-                    component="a"
-                    href={item.href}
+                    component={RouterLink}
+                    to={item.href}
+                    selected={isActive}
                     onClick={handleDrawerToggle}
+                    sx={{
+                      '&.Mui-selected': {
+                        bgcolor: 'primary.light',
+                        color: 'primary.contrastText',
+                        '&:hover': {
+                          bgcolor: 'primary.main',
+                        },
+                      },
+                    }}
                   >
-                    <ListItemText primary={item.label} />
+                    <ListItemText
+                      primary={item.label}
+                      primaryTypographyProps={{
+                        fontWeight: isActive ? 'bold' : 'normal',
+                      }}
+                    />
                   </ListItemButton>
                 </ListItem>
-              ))}
-            </List>
-          </Box>
-        </Drawer>
-      </Box>
-    );
+              );
+            })}
+          </List>
+        </Box>
+      </Drawer>
+    </Box>
+  );
 }
