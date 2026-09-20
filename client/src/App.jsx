@@ -1,3 +1,4 @@
+import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/views/Header';
 import Envelope from './components/views/contents/Envelope';
@@ -8,6 +9,7 @@ import Entourage from './components/views/contents/Entourage';
 import Attire from './components/views/contents/Attire';
 import Faq from './components/views/contents/Faq';
 import Gift from './components/views/contents/Gift';
+import BackgroundMusic from './components/views/utils/BackgroundMusic';
 
 export default function App() {
   const location = useLocation();
@@ -17,7 +19,7 @@ export default function App() {
   const showHeader = !hideHeaderOnPaths.includes(location.pathname);
 
   return (
-    <>
+    <React.Fragment>
       {showHeader && <Header />}
 
       <Routes>
@@ -30,6 +32,8 @@ export default function App() {
         <Route path="/faq" element={<Faq />} />
         <Route path="/gift" element={<Gift />} />
       </Routes>
-    </>
+
+      {/* <BackgroundMusic /> */}
+    </React.Fragment>
   );
 }
