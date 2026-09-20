@@ -7,7 +7,7 @@ import { Text } from '../utils/MUIComponents';
 import GlobalButterflies from '../utils/GlobalButterfliesAnimation';
 
 // Assets
-import envelopeSvg from '../../assets/img/envelope/envelope.svg';
+import imgEnvelope from '../../assets/img/envelope/envelope.svg';
 
 export default function Envelope() {
     const { t: oI18n } = useTranslation();
@@ -18,14 +18,14 @@ export default function Envelope() {
             <Container maxWidth="lg">
                 <Box className="text-center" sx={{ py: 4 }}>
                     <Text letterSpacing="wide" variant="subtitle1" className="cormorant-sc-bold">
-                        {oI18n("envelope_yourInvited")}
+                        {oI18n("page_envelope_yourInvited")}
                     </Text>
 
                     <Text letterSpacing="wide" variant="body1" className="cormorant-garamond-bold fst-italic">
-                        {oI18n("envelope_toCelebrate")}
+                        {oI18n("page_envelope_toCelebrate")}
                     </Text>
 
-                    <Divider component="div" role="presentation" className='p-4'>
+                    <Divider component="div" role="presentation" className='my-4'>
                         <FavoriteBorder fontSize="small" className='mt-2' />
                     </Divider>
 
@@ -52,7 +52,7 @@ export default function Envelope() {
                     <Link component={RouterLink} to="/home" className='d-inline-block'>
                         <Box
                             component="img"
-                            src={envelopeSvg}
+                            src={imgEnvelope}
                             alt="Envelope"
                             sx={{
                                 width: '100%',          // Responsive width
@@ -66,7 +66,7 @@ export default function Envelope() {
 
                     <Text variant="h6" className="cormorant-garamond-regular mt-3">
                         <Trans 
-                            i18nKey="envelope_waxSeal"
+                            i18nKey="page_envelope_waxSeal"
                             components={{
                                 // Maps the <span> tag from JSON to custom styles or MUI styling
                                 span: <span className="text-gold fs-3 fw-bolder" />
@@ -77,11 +77,11 @@ export default function Envelope() {
 
                 <Box className="text-center" sx={{ py: 4 }}>
                     <Text variant="body1" className="cormorant-garamond-regular mt-3">
-                        {oI18n("envelope_bibleVerse")}
+                        {oI18n("page_envelope_bibleVerse")}
                     </Text>
 
                     <Text variant="body1" className="cormorant-garamond-regular mt-3">
-                        {oI18n("enveloper_bibleVerse_id")}
+                        {oI18n("page_envelope_bibleVerse_id")}
                     </Text>
                 </Box>
             </Container>

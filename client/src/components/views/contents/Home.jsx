@@ -32,15 +32,15 @@ export default function Home() {
                 </Text>
 
                 <Text letterSpacing="wide" variant="h6" className="text-uppercase cormorant-garamond-regular mt-5">
-                    {oI18n("home_gettingMarried")}
+                    {oI18n("page_home_gettingMarried")}
                 </Text>
 
                 <Text letterSpacing="wide" variant="h6" className="cormorant-garamond-regular m-2">
                     {oI18n("title_date_v2")}
                 </Text>
 
-                <Text letterSpacing="wide" className="cormorant-garamond-regular fs-7">
-                    {oI18n("home_quote")}
+                <Text letterSpacing="wide" className="cormorant-garamond-regular fs-8">
+                    {oI18n("page_home_quote")}
                 </Text>
 
                 <Countdown />
@@ -50,11 +50,11 @@ export default function Home() {
                 </Divider>
 
                 <Text letterSpacing="wide" variant="h6" className="cormorant-garamond-regular">
-                    {oI18n("home_page_title")}
+                    {oI18n("page_home_page_title")}
                 </Text>
 
                 <Text variant="caption" className="cormorant-garamond-regular">
-                    {oI18n("home_page_subtitle")}
+                    {oI18n("page_home_page_subtitle")}
                 </Text>
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="mt-4">
@@ -100,7 +100,9 @@ export default function Home() {
                     </Grid>
                 </Grid>
 
-                <Button variant="outlined" className="mt-5" startIcon={<Send />} sx={{width: "15rem"}}>RSVP</Button>
+                <Button variant="outlined" className="mt-5" startIcon={<Send />} sx={{width: "15rem"}}>
+                    {oI18n("title_rsvp")}
+                </Button>
             </Box>
         </Container>
     );
