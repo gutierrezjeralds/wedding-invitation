@@ -9,7 +9,6 @@ export default function WeddingFooter() {
 
     return (
         <Box
-            className="mt-5"
             component="footer"
             sx={{
                 bgcolor: 'background.paper',

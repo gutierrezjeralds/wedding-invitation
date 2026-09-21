@@ -38,7 +38,7 @@ export default function App() {
 
       {showHeader && <Footer />}
 
-      <BackgroundMusic />
+      {/* <BackgroundMusic /> */}
     </React.Fragment>
   );
 }
