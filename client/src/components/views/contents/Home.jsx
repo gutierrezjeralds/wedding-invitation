@@ -36,7 +36,7 @@ export default function Home() {
                 </Text>
 
                 <Text letterSpacing="wide" variant="h6" className="cormorant-garamond-regular m-2">
-                    {oI18n("title_date_v2")}
+                    {oI18n("title_date_v3")}
                 </Text>
 
                 <Text letterSpacing="wide" className="cormorant-garamond-regular fs-8">

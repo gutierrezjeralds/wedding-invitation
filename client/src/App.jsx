@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/views/Header';
+import Footer from './components/views/Footer';
 import Envelope from './components/views/contents/Envelope';
 import Home from './components/views/contents/Home';
 import Story from './components/views/contents/Story';
@@ -32,6 +33,8 @@ export default function App() {
         <Route path="/faq" element={<Faq />} />
         <Route path="/gift" element={<Gift />} />
       </Routes>
+
+      {showHeader && <Footer />}
 
       {/* <BackgroundMusic /> */}
     </React.Fragment>
