@@ -581,31 +581,44 @@ export default function Attire() {
                                     display: 'flex',
                                     flexDirection: 'column',
                                     alignItems: 'center',
-                                    justifyContent: 'center',
+                                    justifyContent: 'space-between',
                                 }}
                             >
+                                {/* Image Wrapper Container */}
                                 <Box
-                                    component="img"
-                                    src={item.src}
-                                    alt={item.title}
                                     sx={{
-                                        width: '100%',
-                                        maxWidth: 120,
-                                        height: 'auto',
-                                        display: 'block',
-                                        mx: 'auto',
+                                        width: '100px',
+                                        height: '100px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        mb: 1.5,
                                     }}
-                                />
-                                {item.title && (
-                                    <Text variant="body2" sx={{ mt: 1, fontWeight: 600, color: '#d4af37' }}>
+                                >
+                                    <Box
+                                        component="img"
+                                        src={item.src}
+                                        alt={item.title}
+                                        sx={{
+                                            maxWidth: '100%',
+                                            maxHeight: '100%',
+                                            objectFit: 'contain',
+                                            display: 'block',
+                                        }}
+                                    />
+                                </Box>
+
+                                {/* Text Content */}
+                                <Box sx={{ textAlign: 'center', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                    <Text variant="subtitle2" className="cormorant-sc-bold text-gold" sx={{ fontSize: '0.85rem', lineHeight: 1.2 }}>
                                         {item.title}
                                     </Text>
-                                )}
-                                {item.subtitle && (
-                                    <Text variant="caption" color="text.secondary">
-                                        {item.subtitle}
-                                    </Text>
-                                )}
+                                    {item.subtitle && (
+                                        <Text variant="caption" className="cormorant-garamond-regular" sx={{ fontSize: '0.75rem', display: 'block', mt: 0.5 }}>
+                                            {item.subtitle}
+                                        </Text>
+                                    )}
+                                </Box>
                             </Paper>
                         </Grid>
                     ))}
