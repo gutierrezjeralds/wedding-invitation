@@ -43,6 +43,17 @@ export default function Wedding() {
         }),
     }));
 
+    const ItemTimeline = styled(Paper)(({ theme }) => ({
+            backgroundColor: '#fff',
+            ...theme.typography.body2,
+            padding: theme.spacing(1),
+            textAlign: 'center',
+            color: (theme.vars ?? theme).palette.text.secondary,
+            ...theme.applyStyles('dark', {
+                backgroundColor: '#1A2027',
+        }),
+    }));
+
     return (
         <React.Fragment>
             <Container maxWidth="lg" className="py-5">
@@ -185,57 +196,60 @@ export default function Wedding() {
                     </Grid>
 
                     <Text variant="h6" className="cormorant-sc-regular mt-5">
-                        {oI18n("page_wedding_timeline")}
+                        {oI18n("page_wedding_timeline_title")}
+                    </Text>
+                    <Text variant="caption" className="playfair-display-regular">
+                        {oI18n("page_wedding_timeline_subtitle")}
                     </Text>
 
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="mt-3">
                         <Grid size={2}>
-                            <ItemNav>
+                            <ItemTimeline>
                                 <AccessTimeFilled fontSize="medium" />
                                 <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
                                     {oI18n("page_wedding_timeline_arrival")}
                                 </Text>
-                            </ItemNav>
+                            </ItemTimeline>
                         </Grid>
                         <Grid size={2}>
-                            <ItemNav>
+                            <ItemTimeline>
                                 <Church fontSize="medium" />
                                 <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
                                     {oI18n("page_wedding_timeline_ceremony")}
                                 </Text>
-                            </ItemNav>
+                            </ItemTimeline>
                         </Grid>
                         <Grid size={2}>
-                            <ItemNav>
+                            <ItemTimeline>
                                 <AddAPhoto fontSize="medium" />
                                 <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
                                     {oI18n("page_wedding_timeline_photo")}
                                 </Text>
-                            </ItemNav>
+                            </ItemTimeline>
                         </Grid>
                         <Grid size={2}>
-                            <ItemNav>
+                            <ItemTimeline>
                                 <LocalBar fontSize="medium" />
                                 <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
                                     {oI18n("page_wedding_timeline_grazing")}
                                 </Text>
-                            </ItemNav>
+                            </ItemTimeline>
                         </Grid>
                         <Grid size={2}>
-                            <ItemNav>
+                            <ItemTimeline>
                                 <Gite fontSize="medium" />
                                 <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
                                     {oI18n("page_wedding_timeline_reception")}
                                 </Text>
-                            </ItemNav>
+                            </ItemTimeline>
                         </Grid>
                         <Grid size={2}>
-                            <ItemNav>
+                            <ItemTimeline>
                                 <Toys fontSize="medium" />
                                 <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
                                     {oI18n("page_wedding_timeline_wrap")}
                                 </Text>
-                            </ItemNav>
+                            </ItemTimeline>
                         </Grid>
                     </Grid>
                 </Box>
