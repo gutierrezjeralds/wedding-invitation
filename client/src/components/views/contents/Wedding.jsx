@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
-import { Container, Divider, Box, Grid, Paper, styled, Button, Link } from '@mui/material';
+import { Container, Stack, Divider, Box, Grid, Paper, styled, Button, Link } from '@mui/material';
 import { 
     FavoriteBorder, LocationOn,
     Checkroom, Help, CameraAlt, CardGiftcard,
@@ -45,8 +45,8 @@ export default function Wedding() {
 
     return (
         <React.Fragment>
-            <Container maxWidth="lg">
-                <Box className="text-center" sx={{ py: 4 }}>
+            <Container maxWidth="lg" className="py-5">
+                <Stack className="text-center mb-5" spacing={1}>
                     <Text letterSpacing="wide" variant="h3" className="great-vibes-regular">
                         {oI18n("page_wedding_title")}
                     </Text>
@@ -55,10 +55,11 @@ export default function Wedding() {
                         {oI18n("title_date")}
                     </Text>
                     
-                    <Divider component="div" role="presentation" className='my-4'>
+                    <Divider component="div" role="presentation" className='mt-4'>
                         <FavoriteBorder fontSize="small" className='mt-2' />
                     </Divider>
-
+                </Stack>
+                <Box className="text-center">
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                         <Grid size={6}>
                             <ItemLocation>
