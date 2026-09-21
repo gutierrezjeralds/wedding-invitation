@@ -82,7 +82,7 @@ function TabPanel(props) {
 
 export default function Attire() {
     const { t: oI18n } = useTranslation();
-    const [tabValue, setTabValue] = useState(3);
+    const [tabValue, setTabValue] = useState(0);
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
@@ -151,15 +151,115 @@ export default function Attire() {
                             },
                         }}
                     >
+                        <Tab icon={<PeopleAlt fontSize="small" />} iconPosition="start" label={oI18n("page_attire_tab_guest")} />
                         <Tab icon={<FamilyRestroom fontSize="small" />} iconPosition="start" label={oI18n("page_attire_tab_parents")} />
                         <Tab icon={<MilitaryTech fontSize="small" />} iconPosition="start" label={oI18n("page_attire_tab_sponsors")} />
                         <Tab icon={<Groups fontSize="small" />} iconPosition="start" label={oI18n("page_attire_tab_entourage")} />
-                        <Tab icon={<PeopleAlt fontSize="small" />} iconPosition="start" label={oI18n("page_attire_tab_guest")} />
                     </Tabs>
                 </Box>
 
-                {/* TAB 0: PARENTS */}
+                {/* TAB 0: GUESTS (ACTIVE ON LOAD) */}
                 <TabPanel value={tabValue} index={0}>
+                    <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
+                        <Text variant="body1" className="playfair-display-regular mb-1 text-gold">
+                            {oI18n("page_attire_tab_content_guest_title")}
+                        </Text>
+                        <Text variant="caption">
+                            {oI18n("page_attire_tab_content_guest_subtitle")}
+                        </Text>
+
+                        {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
+                        <Box
+                            sx={{
+                                display: 'grid',
+                                gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, // 50% left, 50% right
+                                gap: 4,
+                            }}
+                            className="mt-3"
+                        >
+                            {/* COLUMN 1: LEFT SIDE (Carousel) */}
+                            <Box
+                                sx={{
+                                    width: '100%',
+                                    minWidth: 0, // Prevents Swiper from overflowing flex/grid containers
+                                    '& .swiper': {
+                                        paddingBottom: '35px',
+                                    },
+                                    '& .swiper-button-next, & .swiper-button-prev': {
+                                        color: '#d4af37',
+                                        '&::after': {
+                                            fontSize: '1.2rem',
+                                            fontWeight: 'bold',
+                                        },
+                                    },
+                                    '& .swiper-pagination-bullet': {
+                                        backgroundColor: '#ccc',
+                                        opacity: 0.7,
+                                    },
+                                    '& .swiper-pagination-bullet-active': {
+                                        backgroundColor: '#d4af37',
+                                        opacity: 1,
+                                        width: 12,
+                                        borderRadius: 4,
+                                    },
+                                }}
+                            >
+                                <Swiper
+                                    modules={[Navigation, Pagination, Autoplay]}
+                                    spaceBetween={15}
+                                    slidesPerView={1}
+                                    navigation
+                                    pagination={{ clickable: true }}
+                                    autoplay={{ delay: 3500, disableOnInteraction: false }}
+                                >
+                                    {imgGuestAttire.map((src, index) => (
+                                        <SwiperSlide key={index}>
+                                            <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
+                                                <CardMedia
+                                                    component="img"
+                                                    height="380"
+                                                    image={src}
+                                                    alt={`Attire sample ${index + 1}`}
+                                                    loading="lazy"
+                                                    sx={{ objectFit: 'contain', bgcolor: '#fff' }}
+                                                />
+                                            </Card>
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </Box>
+
+                            {/* COLUMN 2: RIGHT SIDE (Text Content) */}
+                            <Box>
+                                <Stack spacing={2}>
+                                    <Text variant="h6" className="playfair-display-regular text-gold">
+                                        {oI18n("page_attire_tab_content_guest_card2_title")}
+                                    </Text>
+                                    <Text variant="caption">
+                                        {oI18n("page_attire_tab_content_guest_card2_subtitle")}
+                                    </Text>
+                                    <Box className="d-flex flex-row justify-content-center align-items-center">
+                                        <Box
+                                            component="img"
+                                            src={imgGuestPalette}
+                                            alt="Church"
+                                            sx={{
+                                                width: '100%',          // Responsive width
+                                                maxWidth: 400,          // Maximum width limit
+                                                height: 'auto',         // Maintain aspect ratio
+                                                display: 'block',
+                                                mx: 'auto',             // Center horizontally
+                                            }}
+                                        />
+                                    </Box>
+                                </Stack>
+                            </Box>
+                        </Box>
+                    </Paper>
+                </TabPanel>
+
+                {/* TAB 1: PARENTS */}
+                <TabPanel value={tabValue} index={1}>
                     <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
                         <Text variant="body1" className="playfair-display-regular mb-1 text-gold">
                             {oI18n("page_attire_tab_content_parents_title")}
@@ -258,8 +358,8 @@ export default function Attire() {
                     </Paper>
                 </TabPanel>
 
-                {/* TAB 1: SPONSORS */}
-                <TabPanel value={tabValue} index={1}>
+                {/* TAB 2: SPONSORS */}
+                <TabPanel value={tabValue} index={2}>
                     <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
                         <Text variant="body1" className="playfair-display-regular mb-1 text-gold">
                             {oI18n("page_attire_tab_content_sponsors_title")}
@@ -358,8 +458,8 @@ export default function Attire() {
                     </Paper>
                 </TabPanel>
 
-                {/* TAB 2: ENTOURAGE */}
-                <TabPanel value={tabValue} index={2}>
+                {/* TAB 3: ENTOURAGE */}
+                <TabPanel value={tabValue} index={3}>
                     <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
                         <Text variant="body1" className="playfair-display-regular mb-1 text-gold">
                             {oI18n("page_attire_tab_content_entourage_title")}
@@ -442,106 +542,6 @@ export default function Attire() {
                                         <Box
                                             component="img"
                                             src={imgEntouragePalette}
-                                            alt="Church"
-                                            sx={{
-                                                width: '100%',          // Responsive width
-                                                maxWidth: 400,          // Maximum width limit
-                                                height: 'auto',         // Maintain aspect ratio
-                                                display: 'block',
-                                                mx: 'auto',             // Center horizontally
-                                            }}
-                                        />
-                                    </Box>
-                                </Stack>
-                            </Box>
-                        </Box>
-                    </Paper>
-                </TabPanel>
-
-                {/* TAB 3: GUESTS (ACTIVE ON LOAD) */}
-                <TabPanel value={tabValue} index={3}>
-                    <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
-                        <Text variant="body1" className="playfair-display-regular mb-1 text-gold">
-                            {oI18n("page_attire_tab_content_guest_title")}
-                        </Text>
-                        <Text variant="caption">
-                            {oI18n("page_attire_tab_content_guest_subtitle")}
-                        </Text>
-
-                        {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
-                        <Box
-                            sx={{
-                                display: 'grid',
-                                gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, // 50% left, 50% right
-                                gap: 4,
-                            }}
-                            className="mt-3"
-                        >
-                            {/* COLUMN 1: LEFT SIDE (Carousel) */}
-                            <Box
-                                sx={{
-                                    width: '100%',
-                                    minWidth: 0, // Prevents Swiper from overflowing flex/grid containers
-                                    '& .swiper': {
-                                        paddingBottom: '35px',
-                                    },
-                                    '& .swiper-button-next, & .swiper-button-prev': {
-                                        color: '#d4af37',
-                                        '&::after': {
-                                            fontSize: '1.2rem',
-                                            fontWeight: 'bold',
-                                        },
-                                    },
-                                    '& .swiper-pagination-bullet': {
-                                        backgroundColor: '#ccc',
-                                        opacity: 0.7,
-                                    },
-                                    '& .swiper-pagination-bullet-active': {
-                                        backgroundColor: '#d4af37',
-                                        opacity: 1,
-                                        width: 12,
-                                        borderRadius: 4,
-                                    },
-                                }}
-                            >
-                                <Swiper
-                                    modules={[Navigation, Pagination, Autoplay]}
-                                    spaceBetween={15}
-                                    slidesPerView={1}
-                                    navigation
-                                    pagination={{ clickable: true }}
-                                    autoplay={{ delay: 3500, disableOnInteraction: false }}
-                                >
-                                    {imgGuestAttire.map((src, index) => (
-                                        <SwiperSlide key={index}>
-                                            <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
-                                                <CardMedia
-                                                    component="img"
-                                                    height="380"
-                                                    image={src}
-                                                    alt={`Attire sample ${index + 1}`}
-                                                    loading="lazy"
-                                                    sx={{ objectFit: 'contain', bgcolor: '#fff' }}
-                                                />
-                                            </Card>
-                                        </SwiperSlide>
-                                    ))}
-                                </Swiper>
-                            </Box>
-
-                            {/* COLUMN 2: RIGHT SIDE (Text Content) */}
-                            <Box>
-                                <Stack spacing={2}>
-                                    <Text variant="h6" className="playfair-display-regular text-gold">
-                                        {oI18n("page_attire_tab_content_guest_card2_title")}
-                                    </Text>
-                                    <Text variant="caption">
-                                        {oI18n("page_attire_tab_content_guest_card2_subtitle")}
-                                    </Text>
-                                    <Box className="d-flex flex-row justify-content-center align-items-center">
-                                        <Box
-                                            component="img"
-                                            src={imgGuestPalette}
                                             alt="Church"
                                             sx={{
                                                 width: '100%',          // Responsive width
