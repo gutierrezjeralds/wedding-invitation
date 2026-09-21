@@ -10,6 +10,7 @@ import Entourage from './components/views/contents/Entourage';
 import Attire from './components/views/contents/Attire';
 import Faq from './components/views/contents/Faq';
 import Gift from './components/views/contents/Gift';
+import ScrollToTop from './components/views/utils/ScrollToTop';
 import BackgroundMusic from './components/views/utils/BackgroundMusic';
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
 
   return (
     <React.Fragment>
+      <ScrollToTop />
       {showHeader && <Header />}
 
       <Routes>
