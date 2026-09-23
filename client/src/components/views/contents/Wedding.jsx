@@ -146,10 +146,10 @@ export default function Wedding() {
                                 <Link component={RouterLink} to="/attire" underline="none" sx={{ color: 'inherit', display: 'block' }}>
                                     <ItemNav>
                                         <Checkroom fontSize="large" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
+                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.75rem", sm: "0.75rem", md: "0.9rem"}}}>
                                             {oI18n("page_title_attire")}
                                         </Text>
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
+                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.7rem", md: "0.85rem"}}}>
                                             {oI18n("page_subtitle_attire")}
                                         </Text>
                                     </ItemNav>
@@ -159,10 +159,10 @@ export default function Wedding() {
                                 <Link component={RouterLink} to="/faq" underline="none" sx={{ color: 'inherit', display: 'block' }}>
                                     <ItemNav>
                                         <Help fontSize="large" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
+                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.75rem", sm: "0.75rem", md: "0.9rem"}}}>
                                             {oI18n("page_title_faq")}
                                         </Text>
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
+                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.7rem", md: "0.85rem"}}}>
                                             {oI18n("page_subtitle_faq")}
                                         </Text>
                                     </ItemNav>
@@ -172,10 +172,10 @@ export default function Wedding() {
                                 <Link component={RouterLink} to="/story" underline="none" sx={{ color: 'inherit', display: 'block' }}>
                                     <ItemNav>
                                         <CameraAlt fontSize="large" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
+                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.75rem", sm: "0.75rem", md: "0.9rem"}}}>
                                             {oI18n("page_title_story")}
                                         </Text>
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
+                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.7rem", md: "0.85rem"}}}>
                                             {oI18n("page_subtitle_story")}
                                         </Text>
                                     </ItemNav>
@@ -185,10 +185,10 @@ export default function Wedding() {
                                 <Link component={RouterLink} to="/gift" underline="none" sx={{ color: 'inherit', display: 'block' }}>
                                     <ItemNav>
                                         <CardGiftcard fontSize="large" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
+                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.75rem", sm: "0.75rem", md: "0.9rem"}}}>
                                             {oI18n("page_title_gift")}
                                         </Text>
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
+                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.7rem", md: "0.85rem"}}}>
                                             {oI18n("page_subtitle_gift")}
                                         </Text>
                                     </ItemNav>

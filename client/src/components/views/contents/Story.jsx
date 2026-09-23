@@ -5,11 +5,13 @@ import {
     FavoriteBorder, ExpandMore
 } from '@mui/icons-material';
 import { Text } from '../utils/MUIComponents';
+import ParallaxBanner from '../utils/ParallaxBanner';
 
 // import kinpoImg from '../../assets/images/kinpo.jpg';
 // import passportImg from '../../assets/images/passport.jpg';
 // import travelImg from '../../assets/images/travel.jpg';
 // import handsImg from '../../assets/images/hands.jpg';
+import imgParallax1 from "../../assets/img/story/parallax1.jpg"
 
 // Reusable Polaroid Card Sub-Component
 function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} }) {
@@ -83,23 +85,23 @@ export default function Story() {
     const chaptersData = [
         {
             id: '01',
-            title: oI18n("page_story_body_chapter1_title"),
-            content: oI18n("page_story_body_chapter1_content")
+            title: oI18n("page_story_section1_chapter1_title"),
+            content: oI18n("page_story_section1_chapter1_content")
         },
         {
             id: '02',
-            title: oI18n("page_story_body_chapter2_title"),
-            content: oI18n("page_story_body_chapter2_content")
+            title: oI18n("page_story_section1_chapter2_title"),
+            content: oI18n("page_story_section1_chapter2_content")
         },
         {
             id: '03',
-            title: oI18n("page_story_body_chapter3_title"),
-            content: oI18n("page_story_body_chapter3_content")
+            title: oI18n("page_story_section1_chapter3_title"),
+            content: oI18n("page_story_section1_chapter3_content")
         },
         {
             id: '04',
-            title: oI18n("page_story_body_chapter4_title"),
-            content: oI18n("page_story_body_chapter4_content")
+            title: oI18n("page_story_section1_chapter4_title"),
+            content: oI18n("page_story_section1_chapter4_content")
         }
     ];
 
@@ -166,11 +168,11 @@ export default function Story() {
 
                             {/* Chapters Header */}
                             <Text variant="h4" className="mb-1 cormorant-garamond-regular">
-                                {oI18n("page_story_body_title")}
+                                {oI18n("page_story_section1_title")}
                             </Text>
 
                             <Typography variant="caption" className="text-uppercase mb-3 d-block fw-bold" sx={{color: '#A08053'}}>
-                                {oI18n("page_story_body_tagline")}
+                                {oI18n("page_story_section1_tagline")}
                             </Typography>
 
                             {/* Accordion Chapters */}
@@ -327,7 +329,13 @@ export default function Story() {
                     </Box>
                 </Container>
             </Box>
-            <Box className="bg-light">
+            <ParallaxBanner
+                image={imgParallax1}
+                title={oI18n("page_story_section2_parallax_title")}
+                subtitle={oI18n("page_story_section2_parallax_subtitle")}
+                height="320px"
+            />
+            <Box className="bg-vintage">
                 <Container maxWidth="lg" className="py-5">
 
                 </Container>
