@@ -49,17 +49,22 @@ const imgGuestModules = import.meta.glob('../../assets/img/attire/guest/sample/*
 // Convert the object map into a clean array of image URLs
 const imgGuestAttire = Object.values(imgGuestModules);
 
+// Dynamically import all images from the 'dont' folder
+const imgDontModules = import.meta.glob('../../assets/img/attire/dont/*.{png,jpg,jpeg,webp}', {
+    eager: true,
+    import: 'default',
+});
+
+// Convert module object into a sorted array of image URLs
+const imgDontAttireList = Object.keys(imgDontModules)
+    .sort() // Ensures order 1.png, 2.png, 3.png...
+    .map((key) => imgDontModules[key]);
+
 // Assets
 import imgParentPalette from '../../assets/img/attire/parents/palette.png';
 import imgSponsorsPalette from '../../assets/img/attire/sponsors/palette.png';
 import imgEntouragePalette from '../../assets/img/attire/entourage/palette.png';
 import imgGuestPalette from '../../assets/img/attire/guest/palette.png';
-import imgDont1 from "../../assets/img/attire/dont/1.png";
-import imgDont2 from "../../assets/img/attire/dont/2.png";
-import imgDont3 from "../../assets/img/attire/dont/3.png";
-import imgDont4 from "../../assets/img/attire/dont/4.png";
-import imgDont5 from "../../assets/img/attire/dont/5.png";
-import imgDont6 from "../../assets/img/attire/dont/6.png";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -85,14 +90,16 @@ export default function Attire() {
         setTabValue(newValue);
     };
 
-    const [imgDoneAttire, setImgDoneAttire] = useState([
-        { id: 1, src: imgDont1, title: oI18n("page_attire_note_1_title") , subtitle: oI18n("page_attire_note_1_subtitle")},
-        { id: 2, src: imgDont2, title: oI18n("page_attire_note_2_title") , subtitle: oI18n("page_attire_note_2_subtitle")},
-        { id: 3, src: imgDont3, title: oI18n("page_attire_note_3_title") , subtitle: oI18n("page_attire_note_3_subtitle")},
-        { id: 4, src: imgDont4, title: oI18n("page_attire_note_4_title") , subtitle: oI18n("page_attire_note_4_subtitle")},
-        { id: 5, src: imgDont5, title: oI18n("page_attire_note_5_title") , subtitle: oI18n("page_attire_note_5_subtitle")},
-        { id: 6, src: imgDont6, title: oI18n("page_attire_note_6_title") , subtitle: oI18n("page_attire_note_6_subtitle")}
-    ]);
+    // Dynamically generated array based on folder contents & translations
+    const imgDontAttire = imgDontAttireList.map((src, index) => {
+        const id = index + 1;
+        return {
+            id,
+            src,
+            title: oI18n(`page_attire_note_${id}_title`),
+            subtitle: oI18n(`page_attire_note_${id}_subtitle`),
+        };
+    });
 
     return (
          <React.Fragment>
@@ -556,7 +563,7 @@ export default function Attire() {
                         </Text>
 
                         <Grid container spacing={{ xs: 2, sm: 3 }} className="my-4" justifyContent="center">
-                            {imgDoneAttire.map((item) => (
+                            {imgDontAttire.map((item) => (
                                 <Grid key={item.id} size={{ xs: 6, sm: 4, md: 2 }}>
                                     <Paper
                                         elevation={0}
