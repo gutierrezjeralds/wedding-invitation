@@ -54,6 +54,12 @@ export function useDrivePhotos(parentFolderId = DEFAULT_PARENT_ID) {
                 await preloadImages(allPhotoUrls);
 
                 if (isMounted) {
+                    /**
+                     * Sample URL
+                     * https://lh3.googleusercontent.com/d/${file.id}`
+                     */
+
+                    // Return
                     setPhotosData(data);
                 }
             } catch (err) {
