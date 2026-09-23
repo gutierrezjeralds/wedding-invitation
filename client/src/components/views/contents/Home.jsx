@@ -19,6 +19,34 @@ export default function Home() {
                 backgroundColor: '#1A2027',
         }),
     }));
+
+    const NAV_ITEMS = [
+        {
+            id: 'story',
+            to: '/story',
+            icon: FavoriteBorder,
+            labelKey: 'page_title_story',
+        },
+        {
+            id: 'wedding',
+            to: '/wedding',
+            icon: Church,
+            labelKey: 'page_title_wedding',
+        },
+        {
+            id: 'entourage',
+            to: '/entourage',
+            icon: Groups,
+            labelKey: 'page_title_entourage',
+        },
+        {
+            id: 'attire',
+            to: '/attire',
+            icon: Checkroom,
+            labelKey: 'page_title_attire',
+        },
+    ];
+
     return (
         <React.Fragment>
             <Box className="bg-light">
@@ -61,46 +89,26 @@ export default function Home() {
                         </Text>
 
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="mt-4">
-                            <Grid size={3}>
-                                <Link component={RouterLink} to="/story" underline="none" sx={{ color: 'inherit', display: 'block' }}>
-                                    <Item>
-                                        <FavoriteBorder fontSize="small" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                            {oI18n("page_title_story")}
-                                        </Text>
-                                    </Item>
-                                </Link>
-                            </Grid>
-                            <Grid size={3}>
-                                <Link component={RouterLink} to="/wedding" underline="none" sx={{ color: 'inherit', display: 'block' }}>
-                                    <Item>
-                                        <Church fontSize="small" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                            {oI18n("page_title_wedding")}
-                                        </Text>
-                                    </Item>
-                                </Link>
-                            </Grid>
-                            <Grid size={3}>
-                                <Link component={RouterLink} to="/entourage" underline="none" sx={{ color: 'inherit', display: 'block' }}>
-                                    <Item>
-                                        <Groups fontSize="small" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                            {oI18n("page_title_entourage")}
-                                        </Text>
-                                    </Item>
-                                </Link>
-                            </Grid>
-                            <Grid size={3}>
-                                <Link component={RouterLink} to="/attire" underline="none" sx={{ color: 'inherit', display: 'block' }}>
-                                    <Item>
-                                        <Checkroom fontSize="small" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                            {oI18n("page_title_attire")}
-                                        </Text>
-                                    </Item>
-                                </Link>
-                            </Grid>
+                            {NAV_ITEMS.map((item) => {
+                                const IconComponent = item.icon;
+                                return (
+                                    <Grid size={{ xs: 6, sm: 3 }} key={item.id}>
+                                        <Link 
+                                            component={RouterLink} 
+                                            to={item.to} 
+                                            underline="none" 
+                                            sx={{ color: 'inherit', display: 'block' }}
+                                        >
+                                            <Item className="py-3">
+                                                <IconComponent fontSize="large" />
+                                                <Text className="text-uppercase d-block cormorant-garamond-regular fs-6">
+                                                    {oI18n(item.labelKey)}
+                                                </Text>
+                                            </Item>
+                                        </Link>
+                                    </Grid>
+                                );
+                            })}
                         </Grid>
 
                         <Button variant="outlined" className="mt-5" startIcon={<Send />} sx={{width: "15rem"}}>
