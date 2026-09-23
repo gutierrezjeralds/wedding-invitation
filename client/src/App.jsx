@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/views/Header';
 import Footer from './components/views/Footer';
@@ -12,33 +12,36 @@ import Faq from './components/views/contents/Faq';
 import Gift from './components/views/contents/Gift';
 import ScrollToTop from './components/views/utils/ScrollToTop';
 import BackgroundMusic from './components/views/utils/BackgroundMusic';
+// import { useDrivePhotos } from './components/views/utils/GDrive';
 
 export default function App() {
-  const location = useLocation();
+    const location = useLocation();
 
-  // Array of paths where the Header should NOT appear
-  const hideHeaderOnPaths = ['/', '/home'];
-  const showHeader = !hideHeaderOnPaths.includes(location.pathname);
+    // Array of paths where the Header should NOT appear
+    const hideHeaderOnPaths = ['/', '/home'];
+    const showHeader = !hideHeaderOnPaths.includes(location.pathname);
 
-  return (
-    <React.Fragment>
-      <ScrollToTop />
-      {showHeader && <Header />}
+    // const { photosData, loading, error } = useDrivePhotos();
 
-      <Routes>
-        <Route path="/" element={<Envelope />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/story" element={<Story />} />
-        <Route path="/wedding" element={<Wedding />} />
-        <Route path="/entourage" element={<Entourage />} />
-        <Route path="/attire" element={<Attire />} />
-        <Route path="/faq" element={<Faq />} />
-        <Route path="/gift" element={<Gift />} />
-      </Routes>
+    return (
+        <React.Fragment>
+            <ScrollToTop />
+            {showHeader && <Header />}
 
-      {showHeader && <Footer />}
+            <Routes>
+                <Route path="/" element={<Envelope />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/story" element={<Story />} />
+                <Route path="/wedding" element={<Wedding />} />
+                <Route path="/entourage" element={<Entourage />} />
+                <Route path="/attire" element={<Attire />} />
+                <Route path="/faq" element={<Faq />} />
+                <Route path="/gift" element={<Gift />} />
+            </Routes>
 
-      {/* <BackgroundMusic /> */}
-    </React.Fragment>
-  );
+            {showHeader && <Footer />}
+
+            {/* <BackgroundMusic /> */}
+        </React.Fragment>
+    );
 }
