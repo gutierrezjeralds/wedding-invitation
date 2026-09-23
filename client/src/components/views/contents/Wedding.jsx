@@ -32,6 +32,76 @@ export default function Wedding() {
     const handleOpenViewMapModal = () => setOpenViewMapModal(true);
     const handleCloseViewMapModal = () => setOpenViewMapModal(false);
 
+    const oItemNav = [
+        {
+            id: 'attire',
+            to: '/attire',
+            icon: Checkroom,
+            titleKey: 'page_title_attire',
+            subtitleKey: 'page_subtitle_attire',
+        },
+        {
+            id: 'faq',
+            to: '/faq',
+            icon: Help,
+            titleKey: 'page_title_faq',
+            subtitleKey: 'page_subtitle_faq',
+        },
+        {
+            id: 'story',
+            to: '/story',
+            icon: CameraAlt,
+            titleKey: 'page_title_story',
+            subtitleKey: 'page_subtitle_story',
+        },
+        {
+            id: 'gift',
+            to: '/gift',
+            icon: CardGiftcard,
+            titleKey: 'page_title_gift',
+            subtitleKey: 'page_subtitle_gift',
+        },
+    ];
+
+    const oTimelineEvents = [
+        {
+            id: 1,
+            time: '9:30 AM',
+            titleKey: 'page_wedding_timeline_arrival',
+            icon: AccessTimeFilled,
+        },
+        {
+            id: 2,
+            time: '10:00 AM',
+            titleKey: 'page_wedding_timeline_ceremony',
+            icon: Church,
+        },
+        {
+            id: 3,
+            time: '11:00 AM',
+            titleKey: 'page_wedding_timeline_photo',
+            icon: AddAPhoto,
+        },
+        {
+            id: 4,
+            time: '12:00 PM',
+            titleKey: 'page_wedding_timeline_grazing',
+            icon: LocalBar,
+        },
+        {
+            id: 5,
+            time: '3:00 PM',
+            titleKey: 'page_wedding_timeline_reception',
+            icon: Gite,
+        },
+        {
+            id: 6,
+            time: '5:00 PM',
+            titleKey: 'page_wedding_timeline_wrap',
+            icon: Toys,
+        },
+    ];
+
     const ItemNav = styled(Paper)(({ theme }) => ({
             backgroundColor: '#fff',
             ...theme.typography.body2,
@@ -132,58 +202,29 @@ export default function Wedding() {
                         </Grid>
 
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="my-4">
-                            <Grid size={3}>
-                                <Link component={RouterLink} to="/attire" underline="none" sx={{ color: 'inherit', display: 'block' }}>
-                                    <ItemNav>
-                                        <Checkroom fontSize="large" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.75rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                            {oI18n("page_title_attire")}
-                                        </Text>
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.7rem", md: "0.85rem"}}}>
-                                            {oI18n("page_subtitle_attire")}
-                                        </Text>
-                                    </ItemNav>
-                                </Link>
-                            </Grid>
-                            <Grid size={3}>
-                                <Link component={RouterLink} to="/faq" underline="none" sx={{ color: 'inherit', display: 'block' }}>
-                                    <ItemNav>
-                                        <Help fontSize="large" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.75rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                            {oI18n("page_title_faq")}
-                                        </Text>
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.7rem", md: "0.85rem"}}}>
-                                            {oI18n("page_subtitle_faq")}
-                                        </Text>
-                                    </ItemNav>
-                                </Link>
-                            </Grid>
-                            <Grid size={3}>
-                                <Link component={RouterLink} to="/story" underline="none" sx={{ color: 'inherit', display: 'block' }}>
-                                    <ItemNav>
-                                        <CameraAlt fontSize="large" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.75rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                            {oI18n("page_title_story")}
-                                        </Text>
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.7rem", md: "0.85rem"}}}>
-                                            {oI18n("page_subtitle_story")}
-                                        </Text>
-                                    </ItemNav>
-                                </Link>
-                            </Grid>
-                            <Grid size={3}>
-                                <Link component={RouterLink} to="/gift" underline="none" sx={{ color: 'inherit', display: 'block' }}>
-                                    <ItemNav>
-                                        <CardGiftcard fontSize="large" />
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.75rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                            {oI18n("page_title_gift")}
-                                        </Text>
-                                        <Text className="text-uppercase d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.6rem", sm: "0.7rem", md: "0.85rem"}}}>
-                                            {oI18n("page_subtitle_gift")}
-                                        </Text>
-                                    </ItemNav>
-                                </Link>
-                            </Grid>
+                            {oItemNav.map((item) => {
+                                const IconComponent = item.icon;
+                                return (
+                                    <Grid size={{ xs: 6, sm: 3 }} key={item.id}>
+                                        <Link 
+                                            component={RouterLink} 
+                                            to={item.to} 
+                                            underline="none" 
+                                            sx={{ color: 'inherit', display: 'block' }}
+                                        >
+                                            <ItemNav>
+                                                <IconComponent fontSize="large" />
+                                                <Text className="text-uppercase d-block cormorant-garamond-regular fs-6">
+                                                    {oI18n(item.titleKey)}
+                                                </Text>
+                                                <Text className="text-uppercase d-block cormorant-garamond-regular fs-8">
+                                                    {oI18n(item.subtitleKey)}
+                                                </Text>
+                                            </ItemNav>
+                                        </Link>
+                                    </Grid>
+                                );
+                            })}
                         </Grid>
 
                         <Text variant="h6" className="cormorant-sc-regular mt-5">
@@ -193,56 +234,126 @@ export default function Wedding() {
                             {oI18n("page_wedding_timeline_subtitle")}
                         </Text>
 
-                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="mt-3">
-                            <Grid size={2}>
-                                <ItemTimeline>
-                                    <AccessTimeFilled fontSize="medium" />
-                                    <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                        {oI18n("page_wedding_timeline_arrival")}
-                                    </Text>
-                                </ItemTimeline>
-                            </Grid>
-                            <Grid size={2}>
-                                <ItemTimeline>
-                                    <Church fontSize="medium" />
-                                    <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                        {oI18n("page_wedding_timeline_ceremony")}
-                                    </Text>
-                                </ItemTimeline>
-                            </Grid>
-                            <Grid size={2}>
-                                <ItemTimeline>
-                                    <AddAPhoto fontSize="medium" />
-                                    <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                        {oI18n("page_wedding_timeline_photo")}
-                                    </Text>
-                                </ItemTimeline>
-                            </Grid>
-                            <Grid size={2}>
-                                <ItemTimeline>
-                                    <LocalBar fontSize="medium" />
-                                    <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                        {oI18n("page_wedding_timeline_grazing")}
-                                    </Text>
-                                </ItemTimeline>
-                            </Grid>
-                            <Grid size={2}>
-                                <ItemTimeline>
-                                    <Gite fontSize="medium" />
-                                    <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                        {oI18n("page_wedding_timeline_reception")}
-                                    </Text>
-                                </ItemTimeline>
-                            </Grid>
-                            <Grid size={2}>
-                                <ItemTimeline>
-                                    <Toys fontSize="medium" />
-                                    <Text className="d-block cormorant-garamond-regular" sx={{fontSize: {xs: "0.7rem", sm: "0.75rem", md: "0.9rem"}}}>
-                                        {oI18n("page_wedding_timeline_wrap")}
-                                    </Text>
-                                </ItemTimeline>
-                            </Grid>
-                        </Grid>
+                       {/* TIMELINE CONTAINER */}
+                        <Box className="mt-4"
+                            sx={{
+                                position: 'relative',
+                                display: 'flex',
+                                flexDirection: { xs: 'column', md: 'row' },
+                                justifyContent: { xs: 'center', md: 'space-between' },
+                                alignItems: { xs: 'center', md: 'stretch' },
+                                gap: { xs: 4, md: 2 },
+                                maxWidth: { xs: 280, sm: 320, md: 1000 }, // Constraints width on mobile so content centers cleanly
+                                mx: 'auto', // Centers the whole timeline container horizontally
+                            }}
+                        >
+                            {/* CONNECTING LINE (DESKTOP: Horizontal) */}
+                            <Box
+                                sx={{
+                                    display: { xs: 'none', md: 'block' },
+                                    position: 'absolute',
+                                    top: '55px',
+                                    left: '5%',
+                                    right: '5%',
+                                    height: '2px',
+                                    backgroundColor: '#b8860b',
+                                    zIndex: 0,
+                                }}
+                            />
+
+                            {/* CONNECTING LINE (MOBILE: Vertical line through the icons) */}
+                            <Box
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                    position: 'absolute',
+                                    top: '20px',
+                                    bottom: '20px',
+                                    left: '20px', // Aligned with the center of the 40px icon box on mobile
+                                    width: '2px',
+                                    backgroundColor: '#b8860b',
+                                    zIndex: 0,
+                                }}
+                            />
+
+                            {/* TIMELINE ITEMS */}
+                            {oTimelineEvents.map((event) => {
+                                const IconComponent = event.icon;
+                                const eventTitle = oI18n(event.titleKey, event.titleKey);
+
+                                return (
+                                    <Box
+                                        key={event.id}
+                                        sx={{
+                                            position: 'relative',
+                                            zIndex: 1,
+                                            display: 'flex',
+                                            flexDirection: { xs: 'row', md: 'column' },
+                                            alignItems: 'center',
+                                            textAlign: { xs: 'left', md: 'center' },
+                                            flex: 1,
+                                            width: '100%',
+                                        }}
+                                    >
+                                        {/* ICON WITH BACKGROUND MASK */}
+                                        <Box
+                                            sx={{
+                                                color: '#b8860b',
+                                                width: 40,
+                                                height: 40,
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                bgcolor: '#fff', // Masks line behind icon
+                                                mr: 2,
+                                                mb: { xs: 0, md: 1.5 },
+                                                flexShrink: 0,
+                                            }}
+                                        >
+                                            <IconComponent sx={{ fontSize: { xs: 26, md: 32 } }} />
+                                        </Box>
+
+                                        {/* DOT ON THE LINE */}
+                                        <Box
+                                            sx={{
+                                                width: 12,
+                                                height: 12,
+                                                borderRadius: '50%',
+                                                backgroundColor: '#b8860b',
+                                                mr: 3,
+                                                mb: { xs: 0, md: 2 },
+                                                boxShadow: '0 0 0 3px #fff',
+                                                flexShrink: 0,
+                                            }}
+                                        />
+
+                                        {/* TEXT CONTENT */}
+                                        <Stack spacing={0.3} sx={{ minWidth: 120 }}>
+                                            <Text
+                                                variant="subtitle1"
+                                                className="cormorant-garamond-regular"
+                                                sx={{
+                                                    fontWeight: 'bold',
+                                                    fontSize: { xs: '1.05rem', md: '1.1rem' },
+                                                    color: '#333',
+                                                }}
+                                            >
+                                                {event.time}
+                                            </Text>
+                                            <Text
+                                                variant="body2"
+                                                className="cormorant-garamond-regular"
+                                                sx={{
+                                                    fontSize: { xs: '0.9rem', md: '0.95rem' },
+                                                    color: '#666',
+                                                }}
+                                            >
+                                                {eventTitle}
+                                            </Text>
+                                        </Stack>
+                                    </Box>
+                                );
+                            })}
+                        </Box>
                     </Box>
                 </Container>
             </Box>

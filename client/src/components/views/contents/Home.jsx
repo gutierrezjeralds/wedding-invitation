@@ -20,7 +20,7 @@ export default function Home() {
         }),
     }));
 
-    const NAV_ITEMS = [
+    const oItemNav = [
         {
             id: 'story',
             to: '/story',
@@ -89,7 +89,7 @@ export default function Home() {
                         </Text>
 
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="mt-4">
-                            {NAV_ITEMS.map((item) => {
+                            {oItemNav.map((item) => {
                                 const IconComponent = item.icon;
                                 return (
                                     <Grid size={{ xs: 6, sm: 3 }} key={item.id}>
