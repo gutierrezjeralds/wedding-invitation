@@ -34,8 +34,6 @@ export default function App() {
         <Route path="/attire" element={<Attire />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/gift" element={<Gift />} />
-
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
       {showHeader && <Footer />}
