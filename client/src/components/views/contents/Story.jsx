@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { Box, Container, Stack, Divider, Typography, Accordion, AccordionSummary, AccordionDetails, Paper } from '@mui/material';
-import {
-    FavoriteBorder, ExpandMore
-} from '@mui/icons-material';
-import { Text } from '../utils/MUIComponents';
+import { ExpandMore } from '@mui/icons-material';
+import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
 
 // import kinpoImg from '../../assets/images/kinpo.jpg';
@@ -109,19 +107,8 @@ export default function Story() {
         <React.Fragment>
             <Box className="bg-vintage">
                 <Container maxWidth="lg" className="py-5">
-                    <Stack className="text-center mb-5" spacing={1}>
-                        <Text letterSpacing="wide" variant="h3" className="great-vibes-regular">
-                            {oI18n("page_story_title")}
-                        </Text>
-
-                        <Text variant="body1" className="cormorant-garamond-regular">
-                            {oI18n("page_story_subtitle")}
-                        </Text>
-                        
-                        <Divider component="div" role="presentation" className='mt-4'>
-                            <FavoriteBorder fontSize="small" className='mt-2' />
-                        </Divider>
-                    </Stack>
+                    {/* Page Title */}
+                    <PageTitle title={oI18n("page_story_title")} subtitle={oI18n("page_story_subtitle")} />
 
                     <Box
                         sx={{

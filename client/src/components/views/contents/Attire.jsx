@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Container, Tabs, Tab, Paper, Stack, Grid, Card, CardMedia, Divider, styled } from '@mui/material';
-import {
-    FavoriteBorder,
-    FamilyRestroom, MilitaryTech, Groups, PeopleAlt
-} from '@mui/icons-material';
-import { Text } from '../utils/MUIComponents';
+import { Box, Container, Tabs, Tab, Paper, Stack, Grid, Card, CardMedia, Divider } from '@mui/material';
+import { FamilyRestroom, MilitaryTech, Groups, PeopleAlt } from '@mui/icons-material';
+import { Text, PageTitle } from '../utils/CustomComponents';
 
 // Import Swiper React components & required modules
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -101,19 +98,8 @@ export default function Attire() {
          <React.Fragment>
             <Box className="bg-light py-5">
                 <Container maxWidth="lg">
-                    <Stack className="text-center mb-5" spacing={1}>
-                        <Text letterSpacing="wide" variant="h3" className="great-vibes-regular">
-                            {oI18n("page_attire_title")}
-                        </Text>
-
-                        <Text variant="body1" className="cormorant-garamond-regular">
-                            {oI18n("page_attire_subtitle")}
-                        </Text>
-                        
-                        <Divider component="div" role="presentation" className='mt-4'>
-                            <FavoriteBorder fontSize="small" className='mt-2' />
-                        </Divider>
-                    </Stack>
+                    {/* Page Title */}
+                    <PageTitle title={oI18n("page_attire_title")} subtitle={oI18n("page_attire_subtitle")} />
 
                     {/* Custom Styled MUI Tabs */}
                     <Box sx={{ width: '100%' }}>

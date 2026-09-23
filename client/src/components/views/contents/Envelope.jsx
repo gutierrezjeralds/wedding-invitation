@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import { Container, Box, Divider, Link } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
-import { Text } from '../utils/MUIComponents';
+import { Text } from '../utils/CustomComponents';
 import GlobalButterflies from '../utils/GlobalButterfliesAnimation';
 
 // Assets

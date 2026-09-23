@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import { Container, Box, Divider, Grid, Paper, styled , Link, Button} from '@mui/material';
 import { FavoriteBorder, Favorite, Church, Groups, Checkroom, Send } from '@mui/icons-material';
-import { Text } from '../utils/MUIComponents';
+import { Text } from '../utils/CustomComponents';
 import Countdown from '../utils/Countdown';
 
 export default function Home() {

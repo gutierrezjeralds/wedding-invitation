@@ -3,11 +3,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import { Container, Stack, Divider, Box, Grid, Paper, styled, Button, Link } from '@mui/material';
 import { 
-    FavoriteBorder, LocationOn,
+    LocationOn,
     Checkroom, Help, CameraAlt, CardGiftcard,
     AccessTimeFilled, Church, AddAPhoto, LocalBar, Gite, Toys
 } from '@mui/icons-material';
-import { Text } from '../utils/MUIComponents';
+import { Text, PageTitle } from '../utils/CustomComponents';
 import ViewMapModal from './modals/ViewMap';
 
 // Assets
@@ -58,19 +58,9 @@ export default function Wedding() {
         <React.Fragment>
             <Box className="bg-light py-5">
                 <Container maxWidth="lg">
-                    <Stack className="text-center mb-5" spacing={1}>
-                        <Text letterSpacing="wide" variant="h3" className="great-vibes-regular">
-                            {oI18n("page_wedding_title")}
-                        </Text>
+                    {/* Page Title */}
+                    <PageTitle title={oI18n("page_wedding_title")} subtitle={oI18n("page_wedding_subtitle")} />
 
-                        <Text variant="h6" className="cormorant-garamond-regular">
-                            {oI18n("title_date")}
-                        </Text>
-                        
-                        <Divider component="div" role="presentation" className='mt-4'>
-                            <FavoriteBorder fontSize="small" className='mt-2' />
-                        </Divider>
-                    </Stack>
                     <Box className="text-center">
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                             <Grid size={6}>

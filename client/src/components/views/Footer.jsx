@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { Box, Container, Typography, Divider, Stack } from '@mui/material';
 import { Favorite, LocationOn, CalendarToday } from '@mui/icons-material';
-import { Text } from './utils/MUIComponents';
+import { Text } from './utils/CustomComponents';
 
 export default function WeddingFooter() {
     const { t: oI18n } = useTranslation();
