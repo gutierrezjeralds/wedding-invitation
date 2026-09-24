@@ -24,7 +24,6 @@ export function Text({ letterSpacing, preserveNewlines = true, i18nKey, componen
             }}
             {...props}
             
-            {/* If i18nKey is provided, render Trans; otherwise render standard children */}
             {i18nKey ? (
                 <Trans i18nKey={i18nKey} components={components}>
                     {children}
