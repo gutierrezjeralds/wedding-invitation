@@ -1,8 +1,9 @@
 import { Typography, Stack, Divider } from '@mui/material';
+import { Trans } from 'react-i18next';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 
 // Reusable Text Component
-export function Text({ letterSpacing, preserveNewlines = true, sx, ...props }) {
+export function Text({ letterSpacing, preserveNewlines = true, i18nKey, components, children, sx, ...props }) {
     // Pre-defined presets for clean prop usage
     const letterSpacingPresets = {
         tight: '-0.05em',
@@ -22,6 +23,15 @@ export function Text({ letterSpacing, preserveNewlines = true, sx, ...props }) {
                 ...sx,
             }}
             {...props}
+            
+            {/* If i18nKey is provided, render Trans; otherwise render standard children */}
+            {i18nKey ? (
+                <Trans i18nKey={i18nKey} components={components}>
+                    {children}
+                </Trans>
+            ) : (
+                children
+            )}
         >
         </Typography>
     );
