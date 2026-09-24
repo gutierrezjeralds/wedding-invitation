@@ -156,7 +156,9 @@ export default function Attire() {
                         {/* TAB 0: GUESTS (ACTIVE ON LOAD) */}
                         <TabPanel value={tabValue} index={0}>
                             <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
-                                <Text variant="body1" className="playfair-display-regular mb-1 text-gold" i18nKey="page_attire_tab_content_guest_title" />
+                                <Text variant="body1" className="playfair-display-regular mb-1 text-gold">
+                                    {oI18n("page_attire_tab_content_guest_title")}
+                                </Text>
                                 <Text variant="caption">
                                     {oI18n("page_attire_tab_content_guest_subtitle")}
                                 </Text>
