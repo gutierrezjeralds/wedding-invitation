@@ -23,7 +23,7 @@ i18n
 
     react: {
       transSupportBasicHtmlNodes: true, // <--- Automatically supports <span>, <b>, <i>, <strong>, etc.
-      transKeepBasicHtmlNodesFor: ['br', 'strong', 'i', 'p', 'span', 'b'], // <--- List of HTML tags to preserve
+      transKeepBasicHtmlNodesFor: ['br', 'strong', 'i', 'p', 'span', 'b', 'a'], // <--- List of HTML tags to preserve
     },
   });
 

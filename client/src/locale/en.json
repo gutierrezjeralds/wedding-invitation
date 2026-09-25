@@ -140,7 +140,7 @@
             "id": 2,
             "category": "attire",
             "question": "What is the recommended dress code?",
-            "answer": "The dress code is Formal / Modern Filipiniana. We encourage earth tones, sage green, rose gold, and champagne tones. Gentlemen may wear Barong Tagalog or dark suits, while ladies are requested to wear floor-length dresses or Filipiniana gowns."
+            "answer": "The dress code is Formal / Modern Filipiniana. Check out our <a href='/attire'>Attire Guide</a> for details."
         },
         {
             "id": 3,
