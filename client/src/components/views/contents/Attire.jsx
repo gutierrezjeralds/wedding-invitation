@@ -156,12 +156,15 @@ export default function Attire() {
                         {/* TAB 0: GUESTS (ACTIVE ON LOAD) */}
                         <TabPanel value={tabValue} index={0}>
                             <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
-                                <Text variant="body1" className="playfair-display-regular mb-1 text-gold">
-                                    {oI18n("page_attire_tab_content_guest_title")}
-                                </Text>
-                                <Text variant="caption">
-                                    {oI18n("page_attire_tab_content_guest_subtitle")}
-                                </Text>
+                                <Text
+                                    variant="body1"
+                                    className="playfair-display-regular mb-1 text-gold"
+                                    i18nKey="page_attire_tab_content_guest_title"
+                                />
+                                <Text
+                                    variant="caption"
+                                    i18nKey="page_attire_tab_content_guest_subtitle"
+                                />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
                                 <Box
@@ -227,12 +230,15 @@ export default function Attire() {
                                     {/* COLUMN 2: RIGHT SIDE (Text Content) */}
                                     <Box>
                                         <Stack spacing={2}>
-                                            <Text variant="h6" className="playfair-display-regular text-gold">
-                                                {oI18n("page_attire_tab_content_guest_card2_title")}
-                                            </Text>
-                                            <Text variant="caption">
-                                                {oI18n("page_attire_tab_content_guest_card2_subtitle")}
-                                            </Text>
+                                            <Text
+                                                variant="h6"
+                                                className="playfair-display-regular text-gold"
+                                                i18nKey="page_attire_tab_content_guest_card2_title"
+                                            />
+                                            <Text
+                                                variant="caption"
+                                                i18nKey="page_attire_tab_content_guest_card2_subtitle"
+                                            />
                                             <Box className="d-flex flex-row justify-content-center align-items-center">
                                                 <Box
                                                     component="img"
@@ -256,12 +262,15 @@ export default function Attire() {
                         {/* TAB 1: PARENTS */}
                         <TabPanel value={tabValue} index={1}>
                             <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
-                                <Text variant="body1" className="playfair-display-regular mb-1 text-gold">
-                                    {oI18n("page_attire_tab_content_parents_title")}
-                                </Text>
-                                <Text variant="caption">
-                                    {oI18n("page_attire_tab_content_parents_subtitle")}
-                                </Text>
+                                <Text
+                                    variant="body1"
+                                    className="playfair-display-regular mb-1 text-gold"
+                                    i18nKey="page_attire_tab_content_parents_title"
+                                />
+                                <Text
+                                    variant="caption"
+                                    i18nKey="page_attire_tab_content_parents_subtitle"
+                                />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
                                 <Box
@@ -327,12 +336,15 @@ export default function Attire() {
                                     {/* COLUMN 2: RIGHT SIDE (Text Content) */}
                                     <Box>
                                         <Stack spacing={2}>
-                                            <Text variant="h6" className="playfair-display-regular text-gold">
-                                                {oI18n("page_attire_tab_content_parents_card2_title")}
-                                            </Text>
-                                            <Text variant="caption">
-                                                {oI18n("page_attire_tab_content_parents_card2_subtitle")}
-                                            </Text>
+                                            <Text
+                                                variant="h6"
+                                                className="playfair-display-regular text-gold"
+                                                i18nKey="page_attire_tab_content_parents_card2_title"
+                                            />
+                                            <Text
+                                                variant="caption"
+                                                i18nKey="page_attire_tab_content_parents_card2_subtitle"
+                                            />
                                             <Box className="d-flex flex-row justify-content-center align-items-center">
                                                 <Box
                                                     component="img"
@@ -356,12 +368,15 @@ export default function Attire() {
                         {/* TAB 2: SPONSORS */}
                         <TabPanel value={tabValue} index={2}>
                             <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
-                                <Text variant="body1" className="playfair-display-regular mb-1 text-gold">
-                                    {oI18n("page_attire_tab_content_sponsors_title")}
-                                </Text>
-                                <Text variant="caption">
-                                    {oI18n("page_attire_tab_content_sponsors_subtitle")}
-                                </Text>
+                                <Text
+                                    variant="body1"
+                                    className="playfair-display-regular mb-1 text-gold"
+                                    i18nKey="page_attire_tab_content_sponsors_title"
+                                />
+                                <Text
+                                    variant="caption"
+                                    i18nKey="page_attire_tab_content_sponsors_subtitle"
+                                />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
                                 <Box
@@ -427,12 +442,15 @@ export default function Attire() {
                                     {/* COLUMN 2: RIGHT SIDE (Text Content) */}
                                     <Box>
                                         <Stack spacing={2}>
-                                            <Text variant="h6" className="playfair-display-regular text-gold">
-                                                {oI18n("page_attire_tab_content_sponsors_card2_title")}
-                                            </Text>
-                                            <Text variant="caption">
-                                                {oI18n("page_attire_tab_content_sponsors_card2_subtitle")}
-                                            </Text>
+                                            <Text
+                                                variant="h6"
+                                                className="playfair-display-regular text-gold"
+                                                i18nKey="page_attire_tab_content_sponsors_card2_title"
+                                            />
+                                            <Text
+                                                variant="caption"
+                                                i18nKey="page_attire_tab_content_sponsors_card2_subtitle"
+                                            />
                                             <Box className="d-flex flex-row justify-content-center align-items-center">
                                                 <Box
                                                     component="img"
@@ -456,12 +474,15 @@ export default function Attire() {
                         {/* TAB 3: ENTOURAGE */}
                         <TabPanel value={tabValue} index={3}>
                             <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
-                                <Text variant="body1" className="playfair-display-regular mb-1 text-gold">
-                                    {oI18n("page_attire_tab_content_entourage_title")}
-                                </Text>
-                                <Text variant="caption">
-                                    {oI18n("page_attire_tab_content_entourage_subtitle")}
-                                </Text>
+                                <Text
+                                    variant="body1"
+                                    className="playfair-display-regular mb-1 text-gold"
+                                    i18nKey="page_attire_tab_content_entourage_title"
+                                />
+                                <Text
+                                    variant="caption"
+                                    i18nKey="page_attire_tab_content_entourage_subtitle"
+                                />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
                                 <Box
@@ -527,12 +548,15 @@ export default function Attire() {
                                     {/* COLUMN 2: RIGHT SIDE (Text Content) */}
                                     <Box>
                                         <Stack spacing={2}>
-                                            <Text variant="h6" className="playfair-display-regular text-gold">
-                                                {oI18n("page_attire_tab_content_entourage_card2_title")}
-                                            </Text>
-                                            <Text variant="caption">
-                                                {oI18n("page_attire_tab_content_entourage_card2_subtitle")}
-                                            </Text>
+                                            <Text
+                                                variant="h6"
+                                                className="playfair-display-regular text-gold"
+                                                i18nKey="page_attire_tab_content_entourage_card2_title"
+                                            />
+                                            <Text
+                                                variant="caption"
+                                                i18nKey="page_attire_tab_content_entourage_card2_subtitle"
+                                            />
                                             <Box className="d-flex flex-row justify-content-center align-items-center">
                                                 <Box
                                                     component="img"
@@ -555,12 +579,16 @@ export default function Attire() {
                     </Box>
 
                     <Box className="text-center">
-                        <Text variant="h6" className="cormorant-sc-regular mt-5">
-                            {oI18n("page_attire_note_title")}
-                        </Text>
-                        <Text variant="caption" className="playfair-display-regular">
-                            {oI18n("page_attire_note_subtitle")}
-                        </Text>
+                        <Text
+                            variant="h6"
+                            className="cormorant-sc-regular mt-5"
+                            i18nKey="page_attire_note_title"
+                        />
+                        <Text
+                            variant="caption"
+                            className="playfair-display-regular"
+                            i18nKey="page_attire_note_subtitle"
+                        />
 
                         <Grid container spacing={{ xs: 2, sm: 3 }} className="my-4" justifyContent="center">
                             {imgDontAttire.map((item) => (
@@ -605,13 +633,19 @@ export default function Attire() {
 
                                         {/* Text Content */}
                                         <Box sx={{ textAlign: 'center', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                            <Text variant="subtitle2" className="cormorant-sc-bold text-gold" sx={{ fontSize: '0.85rem', lineHeight: 1.2 }}>
-                                                {item.title}
-                                            </Text>
+                                            <Text
+                                                variant="subtitle2"
+                                                className="cormorant-sc-bold text-gold"
+                                                i18nKey={item.title}
+                                                sx={{ fontSize: '0.85rem', lineHeight: 1.2 }}
+                                            />
                                             {item.subtitle && (
-                                                <Text variant="caption" className="cormorant-garamond-regular" sx={{ fontSize: '0.75rem', display: 'block', mt: 0.5 }}>
-                                                    {item.subtitle}
-                                                </Text>
+                                                <Text
+                                                    variant="caption"
+                                                    className="cormorant-garamond-regular"
+                                                    i18nKey={item.subtitle}
+                                                    sx={{ fontSize: '0.75rem', display: 'block', mt: 0.5 }}
+                                                />
                                             )}
                                         </Box>
                                     </Paper>

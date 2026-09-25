@@ -1,8 +1,11 @@
 import { Typography, Stack, Divider } from '@mui/material';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import { useTranslation, Trans } from 'react-i18next';
 
 // Reusable Text Component
-export function Text({ letterSpacing, preserveNewlines = true, sx, ...props }) {
+export function Text({ letterSpacing, preserveNewlines = true, i18nKey, components, children, sx, ...props }) {
+    const { t: oI18n } = useTranslation();
+
     // Pre-defined presets for clean prop usage
     const letterSpacingPresets = {
         tight: '-0.05em',
@@ -14,15 +17,26 @@ export function Text({ letterSpacing, preserveNewlines = true, sx, ...props }) {
     // Resolve whether letterSpacing is a preset keyword or a custom direct value
     const resolvedSpacing = letterSpacingPresets[letterSpacing] || letterSpacing;
 
+    const baseStyles = {
+        whiteSpace: preserveNewlines ? 'pre-line' : 'normal',
+        ...(resolvedSpacing && { letterSpacing: resolvedSpacing }),
+        ...sx,
+    };
+
+    // If i18nKey is provided WITHOUT explicit components, render via dangerouslySetInnerHTML
+    if (i18nKey && !components) {
+        return (
+            <Typography
+                sx={baseStyles}
+                dangerouslySetInnerHTML={{ __html: oI18n(i18nKey) }}
+                {...props}
+            />
+        );
+    }
+
     return (
-        <Typography
-            sx={{
-                whiteSpace: preserveNewlines ? 'pre-line' : 'normal',
-                ...(resolvedSpacing && { letterSpacing: resolvedSpacing }),
-                ...sx,
-            }}
-            {...props}
-        >
+        <Typography sx={baseStyles} {...props}>
+            {i18nKey ? <Trans i18nKey={i18nKey} components={components} /> : children}
         </Typography>
     );
 }
