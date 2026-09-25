@@ -99,5 +99,78 @@
     "page_story_section1_chapter4_title": "Today",
     "page_story_section1_chapter4_content": "Our story began at 2016 .....",
     "page_story_section2_parallax_title": "“Two paths crossed, and forever began.”",
-    "page_story_section2_parallax_subtitle": "July 17, 2027"
+    "page_story_section2_parallax_subtitle": "July 17, 2027",
+    "page_faq_title": "Frequently Asked Questions",
+    "page_faq_subtitle": "Got questions about Jerald & Sheila’s big day? Search or browse through our helpful guide below.",
+    "page_faq_search_placeholder": "Search questions (e.g. dress code, parking, RSVP)...",
+    "page_faq_search_nomatch": "No matching questions found for '{{0}}'. Try searching for another term!",
+    "page_faq_still_question": "Still Have Questions?",
+    "page_faq_cant_find": "Can't find the answer you're looking for? Feel free to reach out to Jerald & Sheila directly!",
+    "page_faq_button_send": "Send Us a Message",
+    "page_faq_categories": [
+        {
+            "id": "all",
+            "label": "All Questions"
+        },
+        {
+            "id": "ceremony",
+            "label": "Ceremony & Venue"
+        },
+        {
+            "id": "attire",
+            "label": "Attire & Dress Code"
+        },
+        {
+            "id": "rsvp",
+            "label": "RSVP & Guests"
+        },
+        {
+            "id": "gifts",
+            "label": "Gifts & Registry"
+        }
+    ],
+    "page_faq_data": [
+        {
+            "id": 1,
+            "category": "rsvp",
+            "question": "When is the deadline to RSVP?",
+            "answer": "Please confirm your attendance on or before November 1, 2027 using our RSVP page. This allows us to finalize headcounts and seating arrangements with our caterers and venue."
+        },
+        {
+            "id": 2,
+            "category": "attire",
+            "question": "What is the recommended dress code?",
+            "answer": "The dress code is Formal / Modern Filipiniana. We encourage earth tones, sage green, rose gold, and champagne tones. Gentlemen may wear Barong Tagalog or dark suits, while ladies are requested to wear floor-length dresses or Filipiniana gowns."
+        },
+        {
+            "id": 3,
+            "category": "rsvp",
+            "question": "Can I bring a Plus One or children?",
+            "answer": "Due to venue capacity restrictions, we are only able to accommodate guests explicitly listed on your invitation card. We kindly request an adults-only celebration unless indicated otherwise."
+        },
+        {
+            "id": 4,
+            "category": "ceremony",
+            "question": "What time should I arrive at the chapel?",
+            "answer": "The ceremony begins promptly at 3:00 PM. We recommend arriving around 2:30 PM to allow time for parking, seating, and welcoming guest arrivals."
+        },
+        {
+            "id": 5,
+            "category": "ceremony",
+            "question": "Is parking available at both venues?",
+            "answer": "Yes! Free parking is available at both St. Mary Chapel (Ceremony) and The Glass House Gardens (Reception). Security personnel will guide you upon arrival."
+        },
+        {
+            "id": 6,
+            "category": "gifts",
+            "question": "Where is your gift registry located?",
+            "answer": "Your presence is the greatest gift of all! Should you wish to bless us with a gift, a monetary contribution towards our new home and honeymoon fund would be deeply appreciated via our Digital Wishing Well page."
+        },
+        {
+            "id": 7,
+            "category": "ceremony",
+            "question": "Can I take photos during the ceremony?",
+            "answer": "We are having an 'Unplugged Ceremony'. We kindly ask that all phones and cameras remain off and tucked away during the chapel service so everyone can remain present with us. Our official photographer will capture all the moments!"
+        }
+    ]
 }

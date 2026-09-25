@@ -3,7 +3,7 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import { useTranslation, Trans } from 'react-i18next';
 
 // Reusable Text Component
-export function Text({ letterSpacing, preserveNewlines = true, i18nKey, components, children, sx, ...props }) {
+export function Text({ letterSpacing, preserveNewlines = true, i18nKey, values, components, children, sx, ...props }) {
     const { t: oI18n } = useTranslation();
 
     // Pre-defined presets for clean prop usage
@@ -30,7 +30,7 @@ export function Text({ letterSpacing, preserveNewlines = true, i18nKey, componen
         return (
             <Typography
                 sx={baseStyles}
-                dangerouslySetInnerHTML={{ __html: oI18n(i18nKey) }}
+                dangerouslySetInnerHTML={{ __html: oI18n(i18nKey, values) }}
                 {...props}
             />
         );
@@ -38,7 +38,7 @@ export function Text({ letterSpacing, preserveNewlines = true, i18nKey, componen
 
     return (
         <Typography sx={baseStyles} {...props}>
-            {i18nKey ? <Trans i18nKey={i18nKey} components={components} /> : children}
+            {i18nKey ? <Trans i18nKey={i18nKey} values={values} components={components} /> : children}
         </Typography>
     );
 }
