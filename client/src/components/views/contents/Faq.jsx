@@ -21,7 +21,7 @@ import {
 import { ExpandMore, Search, Clear, QuestionMark, ContactSupport, CheckCircle , ContentCopy} from '@mui/icons-material';
 import { Text } from '../utils/CustomComponents';
 
-export default function WeddingFAQ() {
+export default function Faq() {
     const { t: oI18n } = useTranslation();
 
     const [searchQuery, setSearchQuery] = useState('');
