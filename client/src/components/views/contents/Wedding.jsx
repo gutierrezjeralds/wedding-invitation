@@ -135,9 +135,11 @@ export default function Wedding() {
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                             <Grid size={6}>
                                 <ItemLocation>
-                                    <Text letterSpacing="wide" variant="h6" className="cormorant-sc-bold mb-3">
-                                        {oI18n("page_wedding_ceremony")}
-                                    </Text>
+                                    <Text
+                                        letterSpacing="wide"
+                                        variant="h6" className="cormorant-sc-bold mb-3"
+                                        i18nKey="page_wedding_ceremony"
+                                    />
                                     <Box
                                         component="img"
                                         src={imgChurch}
@@ -150,17 +152,17 @@ export default function Wedding() {
                                             mx: 'auto',             // Center horizontally
                                         }}
                                     />
-                                    <Text variant="body1" className="cormorant-garamond-regular mt-3">
-                                        <Trans 
-                                            i18nKey="page_wedding_ceremony_begins"
-                                            components={{
-                                                span: <span className="fs-8" />
-                                            }}
-                                        />
-                                    </Text>
-                                    <Text letterSpacing="wide" variant="body1" className="cormorant-sc-bold mt-3">
-                                        {oI18n("title_church")}
-                                    </Text>
+                                    <Text
+                                        variant="body1"
+                                        className="cormorant-garamond-regular mt-3"
+                                        i18nKey="page_wedding_ceremony_begins"
+                                    />
+                                    <Text
+                                        letterSpacing="wide"
+                                        variant="body1"
+                                        className="cormorant-sc-bold mt-3"
+                                        i18nKey="title_church"
+                                    />
                                     <Button variant="outlined" className="my-3" startIcon={<LocationOn />} sx={{width: {sm: "15rem"}}} onClick={handleOpenViewMapModal}>
                                         {oI18n("button_viewmap")}
                                     </Button>
@@ -183,17 +185,17 @@ export default function Wedding() {
                                             mx: 'auto',             // Center horizontally
                                         }}
                                     />
-                                    <Text variant="body1" className="cormorant-garamond-regular mt-3">
-                                        <Trans 
-                                            i18nKey="page_wedding_reception_begins"
-                                            components={{
-                                                span: <span className="fs-8" />
-                                            }}
-                                        />
-                                    </Text>
-                                    <Text letterSpacing="wide" variant="body1" className="cormorant-sc-bold mt-3">
-                                        {oI18n("title_reception")}
-                                    </Text>
+                                    <Text
+                                        variant="body1"
+                                        className="cormorant-garamond-regular mt-3"
+                                        i18nKey="page_wedding_reception_begins"
+                                    />
+                                    <Text
+                                        letterSpacing="wide"
+                                        variant="body1"
+                                        className="cormorant-sc-bold mt-3"
+                                        i18nKey="title_reception"
+                                    />
                                     <Button variant="outlined" className="my-3" startIcon={<LocationOn />} sx={{width: {sm: "15rem"}}} onClick={handleOpenViewMapModal}>
                                         {oI18n("button_viewmap")}
                                     </Button>
@@ -214,12 +216,14 @@ export default function Wedding() {
                                         >
                                             <ItemNav>
                                                 <IconComponent fontSize="large" />
-                                                <Text className="text-uppercase d-block cormorant-garamond-regular fs-6">
-                                                    {oI18n(item.titleKey)}
-                                                </Text>
-                                                <Text className="text-uppercase d-block cormorant-garamond-regular fs-8">
-                                                    {oI18n(item.subtitleKey)}
-                                                </Text>
+                                                <Text
+                                                    className="text-uppercase d-block cormorant-garamond-regular fs-6"
+                                                    i18nKey={item.titleKey}
+                                                />
+                                                <Text
+                                                    className="text-uppercase d-block cormorant-garamond-regular fs-8"
+                                                    i18nKey={item.subtitleKey}
+                                                />
                                             </ItemNav>
                                         </Link>
                                     </Grid>
@@ -227,12 +231,16 @@ export default function Wedding() {
                             })}
                         </Grid>
 
-                        <Text variant="h6" className="cormorant-sc-regular mt-5">
-                            {oI18n("page_wedding_timeline_title")}
-                        </Text>
-                        <Text variant="caption" className="playfair-display-regular">
-                            {oI18n("page_wedding_timeline_subtitle")}
-                        </Text>
+                        <Text
+                            variant="h6"
+                            className="cormorant-sc-regular mt-5"
+                            i18nKey="page_wedding_timeline_title"
+                        />
+                        <Text
+                            variant="caption"
+                            className="playfair-display-regular"
+                            i18nKey="page_wedding_timeline_subtitle"
+                        />
 
                        {/* TIMELINE CONTAINER */}
                         <Box className="mt-4"
@@ -336,9 +344,8 @@ export default function Wedding() {
                                                     fontSize: { xs: '1.05rem', md: '1.1rem' },
                                                     color: '#333',
                                                 }}
-                                            >
-                                                {event.time}
-                                            </Text>
+                                                i18nKey={event.time}
+                                            />
                                             <Text
                                                 variant="body2"
                                                 className="cormorant-garamond-regular"
@@ -346,9 +353,8 @@ export default function Wedding() {
                                                     fontSize: { xs: '0.9rem', md: '0.95rem' },
                                                     color: '#666',
                                                 }}
-                                            >
-                                                {eventTitle}
-                                            </Text>
+                                                i18nKey={eventTitle}
+                                            />
                                         </Stack>
                                     </Box>
                                 );

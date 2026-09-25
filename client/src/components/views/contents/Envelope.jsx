@@ -18,35 +18,42 @@ export default function Envelope() {
             <Box className="bg-light">
                 <Container maxWidth="lg">
                     <Box className="text-center" sx={{ py: 4 }}>
-                        <Text letterSpacing="wide" variant="subtitle1" className="cormorant-sc-bold">
-                            {oI18n("page_envelope_yourInvited")}
-                        </Text>
+                        <Text
+                            letterSpacing="wide"
+                            variant="subtitle1" className="cormorant-sc-bold"
+                            i18nKey="page_envelope_yourInvited"
+                        />
 
-                        <Text letterSpacing="wide" variant="body1" className="cormorant-garamond-bold fst-italic">
-                            {oI18n("page_envelope_toCelebrate")}
-                        </Text>
+                        <Text
+                            letterSpacing="wide"
+                            variant="body1"
+                            className="cormorant-garamond-bold fst-italic"
+                            i18nKey="page_envelope_toCelebrate"
+                        />
 
                         <Divider component="div" role="presentation" className='my-4'>
                             <FavoriteBorder fontSize="small" className='mt-2' />
                         </Divider>
 
-                        <Text letterSpacing="wide" variant="h3" className="great-vibes-regular">
-                            <Trans 
-                                i18nKey="title_name"
-                                components={{
-                                    // Maps the <span> tag from JSON to custom styles or MUI styling
-                                    span: <span className="pinyon-script-regular" />
-                                }}
-                            />
-                        </Text>
+                        <Text
+                            letterSpacing="wide"
+                            variant="h3"
+                            className="great-vibes-regular"
+                            i18nKey="title_name"
+                        />
 
-                        <Text variant="h6" className="cormorant-garamond-regular mt-5">
-                            {oI18n("title_date")}
-                        </Text>
+                        <Text
+                            variant="h6"
+                            className="cormorant-garamond-regular mt-5"
+                            i18nKey="title_date"
+                        />
 
-                        <Text letterSpacing="wide" variant="h5" className="cormorant-sc-bold text-uppercase mt-3">
-                            {oI18n("title_church")}
-                        </Text>
+                        <Text
+                            letterSpacing="wide"
+                            variant="h5"
+                            className="cormorant-sc-bold text-uppercase mt-3"
+                            i18nKey="title_church"
+                        />
                     </Box>
 
                     <Box className="text-center">
@@ -65,25 +72,25 @@ export default function Envelope() {
                             />
                         </Link>
 
-                        <Text variant="h6" className="cormorant-garamond-regular mt-3">
-                            <Trans 
-                                i18nKey="page_envelope_waxSeal"
-                                components={{
-                                    // Maps the <span> tag from JSON to custom styles or MUI styling
-                                    span: <span className="text-gold fs-3 fw-bolder" />
-                                }}
-                            />
+                        <Text
+                            variant="h6"
+                            className="cormorant-garamond-regular mt-3"
+                            i18nKey="page_envelope_waxSeal">
                         </Text>
                     </Box>
 
                     <Box className="text-center" sx={{ py: 4 }}>
-                        <Text variant="body1" className="cormorant-garamond-regular mt-3">
-                            {oI18n("page_envelope_bibleVerse")}
-                        </Text>
+                        <Text
+                            variant="body1"
+                            className="cormorant-garamond-regular mt-3"
+                            i18nKey="page_envelope_bibleVerse"
+                        />
 
-                        <Text variant="body1" className="cormorant-garamond-regular mt-3">
-                            {oI18n("page_envelope_bibleVerse_id")}
-                        </Text>
+                        <Text
+                            variant="body1"
+                            className="cormorant-garamond-regular mt-3"
+                            i18nKey="page_envelope_bibleVerse_id"
+                        />
                     </Box>
                 </Container>
             </Box>

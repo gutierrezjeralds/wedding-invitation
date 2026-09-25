@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, Container } from '@mui/material';
+import { Text } from './CustomComponents';
 
 export default function ParallaxBanner({
     image,
@@ -49,7 +50,7 @@ export default function ParallaxBanner({
                     }}
                 >
                     {title && (
-                        <Typography
+                        <Text
                             variant="h3"
                             sx={{
                                 fontFamily: '"Cormorant Garamond", "Playfair Display", serif',
@@ -59,12 +60,11 @@ export default function ParallaxBanner({
                                 textShadow: '0 2px 4px rgba(0,0,0,0.3)',
                                 fontSize: { xs: '2rem', sm: '2.8rem' },
                             }}
-                        >
-                            {title}
-                        </Typography>
+                            i18nKey={title}
+                        />
                     )}
                     {subtitle && (
-                        <Typography
+                        <Text
                             variant="subtitle1"
                             sx={{
                                 letterSpacing: 3,
@@ -73,9 +73,8 @@ export default function ParallaxBanner({
                                 fontWeight: 500,
                                 opacity: 0.9,
                             }}
-                        >
-                            {subtitle}
-                        </Typography>
+                            i18nKey={subtitle}
+                        />
                     )}
                 </Container>
             )}

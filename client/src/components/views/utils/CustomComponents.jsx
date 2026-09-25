@@ -12,6 +12,8 @@ export function Text({ letterSpacing, preserveNewlines = true, i18nKey, componen
         normal: 'normal',
         wide: '0.08em',
         widest: '0.2em',
+        large: '0.3em',
+        largest: '0.4em',
     };
 
     // Resolve whether letterSpacing is a preset keyword or a custom direct value

@@ -33,15 +33,14 @@ export default function WeddingFooter() {
                     
                     {/* Header: Names & Tagline */}
                     <Box sx={{ width: '100%', textAlign: 'center' }}>
-                        <Text letterSpacing="wide" variant="h4" className="great-vibes-regular" sx={{ textAlign: 'center' }}>
-                            <Trans 
-                                i18nKey="title_name"
-                                components={{
-                                    span: <span className="pinyon-script-regular" />
-                                }}
-                            />
-                        </Text>
-                        <Typography
+                        <Text
+                            letterSpacing="wide"
+                            variant="h4"
+                            className="great-vibes-regular"
+                            sx={{ textAlign: 'center' }}
+                            i18nKey="title_name"
+                        />
+                        <Text
                             variant="subtitle2"
                             color="text.secondary"
                             className="mt-3"
@@ -51,9 +50,8 @@ export default function WeddingFooter() {
                                 fontSize: '0.75rem',
                                 textAlign: 'center',
                             }}
-                        >
-                            {oI18n("footer_qoute")}
-                        </Typography>
+                            i18nKey="footer_qoute"
+                        />
                     </Box>
 
                     {/* Monogram Heart Divider */}
@@ -76,21 +74,25 @@ export default function WeddingFooter() {
                     >
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
                             <CalendarToday sx={{ fontSize: 18, color: 'text.secondary' }} />
-                            <Typography variant="body2" color="text.secondary">
-                                {oI18n("title_date_v2")}
-                            </Typography>
+                            <Text
+                                variant="body2"
+                                color="text.secondary"
+                                i18nKey="title_date_v2"
+                            />
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
                             <LocationOn sx={{ fontSize: 18, color: 'text.secondary' }} />
-                            <Typography variant="body2" color="text.secondary">
-                                {oI18n("title_church")}
-                            </Typography>
+                            <Text
+                                variant="body2"
+                                color="text.secondary"
+                                i18nKey="title_church"
+                            />
                         </Box>
                     </Box>
 
                     {/* Hashtag */}
                     <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                        <Typography
+                        <Text
                             variant="caption"
                             sx={{
                                 color: '#d4af37',
@@ -99,17 +101,19 @@ export default function WeddingFooter() {
                                 textTransform: 'uppercase',
                                 textAlign: 'center',
                             }}
-                        >
-                            {oI18n("title_hashtag")}
-                        </Typography>
+                            i18nKey="title_hashtag"
+                        />
                     </Box>
 
                     <Divider sx={{ width: '100%', opacity: 0.3, my: 1 }} />
 
                     {/* Bottom Copyright */}
-                    <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center', width: '100%' }}>
-                        {oI18n("footer_bottom")} • {new Date().getFullYear()}
-                    </Typography>
+                    <Text
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{ textAlign: 'center', width: '100%' }}
+                        i18nKey={`${oI18n("footer_bottom")} • ${new Date().getFullYear()}`}
+                    />
                 </Stack>
             </Container>
         </Box>

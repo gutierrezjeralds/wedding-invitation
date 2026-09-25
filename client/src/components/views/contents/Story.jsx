@@ -123,22 +123,16 @@ export default function Story() {
                             {/* Header Section */}
                             <Text
                                 variant="caption"
-                                sx={{
-                                    letterSpacing: 3,
-                                    textTransform: 'uppercase',
-                                    color: '#A08053',
-                                    fontWeight: 600,
-                                    fontSize: '0.75rem',
-                                    display: 'block',
-                                    mb: 1,
-                                }}
-                            >
-                                {oI18n("page_story_content_tagline")}
-                            </Text>
+                                className="text-uppercase fw-bold d-block fs-8 mb-1 text-gold"
+                                letterSpacing="largest"
+                                i18nKey="page_story_content_tagline"
+                            />
 
-                            <Text variant="h3" className="cormorant-garamond-regular mb-2">
-                                {oI18n("page_story_content_title")}
-                            </Text>
+                            <Text
+                                variant="h3"
+                                className="cormorant-garamond-regular mb-2"
+                                i18nKey="page_story_content_title"
+                            />
 
                             <Box
                                 sx={{
@@ -149,18 +143,24 @@ export default function Story() {
                                 }}
                             />
 
-                            <Text variant="body1" className="mb-2">
-                               {oI18n("page_story_content_subtitle")}
-                            </Text>
+                            <Text
+                                variant="body1"
+                                className="mb-2"
+                                i18nKey="page_story_content_subtitle"
+                            />
 
                             {/* Chapters Header */}
-                            <Text variant="h4" className="mb-1 cormorant-garamond-regular">
-                                {oI18n("page_story_section1_title")}
-                            </Text>
+                            <Text
+                                variant="h4"
+                                className="mb-1 cormorant-garamond-regular"
+                                i18nKey="page_story_section1_title"
+                            />
 
-                            <Typography variant="caption" className="text-uppercase mb-3 d-block fw-bold" sx={{color: '#A08053'}}>
-                                {oI18n("page_story_section1_tagline")}
-                            </Typography>
+                            <Text
+                                variant="caption"
+                                className="text-uppercase mb-3 d-block fw-bold text-gold"
+                                i18nKey="page_story_section1_tagline"
+                            />
 
                             {/* Accordion Chapters */}
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
@@ -213,9 +213,11 @@ export default function Story() {
                                                         ml: 5, // Indents nicely under the title
                                                     }}
                                                 >
-                                                    <Text variant="body2" className="fs-7">
-                                                        {chapter.content}
-                                                    </Text>
+                                                    <Text
+                                                        variant="body2"
+                                                        className="fs-7"
+                                                        i18nKey={chapter.content}
+                                                    />
                                                 </Paper>
                                             </AccordionDetails>
                                         </Accordion>
@@ -306,11 +308,8 @@ export default function Story() {
                                         lineHeight: 1.1,
                                         transform: 'rotate(-6deg)',
                                     }}
-                                >
-                                    Collecting <br />
-                                    beautiful <br />
-                                    moments
-                                </Text>
+                                    i18nKey="page_story_section1_highlight"
+                                />
                             </Box>
                         </Box>
                     </Box>

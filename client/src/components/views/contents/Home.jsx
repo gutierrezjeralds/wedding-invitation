@@ -52,27 +52,33 @@ export default function Home() {
             <Box className="bg-light">
                 <Container maxWidth="lg">
                     <Box className="text-center" sx={{ py: 4 }}>
-                        <Text letterSpacing="wide" variant="h3" className="great-vibes-regular">
-                            <Trans 
-                                i18nKey="title_name"
-                                components={{
-                                    // Maps the <span> tag from JSON to custom styles or MUI styling
-                                    span: <span className="pinyon-script-regular" />
-                                }}
-                            />
-                        </Text>
+                        <Text
+                            letterSpacing="wide"
+                            variant="h3"
+                            className="great-vibes-regular"
+                            i18nKey="title_name"
+                        />
 
-                        <Text letterSpacing="wide" variant="h6" className="text-uppercase cormorant-garamond-regular mt-5">
-                            {oI18n("page_home_gettingMarried")}
-                        </Text>
+                        <Text
+                            letterSpacing="wide"
+                            variant="h6"
+                            className="text-uppercase
+                            cormorant-garamond-regular mt-5"
+                            i18nKey="page_home_gettingMarried"
+                        />
 
-                        <Text letterSpacing="wide" variant="h6" className="cormorant-garamond-regular m-2">
-                            {oI18n("title_date_v3")}
-                        </Text>
+                        <Text
+                            letterSpacing="wide"
+                            variant="h6"
+                            className="cormorant-garamond-regular m-2"
+                            i18nKey="title_date_v3"
+                        />
 
-                        <Text letterSpacing="wide" className="cormorant-garamond-regular fs-9">
-                            {oI18n("page_home_quote")}
-                        </Text>
+                        <Text
+                            letterSpacing="wide"
+                            className="cormorant-garamond-regular fs-9"
+                            i18nKey="page_home_quote"
+                        />
 
                         <Countdown />
 
@@ -80,13 +86,18 @@ export default function Home() {
                             <FavoriteBorder fontSize="small" className='mt-2' />
                         </Divider>
 
-                        <Text letterSpacing="wide" variant="h6" className="cormorant-garamond-regular">
-                            {oI18n("page_home_page_title")}
-                        </Text>
+                        <Text
+                            letterSpacing="wide"
+                            variant="h6"
+                            className="cormorant-garamond-regular"
+                            i18nKey="page_home_page_title"
+                        />
 
-                        <Text variant="caption" className="cormorant-garamond-regular">
-                            {oI18n("page_home_page_subtitle")}
-                        </Text>
+                        <Text
+                            variant="caption"
+                            className="cormorant-garamond-regular"
+                            i18nKey="page_home_page_subtitle"
+                        />
 
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="mt-4">
                             {oItemNav.map((item) => {
@@ -101,9 +112,10 @@ export default function Home() {
                                         >
                                             <Item className="py-3">
                                                 <IconComponent fontSize="large" />
-                                                <Text className="text-uppercase d-block cormorant-garamond-regular fs-6">
-                                                    {oI18n(item.labelKey)}
-                                                </Text>
+                                                <Text
+                                                    className="text-uppercase d-block cormorant-garamond-regular fs-6"
+                                                    i18nKey={item.labelKey}
+                                                />
                                             </Item>
                                         </Link>
                                     </Grid>
