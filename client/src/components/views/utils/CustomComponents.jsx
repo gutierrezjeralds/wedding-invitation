@@ -46,17 +46,19 @@ export function Text({ letterSpacing, preserveNewlines = true, i18nKey, componen
 // Reusable Page Title
 export function PageTitle({ title, subtitle, icon, ...props }) {
     return (
-        <Stack className="text-center mb-5" spacing={1} {...props}>
+        <Stack className="text-center mb-5" spacing={0} {...props}>
             {title && (
-                <Text letterSpacing="wide" variant="h3" className="great-vibes-regular">
-                    {title}
-                </Text>
+                <Text
+                    className="main-page-title"
+                    i18nKey={title}
+                />
             )}
 
             {subtitle && (
-                <Text variant="body1" className="cormorant-garamond-regular">
-                    {subtitle}
-                </Text>
+                <Text
+                    className="main-page-subtitle"
+                    i18nKey={subtitle}
+                />
             )}
 
             <Divider component="div" role="presentation" className="mt-4">
