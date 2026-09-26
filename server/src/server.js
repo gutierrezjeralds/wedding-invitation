@@ -35,7 +35,4 @@ app.get('/', (req, res) => {
 // Google Routes
 app.use('/api/google', routerGoogle);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+export default app;
