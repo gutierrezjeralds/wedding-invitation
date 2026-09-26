@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     Box,
@@ -11,37 +11,21 @@ import {
     Grid,
     Tab,
     Tabs,
-    Card,
-    CardMedia,
+    ImageList,
+    ImageListItem,
+    Dialog,
+    IconButton,
 } from '@mui/material';
-import { ExpandMore } from '@mui/icons-material';
+import {
+    ExpandMore,
+    Close,
+    ArrowBackIosNew,
+    ArrowForwardIos,
+} from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
 
-// import kinpoImg from '../../assets/images/kinpo.jpg';
-// import passportImg from '../../assets/images/passport.jpg';
-// import travelImg from '../../assets/images/travel.jpg';
-// import handsImg from '../../assets/images/hands.jpg';
 import imgParallax1 from "../../assets/img/story/parallax1.jpg"
-
-// Gallery items
-const galleryItems = {
-    0: [
-        { id: 1, title: 'First Trip Together', src: 'https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?auto=format&fit=crop&w=600&q=80' },
-        { id: 2, title: 'Coffee Dates', src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=600&q=80' },
-        { id: 3, title: 'Weekend Getaways', src: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=600&q=80' },
-    ],
-    1: [
-        { id: 1, title: 'The Surprising Moment', src: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=600&q=80' },
-        { id: 2, title: 'She Said Yes!', src: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=600&q=80' },
-        { id: 3, title: 'Celebrating Together', src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80' },
-    ],
-    2: [
-        { id: 1, title: 'Golden Hour Vows', src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80' },
-        { id: 2, title: 'Beachside Romance', src: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80' },
-        { id: 3, title: 'Under the Stars', src: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=600&q=80' },
-    ],
-};
 
 // Reusable Polaroid Card Sub-Component
 function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} }) {
@@ -105,8 +89,16 @@ function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} })
 
 export default function Story() {
     const { t: oI18n } = useTranslation();
+    const sCloudflareBaseUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/api/images";
     const [expanded, setExpanded] = useState('panel01');
     const [galleryTab, setGalleryTab] = useState(0);
+    const [imgHighlights, setImgHighlights] = useState([]);
+    const [imgGalleryTogether, setImgGalleryTogether] = useState([]);
+    const [imgGalleryProposal, setImgGalleryProposal] = useState([]);
+    const [imgGalleryPrenup, setImgGalleryPrenup] = useState([]);
+    const [randomLayout, setRandomLayout] = useState(0);
+    const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(0);
 
     const handleAccordionChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -114,7 +106,65 @@ export default function Story() {
 
     const handleTabChange = (event, newValue) => {
         setGalleryTab(newValue);
+        setSelectedImage(0);
+        setLightboxOpen(false);
+
+        // Randomize the quilted layout for the new tab
+        setRandomLayout(Math.floor(Math.random() * 3));
     };
+
+    const galleryByTab = [
+        imgGalleryTogether,
+        imgGalleryProposal,
+        imgGalleryPrenup,
+    ];
+
+    const currentGallery = galleryByTab[galleryTab] || [];
+
+    const openLightbox = (index) => {
+        setSelectedImage(index);
+        setLightboxOpen(true);
+    };
+
+    const closeLightbox = () => {
+        setLightboxOpen(false);
+    };
+
+    const previousImage = () => {
+        setSelectedImage((prev) =>
+            prev === 0 ? currentGallery.length - 1 : prev - 1
+        );
+    };
+
+    const nextImage = () => {
+        setSelectedImage((prev) =>
+            prev === currentGallery.length - 1 ? 0 : prev + 1
+        );
+    };
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/story/highlights")
+        .then((res) => res.json())
+        .then(setImgHighlights);
+    }, []);
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/story/gallery/together")
+        .then((res) => res.json())
+        .then(setImgGalleryTogether);
+    }, []);
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/story/gallery/proposal")
+        .then((res) => res.json())
+        .then(setImgGalleryProposal);
+    }, []);
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/story/gallery/prenup")
+        .then((res) => res.json())
+        .then(setImgGalleryPrenup);
+    }, []);
 
     const chaptersData = [
         {
@@ -136,6 +186,53 @@ export default function Story() {
             id: '04',
             title: oI18n('page_story_section1_chapter4_title'),
             content: oI18n('page_story_section1_chapter4_content'),
+        },
+    ];
+
+    const highlightStyles = [
+        {
+            alt: "Story Highlights 1",
+            rotation: "-6deg",
+            hasTape: true,
+            sx: {
+                width: { xs: "55%", sm: "48%" },
+                top: 0,
+                left: "2%",
+                zIndex: 2,
+            },
+        },
+        {
+            alt: "Story Highlights 2",
+            rotation: "5deg",
+            hasTape: true,
+            sx: {
+                width: { xs: "52%", sm: "46%" },
+                top: { xs: "20px", sm: "30px" },
+                right: "2%",
+                zIndex: 1,
+            },
+        },
+        {
+            alt: "Story Highlights 3",
+            rotation: "-2deg",
+            hasTape: true,
+            sx: {
+                width: { xs: "65%", sm: "58%" },
+                top: { xs: "110px", sm: "150px" },
+                left: "10%",
+                zIndex: 3,
+            },
+        },
+        {
+            alt: "Story Highlights 4",
+            rotation: "4deg",
+            hasTape: true,
+            sx: {
+                width: { xs: "55%", sm: "48%" },
+                top: { xs: "180px", sm: "240px" },
+                right: "0%",
+                zIndex: 2,
+            },
         },
     ];
 
@@ -264,50 +361,24 @@ export default function Story() {
                                 mt: { xs: 2, md: 0 },
                             }}
                         >
-                            <PolaroidCard
-                                alt="Kinpo Company"
-                                rotation="-6deg"
-                                sx={{
-                                    width: { xs: '55%', sm: '48%' },
-                                    top: 0,
-                                    left: '2%',
-                                    zIndex: 2,
-                                }}
-                            />
+                            {highlightStyles.map((style, index) => {
+                                const image = imgHighlights[index];
 
-                            <PolaroidCard
-                                alt="Travel Passport"
-                                rotation="5deg"
-                                sx={{
-                                    width: { xs: '52%', sm: '46%' },
-                                    top: { xs: '20px', sm: '30px' },
-                                    right: '2%',
-                                    zIndex: 1,
-                                }}
-                            />
+                                if (!image) {
+                                    return null;
+                                }
 
-                            <PolaroidCard
-                                alt="Lake View Adventure"
-                                rotation="-2deg"
-                                hasTape
-                                sx={{
-                                    width: { xs: '65%', sm: '58%' },
-                                    top: { xs: '110px', sm: '150px' },
-                                    left: '10%',
-                                    zIndex: 3,
-                                }}
-                            />
-
-                            <PolaroidCard
-                                alt="Holding Hands"
-                                rotation="4deg"
-                                sx={{
-                                    width: { xs: '55%', sm: '48%' },
-                                    top: { xs: '180px', sm: '240px' },
-                                    right: '0%',
-                                    zIndex: 2,
-                                }}
-                            />
+                                return (
+                                    <PolaroidCard
+                                        key={image.key || image.url || index}
+                                        src={image.url}
+                                        alt={image.name || style.alt}
+                                        rotation={style.rotation}
+                                        hasTape={style.hasTape}
+                                        sx={style.sx}
+                                    />
+                                );
+                            })}
 
                             {/* Handwritten Script Accent */}
                             <Box
@@ -347,16 +418,17 @@ export default function Story() {
                 {/* Moments Gallery Section */}
                 <Container maxWidth="lg" className="py-5">
                     <Box sx={{ textAlign: 'center', mb: { xs: 3, sm: 4 } }}>
-                        <Typography
+                        <Text
                             variant="h4"
                             className="pinyon-script-regular"
                             sx={{ color: '#5a4632', fontSize: { xs: '2rem', sm: '2.5rem' } }}
-                        >
-                            Our Favorite Moments
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ px: 2 }}>
-                            A glimpse into our journey through the years
-                        </Typography>
+                            i18nKey="page_story_section2_gallery_title"
+                        />
+                        <Text
+                            variant="body2" color="text.secondary"
+                            sx={{ px: 2 }}
+                            i18nKey="page_story_section2_gallery_subtitle"
+                        />
                     </Box>
 
                     {/* Responsive Category Tabs */}
@@ -394,46 +466,261 @@ export default function Story() {
                                 },
                             }}
                         >
-                            <Tab label="Life, Together" />
-                            <Tab label="The Proposal — A Promise Forever" />
-                            <Tab label="Prenup Shoot — Moments Before the Vows" />
+                            <Tab label={oI18n("page_story_section_galler_tab1_title")} />
+                            <Tab label={oI18n("page_story_section_galler_tab2_title")} />
+                            <Tab label={oI18n("page_story_section_galler_tab3_title")} />
                         </Tabs>
                     </Box>
 
-                    {/* Photo Grid */}
-                    <Grid container spacing={{ xs: 2, sm: 3 }}>
-                        {galleryItems[galleryTab].map((item) => (
-                            <Grid item xs={12} sm={6} md={4} key={item.id}>
-                                <Card
-                                    elevation={2}
+                    {/* Photo Gallery */}
+                    {currentGallery.length > 0 ? (
+                        <ImageList
+                            variant="quilted"
+                            cols={4}
+                            rowHeight={180}
+                            gap={8}
+                            sx={{
+                                width: '100%',
+                                m: 0,
+                            }}
+                        >
+                            {currentGallery.map((item, index) => {
+                                // Each tab has its own quilted arrangement.
+                                // The layout repeats safely if the folder contains more images.
+                                const layoutSets = [
+                                    [
+                                        { cols: 2, rows: 2 },
+                                        { cols: 1, rows: 1 },
+                                        { cols: 1, rows: 1 },
+                                        { cols: 1, rows: 1 },
+                                        { cols: 1, rows: 1 },
+                                    ],
+                                    [
+                                        { cols: 2, rows: 1 },
+                                        { cols: 1, rows: 2 },
+                                        { cols: 1, rows: 2 },
+                                        { cols: 2, rows: 1 },
+                                        { cols: 2, rows: 1 },
+                                    ],
+                                    [
+                                        { cols: 1, rows: 2 },
+                                        { cols: 2, rows: 2 },
+                                        { cols: 1, rows: 1 },
+                                        { cols: 1, rows: 1 },
+                                        { cols: 2, rows: 1 },
+                                    ],
+                                ];
+
+                                const layout = layoutSets[randomLayout][index] || {
+                                    cols: 1,
+                                    rows: 1,
+                                };
+
+                                return (
+                                    <ImageListItem
+                                        key={item.key || item.url || index}
+                                        cols={layout.cols}
+                                        rows={layout.rows}
+                                        onClick={() => openLightbox(index)}
+                                        sx={{
+                                            cursor: 'pointer',
+                                            overflow: 'hidden',
+                                            borderRadius: { xs: 1, sm: 1.5 },
+                                            position: 'relative',
+                                            '& img': {
+                                                transition:
+                                                    'transform 0.4s ease, filter 0.4s ease',
+                                            },
+                                            '&:hover img': {
+                                                transform: 'scale(1.035)',
+                                                filter: 'brightness(0.92)',
+                                            },
+                                            '&:focus-visible': {
+                                                outline: '2px solid #A08053',
+                                                outlineOffset: '-2px',
+                                            },
+                                        }}
+                                    >
+                                        <img
+                                            src={item.url}
+                                            alt={
+                                                item.name ||
+                                                `Gallery image ${index + 1}`
+                                            }
+                                            loading="lazy"
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                display: 'block',
+                                            }}
+                                        />
+                                    </ImageListItem>
+                                );
+                            })}
+                        </ImageList>
+                    ) : (
+                        <Box
+                            sx={{
+                                minHeight: 220,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: '#8A8177',
+                            }}
+                        >
+                            <Typography variant="body2">
+                                Loading photos...
+                            </Typography>
+                        </Box>
+                    )}
+
+                    {/* Lightbox - only navigates through the currently selected tab */}
+                    <Dialog
+                        open={lightboxOpen}
+                        onClose={closeLightbox}
+                        fullScreen
+                        sx={{
+                            '& .MuiDialog-paper': {
+                                m: 0,
+                                width: '100%',
+                                height: '100%',
+                                maxWidth: '100%',
+                                maxHeight: '100%',
+                                bgcolor: 'rgba(25, 21, 18, 0.97)',
+                            },
+                        }}
+                    >
+                        {/* Close */}
+                        <IconButton
+                            aria-label="Close gallery"
+                            onClick={closeLightbox}
+                            sx={{
+                                position: 'absolute',
+                                top: { xs: 12, sm: 20 },
+                                right: { xs: 12, sm: 24 },
+                                zIndex: 20,
+                                color: '#fff',
+                                bgcolor: 'rgba(255,255,255,0.10)',
+                                '&:hover': {
+                                    bgcolor: 'rgba(255,255,255,0.20)',
+                                },
+                            }}
+                        >
+                            <Close />
+                        </IconButton>
+
+                        {/* Image counter */}
+                        {currentGallery.length > 0 && (
+                            <Typography
+                                sx={{
+                                    position: 'absolute',
+                                    top: { xs: 18, sm: 26 },
+                                    left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    zIndex: 20,
+                                    color: 'rgba(255,255,255,0.85)',
+                                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                                    letterSpacing: '0.08em',
+                                }}
+                            >
+                                {selectedImage + 1} / {currentGallery.length}
+                            </Typography>
+                        )}
+
+                        {/* Previous */}
+                        {currentGallery.length > 1 && (
+                            <IconButton
+                                aria-label="Previous image"
+                                onClick={previousImage}
+                                sx={{
+                                    position: 'absolute',
+                                    left: { xs: 8, sm: 28 },
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    zIndex: 20,
+                                    color: '#fff',
+                                    bgcolor: 'rgba(255,255,255,0.10)',
+                                    '&:hover': {
+                                        bgcolor: 'rgba(255,255,255,0.20)',
+                                    },
+                                }}
+                            >
+                                <ArrowBackIosNew
                                     sx={{
-                                        borderRadius: 2,
-                                        overflow: 'hidden',
-                                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                                        '&:hover': {
-                                            transform: 'translateY(-4px)',
-                                            boxShadow: 4,
+                                        fontSize: {
+                                            xs: 18,
+                                            sm: 24,
                                         },
                                     }}
-                                >
-                                    <CardMedia
-                                        component="img"
-                                        sx={{
-                                            height: { xs: 220, sm: 260 },
-                                            objectFit: 'cover',
-                                        }}
-                                        image={item.src}
-                                        alt={item.title}
-                                    />
-                                    <Box sx={{ p: 2, textAlign: 'center', backgroundColor: '#fff' }}>
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#4a3b2c' }}>
-                                            {item.title}
-                                        </Typography>
-                                    </Box>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
+                                />
+                            </IconButton>
+                        )}
+
+                        {/* Selected image */}
+                        {currentGallery[selectedImage] && (
+                            <Box
+                                sx={{
+                                    width: '100%',
+                                    height: '100%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    p: {
+                                        xs: 7,
+                                        sm: 9,
+                                        md: 10,
+                                    },
+                                }}
+                            >
+                                <Box
+                                    component="img"
+                                    src={currentGallery[selectedImage].url}
+                                    alt={
+                                        currentGallery[selectedImage].name ||
+                                        `Gallery image ${selectedImage + 1}`
+                                    }
+                                    sx={{
+                                        maxWidth: '100%',
+                                        maxHeight: '100%',
+                                        width: 'auto',
+                                        height: 'auto',
+                                        objectFit: 'contain',
+                                        userSelect: 'none',
+                                    }}
+                                />
+                            </Box>
+                        )}
+
+                        {/* Next */}
+                        {currentGallery.length > 1 && (
+                            <IconButton
+                                aria-label="Next image"
+                                onClick={nextImage}
+                                sx={{
+                                    position: 'absolute',
+                                    right: { xs: 8, sm: 28 },
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    zIndex: 20,
+                                    color: '#fff',
+                                    bgcolor: 'rgba(255,255,255,0.10)',
+                                    '&:hover': {
+                                        bgcolor: 'rgba(255,255,255,0.20)',
+                                    },
+                                }}
+                            >
+                                <ArrowForwardIos
+                                    sx={{
+                                        fontSize: {
+                                            xs: 18,
+                                            sm: 24,
+                                        },
+                                    }}
+                                />
+                            </IconButton>
+                        )}
+                    </Dialog>
                 </Container>
             </Box>
         </React.Fragment>
