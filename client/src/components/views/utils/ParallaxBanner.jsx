@@ -1,12 +1,12 @@
 import React from 'react';
-import { Box, Typography, Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { Text } from './CustomComponents';
 
 export default function ParallaxBanner({
     image,
     title,
     subtitle,
-    height = '350px',
+    height = { xs: '250px', sm: '300px', md: '350px' }, // Responsive heights
     overlayColor = 'rgba(0, 0, 0, 0.35)',
 }) {
     return (
@@ -16,17 +16,23 @@ export default function ParallaxBanner({
                 width: '100%',
                 height: height,
                 backgroundImage: `url(${image})`,
-                backgroundAttachment: 'fixed', // Keeps image fixed during scroll
-                backgroundPosition: 'center',
+                backgroundPosition: 'center center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                // Fallback for mobile devices where fixed attachments are restricted
-                '@supports (-webkit-touch-callout: none)': {
+                
+                // Parallax fixed attachment on desktop screens
+                '@media (min-width: 900px)': {
+                    backgroundAttachment: 'fixed',
+                },
+
+                // Mobile fallback ensuring clean background behavior on touch devices
+                '@media (max-width: 899px)': {
                     backgroundAttachment: 'scroll',
                 },
+
                 '&::before': {
                     content: '""',
                     position: 'absolute',
@@ -47,6 +53,7 @@ export default function ParallaxBanner({
                         zIndex: 2,
                         textAlign: 'center',
                         color: '#FFFFFF',
+                        px: 2,
                     }}
                 >
                     {title && (
@@ -58,7 +65,7 @@ export default function ParallaxBanner({
                                 fontWeight: 400,
                                 mb: subtitle ? 1 : 0,
                                 textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-                                fontSize: { xs: '2rem', sm: '2.8rem' },
+                                fontSize: { xs: '1.75rem', sm: '2.4rem', md: '2.8rem' },
                             }}
                             i18nKey={title}
                         />
@@ -67,9 +74,9 @@ export default function ParallaxBanner({
                         <Text
                             variant="subtitle1"
                             sx={{
-                                letterSpacing: 3,
+                                letterSpacing: { xs: 2, sm: 3 },
                                 textTransform: 'uppercase',
-                                fontSize: '0.8rem',
+                                fontSize: { xs: '0.75rem', sm: '0.85rem' },
                                 fontWeight: 500,
                                 opacity: 0.9,
                             }}
