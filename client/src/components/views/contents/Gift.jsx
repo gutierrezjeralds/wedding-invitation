@@ -5,7 +5,7 @@ export default function Gift() {
     <Container maxWidth="lg">
       <Box sx={{ py: 4 }}>
         <Typography variant="h3" component="h1" gutterBottom>
-          Gift
+          Gifts
         </Typography>
 
         <Typography variant="body1">
