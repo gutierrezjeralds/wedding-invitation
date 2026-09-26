@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Container, Tabs, Tab, Paper, Stack, Grid, Card, CardMedia, Divider } from '@mui/material';
 import { FamilyRestroom, MilitaryTech, Groups, PeopleAlt } from '@mui/icons-material';
@@ -13,42 +13,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-// Dynamically import all images from the attire folder
-const imgParentsModules = import.meta.glob('../../assets/img/attire/parents/sample/*.{png,jpg,jpeg,webp}', {
-    eager: true,
-    import: 'default',
-});
-
-// Convert the object map into a clean array of image URLs
-const imgParentsAttire = Object.values(imgParentsModules);
-
-// Dynamically import all images from the attire folder
-const imgSponsorsModules = import.meta.glob('../../assets/img/attire/sponsors/sample/*.{png,jpg,jpeg,webp}', {
-    eager: true,
-    import: 'default',
-});
-
-// Convert the object map into a clean array of image URLs
-const imgSponsorsAttire = Object.values(imgSponsorsModules);
-
-// Dynamically import all images from the attire folder
-const imgEntourageModules = import.meta.glob('../../assets/img/attire/entourage/sample/*.{png,jpg,jpeg,webp}', {
-    eager: true,
-    import: 'default',
-});
-
-// Convert the object map into a clean array of image URLs
-const imgEntourageAttire = Object.values(imgEntourageModules);
-
-// Dynamically import all images from the attire folder
-const imgGuestModules = import.meta.glob('../../assets/img/attire/guest/sample/*.{png,jpg,jpeg,webp}', {
-    eager: true,
-    import: 'default',
-});
-
-// Convert the object map into a clean array of image URLs
-const imgGuestAttire = Object.values(imgGuestModules);
-
 // Dynamically import all images from the 'dont' folder
 const imgDontModules = import.meta.glob('../../assets/img/attire/dont/*.{png,jpg,jpeg,webp}', {
     eager: true,
@@ -59,12 +23,6 @@ const imgDontModules = import.meta.glob('../../assets/img/attire/dont/*.{png,jpg
 const imgDontAttireList = Object.keys(imgDontModules)
     .sort() // Ensures order 1.png, 2.png, 3.png...
     .map((key) => imgDontModules[key]);
-
-// Assets
-import imgParentPalette from '../../assets/img/attire/parents/palette.png';
-import imgSponsorsPalette from '../../assets/img/attire/sponsors/palette.png';
-import imgEntouragePalette from '../../assets/img/attire/entourage/palette.png';
-import imgGuestPalette from '../../assets/img/attire/guest/palette.png';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -84,7 +42,16 @@ function TabPanel(props) {
 
 export default function Attire() {
     const { t: oI18n } = useTranslation();
+    const sCloudflareBaseUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/api/images";
     const [tabValue, setTabValue] = useState(0);
+    const [imgGuestDress, setImgGuestDress] = useState([]);
+    const [imgGuestPalette, setImgGuestPalette] = useState([]);
+    const [imgSponsorsDress, setImgSponsorsDress] = useState([]);
+    const [imgSponsorsPalette, setImgSponsorsPalette] = useState([]);
+    const [imgEntourageDress, setImgEntourageDress] = useState([]);
+    const [imgEntouragePalette, setImgEntouragePalette] = useState([]);
+    const [imgParentsDress, setImgParentsDress] = useState([]);
+    const [imgParentsPalette, setImgParentsPalette] = useState([]);
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
@@ -100,6 +67,54 @@ export default function Attire() {
             subtitle: oI18n(`page_attire_note_${id}_subtitle`),
         };
     });
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/attire/guest/dress")
+        .then((res) => res.json())
+        .then(setImgGuestDress);
+    }, []);
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/attire/guest/palette")
+        .then((res) => res.json())
+        .then(setImgGuestPalette);
+    }, []);
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/attire/sponsors/dress")
+        .then((res) => res.json())
+        .then(setImgSponsorsDress);
+    }, []);
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/attire/sponsors/palette")
+        .then((res) => res.json())
+        .then(setImgSponsorsPalette);
+    }, []);
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/attire/entourage/dress")
+        .then((res) => res.json())
+        .then(setImgEntourageDress);
+    }, []);
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/attire/entourage/palette")
+        .then((res) => res.json())
+        .then(setImgEntouragePalette);
+    }, []);
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/attire/parents/dress")
+        .then((res) => res.json())
+        .then(setImgParentsDress);
+    }, []);
+
+    useEffect(() => {
+        fetch(sCloudflareBaseUrl + "/attire/parents/palette")
+        .then((res) => res.json())
+        .then(setImgParentsPalette);
+    }, []);
 
     return (
          <React.Fragment>
@@ -210,13 +225,13 @@ export default function Attire() {
                                             pagination={{ clickable: true }}
                                             autoplay={{ delay: 3500, disableOnInteraction: false }}
                                         >
-                                            {imgGuestAttire.map((src, index) => (
+                                            {imgGuestDress.map((item, index) => (
                                                 <SwiperSlide key={index}>
                                                     <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
                                                         <CardMedia
                                                             component="img"
                                                             height="380"
-                                                            image={src}
+                                                            image={item.url}
                                                             alt={`Attire sample ${index + 1}`}
                                                             loading="lazy"
                                                             sx={{ objectFit: 'contain', bgcolor: '#fff' }}
@@ -235,24 +250,29 @@ export default function Attire() {
                                                 className="playfair-display-regular text-gold"
                                                 i18nKey="page_attire_tab_content_guest_card2_title"
                                             />
-                                            <Text
-                                                variant="caption"
-                                                i18nKey="page_attire_tab_content_guest_card2_subtitle"
-                                            />
-                                            <Box className="d-flex flex-row justify-content-center align-items-center">
-                                                <Box
-                                                    component="img"
-                                                    src={imgGuestPalette}
-                                                    alt="Church"
-                                                    sx={{
-                                                        width: '100%',          // Responsive width
-                                                        maxWidth: 400,          // Maximum width limit
-                                                        height: 'auto',         // Maintain aspect ratio
-                                                        display: 'block',
-                                                        mx: 'auto',             // Center horizontally
-                                                    }}
-                                                />
-                                            </Box>
+                                            {imgGuestPalette.map((item, index) => (
+                                                <React.Fragment>
+                                                    <Text
+                                                        variant="caption"
+                                                        className="text-center"
+                                                        i18nKey={`page_attire_tab_content_guest_card2_subtitle_${index + 1}`}
+                                                    />
+                                                    <Box className="d-flex flex-row justify-content-center align-items-center">
+                                                        <Box
+                                                            component="img"
+                                                            src={item.url}
+                                                            alt={`Palette sample ${index + 1}`}
+                                                            sx={{
+                                                                width: '100%',          // Responsive width
+                                                                maxWidth: 400,          // Maximum width limit
+                                                                height: 'auto',         // Maintain aspect ratio
+                                                                display: 'block',
+                                                                mx: 'auto',             // Center horizontally
+                                                            }}
+                                                        />
+                                                    </Box>
+                                                </React.Fragment>
+                                            ))}
                                         </Stack>
                                     </Box>
                                 </Box>
@@ -316,13 +336,13 @@ export default function Attire() {
                                             pagination={{ clickable: true }}
                                             autoplay={{ delay: 3500, disableOnInteraction: false }}
                                         >
-                                            {imgSponsorsAttire.map((src, index) => (
+                                            {imgSponsorsDress.map((item, index) => (
                                                 <SwiperSlide key={index}>
                                                     <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
                                                         <CardMedia
                                                             component="img"
                                                             height="380"
-                                                            image={src}
+                                                            image={item.url}
                                                             alt={`Attire sample ${index + 1}`}
                                                             loading="lazy"
                                                             sx={{ objectFit: 'contain', bgcolor: '#fff' }}
@@ -341,24 +361,29 @@ export default function Attire() {
                                                 className="playfair-display-regular text-gold"
                                                 i18nKey="page_attire_tab_content_sponsors_card2_title"
                                             />
-                                            <Text
-                                                variant="caption"
-                                                i18nKey="page_attire_tab_content_sponsors_card2_subtitle"
-                                            />
-                                            <Box className="d-flex flex-row justify-content-center align-items-center">
-                                                <Box
-                                                    component="img"
-                                                    src={imgSponsorsPalette}
-                                                    alt="Church"
-                                                    sx={{
-                                                        width: '100%',          // Responsive width
-                                                        maxWidth: 400,          // Maximum width limit
-                                                        height: 'auto',         // Maintain aspect ratio
-                                                        display: 'block',
-                                                        mx: 'auto',             // Center horizontally
-                                                    }}
-                                                />
-                                            </Box>
+                                            {imgSponsorsPalette.map((item, index) => (
+                                                <React.Fragment>
+                                                    <Text
+                                                        variant="caption"
+                                                        className="text-center"
+                                                        i18nKey={`page_attire_tab_content_sponsors_card2_subtitle_${index + 1}`}
+                                                    />
+                                                    <Box className="d-flex flex-row justify-content-center align-items-center">
+                                                        <Box
+                                                            component="img"
+                                                            src={item.url}
+                                                            alt={`Palette sample ${index + 1}`}
+                                                            sx={{
+                                                                width: '100%',          // Responsive width
+                                                                maxWidth: 400,          // Maximum width limit
+                                                                height: 'auto',         // Maintain aspect ratio
+                                                                display: 'block',
+                                                                mx: 'auto',             // Center horizontally
+                                                            }}
+                                                        />
+                                                    </Box>
+                                                </React.Fragment>
+                                            ))}
                                         </Stack>
                                     </Box>
                                 </Box>
@@ -422,13 +447,13 @@ export default function Attire() {
                                             pagination={{ clickable: true }}
                                             autoplay={{ delay: 3500, disableOnInteraction: false }}
                                         >
-                                            {imgEntourageAttire.map((src, index) => (
+                                            {imgEntourageDress.map((item, index) => (
                                                 <SwiperSlide key={index}>
                                                     <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
                                                         <CardMedia
                                                             component="img"
                                                             height="380"
-                                                            image={src}
+                                                            image={item.url}
                                                             alt={`Attire sample ${index + 1}`}
                                                             loading="lazy"
                                                             sx={{ objectFit: 'contain', bgcolor: '#fff' }}
@@ -447,24 +472,29 @@ export default function Attire() {
                                                 className="playfair-display-regular text-gold"
                                                 i18nKey="page_attire_tab_content_entourage_card2_title"
                                             />
-                                            <Text
-                                                variant="caption"
-                                                i18nKey="page_attire_tab_content_entourage_card2_subtitle"
-                                            />
-                                            <Box className="d-flex flex-row justify-content-center align-items-center">
-                                                <Box
-                                                    component="img"
-                                                    src={imgEntouragePalette}
-                                                    alt="Church"
-                                                    sx={{
-                                                        width: '100%',          // Responsive width
-                                                        maxWidth: 400,          // Maximum width limit
-                                                        height: 'auto',         // Maintain aspect ratio
-                                                        display: 'block',
-                                                        mx: 'auto',             // Center horizontally
-                                                    }}
-                                                />
-                                            </Box>
+                                            {imgEntouragePalette.map((item, index) => (
+                                                <React.Fragment>
+                                                    <Text
+                                                        variant="caption"
+                                                        className="text-center"
+                                                        i18nKey={`page_attire_tab_content_entourage_card2_subtitle_${index + 1}`}
+                                                    />
+                                                    <Box className="d-flex flex-row justify-content-center align-items-center">
+                                                        <Box
+                                                            component="img"
+                                                            src={item.url}
+                                                            alt={`Palette sample ${index + 1}`}
+                                                            sx={{
+                                                                width: '100%',          // Responsive width
+                                                                maxWidth: 400,          // Maximum width limit
+                                                                height: 'auto',         // Maintain aspect ratio
+                                                                display: 'block',
+                                                                mx: 'auto',             // Center horizontally
+                                                            }}
+                                                        />
+                                                    </Box>
+                                                </React.Fragment>
+                                            ))}
                                         </Stack>
                                     </Box>
                                 </Box>
@@ -528,13 +558,13 @@ export default function Attire() {
                                             pagination={{ clickable: true }}
                                             autoplay={{ delay: 3500, disableOnInteraction: false }}
                                         >
-                                            {imgParentsAttire.map((src, index) => (
+                                            {imgParentsDress.map((item, index) => (
                                                 <SwiperSlide key={index}>
                                                     <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
                                                         <CardMedia
                                                             component="img"
                                                             height="380"
-                                                            image={src}
+                                                            image={item.url}
                                                             alt={`Attire sample ${index + 1}`}
                                                             loading="lazy"
                                                             sx={{ objectFit: 'contain', bgcolor: '#fff' }}
@@ -553,24 +583,29 @@ export default function Attire() {
                                                 className="playfair-display-regular text-gold"
                                                 i18nKey="page_attire_tab_content_parents_card2_title"
                                             />
-                                            <Text
-                                                variant="caption"
-                                                i18nKey="page_attire_tab_content_parents_card2_subtitle"
-                                            />
-                                            <Box className="d-flex flex-row justify-content-center align-items-center">
-                                                <Box
-                                                    component="img"
-                                                    src={imgParentPalette}
-                                                    alt="Church"
-                                                    sx={{
-                                                        width: '100%',          // Responsive width
-                                                        maxWidth: 400,          // Maximum width limit
-                                                        height: 'auto',         // Maintain aspect ratio
-                                                        display: 'block',
-                                                        mx: 'auto',             // Center horizontally
-                                                    }}
-                                                />
-                                            </Box>
+                                            {imgParentsPalette.map((item, index) => (
+                                                <React.Fragment>
+                                                    <Text
+                                                        variant="caption"
+                                                        className="text-center"
+                                                        i18nKey={`page_attire_tab_content_parents_card2_subtitle_${index + 1}`}
+                                                    />
+                                                    <Box className="d-flex flex-row justify-content-center align-items-center">
+                                                        <Box
+                                                            component="img"
+                                                            src={item.url}
+                                                            alt={`Palette sample ${index + 1}`}
+                                                            sx={{
+                                                                width: '100%',          // Responsive width
+                                                                maxWidth: 400,          // Maximum width limit
+                                                                height: 'auto',         // Maintain aspect ratio
+                                                                display: 'block',
+                                                                mx: 'auto',             // Center horizontally
+                                                            }}
+                                                        />
+                                                    </Box>
+                                                </React.Fragment>
+                                            ))}
                                         </Stack>
                                     </Box>
                                 </Box>

@@ -191,7 +191,6 @@ export default function Story() {
 
     const highlightStyles = [
         {
-            alt: "Story Highlights 1",
             rotation: "-6deg",
             hasTape: true,
             sx: {
@@ -202,7 +201,6 @@ export default function Story() {
             },
         },
         {
-            alt: "Story Highlights 2",
             rotation: "5deg",
             hasTape: true,
             sx: {
@@ -213,7 +211,6 @@ export default function Story() {
             },
         },
         {
-            alt: "Story Highlights 3",
             rotation: "-2deg",
             hasTape: true,
             sx: {
@@ -224,7 +221,6 @@ export default function Story() {
             },
         },
         {
-            alt: "Story Highlights 4",
             rotation: "4deg",
             hasTape: true,
             sx: {
@@ -372,7 +368,7 @@ export default function Story() {
                                     <PolaroidCard
                                         key={image.key || image.url || index}
                                         src={image.url}
-                                        alt={image.name || style.alt}
+                                        alt={image.name || `Story Highlights ${index + 1}`}
                                         rotation={style.rotation}
                                         hasTape={style.hasTape}
                                         sx={style.sx}
