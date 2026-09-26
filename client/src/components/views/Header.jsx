@@ -13,11 +13,12 @@ import {
     ListItemButton,
     ListItemText,
     Toolbar,
-    Typography,
 } from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import bannerImage from '../assets/img/header_banner.jpeg';
+import imgLogo from '../assets/img/header_logo.png';
+import ParallaxBanner from '../views/utils/ParallaxBanner';
 
 export default function Header() {
   const { t: oI18n } = useTranslation();
@@ -40,88 +41,52 @@ export default function Header() {
   return (
     <Box>
       {/* =========================
-          HALF-PAGE BANNER WITH IMAGE
+          HEADER PARALLAX BANNER
       ========================== */}
-      <Box
-          sx={{
-            width: '100%',
-            height: '70vh',
-            backgroundImage: `url(${bannerImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-          }}
-      >
-        {/* <Container maxWidth="lg">
-            <Typography
-              component="h1"
-              variant="h4"
-              sx={{
-                textAlign: {
-                  xs: 'center',
-                  sm: 'left',
-                },
-                fontSize: {
-                  xs: '1.5rem',
-                  sm: '2rem',
-                  md: '2.125rem',
-                },
-                fontWeight: 'bold',
-              }}
-            >
-              My Website
-            </Typography>
-        </Container> */}
-      </Box>
+      <ParallaxBanner
+          image={bannerImage}
+          height={{ xs: '55vh', sm: '65vh', md: '70vh' }}
+      />
 
       {/* =========================
           FULL-WIDTH NAVIGATION
       ========================== */}
       <AppBar position="static" color="default" elevation={1}>
         <Container maxWidth="lg">
-          <Toolbar
-            disableGutters
-            sx={{
-              minHeight: {
-                xs: 56,
-                sm: 64,
-              },
-            }}
-          >
-            {/* Logo */}
-            <Typography
-              variant="h6"
-              component={RouterLink}
-              to="/"
-              sx={{
-                flexGrow: 1,
-                fontSize: {
-                  xs: '1.1rem',
-                  sm: '1.25rem',
-                },
-                textDecoration: 'none',
-                color: 'inherit',
-              }}
-            >
-              Logo
-            </Typography>
+          <Toolbar disableGutters sx={{ minHeight: { xs: 56, sm: 64 } }}>
+            {/* OUTER FLEX CONTAINER (Not a link, occupies space) */}
+            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+              {/* LOGO LINK CONTAINER (Clickable area tightly wrapped around image) */}
+              <Box
+                component={RouterLink}
+                to="/home"
+                sx={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  width: 'fit-content', // Restricts wrapper width strictly to logo size
+                }}
+              >
+                <Box
+                  component="img"
+                  src={imgLogo}
+                  alt="JS"
+                  sx={{
+                    height: 20,
+                    width: 'auto',
+                    objectFit: 'contain',
+                    transition: 'opacity 0.2s ease-in-out',
+                    '&:hover': {
+                      opacity: 0.8,
+                    },
+                  }}
+                />
+              </Box>
+            </Box>
 
-            {/* =========================
-                DESKTOP NAVIGATION
-            ========================== */}
-            <Box
-              sx={{
-                display: {
-                  xs: 'none',
-                  sm: 'flex',
-                },
-                gap: 1,
-              }}
-            >
+            {/* DESKTOP NAVIGATION */}
+            <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 1 }}>
               {navItems.map((item) => {
                 const isActive = location.pathname === item.href;
                 return (
@@ -148,19 +113,12 @@ export default function Header() {
               })}
             </Box>
 
-            {/* =========================
-                MOBILE MENU BUTTON
-            ========================== */}
+            {/* MOBILE MENU BUTTON */}
             <IconButton
               color="inherit"
               edge="end"
               onClick={handleDrawerToggle}
-              sx={{
-                display: {
-                  xs: 'flex',
-                  sm: 'none',
-                },
-              }}
+              sx={{ display: { xs: 'flex', sm: 'none' } }}
               aria-label="open navigation menu"
             >
               <MenuIcon />
@@ -169,23 +127,9 @@ export default function Header() {
         </Container>
       </AppBar>
 
-      {/* =========================
-          MOBILE DRAWER
-      ========================== */}
-      <Drawer
-        anchor="right"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-      >
-        <Box
-          sx={{
-            width: {
-              xs: '80vw',
-              sm: 300,
-            },
-          }}
-          role="presentation"
-        >
+      {/* MOBILE DRAWER */}
+      <Drawer anchor="right" open={mobileOpen} onClose={handleDrawerToggle}>
+        <Box sx={{ width: { xs: '80vw', sm: 300 } }} role="presentation">
           <List>
             {navItems.map((item) => {
               const isActive = location.pathname === item.href;
