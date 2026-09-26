@@ -138,7 +138,7 @@ export default function Story() {
     return (
         <React.Fragment>
             <Box className="bg-vintage">
-                <Container maxWidth="lg" sx={{ py: { xs: 3, sm: 5 } }}>
+                <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
                     <PageTitle title={oI18n('page_story_title')} subtitle={oI18n('page_story_subtitle')} />
 
@@ -341,7 +341,7 @@ export default function Story() {
 
             <Box className="bg-vintage">
                 {/* Moments Gallery Section */}
-                <Container maxWidth="lg" sx={{ py: { xs: 4, sm: 6 } }}>
+                <Container maxWidth="lg" className="py-5">
                     <Box sx={{ textAlign: 'center', mb: { xs: 3, sm: 4 } }}>
                         <Typography
                             variant="h4"

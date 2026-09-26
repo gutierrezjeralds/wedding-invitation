@@ -50,8 +50,8 @@ export default function Home() {
     return (
         <React.Fragment>
             <Box className="bg-light">
-                <Container maxWidth="lg">
-                    <Box className="text-center" sx={{ py: 4 }}>
+                <Container maxWidth="lg" className="py-5">
+                    <Box className="text-center">
                         <Text
                             letterSpacing="wide"
                             variant="h3"

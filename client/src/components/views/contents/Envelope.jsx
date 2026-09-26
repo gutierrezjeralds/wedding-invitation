@@ -16,8 +16,8 @@ export default function Envelope() {
             <GlobalButterflies primary="#722F37" secondary="#F8C8DC" />
 
             <Box className="bg-light">
-                <Container maxWidth="lg">
-                    <Box className="text-center" sx={{ py: 4 }}>
+                <Container maxWidth="lg" className="py-5">
+                    <Box className="text-center">
                         <Text
                             letterSpacing="wide"
                             variant="subtitle1" className="cormorant-sc-bold"
@@ -79,7 +79,7 @@ export default function Envelope() {
                         </Text>
                     </Box>
 
-                    <Box className="text-center" sx={{ py: 4 }}>
+                    <Box className="text-center mt-5">
                         <Text
                             variant="body1"
                             className="cormorant-garamond-regular mt-3"
