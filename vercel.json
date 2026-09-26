@@ -1,4 +1,5 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "builds": [
     {
@@ -16,11 +17,11 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "server/src/server.js"
+      "dest": "/server/src/server.js"
     },
     {
       "src": "/(.*)",
-      "dest": "client/$1"
+      "dest": "/client/index.html"
     }
   ]
 }
