@@ -139,59 +139,59 @@
         }
     ],
    "page_faq_data": [
-    {
-        "id": 1,
-        "category": "ceremony",
-        "question": "Where is the ceremony and reception, and what time should I arrive?",
-        "answer": "<strong>Ceremony:</strong> St. Augustine Parish Church\n<strong>Reception:</strong> Casa Lucido Events Place\nThe ceremony <strong>starts exactly at 10:00 AM</strong>. Please arrive <strong>before 9:30 AM</strong> to allow enough time for parking, finding your seat, and getting settled before the ceremony.\nPlease visit the <strong>Wedding</strong> page for more details. <a href=\"/wedding\">Click here to view."
-    },
-    {
-        "id": 2,
-        "category": "attire",
-        "question": "What should I wear?",
-        "answer": "We kindly ask everyone to come in elegant and formal attire as we celebrate this joyous occasion together.\n<strong class='fs-4'>Parents\n<strong>Ladies:</strong> Modern Filipiniana Gown\n<strong>Gentlemen:</strong> Barong Tagalog\n<strong class='fs-4'>Principal Sponsors\n<strong>Ladies:</strong> Modern Filipiniana Gown\n<strong>Gentlemen:</strong> Barong Tagalog\n<strong class='fs-4'>Secondary Sponsors\n<strong>Ladies:</strong> Modern Filipiniana Gown\n<strong>Gentlemen:</strong> Barong Tagalog\n<strong class='fs-4'>Entourage\n<strong>Ladies:</strong> Elegant Floor-Length Gown with a Sheer Lace Bolero\n<strong>Gentlemen:</strong> Barong Tagalog with Tailored Black Trousers\n<strong class='fs-4'>Guests\n<strong>Ladies:</strong> Elegant Formal Dress\n<strong>Gentlemen:</strong> Long- or Short-Sleeve Collared Polo with Tailored Dress Pants\nPlease visit the <strong>Attire</strong> page for more details. <a href=\"/attire\">Click here to view."
-    },
-    {
-        "id": 3,
-        "category": "rsvp",
-        "question": "What is RSVP, and do I need to RSVP?",
-        "answer": "RSVP means “Please respond.” We kindly ask you to respond only if you are certain you can attend, as this will help us finalize the guest list and seating arrangements.\n<strong class='fs-4'>RSVP DEADLINE: JUNE 1, 2027\nPlease visit the <strong>RSVP</strong> page for more details and complete the form. <a href=\"/rsvp\">Click here to view."
-    },
-    {
-        "id": 4,
-        "category": "rsvp",
-        "question": "Can I bring a plus-one?",
-        "answer": "<strong>No plus-ones. With limited seating, we’re keeping our celebration intimate and surrounded by close family and friends who are personally known to us. Thank you for understanding and being part of our special day."
-    },
-    {
-        "id": 5,
-        "category": "rsvp",
-        "question": "Can I bring my children?",
-        "answer": "We love children, but due to limited seating, guests should be <strong>18 years old and above. Younger guests may attend if they are part of the wedding entourage or are close family of the bride and groom, with prior approval from us."
-    },
-    {
-        "id": 6,
-        "category": "rsvp",
-        "question": "Can I take photos and videos during the wedding?",
-        "answer": "We have a <strong>professional photography and videography team capturing our special moments. You’re welcome to take your own photos and videos throughout the celebration—just please <strong>avoid blocking their shots or the view of other guests.\nWe’d love to see your behind-the-scenes photos and candid moments! Please visit our <strong>Candid page and upload your photos. <a href=\"/candid\">Click here to view."
-    },
-    {
-        "id": 7,
-        "category": "gifts",
-        "question": "Do you have a gift registry?",
-        "answer": "For those who wish to bless us with a gift, we would be truly grateful. Please visit the <strong>Gift page for more details. <a href=\"/gift\">Click here to view."
-    },
-    {
-        "id": 8,
-        "category": "ceremony",
-        "question": "What happens if it rains?",
-        "answer": "We’re hoping for a beautiful sunny day, but <strong>rain or shine, we’ll be celebrating together! Both the ceremony and reception will be held indoors.\nSince July is part of the rainy season, please <strong>bring an umbrella and allow extra travel time."
-    },
-    {
-        "id": 9,
-        "category": "all",
-        "question": "What if I have more questions?",
-        "answer": "If you have any questions not covered in our FAQ, please feel free to <strong>reach out to us directly. We’ll be happy to help!"
-    }
-]
+        {
+            "id": 1,
+            "category": "ceremony",
+            "question": "When and where is the wedding, and what time should I arrive?",
+            "answer": "<strong>Date:</strong> Saturday, July 17, 2027\n<strong>Ceremony:</strong> St. Augustine Parish Church\n<strong>Reception:</strong> Casa Lucido Events Place\n\nThe ceremony <strong>starts exactly at 10:00 AM</strong>. Please arrive <strong>before 9:30 AM</strong> to allow enough time for parking, finding your seat, and getting settled before the ceremony.\n\nPlease visit the <strong>Wedding</strong> page for more details. <a href=\"/wedding\">Click here to view."
+        },
+        {
+            "id": 2,
+            "category": "attire",
+            "question": "What should I wear?",
+            "answer": "We kindly ask everyone to come in elegant and formal attire as we celebrate this joyous occasion together.\n\n<strong class='fs-4'>Parents</strong>\n<strong>Ladies:</strong> Modern Filipiniana Gown\n<strong>Gentlemen:</strong> Barong Tagalog\n\n<strong class='fs-4'>Principal Sponsors</strong>\n<strong>Ladies:</strong> Modern Filipiniana Gown\n<strong>Gentlemen:</strong> Barong Tagalog\n\n<strong class='fs-4'>Secondary Sponsors</strong>\n<strong>Ladies:</strong> Modern Filipiniana Gown\n<strong>Gentlemen:</strong> Barong Tagalog\n\n<strong class='fs-4'>Entourage</strong>\n<strong>Ladies:</strong> Elegant Floor-Length Gown with a Sheer Lace Bolero\n<strong>Gentlemen:</strong> Barong Tagalog with Tailored Black Trousers\n\n<strong class='fs-4'>Guests</strong>\n<strong>Ladies:</strong> Elegant Formal Dress\n<strong>Gentlemen:</strong> Long- or Short-Sleeve Collared Polo with Tailored Dress Pants\n\nPlease visit the <strong>Attire</strong> page for more details. <a href=\"/attire\">Click here to view</a>."
+        },
+        {
+            "id": 3,
+            "category": "rsvp",
+            "question": "What is RSVP, and do I need to RSVP?",
+            "answer": "RSVP means “Please respond.” We kindly ask you to respond only if you are certain you can attend, as this will help us finalize the guest list and seating arrangements.\n\n<strong class='fs-4'>RSVP DEADLINE: July 1, 2027</strong>\n\nPlease visit the <strong>RSVP</strong> page for more details and complete the form. <a href=\"/rsvp\">Click here to view</a>."
+        },
+        {
+            "id": 4,
+            "category": "rsvp",
+            "question": "Can I bring a plus-one?",
+            "answer": "<strong>No plus-ones</strong>. With limited seating, we’re keeping our celebration intimate and surrounded by close family and friends who are personally known to us. Thank you for understanding and being part of our special day."
+        },
+        {
+            "id": 5,
+            "category": "rsvp",
+            "question": "Can I bring my children?",
+            "answer": "We love children, but due to limited seating, guests should be <strong>18 years old and above</strong>. Younger guests may attend if they are part of the wedding entourage or are close family of the bride and groom, with prior approval from us."
+        },
+        {
+            "id": 6,
+            "category": "ceremony",
+            "question": "Can I take photos and videos during the wedding?",
+            "answer": "We have a <strong>professional photography and videography team</strong> capturing our special moments. You’re welcome to take your own photos and videos throughout the celebration—just please <strong>avoid blocking their shots or the view of other guests</strong>.\n\nWe’d love to see your behind-the-scenes photos and candid moments! Please visit our <strong>Candid page and upload your photos. <a href=\"/candid\">Click here to view</a>."
+        },
+        {
+            "id": 7,
+            "category": "gifts",
+            "question": "Do you have a gift registry?",
+            "answer": "For those who wish to bless us with a gift, we would be truly grateful.\n\nPlease visit the <strong>Gift</strong> page for more details. <a href=\"/gift\">Click here to view</a>."
+        },
+        {
+            "id": 8,
+            "category": "ceremony",
+            "question": "What happens if it rains?",
+            "answer": "We’re hoping for a beautiful sunny day, but <strong>rain or shine, we’ll be celebrating together!</strong> Both the ceremony and reception will be held indoors.\nSince July is part of the rainy season, please bring an umbrella and allow extra travel time."
+        },
+        {
+            "id": 9,
+            "category": "all",
+            "question": "What if I have more questions?",
+            "answer": "If you have any questions not covered in our FAQ, please feel free to <strong>reach out to us directly</strong>. We’ll be happy to help!"
+        }
+    ]
 }
