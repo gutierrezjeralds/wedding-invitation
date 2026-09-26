@@ -18,7 +18,11 @@ import { ExpandMore } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
 
-const imgParallax1 = 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80';
+// import kinpoImg from '../../assets/images/kinpo.jpg';
+// import passportImg from '../../assets/images/passport.jpg';
+// import travelImg from '../../assets/images/travel.jpg';
+// import handsImg from '../../assets/images/hands.jpg';
+import imgParallax1 from "../../assets/img/story/parallax1.jpg"
 
 // Gallery items
 const galleryItems = {
