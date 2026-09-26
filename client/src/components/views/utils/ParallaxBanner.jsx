@@ -6,7 +6,7 @@ export default function ParallaxBanner({
     image,
     title,
     subtitle,
-    height = { xs: '250px', sm: '300px', md: '350px' }, // Responsive heights
+    height = { xs: '260px', sm: '320px', md: '380px' },
     overlayColor = 'rgba(0, 0, 0, 0.35)',
 }) {
     return (
@@ -15,25 +15,33 @@ export default function ParallaxBanner({
                 position: 'relative',
                 width: '100%',
                 height: height,
-                backgroundImage: `url(${image})`,
-                backgroundPosition: 'center center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
+                overflow: 'hidden',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                
-                // Parallax fixed attachment on desktop screens
-                '@media (min-width: 900px)': {
-                    backgroundAttachment: 'fixed',
-                },
+                clipPath: 'inset(0 0 0 0)', // Creates a viewport clipping boundary for mobile fixed layer
 
-                // Mobile fallback ensuring clean background behavior on touch devices
-                '@media (max-width: 899px)': {
-                    backgroundAttachment: 'scroll',
-                },
-
+                /* HARDWARE-ACCELERATED PARALLAX LAYER FOR REAL PHONES */
                 '&::before': {
+                    content: '""',
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundImage: `url(${image})`,
+                    backgroundPosition: 'center center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    willChange: 'transform',
+                    zIndex: -2,
+                    // Ensures performance optimization on iOS WebKit
+                    WebkitTransform: 'translate3d(0, 0, 0)',
+                    transform: 'translate3d(0, 0, 0)',
+                },
+
+                /* DARK OVERLAY LAYER */
+                '&::after': {
                     content: '""',
                     position: 'absolute',
                     top: 0,
@@ -41,7 +49,7 @@ export default function ParallaxBanner({
                     right: 0,
                     bottom: 0,
                     backgroundColor: overlayColor,
-                    zIndex: 1,
+                    zIndex: -1,
                 },
             }}
         >
@@ -64,8 +72,8 @@ export default function ParallaxBanner({
                                 fontStyle: 'italic',
                                 fontWeight: 400,
                                 mb: subtitle ? 1 : 0,
-                                textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-                                fontSize: { xs: '1.75rem', sm: '2.4rem', md: '2.8rem' },
+                                textShadow: '0 2px 4px rgba(0,0,0,0.4)',
+                                fontSize: { xs: '1.75rem', sm: '2.3rem', md: '2.8rem' },
                             }}
                             i18nKey={title}
                         />
