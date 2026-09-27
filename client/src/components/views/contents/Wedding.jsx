@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useTranslation, Trans } from 'react-i18next';
-import { Container, Stack, Divider, Box, Grid, Paper, styled, Button, Link } from '@mui/material';
+import { Container, Stack, Paper, Box, Grid, styled, Button, Link } from '@mui/material';
 import { 
     LocationOn,
     Checkroom, Help, CameraAlt, CardGiftcard,
@@ -9,14 +8,13 @@ import {
 } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ViewMapModal from './modals/ViewMap';
+import { CONTENT, CONTENT_WEDDING } from '../utils/Constants';
 
 // Assets
 import imgChurch from '../../assets/img/wedding/church.png';
 import imgReception from '../../assets/img/wedding/reception.png';
 
 export default function Wedding() {
-    const { t: oI18n } = useTranslation();
-
     const ItemLocation = styled(Paper)(({ theme }) => ({
             backgroundColor: '#fff',
             ...theme.typography.body2,
@@ -37,83 +35,33 @@ export default function Wedding() {
             id: 'attire',
             to: '/attire',
             icon: Checkroom,
-            titleKey: 'page_title_attire',
-            subtitleKey: 'page_subtitle_attire',
+            titleKey: CONTENT.PAGE_TITLE_ATTIRE,
+            subtitleKey: CONTENT.PAGE_SUBTITLE_ATTIRE,
         },
         {
             id: 'faq',
             to: '/faq',
             icon: Help,
-            titleKey: 'page_title_faq',
-            subtitleKey: 'page_subtitle_faq',
+            titleKey: CONTENT.PAGE_TITLE_FAQ,
+            subtitleKey: CONTENT.PAGE_SUBTITLE_FAQ,
         },
         {
             id: 'story',
             to: '/story',
             icon: CameraAlt,
-            titleKey: 'page_title_story',
-            subtitleKey: 'page_subtitle_story',
+            titleKey: CONTENT.PAGE_TITLE_STORY,
+            subtitleKey: CONTENT.PAGE_SUBTITLE_STORY,
         },
         {
             id: 'gift',
             to: '/gift',
             icon: CardGiftcard,
-            titleKey: 'page_title_gift',
-            subtitleKey: 'page_subtitle_gift',
-        },
-    ];
-
-    const oTimelineEvents = [
-        {
-            id: 1,
-            time: '9:30 AM',
-            titleKey: 'page_wedding_timeline_arrival',
-            icon: AccessTimeFilled,
-        },
-        {
-            id: 2,
-            time: '10:00 AM',
-            titleKey: 'page_wedding_timeline_ceremony',
-            icon: Church,
-        },
-        {
-            id: 3,
-            time: '11:00 AM',
-            titleKey: 'page_wedding_timeline_photo',
-            icon: AddAPhoto,
-        },
-        {
-            id: 4,
-            time: '12:00 PM',
-            titleKey: 'page_wedding_timeline_grazing',
-            icon: LocalBar,
-        },
-        {
-            id: 5,
-            time: '3:00 PM',
-            titleKey: 'page_wedding_timeline_reception',
-            icon: Gite,
-        },
-        {
-            id: 6,
-            time: '5:00 PM',
-            titleKey: 'page_wedding_timeline_wrap',
-            icon: Toys,
+            titleKey: CONTENT.PAGE_TITLE_GIFT,
+            subtitleKey: CONTENT.PAGE_SUBTITLE_GIFT,
         },
     ];
 
     const ItemNav = styled(Paper)(({ theme }) => ({
-            backgroundColor: '#fff',
-            ...theme.typography.body2,
-            padding: theme.spacing(1),
-            textAlign: 'center',
-            color: (theme.vars ?? theme).palette.text.secondary,
-            ...theme.applyStyles('dark', {
-                backgroundColor: '#1A2027',
-        }),
-    }));
-
-    const ItemTimeline = styled(Paper)(({ theme }) => ({
             backgroundColor: '#fff',
             ...theme.typography.body2,
             padding: theme.spacing(1),
@@ -129,7 +77,7 @@ export default function Wedding() {
             <Box className="bg-light">
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
-                    <PageTitle title={oI18n("page_wedding_title")} subtitle={oI18n("page_wedding_subtitle")} />
+                    <PageTitle title={CONTENT_WEDDING.TITLE} subtitle={CONTENT_WEDDING.SUBTITLE} />
 
                     <Box className="text-center">
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -138,7 +86,7 @@ export default function Wedding() {
                                     <Text
                                         letterSpacing="wide"
                                         variant="h6" className="cormorant-sc-bold mb-3"
-                                        i18nKey="page_wedding_ceremony"
+                                        textKey={CONTENT_WEDDING.CEREMONY}
                                     />
                                     <Box
                                         component="img"
@@ -155,23 +103,23 @@ export default function Wedding() {
                                     <Text
                                         variant="body1"
                                         className="cormorant-garamond-regular mt-3"
-                                        i18nKey="page_wedding_ceremony_begins"
+                                        textKey={CONTENT_WEDDING.CEREMONY_BEGINS}
                                     />
                                     <Text
                                         letterSpacing="wide"
                                         variant="body1"
                                         className="cormorant-sc-bold mt-3"
-                                        i18nKey="title_church"
+                                        textKey={CONTENT.TITLE_CHURCH}
                                     />
                                     <Button variant="outlined" className="my-3" startIcon={<LocationOn />} sx={{width: {sm: "15rem"}}} onClick={handleOpenViewMapModal}>
-                                        {oI18n("button_viewmap")}
+                                        {CONTENT.BUTTON_VIEWMAP}
                                     </Button>
                                 </ItemLocation>
                             </Grid>
                             <Grid size={6}>
                                 <ItemLocation>
                                     <Text letterSpacing="wide" variant="h6" className="cormorant-sc-bold mb-3">
-                                        {oI18n("page_wedding_reception")}
+                                        {CONTENT_WEDDING.RECEPTION}
                                     </Text>
                                     <Box
                                         component="img"
@@ -188,16 +136,16 @@ export default function Wedding() {
                                     <Text
                                         variant="body1"
                                         className="cormorant-garamond-regular mt-3"
-                                        i18nKey="page_wedding_reception_begins"
+                                        textKey={CONTENT_WEDDING.RECEPTION_BEGINS}
                                     />
                                     <Text
                                         letterSpacing="wide"
                                         variant="body1"
                                         className="cormorant-sc-bold mt-3"
-                                        i18nKey="title_reception"
+                                        textKey={CONTENT.TITLE_RECEPTION}
                                     />
                                     <Button variant="outlined" className="my-3" startIcon={<LocationOn />} sx={{width: {sm: "15rem"}}} onClick={handleOpenViewMapModal}>
-                                        {oI18n("button_viewmap")}
+                                        {CONTENT.BUTTON_VIEWMAP}
                                     </Button>
                                 </ItemLocation>
                             </Grid>
@@ -218,11 +166,11 @@ export default function Wedding() {
                                                 <IconComponent fontSize="large" />
                                                 <Text
                                                     className="text-uppercase d-block cormorant-garamond-regular fs-6"
-                                                    i18nKey={item.titleKey}
+                                                    textKey={item.titleKey}
                                                 />
                                                 <Text
                                                     className="text-uppercase d-block cormorant-garamond-regular fs-8"
-                                                    i18nKey={item.subtitleKey}
+                                                    textKey={item.subtitleKey}
                                                 />
                                             </ItemNav>
                                         </Link>
@@ -234,12 +182,12 @@ export default function Wedding() {
                         <Text
                             variant="h6"
                             className="cormorant-sc-regular mt-5"
-                            i18nKey="page_wedding_timeline_title"
+                            textKey={CONTENT_WEDDING.TIMELINE_TITLE}
                         />
                         <Text
                             variant="caption"
                             className="playfair-display-regular"
-                            i18nKey="page_wedding_timeline_subtitle"
+                            textKey={CONTENT_WEDDING.TIMELINE_SUBTITLE}
                         />
 
                        {/* TIMELINE CONTAINER */}
@@ -261,7 +209,7 @@ export default function Wedding() {
                                     display: { xs: 'none', md: 'block' },
                                     position: 'absolute',
                                     top: '55px',
-                                    left: '5%',
+                                    left: '3%',
                                     right: '5%',
                                     height: '2px',
                                     backgroundColor: '#b8860b',
@@ -269,7 +217,7 @@ export default function Wedding() {
                                 }}
                             />
 
-                            {/* CONNECTING LINE (MOBILE: Vertical line through the icons) */}
+                            {/* CONNECTING LINE (MOBILE: Vertical) */}
                             <Box
                                 sx={{
                                     display: { xs: 'block', md: 'none' },
@@ -284,13 +232,12 @@ export default function Wedding() {
                             />
 
                             {/* TIMELINE ITEMS */}
-                            {oTimelineEvents.map((event) => {
-                                const IconComponent = event.icon;
-                                const eventTitle = oI18n(event.titleKey, event.titleKey);
+                            {CONTENT_WEDDING.TIMELINE_BODY.map((event) => {
+                                const IconComponent = event.ICON;
 
                                 return (
                                     <Box
-                                        key={event.id}
+                                        key={event.ID}
                                         sx={{
                                             position: 'relative',
                                             zIndex: 1,
@@ -344,17 +291,22 @@ export default function Wedding() {
                                                     fontSize: { xs: '1.05rem', md: '1.1rem' },
                                                     color: '#333',
                                                 }}
-                                                i18nKey={event.time}
+                                                textKey={event.TITLE}
                                             />
-                                            <Text
-                                                variant="body2"
-                                                className="cormorant-garamond-regular"
-                                                sx={{
-                                                    fontSize: { xs: '0.9rem', md: '0.95rem' },
-                                                    color: '#666',
-                                                }}
-                                                i18nKey={eventTitle}
-                                            />
+                                            {
+                                                event.TIME ?
+                                                    <Text
+                                                        variant="body2"
+                                                        className="cormorant-garamond-regular"
+                                                        sx={{
+                                                            fontSize: { xs: '0.9rem', md: '0.95rem' },
+                                                            color: '#666',
+                                                            mt: "-10px !important"
+                                                        }}
+                                                        textKey={event.TIME}
+                                                    />
+                                                : ""
+                                            }
                                         </Stack>
                                     </Box>
                                 );

@@ -1,12 +1,10 @@
 import React from 'react';
-import { useTranslation, Trans } from 'react-i18next';
 import { Box, Container, Typography, Divider, Stack } from '@mui/material';
 import { Favorite, LocationOn, CalendarToday } from '@mui/icons-material';
 import { Text } from './utils/CustomComponents';
+import { CONTENT } from './utils/Constants';
 
 export default function WeddingFooter() {
-    const { t: oI18n } = useTranslation();
-
     return (
         <Box
             component="footer"
@@ -38,7 +36,7 @@ export default function WeddingFooter() {
                             variant="h4"
                             className="great-vibes-regular"
                             sx={{ textAlign: 'center' }}
-                            i18nKey="title_name"
+                            textKey={CONTENT.TITLE_NAME}
                         />
                         <Text
                             variant="subtitle2"
@@ -50,7 +48,7 @@ export default function WeddingFooter() {
                                 fontSize: '0.75rem',
                                 textAlign: 'center',
                             }}
-                            i18nKey="footer_qoute"
+                            textKey={CONTENT.FOOTER_QOUTE}
                         />
                     </Box>
 
@@ -77,7 +75,7 @@ export default function WeddingFooter() {
                             <Text
                                 variant="body2"
                                 color="text.secondary"
-                                i18nKey="title_date_v2"
+                                textKey={CONTENT.TITLE_DATE_V2}
                             />
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
@@ -85,7 +83,7 @@ export default function WeddingFooter() {
                             <Text
                                 variant="body2"
                                 color="text.secondary"
-                                i18nKey="title_church"
+                                textKey={CONTENT.TITLE_CHURCH}
                             />
                         </Box>
                     </Box>
@@ -101,7 +99,7 @@ export default function WeddingFooter() {
                                 textTransform: 'uppercase',
                                 textAlign: 'center',
                             }}
-                            i18nKey="title_hashtag"
+                            textKey={CONTENT.TITLE_HASHTAG}
                         />
                     </Box>
 
@@ -112,7 +110,7 @@ export default function WeddingFooter() {
                         variant="caption"
                         color="text.secondary"
                         sx={{ textAlign: 'center', width: '100%' }}
-                        i18nKey={`${oI18n("footer_bottom")} • ${new Date().getFullYear()}`}
+                        textKey={`${CONTENT.FOOTER_BOTTOM} • ${new Date().getFullYear()}`}
                     />
                 </Stack>
             </Container>

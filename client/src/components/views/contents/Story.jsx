@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
     Box,
     Container,
@@ -8,7 +7,6 @@ import {
     AccordionSummary,
     AccordionDetails,
     Paper,
-    Grid,
     Tab,
     Tabs,
     ImageList,
@@ -24,8 +22,9 @@ import {
 } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
+import { CONTENT_STORY } from '../utils/Constants';
 
-import imgParallax1 from "../../assets/img/story/parallax1.jpg"
+import imgParallax1 from "../../assets/img/story/parallax1.jpg";
 
 // Reusable Polaroid Card Sub-Component
 function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} }) {
@@ -88,7 +87,6 @@ function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} })
 }
 
 export default function Story() {
-    const { t: oI18n } = useTranslation();
     const sCloudflareBaseUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/api/images";
     const [expanded, setExpanded] = useState('panel01');
     const [galleryTab, setGalleryTab] = useState(0);
@@ -166,29 +164,6 @@ export default function Story() {
         .then(setImgGalleryPrenup);
     }, []);
 
-    const chaptersData = [
-        {
-            id: '01',
-            title: oI18n('page_story_section1_chapter1_title'),
-            content: oI18n('page_story_section1_chapter1_content'),
-        },
-        {
-            id: '02',
-            title: oI18n('page_story_section1_chapter2_title'),
-            content: oI18n('page_story_section1_chapter2_content'),
-        },
-        {
-            id: '03',
-            title: oI18n('page_story_section1_chapter3_title'),
-            content: oI18n('page_story_section1_chapter3_content'),
-        },
-        {
-            id: '04',
-            title: oI18n('page_story_section1_chapter4_title'),
-            content: oI18n('page_story_section1_chapter4_content'),
-        },
-    ];
-
     const highlightStyles = [
         {
             rotation: "-6deg",
@@ -237,7 +212,7 @@ export default function Story() {
             <Box className="bg-vintage">
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
-                    <PageTitle title={oI18n('page_story_title')} subtitle={oI18n('page_story_subtitle')} />
+                    <PageTitle title={CONTENT_STORY.TITLE} subtitle={CONTENT_STORY.SUBTITLE} />
 
                     <Box
                         sx={{
@@ -253,14 +228,14 @@ export default function Story() {
                                 variant="caption"
                                 className="text-uppercase fw-bold d-block fs-8 mb-1 text-gold"
                                 letterSpacing="largest"
-                                i18nKey="page_story_content_tagline"
+                                textKey={CONTENT_STORY.SECTION1_CONTENT_TAGLINE}
                             />
 
                             <Text
                                 variant="h3"
                                 className="cormorant-garamond-regular mb-2"
                                 sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}
-                                i18nKey="page_story_content_title"
+                                textKey={CONTENT_STORY.SECTION1_CONTENT_TITLE}
                             />
 
                             <Box
@@ -272,30 +247,17 @@ export default function Story() {
                                 }}
                             />
 
-                            <Text variant="body1" className="mb-2" i18nKey="page_story_content_subtitle" />
-
-                            <Text
-                                variant="h4"
-                                className="mb-1 cormorant-garamond-regular"
-                                sx={{ fontSize: { xs: '1.5rem', sm: '2rem' } }}
-                                i18nKey="page_story_section1_title"
-                            />
-
-                            <Text
-                                variant="caption"
-                                className="text-uppercase mb-3 d-block fw-bold text-gold"
-                                i18nKey="page_story_section1_tagline"
-                            />
+                            <Text variant="body1" className="mb-2" textKey={CONTENT_STORY.SECTION1_CONTENT_SUBTITLE} />
 
                             {/* Accordion Chapters */}
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                                {chaptersData.map((chapter) => {
-                                    const panelId = `panel${chapter.id}`;
+                                {CONTENT_STORY.SECTION1_CHAPTER.map((chapter) => {
+                                    const panelId = `panel${chapter.ID}`;
                                     const isCurrentExpanded = expanded === panelId;
 
                                     return (
                                         <Accordion
-                                            key={chapter.id}
+                                            key={chapter.ID}
                                             expanded={isCurrentExpanded}
                                             onChange={handleAccordionChange(panelId)}
                                             elevation={0}
@@ -320,10 +282,10 @@ export default function Story() {
                                                 }}
                                             >
                                                 <Text className="fw-bold fs-6" sx={{ color: '#A08053', minWidth: 24 }}>
-                                                    {chapter.id}
+                                                    {chapter.ID}
                                                 </Text>
                                                 <Text className="cormorant-garamond-regular fs-5">
-                                                    {chapter.title}
+                                                    {chapter.TITLE}
                                                 </Text>
                                             </AccordionSummary>
 
@@ -338,7 +300,7 @@ export default function Story() {
                                                         ml: { xs: 0, sm: 4 }, // Responsive Indentation
                                                     }}
                                                 >
-                                                    <Text variant="body2" className="fs-7" i18nKey={chapter.content} />
+                                                    <Text variant="body2" className="fs-7" textKey={chapter.BODY} />
                                                 </Paper>
                                             </AccordionDetails>
                                         </Accordion>
@@ -395,7 +357,7 @@ export default function Story() {
                                         lineHeight: 1.1,
                                         transform: 'rotate(-6deg)',
                                     }}
-                                    i18nKey="page_story_section1_highlight"
+                                    textKey={CONTENT_STORY.SECTION1_HIGHLIGHT}
                                 />
                             </Box>
                         </Box>
@@ -405,8 +367,8 @@ export default function Story() {
 
             <ParallaxBanner
                 image={imgParallax1}
-                title={oI18n('page_story_section2_parallax_title')}
-                subtitle={oI18n('page_story_section2_parallax_subtitle')}
+                title={CONTENT_STORY.SECTION2_PARALLAX_TITLE}
+                subtitle={CONTENT_STORY.SECTION2_PARALLAX_SUBTITLE}
                 height="320px"
             />
 
@@ -418,12 +380,12 @@ export default function Story() {
                             variant="h4"
                             className="pinyon-script-regular"
                             sx={{ color: '#5a4632', fontSize: { xs: '2rem', sm: '2.5rem' } }}
-                            i18nKey="page_story_section2_gallery_title"
+                            textKey={CONTENT_STORY.SECTION2_GALLERY_TITLE}
                         />
                         <Text
                             variant="body2" color="text.secondary"
                             sx={{ px: 2 }}
-                            i18nKey="page_story_section2_gallery_subtitle"
+                            textKey={CONTENT_STORY.SECTION2_GALLERY_SUBTITLE}
                         />
                     </Box>
 
@@ -462,9 +424,9 @@ export default function Story() {
                                 },
                             }}
                         >
-                            <Tab label={oI18n("page_story_section_galler_tab1_title")} />
-                            <Tab label={oI18n("page_story_section_galler_tab2_title")} />
-                            <Tab label={oI18n("page_story_section_galler_tab3_title")} />
+                            <Tab label={CONTENT_STORY.SECTION_GALLER_TAB1_TITLE} />
+                            <Tab label={CONTENT_STORY.SECTION_GALLER_TAB2_TITLE} />
+                            <Tab label={CONTENT_STORY.SECTION_GALLER_TAB3_TITLE} />
                         </Tabs>
                     </Box>
 
@@ -481,8 +443,6 @@ export default function Story() {
                             }}
                         >
                             {currentGallery.map((item, index) => {
-                                // Each tab has its own quilted arrangement.
-                                // The layout repeats safely if the folder contains more images.
                                 const layoutSets = [
                                     [
                                         { cols: 2, rows: 2 },

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Box, Container, Tabs, Tab, Paper, Stack, Grid, Card, CardMedia, Divider } from '@mui/material';
 import { FamilyRestroom, MilitaryTech, Groups, PeopleAlt } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
+import { CONTENT_ATTIRE } from '../utils/Constants';
 
 // Import Swiper React components & required modules
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -41,7 +41,6 @@ function TabPanel(props) {
 }
 
 export default function Attire() {
-    const { t: oI18n } = useTranslation();
     const sCloudflareBaseUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/api/images";
     const [tabValue, setTabValue] = useState(0);
     const [imgGuestDress, setImgGuestDress] = useState([]);
@@ -60,11 +59,13 @@ export default function Attire() {
     // Dynamically generated array based on folder contents & translations
     const imgDontAttire = imgDontAttireList.map((src, index) => {
         const id = index + 1;
+        const sTitle = `NOTE_${id}_TITLE`;
+        const sSubtitle = `NOTE_${id}_SUBTITLE`;
         return {
             id,
             src,
-            title: oI18n(`page_attire_note_${id}_title`),
-            subtitle: oI18n(`page_attire_note_${id}_subtitle`),
+            title: CONTENT_ATTIRE[sTitle],
+            subtitle: CONTENT_ATTIRE[sSubtitle],
         };
     });
 
@@ -121,7 +122,7 @@ export default function Attire() {
             <Box className="bg-light">
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
-                    <PageTitle title={oI18n("page_attire_title")} subtitle={oI18n("page_attire_subtitle")} />
+                    <PageTitle title={CONTENT_ATTIRE.TITLE} subtitle={CONTENT_ATTIRE.SUBTITLE} />
 
                     {/* Custom Styled MUI Tabs */}
                     <Box sx={{ width: '100%' }}>
@@ -161,10 +162,10 @@ export default function Attire() {
                                     },
                                 }}
                             >
-                                <Tab icon={<PeopleAlt fontSize="small" />} iconPosition="start" label={oI18n("page_attire_tab_guest")} />
-                                <Tab icon={<MilitaryTech fontSize="small" />} iconPosition="start" label={oI18n("page_attire_tab_sponsors")} />
-                                <Tab icon={<Groups fontSize="small" />} iconPosition="start" label={oI18n("page_attire_tab_entourage")} />
-                                <Tab icon={<FamilyRestroom fontSize="small" />} iconPosition="start" label={oI18n("page_attire_tab_parents")} />
+                                <Tab icon={<PeopleAlt fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB_GUEST} />
+                                <Tab icon={<MilitaryTech fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB_SPONSORS} />
+                                <Tab icon={<Groups fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB_ENTOURAGE} />
+                                <Tab icon={<FamilyRestroom fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB_PARENTS} />
                             </Tabs>
                         </Box>
 
@@ -174,11 +175,11 @@ export default function Attire() {
                                 <Text
                                     variant="body1"
                                     className="playfair-display-regular mb-1 text-gold"
-                                    i18nKey="page_attire_tab_content_guest_title"
+                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_GUEST_TITLE}
                                 />
                                 <Text
                                     variant="caption"
-                                    i18nKey="page_attire_tab_content_guest_subtitle"
+                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_GUEST_SUBTITLE}
                                 />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
@@ -248,14 +249,14 @@ export default function Attire() {
                                             <Text
                                                 variant="h6"
                                                 className="playfair-display-regular text-gold"
-                                                i18nKey="page_attire_tab_content_guest_card2_title"
+                                                textKey={CONTENT_ATTIRE.TAB_CONTENT_GUEST_CARD2_TITLE}
                                             />
                                             {imgGuestPalette.map((item, index) => (
-                                                <React.Fragment>
+                                                <React.Fragment key={index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
-                                                        i18nKey={`page_attire_tab_content_guest_card2_subtitle_${index + 1}`}
+                                                        textKey={CONTENT_ATTIRE["TAB_CONTENT_GUEST_CARD2_SUBTITLE_1" + (index + 1)]}
                                                     />
                                                     <Box className="d-flex flex-row justify-content-center align-items-center">
                                                         <Box
@@ -285,11 +286,11 @@ export default function Attire() {
                                 <Text
                                     variant="body1"
                                     className="playfair-display-regular mb-1 text-gold"
-                                    i18nKey="page_attire_tab_content_sponsors_title"
+                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_SPONSORS_TITLE}
                                 />
                                 <Text
                                     variant="caption"
-                                    i18nKey="page_attire_tab_content_sponsors_subtitle"
+                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_SPONSORS_SUBTITLE}
                                 />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
@@ -359,14 +360,14 @@ export default function Attire() {
                                             <Text
                                                 variant="h6"
                                                 className="playfair-display-regular text-gold"
-                                                i18nKey="page_attire_tab_content_sponsors_card2_title"
+                                                textKey={CONTENT_ATTIRE.TAB_CONTENT_SPONSORS_CARD2_TITLE}
                                             />
                                             {imgSponsorsPalette.map((item, index) => (
-                                                <React.Fragment>
+                                                 <React.Fragment key={index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
-                                                        i18nKey={`page_attire_tab_content_sponsors_card2_subtitle_${index + 1}`}
+                                                        textKey={CONTENT_ATTIRE["TAB_CONTENT_SPONSORS_CARD2_SUBTITLE_" + (index + 1)]}
                                                     />
                                                     <Box className="d-flex flex-row justify-content-center align-items-center">
                                                         <Box
@@ -396,11 +397,11 @@ export default function Attire() {
                                 <Text
                                     variant="body1"
                                     className="playfair-display-regular mb-1 text-gold"
-                                    i18nKey="page_attire_tab_content_entourage_title"
+                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_ENTOURAGE_TITLE}
                                 />
                                 <Text
                                     variant="caption"
-                                    i18nKey="page_attire_tab_content_entourage_subtitle"
+                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_ENTOURAGE_SUBTITLE}
                                 />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
@@ -470,14 +471,14 @@ export default function Attire() {
                                             <Text
                                                 variant="h6"
                                                 className="playfair-display-regular text-gold"
-                                                i18nKey="page_attire_tab_content_entourage_card2_title"
+                                                textKey={CONTENT_ATTIRE.TAB_CONTENT_ENTOURAGE_CARD2_TITLE}
                                             />
                                             {imgEntouragePalette.map((item, index) => (
-                                                <React.Fragment>
+                                                 <React.Fragment key={index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
-                                                        i18nKey={`page_attire_tab_content_entourage_card2_subtitle_${index + 1}`}
+                                                        textKey={CONTENT_ATTIRE["TAB_CONTENT_ENTOURAGE_CARD2_SUBTITLE_" + (index + 1)]}
                                                     />
                                                     <Box className="d-flex flex-row justify-content-center align-items-center">
                                                         <Box
@@ -507,11 +508,11 @@ export default function Attire() {
                                 <Text
                                     variant="body1"
                                     className="playfair-display-regular mb-1 text-gold"
-                                    i18nKey="page_attire_tab_content_parents_title"
+                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_PARENTS_TITLE}
                                 />
                                 <Text
                                     variant="caption"
-                                    i18nKey="page_attire_tab_content_parents_subtitle"
+                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_PARENTS_SUBTITLE}
                                 />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
@@ -581,14 +582,14 @@ export default function Attire() {
                                             <Text
                                                 variant="h6"
                                                 className="playfair-display-regular text-gold"
-                                                i18nKey="page_attire_tab_content_parents_card2_title"
+                                                textKey={CONTENT_ATTIRE.TAB_CONTENT_PARENTS_CARD2_TITLE}
                                             />
                                             {imgParentsPalette.map((item, index) => (
-                                                <React.Fragment>
+                                                 <React.Fragment key={index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
-                                                        i18nKey={`page_attire_tab_content_parents_card2_subtitle_${index + 1}`}
+                                                        textKey={CONTENT_ATTIRE["TAB_CONTENT_PARENTS_CARD2_SUBTITLE_" + (index + 1)]}
                                                     />
                                                     <Box className="d-flex flex-row justify-content-center align-items-center">
                                                         <Box
@@ -617,12 +618,12 @@ export default function Attire() {
                         <Text
                             variant="h6"
                             className="cormorant-sc-regular mt-5"
-                            i18nKey="page_attire_note_title"
+                            textKey={CONTENT_ATTIRE.NOTE_TITLE}
                         />
                         <Text
                             variant="caption"
                             className="playfair-display-regular"
-                            i18nKey="page_attire_note_subtitle"
+                            textKey={CONTENT_ATTIRE.NOTE_SUBTITLE}
                         />
 
                         <Grid container spacing={{ xs: 2, sm: 3 }} className="my-4" justifyContent="center">
@@ -671,14 +672,14 @@ export default function Attire() {
                                             <Text
                                                 variant="subtitle2"
                                                 className="cormorant-sc-bold text-gold"
-                                                i18nKey={item.title}
+                                                textKey={item.title}
                                                 sx={{ fontSize: '0.85rem', lineHeight: 1.2 }}
                                             />
                                             {item.subtitle && (
                                                 <Text
                                                     variant="caption"
                                                     className="cormorant-garamond-regular"
-                                                    i18nKey={item.subtitle}
+                                                    textKey={item.subtitle}
                                                     sx={{ fontSize: '0.75rem', display: 'block', mt: 0.5 }}
                                                 />
                                             )}

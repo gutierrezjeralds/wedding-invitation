@@ -1,11 +1,8 @@
 import { Typography, Stack, Divider } from '@mui/material';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import { useTranslation, Trans } from 'react-i18next';
 
 // Reusable Text Component
-export function Text({ letterSpacing, preserveNewlines = true, i18nKey, values, components, children, sx, ...props }) {
-    const { t: oI18n } = useTranslation();
-
+export function Text({ letterSpacing, preserveNewlines = true, textKey, children, sx, ...props }) {
     // Pre-defined presets for clean prop usage
     const letterSpacingPresets = {
         tight: '-0.05em',
@@ -25,12 +22,15 @@ export function Text({ letterSpacing, preserveNewlines = true, i18nKey, values, 
         ...sx,
     };
 
-    // If i18nKey is provided WITHOUT explicit components, render via dangerouslySetInnerHTML
-    if (i18nKey && !components) {
+    // Determine the text value passed either via `textKey` or `children`
+    const rawContent = textKey || children;
+
+    // Render HTML strings directly if rawContent exists
+    if (rawContent && typeof rawContent === 'string') {
         return (
             <Typography
                 sx={baseStyles}
-                dangerouslySetInnerHTML={{ __html: oI18n(i18nKey, values) }}
+                dangerouslySetInnerHTML={{ __html: rawContent }}
                 {...props}
             />
         );
@@ -38,7 +38,7 @@ export function Text({ letterSpacing, preserveNewlines = true, i18nKey, values, 
 
     return (
         <Typography sx={baseStyles} {...props}>
-            {i18nKey ? <Trans i18nKey={i18nKey} values={values} components={components} /> : children}
+            {children}
         </Typography>
     );
 }
@@ -50,14 +50,14 @@ export function PageTitle({ title, subtitle, icon, ...props }) {
             {title && (
                 <Text
                     className="main-page-title"
-                    i18nKey={title}
+                    textKey={title}
                 />
             )}
 
             {subtitle && (
                 <Text
                     className="main-page-subtitle"
-                    i18nKey={subtitle}
+                    textKey={subtitle}
                 />
             )}
 

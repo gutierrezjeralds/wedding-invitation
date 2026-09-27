@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
     AppBar,
@@ -14,6 +13,7 @@ import {
     ListItemText,
     Toolbar,
 } from '@mui/material';
+import { CONTENT } from './utils/Constants';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import bannerImage from '../assets/img/header_banner.jpeg';
@@ -21,17 +21,16 @@ import imgLogo from '../assets/img/header_logo.png';
 import ParallaxBanner from '../views/utils/ParallaxBanner';
 
 export default function Header() {
-  const { t: oI18n } = useTranslation();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navItems = [
-      { label: oI18n("page_title_home"), href: '/home' },
-      { label: oI18n("page_title_story"), href: '/story' },
-      { label: oI18n("page_title_wedding"), href: '/wedding' },
-      { label: oI18n("page_title_entourage"), href: '/entourage' },
-      { label: oI18n("page_title_attire"), href: '/attire' },
-      { label: oI18n("page_title_faq"), href: '/faq' },
+      { label: CONTENT.PAGE_TITLE_HOME, href: '/home' },
+      { label: CONTENT.PAGE_TITLE_STORY, href: '/story' },
+      { label: CONTENT.PAGE_TITLE_WEDDING, href: '/wedding' },
+      { label: CONTENT.PAGE_TITLE_ENTOURAGE, href: '/entourage' },
+      { label: CONTENT.PAGE_TITLE_ATTIRE, href: '/attire' },
+      { label: CONTENT.PAGE_TITLE_FAQ, href: '/faq' },
   ];
 
   const handleDrawerToggle = () => {

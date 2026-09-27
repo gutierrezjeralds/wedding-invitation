@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
 import {
   Container,
   Accordion,
@@ -10,39 +9,30 @@ import {
   TextField,
   Chip,
   InputAdornment,
-  Button,
-  Divider,
   Avatar,
   Card,
   CardContent,
   IconButton,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@mui/material';
-import { ExpandMore, Search, Clear, QuestionMark, ContactSupport, CheckCircle , ContentCopy} from '@mui/icons-material';
+import { ExpandMore, Search, Clear, QuestionMark, ContactSupport, CheckCircle, ContentCopy } from '@mui/icons-material';
 import { Text } from '../utils/CustomComponents';
+import { CONTENT_FAQ } from '../utils/Constants';
 
 export default function Faq() {
-    const { t: oI18n } = useTranslation();
-
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [expandedPanel, setExpandedPanel] = useState(false);
     const [copiedId, setCopiedId] = useState(null);
 
-    // Fetch dynamic categories from JSON
-    const faqCategories = useMemo(() => {
-        const categories = oI18n('page_faq_categories', { returnObjects: true });
-        return Array.isArray(categories) ? categories : [];
-    }, [oI18n]);
+    // 1. Fetch categories directly from CONTENT_FAQ
+    const faqCategories = CONTENT_FAQ.CATEGORIES || [];
 
-    // 1. Fetch the FAQ array dynamically from i18n
-    const faqData = useMemo(() => {
-        const rawFaqs = oI18n('page_faq_data', { returnObjects: true });
-        // Fallback safety check in case the key fails to load or isn't an array
-        return Array.isArray(rawFaqs) ? rawFaqs : [];
-    }, [oI18n]);
+    // 2. Fetch FAQ data directly from CONTENT_FAQ
+    const faqData = CONTENT_FAQ.DATA || [];
 
-    // 2. Clear search when switching tabs
+    // Clear search when switching categories
     const handleCategoryChange = (categoryId) => {
         setSelectedCategory(categoryId);
         setSearchQuery('');
@@ -51,10 +41,10 @@ export default function Faq() {
     // 3. Filter FAQs based on active category & search query
     const filteredFaqs = useMemo(() => {
         return faqData.filter((item) => {
-            const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+            const matchesCategory = selectedCategory === 'all' || item.CATEGORY === selectedCategory;
             const matchesSearch =
-                item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.answer.toLowerCase().includes(searchQuery.toLowerCase());
+                item.QUESTION.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.ANSWER.toLowerCase().includes(searchQuery.toLowerCase());
             return matchesCategory && matchesSearch;
         });
     }, [faqData, selectedCategory, searchQuery]);
@@ -64,8 +54,10 @@ export default function Faq() {
     };
 
     const handleCopyLink = (faq) => {
-        navigator.clipboard.writeText(`${faq.question} - ${faq.answer}`);
-        setCopiedId(faq.id);
+        // Strip HTML tags when copying answer text to clipboard
+        const cleanAnswer = faq.ANSWER.replace(/<[^>]*>?/gm, '');
+        navigator.clipboard.writeText(`${faq.QUESTION}\n${cleanAnswer}`);
+        setCopiedId(faq.ID);
         setTimeout(() => setCopiedId(null), 2000);
     };
 
@@ -100,19 +92,19 @@ export default function Faq() {
                             variant="h3"
                             color="primary"
                             gutterBottom
-                            i18nKey="page_faq_title"
+                            textKey={CONTENT_FAQ.TITLE}
                         />
                         <Text
                             color="text.secondary"
                             sx={{ maxWidth: 600, mx: 'auto' }}
-                            i18nKey="page_faq_subtitle"
+                            textKey={CONTENT_FAQ.SUBTITLE}
                         />
 
                         {/* Search Bar */}
                         <Box sx={{ mt: 3, maxWidth: 500, mx: 'auto' }}>
                             <TextField
                                 fullWidth
-                                placeholder={oI18n("page_faq_search_placeholder")}
+                                placeholder={CONTENT_FAQ.SEARCH_PLACEHOLDER}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 InputProps={{
@@ -150,12 +142,12 @@ export default function Faq() {
                     >
                         {faqCategories.map((cat) => (
                             <Chip
-                                key={cat.id}
-                                label={cat.label}
+                                key={cat.ID}
+                                label={cat.LABEL}
                                 clickable
-                                color={selectedCategory === cat.id ? 'primary' : 'default'}
-                                variant={selectedCategory === cat.id ? 'filled' : 'outlined'}
-                                onClick={() => handleCategoryChange(cat.id)} // ✅ Updated here
+                                color={selectedCategory === cat.ID ? 'primary' : 'default'}
+                                variant={selectedCategory === cat.ID ? 'filled' : 'outlined'}
+                                onClick={() => handleCategoryChange(cat.ID)}
                                 sx={{
                                     fontWeight: 600,
                                     px: 1,
@@ -170,9 +162,9 @@ export default function Faq() {
                     {filteredFaqs.length > 0 ? (
                         filteredFaqs.map((faq) => (
                             <Accordion
-                                key={faq.id}
-                                expanded={expandedPanel === `panel${faq.id}`}
-                                onChange={handleAccordionToggle(`panel${faq.id}`)}
+                                key={faq.ID}
+                                expanded={expandedPanel === `panel${faq.ID}`}
+                                onChange={handleAccordionToggle(`panel${faq.ID}`)}
                                 elevation={1}
                                 sx={{
                                     mb: 2,
@@ -193,26 +185,27 @@ export default function Faq() {
                                     <Text
                                         variant="h6"
                                         sx={{ color: 'text.primary', fontSize: '1.1rem' }}
-                                        i18nKey={faq.question}
-                                    />
+                                    >
+                                        {faq.QUESTION}
+                                    </Text>
                                 </AccordionSummary>
                                 <AccordionDetails sx={{ px: 3, pb: 3, pt: 0, bgcolor: '#FAF9F7' }}>
-                                    <Divider sx={{ mb: 2 }} />
-                                    <Text
+                                    {/* Direct rendering for HTML string in answer */}
+                                    <Typography
                                         variant="body1"
                                         color="text.secondary"
-                                        sx={{ lineHeight: 1.7 }}
-                                        i18nKey={faq.answer}
+                                        sx={{ lineHeight: 1.7, whiteSpace: 'pre-line', pt: 2 }}
+                                        dangerouslySetInnerHTML={{ __html: faq.ANSWER }}
                                     />
 
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                                        <Tooltip title={copiedId === faq.id ? "Copied!" : "Copy Answer"}>
+                                        <Tooltip title={copiedId === faq.ID ? "Copied!" : "Copy Answer"}>
                                             <IconButton
                                                 size="small"
                                                 onClick={() => handleCopyLink(faq)}
-                                                color={copiedId === faq.id ? "success" : "default"}
+                                                color={copiedId === faq.ID ? "success" : "default"}
                                             >
-                                                {copiedId === faq.id ? <CheckCircle fontSize="small" /> : <ContentCopy fontSize="small" />}
+                                                {copiedId === faq.ID ? <CheckCircle fontSize="small" /> : <ContentCopy fontSize="small" />}
                                             </IconButton>
                                         </Tooltip>
                                     </Box>
@@ -221,11 +214,9 @@ export default function Faq() {
                         ))
                     ) : (
                         <Paper elevation={0} sx={{ p: 4, textAlign: 'center', borderRadius: 3, border: '1px dashed #CCC' }}>
-                            <Text
-                                color="text.secondary"
-                                i18nKey="page_faq_search_nomatch"
-                                values={[searchQuery]}
-                            />
+                            <Typography color="text.secondary">
+                                {CONTENT_FAQ.SEARCH_NOMATCH?.replace('{{0}}', searchQuery) || `No matching questions found for '${searchQuery}'.`}
+                            </Typography>
                         </Paper>
                     )}
 
@@ -237,21 +228,13 @@ export default function Faq() {
                                 variant="h5"
                                 color="primary"
                                 gutterBottom
-                                i18nKey="page_faq_still_question"
+                                textKey={CONTENT_FAQ.STILL_QUESTION}
                             />
                             <Text
                                 color="text.secondary"
                                 paragraph
-                                i18nKey="page_faq_cant_find"
+                                textKey={CONTENT_FAQ.CANT_FIND}
                             />
-                            {/* <Button
-                                variant="contained"
-                                color="primary"
-                                href="mailto:jeraldandsheila@gmail.com"
-                                sx={{ borderRadius: 3, px: 4, mt: 2 }}
-                            >
-                                {oI18n("page_faq_button_send")}
-                            </Button> */}
                         </CardContent>
                     </Card>
                 </Container>

@@ -75,7 +75,7 @@ export default function ParallaxBanner({
                                 textShadow: '0 2px 4px rgba(0,0,0,0.4)',
                                 fontSize: { xs: '1.75rem', sm: '2.3rem', md: '2.8rem' },
                             }}
-                            i18nKey={title}
+                            textKey={title}
                         />
                     )}
                     {subtitle && (
@@ -88,7 +88,7 @@ export default function ParallaxBanner({
                                 fontWeight: 500,
                                 opacity: 0.9,
                             }}
-                            i18nKey={subtitle}
+                            textKey={subtitle}
                         />
                     )}
                 </Container>
