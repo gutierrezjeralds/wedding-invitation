@@ -262,14 +262,14 @@ export const CONTENT_ATTIRE = {
             DETAILS: "<span class='fw-bold'>Ladies:</span> Elegant Formal Dress\n<span class='fw-bold'>Gentlemen:</span> Long- or Short-Sleeve Collared Polo with Tailored Dress Pants",
             NOTE: "",
             SUBDETAILS_1: "<span class='fw-bold'>Ladies:</span>",
-            SUBDETAILS_2: "TEST",
+            SUBDETAILS_2: "",
         },
         SPONSORS: {
             TITLE: "Sponsors",
             GUIDE: "Principal & Secondary Sponsors Attire Guide",
             DETAILS: "<span class='fw-bold'>Ladies:</span> Modern Filipiniana Long Gown\n<span class='fw-bold'>Gentlemen:</span> Barong Tagalog with Tailored Black Trousers",
             NOTE: "",
-            SUBDETAILS_1: "<span class='fw-bold'>Ladies:</span>",
+            SUBDETAILS_1: "",
             SUBDETAILS_2: "",
         },
         ENTOURAGE: {
@@ -277,7 +277,7 @@ export const CONTENT_ATTIRE = {
             GUIDE: "Entourage Attire Guide",
             DETAILS: "<span class='fw-bold'>Ladies:</span> Elegant Floor-Length Gown with a Sheer Lace Bolero\n<span class='fw-bold'>Gentlemen:</span> Barong Tagalog with Tailored Black Trousers",
             NOTE: "",
-            SUBDETAILS_1: "<span class='fw-bold'>Ladies:</span>",
+            SUBDETAILS_1: "",
             SUBDETAILS_2: "",
         },
         PARENTS: {
@@ -285,7 +285,7 @@ export const CONTENT_ATTIRE = {
             GUIDE: "Parents Attire Guide",
             DETAILS: "<span class='fw-bold'>Ladies:</span> Modern Filipiniana Long Gown\n<span class='fw-bold'>Gentlemen:</span> Barong Tagalog with Tailored Black Trousers",
             NOTE: "",
-            SUBDETAILS_1: "<span class='fw-bold'>Ladies:</span>",
+            SUBDETAILS_1: "",
             SUBDETAILS_2: "",
         }
     },
