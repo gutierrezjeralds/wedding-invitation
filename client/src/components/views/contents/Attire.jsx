@@ -69,53 +69,37 @@ export default function Attire() {
         };
     });
 
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/attire/guest/dress")
-        .then((res) => res.json())
-        .then(setImgGuestDress);
-    }, []);
+    // Helper to extract filename from URL and perform natural sorting
+    const sortByFilename = (dataArray) => {
+        if (!Array.isArray(dataArray)) return [];
+
+        return [...dataArray].sort((a, b) => {
+            // Extract filename from URL (e.g., "https://domain.com/path/01-dress.jpg" -> "01-dress.jpg")
+            const nameA = (a.url || a.name || '').split('/').pop();
+            const nameB = (b.url || b.name || '').split('/').pop();
+
+            // Natural sort handles numeric prefixes cleanly (e.g. 1, 2, 10 instead of 1, 10, 2)
+            return nameA.localeCompare(nameB, undefined, { numeric: true, sensitivity: 'base' });
+        });
+    };
 
     useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/attire/guest/palette")
-        .then((res) => res.json())
-        .then(setImgGuestPalette);
-    }, []);
+        const fetchAndSort = (endpoint, setter) => {
+            fetch(`${sCloudflareBaseUrl}${endpoint}`)
+            .then((res) => res.json())
+            .then((data) => setter(sortByFilename(data)))
+            .catch((err) => console.error(`Error loading ${endpoint}:`, err));
+        };
 
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/attire/sponsors/dress")
-        .then((res) => res.json())
-        .then(setImgSponsorsDress);
-    }, []);
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/attire/sponsors/palette")
-        .then((res) => res.json())
-        .then(setImgSponsorsPalette);
-    }, []);
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/attire/entourage/dress/adult")
-        .then((res) => res.json())
-        .then(setImgEntourageDressAdult);
-    }, []);
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/attire/entourage/dress/child")
-        .then((res) => res.json())
-        .then(setImgEntourageDressChild);
-    }, []);
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/attire/parents/dress")
-        .then((res) => res.json())
-        .then(setImgParentsDress);
-    }, []);
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/attire/parents/palette")
-        .then((res) => res.json())
-        .then(setImgParentsPalette);
-    }, []);
+        fetchAndSort('/attire/guest/dress', setImgGuestDress);
+        fetchAndSort('/attire/guest/palette', setImgGuestPalette);
+        fetchAndSort('/attire/sponsors/dress', setImgSponsorsDress);
+        fetchAndSort('/attire/sponsors/palette', setImgSponsorsPalette);
+        fetchAndSort('/attire/entourage/dress/adult', setImgEntourageDressAdult);
+        fetchAndSort('/attire/entourage/dress/child', setImgEntourageDressChild);
+        fetchAndSort('/attire/parents/dress', setImgParentsDress);
+        fetchAndSort('/attire/parents/palette', setImgParentsPalette);
+    }, [sCloudflareBaseUrl]);
 
     return (
          <React.Fragment>
