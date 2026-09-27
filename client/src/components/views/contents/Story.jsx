@@ -24,7 +24,7 @@ import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
 import { CONTENT_STORY } from '../utils/Constants';
 
-import imgParallax1 from "../../assets/img/story/parallax1.jpg";
+import imgParallax from "../../assets/img/parallax/story.jpg";
 
 // Reusable Polaroid Card Sub-Component
 function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} }) {
@@ -366,7 +366,7 @@ export default function Story() {
             </Box>
 
             <ParallaxBanner
-                image={imgParallax1}
+                image={imgParallax}
                 title={CONTENT_STORY.SECTION2_PARALLAX_TITLE}
                 subtitle={CONTENT_STORY.SECTION2_PARALLAX_SUBTITLE}
                 height="320px"

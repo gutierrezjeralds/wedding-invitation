@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
     AppBar,
@@ -16,13 +16,13 @@ import {
 import { CONTENT } from './utils/Constants';
 
 import MenuIcon from '@mui/icons-material/Menu';
-import bannerImage from '../assets/img/header_banner.jpeg';
-import imgLogo from '../assets/img/header_logo.png';
+import imgLogo from '../assets/img/header/header_logo.png';
 import ParallaxBanner from '../views/utils/ParallaxBanner';
 
 export default function Header() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [bannerUrl, setBannerUrl] = useState('');
 
   const navItems = [
       { label: CONTENT.PAGE_TITLE_HOME, href: '/home' },
@@ -37,13 +37,25 @@ export default function Header() {
       setMobileOpen((prev) => !prev);
   };
 
+  useEffect(() => {
+    const currentPath = location.pathname.replace('/', '') || 'home';
+
+    // Resolves the image path relative to the current file dynamically
+    const dynamicBannerUrl = new URL(
+      `../assets/img/header/banner/${currentPath}.jpeg`,
+      import.meta.url
+    ).href;
+
+    setBannerUrl(dynamicBannerUrl);
+  }, [location.pathname]);
+
   return (
     <Box>
       {/* =========================
           HEADER PARALLAX BANNER
       ========================== */}
       <ParallaxBanner
-          image={bannerImage}
+          image={bannerUrl}
           height={{ xs: '55vh', sm: '65vh', md: '70vh' }}
       />
 

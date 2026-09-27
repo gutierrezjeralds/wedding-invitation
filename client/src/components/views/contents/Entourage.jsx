@@ -6,7 +6,7 @@ import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
 import { CONTENT_ENTOURAGE } from '../utils/Constants';
 
-import imgParallax1 from "../../assets/img/story/parallax1.jpg";
+import imgParallax from "../../assets/img/parallax/entourage.jpg";
 
 export default function Entourage() {
     const Item = styled(Paper)(({ theme }) => ({
@@ -303,7 +303,7 @@ export default function Entourage() {
                 </Container>
 
                 <ParallaxBanner
-                    image={imgParallax1}
+                    image={imgParallax}
                     title={CONTENT_ENTOURAGE.PARALLAX_TITLE}
                     subtitle={CONTENT_ENTOURAGE.PARALLAX_SUBTITLE}
                     height="320px"
