@@ -139,13 +139,13 @@ export const CONTENT_ENTOURAGE = {
         TAGLINE: "With praise & thanksgiving to God and with our parents’ love, blessings, and guidance",
         GROOM: {
             TITLE: "Parents of the Groom",
-            FATHER: "Mr. Firstname Lastname",
-            MOTHER: "Mrs. Firstname Lastname",
+            FATHER: "Mr. Ruben Gutierrez",
+            MOTHER: "Mrs. Nancy Gutierrez",
         },
         BRIDE: {
             TITLE: "Parents of the Bride",
-            FATHER: "Mr. Firstname Lastname",
-            MOTHER: "Mrs. Firstname Lastname",
+            FATHER: "Mr. Marcelo Bathan",
+            MOTHER: "Mrs. Deborah Bathan",
         }
     },
     PRINCIPAL_SPONSORS: {
@@ -181,11 +181,11 @@ export const CONTENT_ENTOURAGE = {
         BRIDAL_PRIMARY: {
             MOH: {
                 TITLE: "Maid of Honor",
-                NAME: "Ms. Firstname Lastname"
+                NAME: "Ms. Meriel Bathan"
             },
             BEST_MAN: {
                 TITLE: "Best Man",
-                NAME: "Mr. Firstname Lastname"
+                NAME: "Mr. Paul John Gutierrez"
             }
         },
         BRIDAL_GROUP: {
@@ -201,7 +201,7 @@ export const CONTENT_ENTOURAGE = {
             GROOMSMEN: {
                 TITLE: "Groomsmen",
                 NAMES: [
-                    "Mr. Firstname Lastname",
+                    "Mr. Dexter Bathan",
                     "Mr. Firstname Lastname",
                     "Mr. Firstname Lastname",
                     "Mr. Firstname Lastname"
