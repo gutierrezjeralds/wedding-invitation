@@ -47,8 +47,8 @@ export default function Attire() {
     const [imgGuestPalette, setImgGuestPalette] = useState([]);
     const [imgSponsorsDress, setImgSponsorsDress] = useState([]);
     const [imgSponsorsPalette, setImgSponsorsPalette] = useState([]);
-    const [imgEntourageDress, setImgEntourageDress] = useState([]);
-    const [imgEntouragePalette, setImgEntouragePalette] = useState([]);
+    const [imgEntourageDressAdult, setImgEntourageDressAdult] = useState([]);
+    const [imgEntourageDressChild, setImgEntourageDressChild] = useState([]);
     const [imgParentsDress, setImgParentsDress] = useState([]);
     const [imgParentsPalette, setImgParentsPalette] = useState([]);
 
@@ -94,15 +94,15 @@ export default function Attire() {
     }, []);
 
     useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/attire/entourage/dress")
+        fetch(sCloudflareBaseUrl + "/attire/entourage/dress/adult")
         .then((res) => res.json())
-        .then(setImgEntourageDress);
+        .then(setImgEntourageDressAdult);
     }, []);
 
     useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/attire/entourage/palette")
+        fetch(sCloudflareBaseUrl + "/attire/entourage/dress/child")
         .then((res) => res.json())
-        .then(setImgEntouragePalette);
+        .then(setImgEntourageDressChild);
     }, []);
 
     useEffect(() => {
@@ -162,10 +162,10 @@ export default function Attire() {
                                     },
                                 }}
                             >
-                                <Tab icon={<PeopleAlt fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB_GUEST} />
-                                <Tab icon={<MilitaryTech fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB_SPONSORS} />
-                                <Tab icon={<Groups fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB_ENTOURAGE} />
-                                <Tab icon={<FamilyRestroom fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB_PARENTS} />
+                                <Tab icon={<PeopleAlt fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB.GUEST.TITLE} />
+                                <Tab icon={<MilitaryTech fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB.SPONSORS.TITLE} />
+                                <Tab icon={<Groups fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB.ENTOURAGE.TITLE} />
+                                <Tab icon={<FamilyRestroom fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB.PARENTS.TITLE} />
                             </Tabs>
                         </Box>
 
@@ -175,11 +175,11 @@ export default function Attire() {
                                 <Text
                                     variant="body1"
                                     className="playfair-display-regular mb-1 text-gold"
-                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_GUEST_TITLE}
+                                    textKey={CONTENT_ATTIRE.TAB.GUEST.GUIDE}
                                 />
                                 <Text
                                     variant="caption"
-                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_GUEST_SUBTITLE}
+                                    textKey={CONTENT_ATTIRE.TAB.GUEST.DETAILS}
                                 />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
@@ -235,7 +235,7 @@ export default function Attire() {
                                                             image={item.url}
                                                             alt={`Attire sample ${index + 1}`}
                                                             loading="lazy"
-                                                            sx={{ objectFit: 'contain', bgcolor: '#fff' }}
+                                                            sx={{ objectFit: 'contain', bgcolor: '#fff', py: 2 }}
                                                         />
                                                     </Card>
                                                 </SwiperSlide>
@@ -249,14 +249,14 @@ export default function Attire() {
                                             <Text
                                                 variant="h6"
                                                 className="playfair-display-regular text-gold"
-                                                textKey={CONTENT_ATTIRE.TAB_CONTENT_GUEST_CARD2_TITLE}
+                                                textKey={CONTENT_ATTIRE.TAB.PALETTE}
                                             />
                                             {imgGuestPalette.map((item, index) => (
                                                 <React.Fragment key={index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
-                                                        textKey={CONTENT_ATTIRE["TAB_CONTENT_GUEST_CARD2_SUBTITLE_1" + (index + 1)]}
+                                                        textKey={CONTENT_ATTIRE.TAB.GUEST["SUBDETAILS_" + (index + 1)]}
                                                     />
                                                     <Box className="d-flex flex-row justify-content-center align-items-center">
                                                         <Box
@@ -286,11 +286,11 @@ export default function Attire() {
                                 <Text
                                     variant="body1"
                                     className="playfair-display-regular mb-1 text-gold"
-                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_SPONSORS_TITLE}
+                                    textKey={CONTENT_ATTIRE.TAB.SPONSORS.GUIDE}
                                 />
                                 <Text
                                     variant="caption"
-                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_SPONSORS_SUBTITLE}
+                                    textKey={CONTENT_ATTIRE.TAB.SPONSORS.DETAILS}
                                 />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
@@ -346,7 +346,7 @@ export default function Attire() {
                                                             image={item.url}
                                                             alt={`Attire sample ${index + 1}`}
                                                             loading="lazy"
-                                                            sx={{ objectFit: 'contain', bgcolor: '#fff' }}
+                                                            sx={{ objectFit: 'contain', bgcolor: '#fff', py: 2 }}
                                                         />
                                                     </Card>
                                                 </SwiperSlide>
@@ -360,14 +360,14 @@ export default function Attire() {
                                             <Text
                                                 variant="h6"
                                                 className="playfair-display-regular text-gold"
-                                                textKey={CONTENT_ATTIRE.TAB_CONTENT_SPONSORS_CARD2_TITLE}
+                                                textKey={CONTENT_ATTIRE.TAB.PALETTE}
                                             />
                                             {imgSponsorsPalette.map((item, index) => (
                                                  <React.Fragment key={index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
-                                                        textKey={CONTENT_ATTIRE["TAB_CONTENT_SPONSORS_CARD2_SUBTITLE_" + (index + 1)]}
+                                                        textKey={CONTENT_ATTIRE.TAB.SPONSORS["SUBDETAILS_" + (index + 1)]}
                                                     />
                                                     <Box className="d-flex flex-row justify-content-center align-items-center">
                                                         <Box
@@ -397,11 +397,11 @@ export default function Attire() {
                                 <Text
                                     variant="body1"
                                     className="playfair-display-regular mb-1 text-gold"
-                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_ENTOURAGE_TITLE}
+                                    textKey={CONTENT_ATTIRE.TAB.ENTOURAGE.GUIDE}
                                 />
                                 <Text
                                     variant="caption"
-                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_ENTOURAGE_SUBTITLE}
+                                    textKey={CONTENT_ATTIRE.TAB.ENTOURAGE.DETAILS}
                                 />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
@@ -448,7 +448,7 @@ export default function Attire() {
                                             pagination={{ clickable: true }}
                                             autoplay={{ delay: 3500, disableOnInteraction: false }}
                                         >
-                                            {imgEntourageDress.map((item, index) => (
+                                            {imgEntourageDressAdult.map((item, index) => (
                                                 <SwiperSlide key={index}>
                                                     <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
                                                         <CardMedia
@@ -457,7 +457,7 @@ export default function Attire() {
                                                             image={item.url}
                                                             alt={`Attire sample ${index + 1}`}
                                                             loading="lazy"
-                                                            sx={{ objectFit: 'contain', bgcolor: '#fff' }}
+                                                            sx={{ objectFit: 'contain', bgcolor: '#fff', py: 2 }}
                                                         />
                                                     </Card>
                                                 </SwiperSlide>
@@ -466,37 +466,55 @@ export default function Attire() {
                                     </Box>
 
                                     {/* COLUMN 2: RIGHT SIDE (Text Content) */}
-                                    <Box>
-                                        <Stack spacing={2}>
-                                            <Text
-                                                variant="h6"
-                                                className="playfair-display-regular text-gold"
-                                                textKey={CONTENT_ATTIRE.TAB_CONTENT_ENTOURAGE_CARD2_TITLE}
-                                            />
-                                            {imgEntouragePalette.map((item, index) => (
-                                                 <React.Fragment key={index}>
-                                                    <Text
-                                                        variant="caption"
-                                                        className="text-center"
-                                                        textKey={CONTENT_ATTIRE["TAB_CONTENT_ENTOURAGE_CARD2_SUBTITLE_" + (index + 1)]}
-                                                    />
-                                                    <Box className="d-flex flex-row justify-content-center align-items-center">
-                                                        <Box
+                                    <Box
+                                        sx={{
+                                            width: '100%',
+                                            minWidth: 0, // Prevents Swiper from overflowing flex/grid containers
+                                            '& .swiper': {
+                                                paddingBottom: '35px',
+                                            },
+                                            '& .swiper-button-next, & .swiper-button-prev': {
+                                                color: '#d4af37',
+                                                '&::after': {
+                                                    fontSize: '1.2rem',
+                                                    fontWeight: 'bold',
+                                                },
+                                            },
+                                            '& .swiper-pagination-bullet': {
+                                                backgroundColor: '#ccc',
+                                                opacity: 0.7,
+                                            },
+                                            '& .swiper-pagination-bullet-active': {
+                                                backgroundColor: '#d4af37',
+                                                opacity: 1,
+                                                width: 12,
+                                                borderRadius: 4,
+                                            },
+                                        }}
+                                    >
+                                        <Swiper
+                                            modules={[Navigation, Pagination, Autoplay]}
+                                            spaceBetween={15}
+                                            slidesPerView={1}
+                                            navigation
+                                            pagination={{ clickable: true }}
+                                            autoplay={{ delay: 3500, disableOnInteraction: false }}
+                                        >
+                                            {imgEntourageDressChild.map((item, index) => (
+                                                <SwiperSlide key={index}>
+                                                    <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
+                                                        <CardMedia
                                                             component="img"
-                                                            src={item.url}
-                                                            alt={`Palette sample ${index + 1}`}
-                                                            sx={{
-                                                                width: '100%',          // Responsive width
-                                                                maxWidth: 400,          // Maximum width limit
-                                                                height: 'auto',         // Maintain aspect ratio
-                                                                display: 'block',
-                                                                mx: 'auto',             // Center horizontally
-                                                            }}
+                                                            height="380"
+                                                            image={item.url}
+                                                            alt={`Attire sample ${index + 1}`}
+                                                            loading="lazy"
+                                                            sx={{ objectFit: 'contain', bgcolor: '#fff', py: 2 }}
                                                         />
-                                                    </Box>
-                                                </React.Fragment>
+                                                    </Card>
+                                                </SwiperSlide>
                                             ))}
-                                        </Stack>
+                                        </Swiper>
                                     </Box>
                                 </Box>
                             </Paper>
@@ -508,11 +526,11 @@ export default function Attire() {
                                 <Text
                                     variant="body1"
                                     className="playfair-display-regular mb-1 text-gold"
-                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_PARENTS_TITLE}
+                                    textKey={CONTENT_ATTIRE.TAB.PARENTS.GUIDE}
                                 />
                                 <Text
                                     variant="caption"
-                                    textKey={CONTENT_ATTIRE.TAB_CONTENT_PARENTS_SUBTITLE}
+                                    textKey={CONTENT_ATTIRE.TAB.PARENTS.GUIDE}
                                 />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
@@ -568,7 +586,7 @@ export default function Attire() {
                                                             image={item.url}
                                                             alt={`Attire sample ${index + 1}`}
                                                             loading="lazy"
-                                                            sx={{ objectFit: 'contain', bgcolor: '#fff' }}
+                                                            sx={{ objectFit: 'contain', bgcolor: '#fff', py: 2 }}
                                                         />
                                                     </Card>
                                                 </SwiperSlide>
@@ -582,14 +600,14 @@ export default function Attire() {
                                             <Text
                                                 variant="h6"
                                                 className="playfair-display-regular text-gold"
-                                                textKey={CONTENT_ATTIRE.TAB_CONTENT_PARENTS_CARD2_TITLE}
+                                                textKey={CONTENT_ATTIRE.TAB.PALETTE}
                                             />
                                             {imgParentsPalette.map((item, index) => (
                                                  <React.Fragment key={index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
-                                                        textKey={CONTENT_ATTIRE["TAB_CONTENT_PARENTS_CARD2_SUBTITLE_" + (index + 1)]}
+                                                        textKey={CONTENT_ATTIRE.TAB.PARENTS["SUBDETAILS_" + (index + 1)]}
                                                     />
                                                     <Box className="d-flex flex-row justify-content-center align-items-center">
                                                         <Box
