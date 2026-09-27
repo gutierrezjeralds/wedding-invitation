@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Container, Box, Divider, Grid, Paper, styled , Link, Button} from '@mui/material';
-import { FavoriteBorder, Favorite, Church, Groups, Checkroom, Send } from '@mui/icons-material';
+import React from 'react';
+import { Container, Box, Divider, Grid, Paper, styled } from '@mui/material';
+import { FavoriteBorder, Church, Groups, Checkroom } from '@mui/icons-material';
 import { Text } from '../utils/CustomComponents';
 import Countdown from '../utils/Countdown';
 import { CONTENT, CONTENT_HOME } from '../utils/Constants';
+import { SparklingCardLink, SparklingRsvpButton } from '../utils/SparklingComponents';
 
 export default function Home() {
     const Item = styled(Paper)(({ theme }) => ({
-            backgroundColor: '#fff',
-            ...theme.typography.body2,
-            padding: theme.spacing(1),
-            textAlign: 'center',
-            color: (theme.vars ?? theme).palette.text.secondary,
-            ...theme.applyStyles('dark', {
-                backgroundColor: '#1A2027',
+        backgroundColor: '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: (theme.vars ?? theme).palette.text.secondary,
+        ...theme.applyStyles('dark', {
+            backgroundColor: '#1A2027',
         }),
     }));
 
@@ -60,8 +60,7 @@ export default function Home() {
                         <Text
                             letterSpacing="wide"
                             variant="h6"
-                            className="text-uppercase
-                            cormorant-garamond-regular mt-5"
+                            className="text-uppercase cormorant-garamond-regular mt-5"
                             textKey={CONTENT_HOME.GETTINGMARRIED}
                         />
 
@@ -80,8 +79,8 @@ export default function Home() {
 
                         <Countdown />
 
-                        <Divider component="div" role="presentation" className='p-4 m-auto' sx={{width: "20rem"}}>
-                            <FavoriteBorder fontSize="small" className='mt-2' />
+                        <Divider component="div" role="presentation" className="p-4 m-auto" sx={{ width: '20rem' }}>
+                            <FavoriteBorder fontSize="small" className="mt-2" />
                         </Divider>
 
                         <Text
@@ -97,17 +96,13 @@ export default function Home() {
                             textKey={CONTENT_HOME.PAGE_SUBTITLE}
                         />
 
+                        {/* Navigation Grid with Sparkling Cards */}
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="mt-4">
                             {oItemNav.map((item) => {
                                 const IconComponent = item.icon;
                                 return (
                                     <Grid size={{ xs: 6, sm: 3 }} key={item.id}>
-                                        <Link 
-                                            component={RouterLink} 
-                                            to={item.to} 
-                                            underline="none" 
-                                            sx={{ color: 'inherit', display: 'block' }}
-                                        >
+                                        <SparklingCardLink to={item.to}>
                                             <Item className="py-3">
                                                 <IconComponent fontSize="large" />
                                                 <Text
@@ -115,15 +110,14 @@ export default function Home() {
                                                     textKey={item.labelKey}
                                                 />
                                             </Item>
-                                        </Link>
+                                        </SparklingCardLink>
                                     </Grid>
                                 );
                             })}
                         </Grid>
 
-                        <Button variant="outlined" className="mt-5" startIcon={<Send />} sx={{width: "15rem"}}>
-                            {CONTENT.TITLE_RSVP}
-                        </Button>
+                        {/* Sparkling RSVP Button */}
+                        <SparklingRsvpButton to="/rsvp" />
                     </Box>
                 </Container>
             </Box>
