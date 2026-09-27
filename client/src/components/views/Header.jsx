@@ -84,7 +84,7 @@ export default function Header() {
                   src={imgLogo}
                   alt="JS"
                   sx={{
-                    height: 20,
+                    height: 30,
                     width: 'auto',
                     objectFit: 'contain',
                     transition: 'opacity 0.2s ease-in-out',
