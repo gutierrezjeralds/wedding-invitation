@@ -353,7 +353,7 @@ export const CONTENT_FAQ = {
             ID: 5,
             CATEGORY: "rsvp",
             QUESTION: "Can I bring my children?",
-            ANSWER: "We love children, but due to limited seating, guests should be <strong>18 years old and above</strong>. Younger guests may attend if they are part of the wedding entourage or are close family of the bride and groom, with prior approval from us."
+            ANSWER: "We love children, but due to limited seating, guests should be <strong>15 years old and above</strong>. Younger guests may attend if they are part of the wedding entourage or are close family of the bride and groom, with prior approval from us."
         },
         {
             ID: 6,
