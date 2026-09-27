@@ -14,7 +14,7 @@ export default function Envelope() {
     const { t: oI18n } = useTranslation();
     return (
         <React.Fragment>
-            <GlobalButterflies primary="#722F37" secondary="#F8C8DC" />
+            <GlobalButterflies primary="#d71128" secondary="#F8C8DC" />
 
             <Box className="bg-light">
                 <Container maxWidth="lg" className="py-5">
