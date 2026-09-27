@@ -1,7 +1,12 @@
 import React from 'react';
 import { Box, Container, Grid, Divider, styled, Paper } from '@mui/material';
+import ChurchIcon from '@mui/icons-material/Church';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Text, PageTitle } from '../utils/CustomComponents';
+import ParallaxBanner from '../utils/ParallaxBanner';
 import { CONTENT_ENTOURAGE } from '../utils/Constants';
+
+import imgParallax1 from "../../assets/img/story/parallax1.jpg";
 
 export default function Entourage() {
     const Item = styled(Paper)(({ theme }) => ({
@@ -294,6 +299,67 @@ export default function Entourage() {
                                 </Item>
                             </Grid>
                         </Grid>
+                    </Box>
+                </Container>
+
+                <ParallaxBanner
+                    image={imgParallax1}
+                    title={CONTENT_ENTOURAGE.PARALLAX_TITLE}
+                    subtitle={CONTENT_ENTOURAGE.PARALLAX_SUBTITLE}
+                    height="320px"
+                />
+                
+                <Container maxWidth="lg" className="py-5">
+                    {/* 7. PROCESSIONAL LINE-UP */}
+                    <Box className="text-center">
+                        {/* Icon Header */}
+                        <Box className="d-flex align-items-center justify-content-center mb-2">
+                            <ChurchIcon fontSize="large" sx={{ color: '#C5A059' }} />
+                        </Box>
+
+                        <Text
+                            variant="h4"
+                            className="great-vibes-regular mb-2"
+                            sx={{ color: '#2C3E35', fontSize: { xs: '2.5rem', sm: '3.2rem' } }}
+                            textKey={CONTENT_ENTOURAGE.LINEUP.TITLE}
+                        />
+
+                        <Text
+                            variant="caption"
+                            className="cormorant-garamond-regular d-block fst-italic mb-4"
+                            textKey={CONTENT_ENTOURAGE.LINEUP.TAGLINE}
+                        />
+
+                        {/* Line-up List */}
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.2, mt: 3 }}>
+                            {CONTENT_ENTOURAGE.LINEUP.LIST.map((item, idx) => {
+                                // Check if current item is Groom or Bride
+                                const isHighlighted = item.toLowerCase() === 'groom' || item.toLowerCase() === 'bride';
+
+                                return (
+                                    <Box key={idx} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                        <Text
+                                            variant="body1"
+                                            className="cormorant-sc-bold"
+                                            sx={{
+                                                color: isHighlighted ? '#C5A059' : '#2C3E35',
+                                                fontSize: isHighlighted ? '1.35rem' : '1.15rem',
+                                                letterSpacing: '0.15em',
+                                                textTransform: 'uppercase'
+                                            }}
+                                            textKey={item}
+                                        />
+                                        
+                                        {/* Accent divider heart icon between items */}
+                                        {idx < CONTENT_ENTOURAGE.LINEUP.LIST.length - 1 && (
+                                            <FavoriteBorderIcon 
+                                                sx={{ color: '#C5A059', fontSize: 12, opacity: 0.5, mt: 1.5 }} 
+                                            />
+                                        )}
+                                    </Box>
+                                );
+                            })}
+                        </Box>
                     </Box>
                 </Container>
             </Box>

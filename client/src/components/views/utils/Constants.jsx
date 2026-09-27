@@ -230,7 +230,25 @@ export const CONTENT_ENTOURAGE = {
             TITLE: "Flower Girls",
             NAMES: ["Little Ms. Firstname Lastname", "Little Ms. Firstname Lastname"]
         }
-    }
+    },
+    LINEUP: {
+        TITLE: "Processional Line-up",
+        TAGLINE: "The Journey to the Altar",
+        LIST: [
+            "Bestman",
+            "Parents of Groom",
+            "Groom",
+            "Principal Sponsors",
+            "Secondary Sponsors",
+            "Groomsmen and Bridesmaids",
+            "Flower Girls and Bearers",
+            "Maid of Honor",
+            "Parents of Bride",
+            "Bride"
+        ]
+    },
+    PARALLAX_TITLE: "QUOTE",
+    PARALLAX_SUBTITLE: "TEST"
 };
 
 export const CONTENT_ATTIRE = {
