@@ -114,7 +114,7 @@
     "page_faq_search_placeholder": "Search questions (e.g. dress code, parking, RSVP)...",
     "page_faq_search_nomatch": "No matching questions found for '{{0}}'. Try searching for another term!",
     "page_faq_still_question": "Still Have Questions?",
-    "page_faq_cant_find": "Can't find the answer you're looking for? Feel free to reach out to Jerald & Sheila directly!",
+    "page_faq_cant_find": "Can't find the answer you're looking for? Please feel free to reach out to Jerald & Sheila directly. We’ll be happy to help!",
     "page_faq_button_send": "Send Us a Message",
     "page_faq_categories": [
         {
@@ -186,12 +186,6 @@
             "category": "ceremony",
             "question": "What happens if it rains?",
             "answer": "We’re hoping for a beautiful sunny day, but <strong>rain or shine, we’ll be celebrating together!</strong> Both the ceremony and reception will be held indoors.\nSince July is part of the rainy season, please bring an umbrella and allow extra travel time."
-        },
-        {
-            "id": 9,
-            "category": "all",
-            "question": "What if I have more questions?",
-            "answer": "If you have any questions not covered in our FAQ, please feel free to <strong>reach out to us directly</strong>. We’ll be happy to help!"
         }
     ]
 }

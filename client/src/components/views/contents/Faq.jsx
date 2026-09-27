@@ -244,14 +244,14 @@ export default function Faq() {
                                 paragraph
                                 i18nKey="page_faq_cant_find"
                             />
-                            <Button
+                            {/* <Button
                                 variant="contained"
                                 color="primary"
                                 href="mailto:jeraldandsheila@gmail.com"
                                 sx={{ borderRadius: 3, px: 4, mt: 2 }}
                             >
                                 {oI18n("page_faq_button_send")}
-                            </Button>
+                            </Button> */}
                         </CardContent>
                     </Card>
                 </Container>
