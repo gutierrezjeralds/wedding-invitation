@@ -131,6 +131,108 @@ export const CONTENT_WEDDING = {
     ]
 };
 
+export const CONTENT_ENTOURAGE = {
+    TITLE: "Our Beloved Entourage",
+    SUBTITLE: "Standing with us as we step into forever.",
+    PARENTS: {
+        TITLE: "Parents",
+        TAGLINE: "With praise & thanksgiving to God and with our parents’ love, blessings, and guidance",
+        GROOM: {
+            TITLE: "Parents of the Groom",
+            FATHER: "Mr. Firstname Lastname",
+            MOTHER: "Mrs. Firstname Lastname",
+        },
+        BRIDE: {
+            TITLE: "Parents of the Bride",
+            FATHER: "Mr. Firstname Lastname",
+            MOTHER: "Mrs. Firstname Lastname",
+        }
+    },
+    PRINCIPAL_SPONSORS: {
+        TITLE: "Principal Sponsors",
+        TAGLINE: "With heartfelt gratitude for the love, wisdom, and guidance of our Godparents",
+        SUBTITLE: "Godparents",
+        LIST: [
+            { NAME: "Mr. Firstname and Mrs. Firstname Lastname" },
+            { NAME: "Mr. Firstname and Mrs. Firstname Lastname" },
+            { NAME: "Mr. Firstname and Mrs. Firstname Lastname" },
+            { NAME: "Mr. Firstname and Mrs. Firstname Lastname" },
+        ]
+    },
+    SECONDARY_SPONSORS: {
+        TITLE: "Secondary Sponsors",
+        TAGLINE: "With grateful hearts honored to have those who help us uphold the sacred symbols and traditions of our wedding",
+        CANDLE: { 
+            TITLE: "Candle",
+            NAMES: ["Mr. Firstname Lastname", "Ms. Firstname Lastname"]
+        },
+        VEIL: { 
+            TITLE: "Veil",
+            NAMES: ["Mr. Firstname Lastname", "Ms. Firstname Lastname"]
+        },
+        CORD: { 
+            TITLE: "Cord",
+            NAMES: ["Mr. Firstname Lastname", "Ms. Firstname Lastname"]
+        },
+    },
+    ENTOURAGE: {
+        TITLE: "Entourage",
+        TAGLINE: "Tagline ...",
+        BRIDAL_PRIMARY: {
+            MOH: {
+                TITLE: "Maid of Honor",
+                NAME: "Ms. Firstname Lastname"
+            },
+            BEST_MAN: {
+                TITLE: "Best Man",
+                NAME: "Mr. Firstname Lastname"
+            }
+        },
+        BRIDAL_GROUP: {
+            BRIDESMAIDS: {
+                TITLE: "Bridesmaids",
+                NAMES: [
+                    "Ms. Firstname Lastname",
+                    "Ms. Firstname Lastname",
+                    "Ms. Firstname Lastname",
+                    "Ms. Firstname Lastname"
+                ]
+            },
+            GROOMSMEN: {
+                TITLE: "Groomsmen",
+                NAMES: [
+                    "Mr. Firstname Lastname",
+                    "Mr. Firstname Lastname",
+                    "Mr. Firstname Lastname",
+                    "Mr. Firstname Lastname"
+                ]
+            }
+        }
+    },
+    LITTLE_ATTENDANT: {
+        TITLE: "Little Attendant",
+        TAGLINE: "Tagline ....",
+        BEARERS: {
+            RING: {
+                TITLE: "Ring Bearer",
+                NAME: "Master Firstname Lastname"
+            },
+            COIN: {
+                TITLE: "Coin Bearer",
+                NAME: "Master Firstname Lastname"
+            },
+            BIBLE: {
+                TITLE: "Bible Bearer",
+                NAME: "Master Firstname Lastname"
+            }
+        },
+        FLOWER_GIRLS: {
+            TITLE: "Flower Girls",
+            NAMES: ["Little Ms. Firstname Lastname", "Little Ms. Firstname Lastname"]
+        }
+    }
+};
+
 export const CONTENT_ATTIRE = {
     TITLE: "Attire Guide",
     SUBTITLE: "Dress up and celebrate this joyous occasion with us. Come in elegant <span class='fw-bold'>formal attire</span>, inspired by our attire guide and color palette.",
