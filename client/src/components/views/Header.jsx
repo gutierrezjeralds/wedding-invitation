@@ -132,7 +132,7 @@ export default function Header() {
               sx={{ display: { xs: 'flex', sm: 'none' } }}
               aria-label="open navigation menu"
             >
-              <MenuIcon />
+              <MenuIcon fontSize='large' />
             </IconButton>
           </Toolbar>
         </Container>
