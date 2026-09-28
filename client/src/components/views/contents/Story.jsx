@@ -369,7 +369,7 @@ export default function Story() {
                 image={imgParallax}
                 title={CONTENT_STORY.SECTION2_PARALLAX_TITLE}
                 subtitle={CONTENT_STORY.SECTION2_PARALLAX_SUBTITLE}
-                height="320px"
+                height="350px"
             />
 
             <Box className="bg-vintage">

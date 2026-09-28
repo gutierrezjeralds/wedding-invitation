@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Header from './components/views/Header';
 import Footer from './components/views/Footer';
 import Envelope from './components/views/contents/Envelope';
+import Cover from './components/views/contents/Cover';
 import Home from './components/views/contents/Home';
 import Story from './components/views/contents/Story';
 import Wedding from './components/views/contents/Wedding';
@@ -18,7 +19,7 @@ export default function App() {
     const location = useLocation();
 
     // Array of paths where the Header should NOT appear
-    const hideHeaderOnPaths = ['/', '/home'];
+    const hideHeaderOnPaths = ['/', '/home', '/cover'];
     const showHeader = !hideHeaderOnPaths.includes(location.pathname);
 
     // const { photosData, loading, error } = useDrivePhotos();
@@ -30,6 +31,7 @@ export default function App() {
 
             <Routes>
                 <Route path="/" element={<Envelope />} />
+                <Route path="/cover" element={<Cover />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/story" element={<Story />} />
                 <Route path="/wedding" element={<Wedding />} />
@@ -37,6 +39,9 @@ export default function App() {
                 <Route path="/attire" element={<Attire />} />
                 <Route path="/faq" element={<Faq />} />
                 <Route path="/gift" element={<Gift />} />
+
+                {/* Fallback routing */}
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
 
             {showHeader && <Footer />}

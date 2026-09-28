@@ -306,7 +306,7 @@ export default function Entourage() {
                     image={imgParallax}
                     title={CONTENT_ENTOURAGE.PARALLAX_TITLE}
                     subtitle={CONTENT_ENTOURAGE.PARALLAX_SUBTITLE}
-                    height="320px"
+                    height="350px"
                 />
                 
                 <Container maxWidth="lg" className="py-5">
