@@ -131,7 +131,6 @@ export const CONTENT_WEDDING = {
     ]
 };
 
-```js
 export const CONTENT_ENTOURAGE = {
     TITLE: "Wedding Party",
     SUBTITLE:
