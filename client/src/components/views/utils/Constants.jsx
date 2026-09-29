@@ -261,7 +261,7 @@ export const CONTENT_ATTIRE = {
             GUIDE: "Guest Attire Guide",
             DETAILS: "<span class='fw-bold'>Ladies:</span> Elegant Formal Dress\n<span class='fw-bold'>Gentlemen:</span> Long- or Short-Sleeve Collared Polo with Tailored Dress Pants",
             NOTE: "",
-            SUBDETAILS_1: "<span class='fw-bold'>Ladies:</span>",
+            SUBDETAILS_1: "",
             SUBDETAILS_2: "",
         },
         SPONSORS: {
