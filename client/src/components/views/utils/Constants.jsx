@@ -131,63 +131,105 @@ export const CONTENT_WEDDING = {
     ]
 };
 
+```js
 export const CONTENT_ENTOURAGE = {
-    TITLE: "Our Beloved Entourage",
-    SUBTITLE: "Standing with us as we step into forever.",
+    TITLE: "Wedding Party",
+    SUBTITLE:
+        "Standing with us as we begin our marriage under God’s loving grace.",
+
     PARENTS: {
         TITLE: "Parents",
-        TAGLINE: "With praise & thanksgiving to God and with our parents’ love, blessings, and guidance",
+        TAGLINE:
+            "With praise and thanksgiving to God for the love, prayers, and guidance that have shaped our lives.",
+
         GROOM: {
             TITLE: "Parents of the Groom",
             FATHER: "Mr. Ruben Gutierrez",
             MOTHER: "Mrs. Nancy Gutierrez",
         },
+
         BRIDE: {
             TITLE: "Parents of the Bride",
             FATHER: "Mr. Marcelo Bathan",
             MOTHER: "Mrs. Deborah Bathan",
-        }
+        },
     },
+
     PRINCIPAL_SPONSORS: {
         TITLE: "Principal Sponsors",
-        TAGLINE: "With heartfelt gratitude for the love, wisdom, and guidance of our Godparents",
+        TAGLINE:
+            "With profound gratitude for the prayers, wisdom, and guidance that have strengthened our journey of faith.",
         SUBTITLE: "Godparents",
+
         LIST: [
-            { NAME: "Mr. Firstname and Mrs. Firstname Lastname" },
-            { NAME: "Mr. Firstname and Mrs. Firstname Lastname" },
-            { NAME: "Mr. Firstname and Mrs. Firstname Lastname" },
-            { NAME: "Mr. Firstname and Mrs. Firstname Lastname" },
-        ]
+            {
+                NAME: "Mr. Firstname Lastname and Mrs. Firstname Lastname",
+            },
+            {
+                NAME: "Mr. Firstname Lastname and Mrs. Firstname Lastname",
+            },
+            {
+                NAME: "Mr. Firstname Lastname and Mrs. Firstname Lastname",
+            },
+            {
+                NAME: "Mr. Firstname Lastname and Mrs. Firstname Lastname",
+            },
+            {
+                NAME: "Mr. Firstname Lastname and Mrs. Firstname Lastname",
+            },
+            {
+                NAME: "Mr. Firstname Lastname and Mrs. Firstname Lastname",
+            },
+        ],
     },
+
     SECONDARY_SPONSORS: {
         TITLE: "Secondary Sponsors",
-        TAGLINE: "With grateful hearts honored to have those who help us uphold the sacred symbols and traditions of our wedding",
-        CANDLE: { 
+        TAGLINE:
+            "With heartfelt gratitude for those who share in the sacred rites of our marriage.",
+
+        CANDLE: {
             TITLE: "Candle",
-            NAMES: ["Mr. Firstname Lastname", "Ms. Firstname Lastname"]
+            NAMES: [
+                "Mr. Firstname Lastname",
+                "Ms. Firstname Lastname",
+            ],
         },
-        VEIL: { 
+
+        VEIL: {
             TITLE: "Veil",
-            NAMES: ["Mr. Firstname Lastname", "Ms. Firstname Lastname"]
+            NAMES: [
+                "Mr. Firstname Lastname",
+                "Ms. Firstname Lastname",
+            ],
         },
-        CORD: { 
+
+        CORD: {
             TITLE: "Cord",
-            NAMES: ["Mr. Firstname Lastname", "Ms. Firstname Lastname"]
+            NAMES: [
+                "Mr. Firstname Lastname",
+                "Ms. Firstname Lastname",
+            ],
         },
     },
+
     ENTOURAGE: {
         TITLE: "Entourage",
-        TAGLINE: "Tagline ...",
+        TAGLINE:
+            "With appreciation for the cherished friendships, family bonds, and steadfast support that have accompanied us through the years.",
+
         BRIDAL_PRIMARY: {
             MOH: {
                 TITLE: "Maid of Honor",
-                NAME: "Ms. Meriel Bathan"
+                NAME: "Ms. Meriel Bathan",
             },
+
             BEST_MAN: {
                 TITLE: "Best Man",
-                NAME: "Mr. Paul John Gutierrez"
-            }
+                NAME: "Mr. Paul John Gutierrez",
+            },
         },
+
         BRIDAL_GROUP: {
             BRIDESMAIDS: {
                 TITLE: "Bridesmaids",
@@ -195,60 +237,79 @@ export const CONTENT_ENTOURAGE = {
                     "Ms. Firstname Lastname",
                     "Ms. Firstname Lastname",
                     "Ms. Firstname Lastname",
-                    "Ms. Firstname Lastname"
-                ]
+                    "Ms. Firstname Lastname",
+                ],
             },
+
             GROOMSMEN: {
                 TITLE: "Groomsmen",
                 NAMES: [
                     "Mr. Dexter Bathan",
                     "Mr. Firstname Lastname",
                     "Mr. Firstname Lastname",
-                    "Mr. Firstname Lastname"
-                ]
-            }
-        }
+                    "Mr. Firstname Lastname",
+                ],
+            },
+        },
     },
+
     LITTLE_ATTENDANT: {
-        TITLE: "Little Attendant",
-        TAGLINE: "Tagline ....",
+        TITLE: "Little Attendants",
+        TAGLINE:
+            "With love for our young attendants who carry the symbols of our love and devotion.",
+
         BEARERS: {
             RING: {
                 TITLE: "Ring Bearer",
-                NAME: "Master Firstname Lastname"
+                NAME: "Master Firstname Lastname",
             },
+
             COIN: {
                 TITLE: "Coin Bearer",
-                NAME: "Master Firstname Lastname"
+                NAME: "Master Firstname Lastname",
             },
+
             BIBLE: {
                 TITLE: "Bible Bearer",
-                NAME: "Master Firstname Lastname"
-            }
+                NAME: "Master Firstname Lastname",
+            },
         },
+
         FLOWER_GIRLS: {
             TITLE: "Flower Girls",
-            NAMES: ["Little Ms. Firstname Lastname", "Little Ms. Firstname Lastname"]
-        }
+            NAMES: [
+                "Little Ms. Firstname Lastname",
+                "Little Ms. Firstname Lastname",
+            ],
+        },
     },
+
+    CHURCH: {
+        TITLE: "St. Augustine Parish Church",
+        SUBTITLE:
+            "Where we enter into the sacred covenant of marriage before God.",
+    },
+
     LINEUP: {
         TITLE: "Processional Line-up",
         TAGLINE: "The Journey to the Altar",
+
         LIST: [
-            "Bestman",
-            "Parents of Groom",
-            "Groom",
-            "Principal Sponsors",
-            "Secondary Sponsors",
-            "Groomsmen and Bridesmaids",
-            "Flower Girls and Bearers",
-            "Maid of Honor",
-            "Parents of Bride",
-            "Bride"
-        ]
+            "BEST MAN",
+            "PARENTS OF THE GROOM",
+            "GROOM",
+            "PRINCIPAL SPONSORS",
+            "SECONDARY SPONSORS",
+            "GROOMSMEN & BRIDESMAIDS",
+            "FLOWER GIRLS & BEARERS",
+            "MAID OF HONOR",
+            "PARENTS OF THE BRIDE",
+            "BRIDE",
+        ],
     },
+
     PARALLAX_TITLE: "QUOTE",
-    PARALLAX_SUBTITLE: "TEST"
+    PARALLAX_SUBTITLE: "TEST",
 };
 
 export const CONTENT_ATTIRE = {
