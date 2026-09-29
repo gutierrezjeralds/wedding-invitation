@@ -514,7 +514,7 @@ export default function Attire() {
                                 />
                                 <Text
                                     variant="caption"
-                                    textKey={CONTENT_ATTIRE.TAB.PARENTS.GUIDE}
+                                    textKey={CONTENT_ATTIRE.TAB.PARENTS.DETAILS}
                                 />
 
                                 {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
