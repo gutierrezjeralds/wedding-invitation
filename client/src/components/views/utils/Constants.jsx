@@ -283,12 +283,6 @@ export const CONTENT_ENTOURAGE = {
         },
     },
 
-    CHURCH: {
-        TITLE: "St. Augustine Parish Church",
-        SUBTITLE:
-            "Where we enter into the sacred covenant of marriage before God.",
-    },
-
     LINEUP: {
         TITLE: "Processional Line-up",
         TAGLINE: "The Journey to the Altar",
@@ -307,8 +301,9 @@ export const CONTENT_ENTOURAGE = {
         ],
     },
 
-    PARALLAX_TITLE: "QUOTE",
-    PARALLAX_SUBTITLE: "TEST",
+    PARALLAX_TITLE: "St. Augustine Parish Church",
+    PARALLAX_SUBTITLE: "Where we enter into the sacred covenant of marriage before God.",
+    
 };
 
 export const CONTENT_ATTIRE = {
