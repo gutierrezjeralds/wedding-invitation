@@ -103,7 +103,7 @@ export default function Attire() {
 
     return (
          <React.Fragment>
-            <Box className="bg-light">
+            <Box>
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
                     <PageTitle title={CONTENT_ATTIRE.TITLE} subtitle={CONTENT_ATTIRE.SUBTITLE} />

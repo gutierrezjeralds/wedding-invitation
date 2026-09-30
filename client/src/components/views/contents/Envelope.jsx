@@ -16,7 +16,7 @@ export default function Envelope() {
         <React.Fragment>
             <GlobalButterflies primary="#d71128" secondary="#F8C8DC" />
 
-            <Box className="bg-light">
+            <Box>
                 <Container maxWidth="lg" className="py-5">
                     <Box className="text-center">
                         <Text

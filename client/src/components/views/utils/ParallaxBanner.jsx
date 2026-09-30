@@ -55,7 +55,7 @@ export default function ParallaxBanner({
         >
             {(title || subtitle) && (
                 <Container
-                    maxWidth="sm"
+                    maxWidth="md"
                     sx={{
                         position: 'relative',
                         zIndex: 2,
@@ -66,7 +66,6 @@ export default function ParallaxBanner({
                 >
                     {title && (
                         <Text
-                            variant="h3"
                             sx={{
                                 fontFamily: '"Cormorant Garamond", "Playfair Display", serif',
                                 fontStyle: 'italic',

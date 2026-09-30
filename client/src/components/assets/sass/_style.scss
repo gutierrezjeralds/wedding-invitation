@@ -1,15 +1,276 @@
+@use 'variable' as *;
+
+
+// ========================================
+// GLOBAL
+// ========================================
+
+body {
+  background: $background-wedding-primary !important;
+  color: $text-wedding-body !important;
+}
+
+
+// ========================================
+// MAIN PAGE TITLE
+// ========================================
+
 .main-page-title {
-    font-family: "Great Vibes", cursive !important;
-    font-weight: 400 !important;
-    font-style: normal !important;
-    font-size: 3rem !important;
-    letter-spacing: 0.05em !important;
+  font-family: "Great Vibes", cursive !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-size: 3rem !important;
+  letter-spacing: 0.05em !important;
+  color: $text-wedding-primary !important;
 }
 
 .main-page-subtitle {
-    font-family: "Cormorant Garamond", serif !important;
-    font-optical-sizing: auto !important;
-    font-weight: 400 !important;
-    font-style: normal !important;
-    font-size: 1rem !important;
+  font-family: "Cormorant Garamond", serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-size: 1rem !important;
+  color: $text-wedding-body !important;
+}
+
+
+// ========================================
+// MAIN PAGE TITLE
+// ========================================
+.page-background {
+  min-height: 100vh;
+  width: 100%;
+
+  background-image: var(--bg-desktop);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  // Mobile
+  @media (max-width: 599px) {
+    background-image: var(--bg-mobile);
+    background-size: cover;
+    background-position: center top;
+  }
+}
+
+
+// ========================================
+// HEADINGS
+// ========================================
+
+h1,
+h2,
+h3 {
+  color: $text-wedding-primary;
+}
+
+h4,
+h5 {
+  color: $text-wedding-secondary;
+}
+
+.subtitle {
+  color: $text-wedding-muted;
+}
+
+
+// ========================================
+// SECTIONS
+// ========================================
+
+.section {
+  background: $background-wedding-secondary;
+}
+
+
+// ========================================
+// CARDS
+// ========================================
+
+.card {
+  background: #FFFDFC !important;
+  border: 1px solid $border-wedding-primary !important;
+  color: $text-wedding-body !important;
+}
+
+
+// ========================================
+// HOME NAVIGATION CARDS
+// ========================================
+
+.card-button {
+  background: #FFFDFC !important;
+  border: 1px solid $border-wedding-primary !important;
+  color: $text-wedding-body !important;
+
+  box-shadow: 0 3px 12px rgba(63, 43, 34, 0.06);
+
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.card-button:hover {
+  background: $background-wedding-soft !important;
+  border-color: $dusty-rose !important;
+  color: $text-wedding-primary !important;
+
+  box-shadow: 0 5px 18px rgba(63, 43, 34, 0.09);
+
+  transform: translateY(-2px);
+}
+
+
+// Icons inside navigation cards
+
+.card-button svg {
+  color: $text-wedding-primary !important;
+}
+
+
+// ========================================
+// COUNTDOWN
+// ========================================
+
+.countdown-card {
+  background: #FFFDFC !important;
+  border: 1px solid $border-wedding-primary !important;
+  color: $text-wedding-body !important;
+
+  box-shadow: 0 3px 12px rgba(63, 43, 34, 0.06);
+}
+
+.countdown-number {
+  color: $text-wedding-primary !important;
+}
+
+.countdown-label {
+  color: $text-wedding-secondary !important;
+}
+
+
+// ========================================
+// DIVIDER
+// ========================================
+
+.divider {
+  background: transparent;
+  color: $text-wedding-primary;
+}
+
+.divider svg {
+  color: $text-wedding-primary !important;
+}
+
+
+// ========================================
+// RSVP
+// ========================================
+
+button {
+  font-family: "Cormorant Garamond", serif !important;
+}
+
+.rsvp-button {
+  background: $accent-wedding-primary !important;
+  color: $text-wedding-natural !important;
+  border: 1px solid $accent-wedding-primary !important;
+}
+
+.rsvp-button:hover {
+  background: $accent-wedding-secondary !important;
+  border-color: $accent-wedding-secondary !important;
+}
+
+
+// ========================================
+// LINKS
+// ========================================
+
+a {
+  color: $text-wedding-secondary;
+}
+
+a:hover {
+  color: $text-wedding-primary;
+}
+
+// ========================================
+// TEXT
+// ========================================
+.wedding-text-primary {
+    color: $text-wedding-primary !important;
+}
+
+
+// ========================================
+// Header Navigation
+// ========================================
+.header-nav-item {
+  color: $text-wedding-body !important;
+  opacity: 0.75;
+
+  &:hover {
+    color: $text-wedding-primary !important;
+    opacity: 1;
+    background: transparent !important;
+  }
+}
+
+.header-nav-active {
+  color: $text-wedding-primary !important;
+  border-color: $text-wedding-primary !important;
+  opacity: 1;
+
+  &:hover {
+    color: $text-wedding-primary !important;
+    background: transparent !important;
+  }
+}
+
+
+// ========================================
+// MOBILE NAVIGATION
+// ========================================
+
+.mobile-nav-drawer {
+  width: 80vw;
+
+  @media (min-width: 600px) {
+    width: 300px;
+  }
+}
+
+.mobile-nav-item {
+  color: $text-wedding-body !important;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background-color: $background-wedding-soft !important;
+    color: $text-wedding-primary !important;
+  }
+
+  &.is-active {
+    background-color: $text-wedding-primary !important;
+    color: #FFFFFF !important;
+
+    .mobile-nav-text {
+      font-weight: 600 !important;
+    }
+
+    &:hover {
+      background-color: $background-wedding-soft !important;
+    }
+  }
+}
+
+.mobile-nav-text {
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: 1.1rem !important;
+  font-weight: 400 !important;
+  color: inherit !important;
 }

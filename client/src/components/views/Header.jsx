@@ -106,6 +106,7 @@ export default function Header() {
                     component={RouterLink}
                     to={item.href}
                     color="inherit"
+                    className={isActive ? 'header-nav-active' : 'header-nav-item'}
                     sx={{
                       fontWeight: isActive ? 'bold' : 'normal',
                       borderBottom: isActive ? 2 : 0,
@@ -151,6 +152,7 @@ export default function Header() {
                     to={item.href}
                     selected={isActive}
                     onClick={handleDrawerToggle}
+                    className={`mobile-nav-item ${isActive ? 'is-active' : ''}`}
                     sx={{
                       '&.Mui-selected': {
                         bgcolor: 'primary.light',
