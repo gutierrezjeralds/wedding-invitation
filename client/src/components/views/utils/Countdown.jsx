@@ -8,10 +8,10 @@ const GLOBAL_CONFIG = {
   TARGET_DATE: '2027-07-17T10:00:00',
   
   // Color Palette
-  NUMBER_COLOR: '#000000',
-  LABEL_COLOR: '#D4AF37',                   // Champagne Gold
-  BORDER_COLOR: 'rgba(212, 175, 55, 0.35)', // Translucent Gold Border
-  COLON_COLOR: '#D4AF37',
+  NUMBER_COLOR: '#7A1424',
+  LABEL_COLOR: '#8F3948',                   // Champagne Gold
+  BORDER_COLOR: '#F7E7CE', // Translucent Gold Border
+  COLON_COLOR: '#7A1424',
   CARD_BACKGROUND: 'rgba(255, 255, 255, 0.05)', // Transparent Glass Fill
 
   // Sizing & Scaling (Adjust values to scale the entire component)

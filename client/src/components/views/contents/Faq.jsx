@@ -63,7 +63,7 @@ export default function Faq() {
 
     return (
         <React.Fragment>
-            <Box className="bg-vintage">
+            <Box>
                 <Container maxWidth="lg" className="py-5">
                     {/* Header Banner */}
                     <Paper

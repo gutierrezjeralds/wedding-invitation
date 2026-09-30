@@ -1,5 +1,5 @@
 import { 
-    AccessTimeFilled, Church, AddAPhoto, LocalBar, Gite, Toys 
+    FavoriteBorder, AccessTimeFilled, Church, AddAPhoto, LocalBar, Gite, Toys, Groups, Checkroom
 } from '@mui/icons-material';
 
 export const CONTENT = {
@@ -32,7 +32,7 @@ export const CONTENT = {
 export const CONTENT_ENVELOPE = {
     YOURINVITED: "YOU'RE CORDIALLY INVITED!",
     TOCELEBRATE: "to witness our vows before God",
-    WAXSEAL: "Tap the <span class='text-gold fs-3 fw-bolder'>Wax Seal</span> to Open",
+    WAXSEAL: "Tap the <h2 class='d-inline-block'>Wax Seal</h5> to Open",
     BIBLEVERSE: "And now these three remain: faith, hope and love, \nBut the greatest of these is love.",
     BIBLEVERSE_ID: "— 1 CORINTHIANS 13:13 —",
 };
@@ -42,6 +42,36 @@ export const CONTENT_HOME = {
     QUOTE: "Two lives, one sacred promise, and all our tomorrows.",
     PAGE_TITLE: "Your Guide to Our Wedding",
     PAGE_SUBTITLE: "Everything you need to know, all in one place.",
+    ITEM_NAVIGATION: [
+        {
+            ID: 'story',
+            TO: '/story',
+            ICON: FavoriteBorder,
+            TITLE: CONTENT.PAGE_TITLE_STORY,
+            SUBTITLE: "From where we began to where forever lead us."
+        },
+        {
+            ID: 'wedding',
+            TO: '/wedding',
+            ICON: Church,
+            TITLE: CONTENT.PAGE_TITLE_WEDDING,
+            SUBTITLE: "Ceremony, reception, and all the details."
+        },
+        {
+            ID: 'entourage',
+            TO: '/entourage',
+            ICON: Groups,
+            TITLE: CONTENT.PAGE_TITLE_ENTOURAGE,
+            SUBTITLE: "Meet the people who will standing with us."
+        },
+        {
+            ID: 'attire',
+            TO: '/attire',
+            ICON: Checkroom,
+            TITLE: CONTENT.PAGE_TITLE_ATTIRE,
+            SUBTITLE: "Dress with us as we celebrate this special day."
+        },
+    ]
 };
 
 export const CONTENT_STORY = {

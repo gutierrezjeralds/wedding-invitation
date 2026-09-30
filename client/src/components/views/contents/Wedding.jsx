@@ -74,7 +74,7 @@ export default function Wedding() {
 
     return (
         <React.Fragment>
-            <Box className="bg-light">
+            <Box>
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
                     <PageTitle title={CONTENT_WEDDING.TITLE} subtitle={CONTENT_WEDDING.SUBTITLE} />
