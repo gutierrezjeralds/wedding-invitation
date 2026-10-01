@@ -49,7 +49,7 @@ export const CONTENT_ENVELOPE = {
 
 export const CONTENT_HOME = {
     GETTINGMARRIED: "We're Getting Married!",
-    QUOTE: "Two lives, one sacred promise, and all our tomorrows.",
+    QUOTE: "From this day forward, we walk together in His grace.",
     PAGE_TITLE: "Your Guide to Our Wedding",
     PAGE_SUBTITLE: "Everything you need to know, all in one place.",
     ITEM_NAVIGATION: [
