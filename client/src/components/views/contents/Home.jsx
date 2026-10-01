@@ -51,7 +51,7 @@ export default function Home() {
                         <Text
                             letterSpacing="wide"
                             variant="h6"
-                            className="cormorant-garamond-regular m-2 wedding-text-primary"
+                            className="cormorant-garamond-regular m-2 text-wedding-primary"
                             textKey={CONTENT.TITLE_DATE_V3}
                         />
 

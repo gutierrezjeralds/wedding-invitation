@@ -14,6 +14,8 @@ export const CONTENT = {
     TITLE_RSVP: "RSVP",
     TITLE_HASHTAG: "#JerAndShylSayIDo",
     BUTTON_VIEWMAP: "Get Directions",
+    FOOTER_GROOM_NAME: "Jerald \n<span class='fs-6 cormorant-sc-regular'>Sena Gutierrez</span>",
+    FOOTER_BRIDE_NAME: "Sheila \n<span class='fs-6 cormorant-sc-regular'>Yuson Bathan</span>",
     FOOTER_QOUTE: "Since 2016, through all our tomorrows.",
     FOOTER_BOTTOM: "Mahal by J&S ",
     PAGE_TITLE_HOME: "Home",
@@ -28,6 +30,17 @@ export const CONTENT = {
     PAGE_SUBTITLE_STORY: "Journey",
     PAGE_SUBTITLE_GIFT: "Blessings",
 };
+
+export const CONTENT_FOOTER = {
+    TAGLINE: "Since 2016, through all our tomorrows.",
+    CRIGHT: "Mahal by J&S ",
+    NAME: {
+        GROOM_FN: "Jerald",
+        GROOM_MN_LN: "Seña Gutierrez",
+        BRIDE_FN: "Sheila",
+        BRIDE_MN_LN: "Yuson Bathan"
+    }
+}
 
 export const CONTENT_ENVELOPE = {
     YOURINVITED: "YOU'RE CORDIALLY INVITED!",
