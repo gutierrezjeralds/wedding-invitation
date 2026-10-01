@@ -58,7 +58,7 @@ export const CONTENT_HOME = {
             TO: '/story',
             ICON: FavoriteBorder,
             TITLE: CONTENT.PAGE_TITLE_STORY,
-            SUBTITLE: "Our journey from the beginning to today."
+            SUBTITLE: "Our journey from where it all began to today."
         },
         {
             ID: 'wedding',
