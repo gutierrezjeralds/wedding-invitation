@@ -58,28 +58,28 @@ export const CONTENT_HOME = {
             TO: '/story',
             ICON: FavoriteBorder,
             TITLE: CONTENT.PAGE_TITLE_STORY,
-            SUBTITLE: "From where we began to where forever lead us."
+            SUBTITLE: "Our journey from the beginning to today."
         },
         {
             ID: 'wedding',
             TO: '/wedding',
             ICON: Church,
             TITLE: CONTENT.PAGE_TITLE_WEDDING,
-            SUBTITLE: "Ceremony, reception, and all the details."
+            SUBTITLE: "Ceremony, reception, venue, and schedule."
         },
         {
             ID: 'entourage',
             TO: '/entourage',
             ICON: Groups,
             TITLE: CONTENT.PAGE_TITLE_ENTOURAGE,
-            SUBTITLE: "Meet the people who will standing with us."
+            SUBTITLE: "The family and friends standing beside us."
         },
         {
             ID: 'attire',
             TO: '/attire',
             ICON: Checkroom,
             TITLE: CONTENT.PAGE_TITLE_ATTIRE,
-            SUBTITLE: "Dress with us as we celebrate this special day."
+            SUBTITLE: "Dress code, colors, and style inspiration."
         },
     ]
 };
