@@ -86,7 +86,7 @@ export const CONTENT_HOME = {
 
 export const CONTENT_STORY = {
     TITLE: "Our Story",
-    SUBTITLE: "From where we began to where forever leads us.",
+    SUBTITLE: "Take a glimpse into our journey as we share the moments, memories, and adventures that brought us to this beautiful chapter.",
     SECTION1_CONTENT_TAGLINE: "A Love that Grew Naturally",
     SECTION1_CONTENT_TITLE: "How We Met",
     SECTION1_CONTENT_SUBTITLE: "From colleagues to lovers, from adventures to forever — this is our story.",
@@ -113,12 +113,12 @@ export const CONTENT_STORY = {
             BODY: "",
         },
     ],
-    SECTION2_PARALLAX_TITLE: "“Two paths crossed, and forever began.”",
+    SECTION2_PARALLAX_TITLE: "Two paths crossed, and forever began.",
     SECTION2_PARALLAX_SUBTITLE: "July 17, 2027",
-    SECTION2_GALLERY_TITLE: "Our Favorite Moments",
-    SECTION2_GALLERY_SUBTITLE: "A glimpse into our journey through the years",
+    SECTION2_GALLERY_TITLE: "Our Favorite Memories",
+    SECTION2_GALLERY_SUBTITLE: "A collection of moments captured through the years.",
     SECTION_GALLER_TAB1_TITLE: "Life, Together",
-    SECTION_GALLER_TAB2_TITLE: "The Proposal — A Promise Forever",
+    SECTION_GALLER_TAB2_TITLE: "The Proposal — A Promise Made",
     SECTION_GALLER_TAB3_TITLE: "Prenup Shoot — Moments Before the Vows"
 };
 
