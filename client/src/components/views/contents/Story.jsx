@@ -141,28 +141,18 @@ export default function Story() {
     };
 
     useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/story/highlights")
-        .then((res) => res.json())
-        .then(setImgHighlights);
-    }, []);
+        const fetch = (endpoint, setter) => {
+            fetch(`${sCloudflareBaseUrl}${endpoint}`)
+            .then((res) => res.json())
+            .then((data) => setter(data))
+            .catch((err) => console.error(`Error loading ${endpoint}:`, err));
+        };
 
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/story/gallery/together")
-        .then((res) => res.json())
-        .then(setImgGalleryTogether);
-    }, []);
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/story/gallery/proposal")
-        .then((res) => res.json())
-        .then(setImgGalleryProposal);
-    }, []);
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/story/gallery/prenup")
-        .then((res) => res.json())
-        .then(setImgGalleryPrenup);
-    }, []);
+        fetch('/story/highlights', setImgHighlights);
+        fetch('/story/gallery/together', setImgGalleryTogether);
+        fetch('/story/gallery/proposal', setImgGalleryProposal);
+        fetch('/story/gallery/prenup', setImgGalleryPrenup);
+    }, [sCloudflareBaseUrl]);
 
     const highlightStyles = [
         {

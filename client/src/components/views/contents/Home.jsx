@@ -7,8 +7,9 @@ import Countdown from '../utils/Countdown';
 import { CONTENT, CONTENT_HOME } from '../utils/Constants';
 
 // Assets background
-import homeBackgroundDesktop from '../../assets/img//background/desktop/home.png';
-import homeBackgroundMobile from '../../assets/img/background/mobile/home.png';
+const sCloudflareBaseDirectUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/images";
+const sBackgroundDekstop = sCloudflareBaseDirectUrl + "/background/desktop/home.png";
+const sBackgroundMobile = sCloudflareBaseDirectUrl + "/background/mobile/home.png";
 
 export default function Home() {
     const Item = styled(Paper)(({ theme }) => ({
@@ -27,8 +28,10 @@ export default function Home() {
             <Box
                 className="page-background"
                 sx={{
-                    '--bg-desktop': `url(${homeBackgroundDesktop})`,
-                    '--bg-mobile': `url(${homeBackgroundMobile})`,
+                    '--bg-desktop': `url(${sBackgroundDekstop})`,
+                    '--bg-mobile': `url(${sBackgroundMobile})`,
+                    // Fallback background color if images fail to load or are empty
+                    backgroundColor: '#faf8f5',
                 }}
             >
                 <Container maxWidth="lg" className="py-5">

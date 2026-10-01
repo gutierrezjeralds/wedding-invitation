@@ -7,8 +7,11 @@ import { Text } from '../utils/CustomComponents';
 import GlobalButterflies from '../utils/GlobalButterfliesAnimation';
 import { CONTENT, CONTENT_ENVELOPE } from '../utils/Constants';
 
-// Assets
-import imgEnvelope from '../../assets/img/envelope/envelope.svg';
+// Assets background
+const sCloudflareBaseDirectUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/images";
+const sImgEnvelope = sCloudflareBaseDirectUrl + "/envelope/envelope.png";
+const sBackgroundDekstop = sCloudflareBaseDirectUrl + "/background/desktop/envelope.png";
+const sBackgroundMobile = sCloudflareBaseDirectUrl + "/background/mobile/envelope.png";
 
 export default function Envelope() {
     const { t: oI18n } = useTranslation();
@@ -16,7 +19,15 @@ export default function Envelope() {
         <React.Fragment>
             <GlobalButterflies primary="#d71128" secondary="#F8C8DC" />
 
-            <Box>
+            <Box
+                className="page-background"
+                sx={{
+                    '--bg-desktop': `url(${sBackgroundDekstop})`,
+                    '--bg-mobile': `url(${sBackgroundMobile})`,
+                    // Fallback background color if images fail to load or are empty
+                    backgroundColor: '#faf8f5',
+                }}
+            >
                 <Container maxWidth="lg" className="py-5">
                     <Box className="text-center">
                         <Text
@@ -61,7 +72,7 @@ export default function Envelope() {
                         <Link component={RouterLink} to="/cover" className='d-inline-block'>
                             <Box
                                 component="img"
-                                src={imgEnvelope}
+                                src={sImgEnvelope}
                                 alt="Envelope"
                                 sx={{
                                     width: '100%',          // Responsive width
