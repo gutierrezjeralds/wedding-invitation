@@ -1,317 +1,478 @@
-import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Container, Stack, Paper, Box, Grid, styled, Button, Link } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Container, Stack, Paper, Box, Button, Tabs, Tab, Chip } from '@mui/material';
 import { 
-    LocationOn,
-    Checkroom, Help, CameraAlt, CardGiftcard,
-    AccessTimeFilled, Church, AddAPhoto, LocalBar, Gite, Toys
+    Church, AccessTimeFilled, Map, WineBar, Send
 } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ViewMapModal from './modals/ViewMap';
 import { CONTENT, CONTENT_WEDDING } from '../utils/Constants';
 
-// Assets
-import imgChurch from '../../assets/img/wedding/church.png';
-import imgReception from '../../assets/img/wedding/reception.png';
+// Assets background
+const sCloudflareBaseDirectUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/images";
+const sBackgroundDekstop = sCloudflareBaseDirectUrl + "/background/desktop/wedding.png";
+const sBackgroundMobile = sCloudflareBaseDirectUrl + "/background/mobile/wedding.png";
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`attire-tabpanel-${index}`}
+            aria-labelledby={`attire-tab-${index}`}
+            {...other}
+        >
+            {value === index && <Box sx={{ pt: 4, pb: 2 }}>{children}</Box>}
+        </div>
+    );
+}
 
 export default function Wedding() {
-    const ItemLocation = styled(Paper)(({ theme }) => ({
-            backgroundColor: '#fff',
-            ...theme.typography.body2,
-            padding: theme.spacing(1),
-            textAlign: 'center',
-            color: (theme.vars ?? theme).palette.text.secondary,
-            ...theme.applyStyles('dark', {
-                backgroundColor: '#1A2027',
-        }),
-    }));
+    const [tabValue, setTabValue] = useState(0);
+
+    const handleTabChange = (event, newValue) => {
+        setTabValue(newValue);
+    };
 
     const [openViewMapModal, setOpenViewMapModal] = useState(false);
     const handleOpenViewMapModal = () => setOpenViewMapModal(true);
     const handleCloseViewMapModal = () => setOpenViewMapModal(false);
 
-    const oItemNav = [
-        {
-            id: 'attire',
-            to: '/attire',
-            icon: Checkroom,
-            titleKey: CONTENT.PAGE_TITLE_ATTIRE,
-            subtitleKey: CONTENT.PAGE_SUBTITLE_ATTIRE,
-        },
-        {
-            id: 'faq',
-            to: '/faq',
-            icon: Help,
-            titleKey: CONTENT.PAGE_TITLE_FAQ,
-            subtitleKey: CONTENT.PAGE_SUBTITLE_FAQ,
-        },
-        {
-            id: 'story',
-            to: '/story',
-            icon: CameraAlt,
-            titleKey: CONTENT.PAGE_TITLE_STORY,
-            subtitleKey: CONTENT.PAGE_SUBTITLE_STORY,
-        },
-        {
-            id: 'gift',
-            to: '/gift',
-            icon: CardGiftcard,
-            titleKey: CONTENT.PAGE_TITLE_GIFT,
-            subtitleKey: CONTENT.PAGE_SUBTITLE_GIFT,
-        },
-    ];
-
-    const ItemNav = styled(Paper)(({ theme }) => ({
-            backgroundColor: '#fff',
-            ...theme.typography.body2,
-            padding: theme.spacing(1),
-            textAlign: 'center',
-            color: (theme.vars ?? theme).palette.text.secondary,
-            ...theme.applyStyles('dark', {
-                backgroundColor: '#1A2027',
-        }),
-    }));
-
     return (
         <React.Fragment>
-            <Box>
+            <Box
+                className="page-background"
+                sx={{
+                    '--bg-desktop': `url(${sBackgroundDekstop})`,
+                    '--bg-mobile': `url(${sBackgroundMobile})`,
+                    // Fallback background color if images fail to load or are empty
+                    backgroundColor: '#faf8f5',
+                }}
+            >
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
                     <PageTitle title={CONTENT_WEDDING.TITLE} subtitle={CONTENT_WEDDING.SUBTITLE} />
 
-                    <Box className="text-center">
-                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                            <Grid size={6}>
-                                <ItemLocation>
-                                    <Text
-                                        letterSpacing="wide"
-                                        variant="h6" className="cormorant-sc-bold mb-3"
-                                        textKey={CONTENT_WEDDING.CEREMONY}
-                                    />
-                                    <Box
-                                        component="img"
-                                        src={imgChurch}
-                                        alt="Church"
-                                        sx={{
-                                            width: '100%',          // Responsive width
-                                            maxWidth: 300,          // Maximum width limit
-                                            height: 'auto',         // Maintain aspect ratio
-                                            display: 'block',
-                                            mx: 'auto',             // Center horizontally
-                                        }}
-                                    />
-                                    <Text
-                                        variant="body1"
-                                        className="cormorant-garamond-regular mt-3"
-                                        textKey={CONTENT_WEDDING.CEREMONY_BEGINS}
-                                    />
-                                    <Text
-                                        letterSpacing="wide"
-                                        variant="body1"
-                                        className="cormorant-sc-bold mt-3"
-                                        textKey={CONTENT.TITLE_CHURCH}
-                                    />
-                                    <Button variant="outlined" className="my-3" startIcon={<LocationOn />} sx={{width: {sm: "15rem"}}} onClick={handleOpenViewMapModal}>
-                                        {CONTENT.BUTTON_VIEWMAP}
-                                    </Button>
-                                </ItemLocation>
-                            </Grid>
-                            <Grid size={6}>
-                                <ItemLocation>
-                                    <Text letterSpacing="wide" variant="h6" className="cormorant-sc-bold mb-3">
-                                        {CONTENT_WEDDING.RECEPTION}
-                                    </Text>
-                                    <Box
-                                        component="img"
-                                        src={imgReception}
-                                        alt="Reception"
-                                        sx={{
-                                            width: '100%',          // Responsive width
-                                            maxWidth: 300,          // Maximum width limit
-                                            height: 'auto',         // Maintain aspect ratio
-                                            display: 'block',
-                                            mx: 'auto',             // Center horizontally
-                                        }}
-                                    />
-                                    <Text
-                                        variant="body1"
-                                        className="cormorant-garamond-regular mt-3"
-                                        textKey={CONTENT_WEDDING.RECEPTION_BEGINS}
-                                    />
-                                    <Text
-                                        letterSpacing="wide"
-                                        variant="body1"
-                                        className="cormorant-sc-bold mt-3"
-                                        textKey={CONTENT.TITLE_RECEPTION}
-                                    />
-                                    <Button variant="outlined" className="my-3" startIcon={<LocationOn />} sx={{width: {sm: "15rem"}}} onClick={handleOpenViewMapModal}>
-                                        {CONTENT.BUTTON_VIEWMAP}
-                                    </Button>
-                                </ItemLocation>
-                            </Grid>
-                        </Grid>
+                    {/* Custom Styled MUI Tabs */}
+                    <Box sx={{ width: '100%' }}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Tabs
+                                value={tabValue}
+                                onChange={handleTabChange}
+                                variant="scrollable"
+                                scrollButtons="auto"
+                                allowScrollButtonsMobile
+                                sx={{
+                                    width: '100%',
+                                    '& .MuiTabs-scroller': {
+                                        display: { sm: 'flex' },
+                                        justifyContent: { sm: 'center' },
+                                    },
+                                    '& .MuiTabs-flexContainer': {
+                                        justifyContent: { sm: 'center' },
+                                    },
+                                    '& .MuiTab-root': {
+                                        fontSize: { xs: '0.75rem', sm: '0.9rem' },
+                                        fontWeight: 500,
+                                        textTransform: 'uppercase',
+                                        letterSpacing: { xs: 0.5, sm: 1.5 },
+                                        minWidth: { xs: 'auto', sm: 120 },
+                                        px: { xs: 1.5, sm: 3 },
+                                        py: 1,
+                                        color: 'text.secondary',
+                                        '&.Mui-selected': {
+                                            color: '#d4af37',
+                                        },
+                                    },
+                                    '& .MuiTabs-indicator': {
+                                        backgroundColor: '#d4af37',
+                                        height: 3,
+                                        borderRadius: '3px 3px 0 0',
+                                    },
+                                    /* STYLED SCROLL BUTTONS */
+                                    '& .MuiTabScrollButton-root': {
+                                        width: 32,
+                                        height: 32,
+                                        borderRadius: '50%',
+                                        bgcolor: 'rgba(212, 175, 55, 0.15)',
+                                        color: '#7A1C31',
+                                        alignSelf: 'center',
+                                        mx: 0.5,
+                                        transition: 'all 0.2s ease',
+                                        opacity: 0.9,
+                                        '&:hover': {
+                                            bgcolor: '#7A1C31',
+                                            color: '#ffffff',
+                                            opacity: 1,
+                                        },
+                                        '&.Mui-disabled': {
+                                            opacity: 0.3,
+                                            bgcolor: 'transparent',
+                                        },
+                                    },
+                                }}
+                            >
+                                <Tab icon={<Church fontSize="small" />} iconPosition="start" label={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.TITLE} />
+                                <Tab icon={<AccessTimeFilled fontSize="small" />} iconPosition="start" label={CONTENT_WEDDING.TAB.DAY_SCHEDULE.TITLE} />
+                            </Tabs>
+                        </Box>
 
-                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="my-4">
-                            {oItemNav.map((item) => {
-                                const IconComponent = item.icon;
-                                return (
-                                    <Grid size={{ xs: 6, sm: 3 }} key={item.id}>
-                                        <Link 
-                                            component={RouterLink} 
-                                            to={item.to} 
-                                            underline="none" 
-                                            sx={{ color: 'inherit', display: 'block' }}
-                                        >
-                                            <ItemNav>
-                                                <IconComponent fontSize="large" />
-                                                <Text
-                                                    className="text-uppercase d-block cormorant-garamond-regular fs-6"
-                                                    textKey={item.titleKey}
-                                                />
-                                                <Text
-                                                    className="text-uppercase d-block cormorant-garamond-regular fs-8"
-                                                    textKey={item.subtitleKey}
-                                                />
-                                            </ItemNav>
-                                        </Link>
-                                    </Grid>
-                                );
-                            })}
-                        </Grid>
-
-                        <Text
-                            variant="h6"
-                            className="cormorant-sc-regular mt-5"
-                            textKey={CONTENT_WEDDING.TIMELINE_TITLE}
-                        />
-                        <Text
-                            variant="caption"
-                            className="playfair-display-regular"
-                            textKey={CONTENT_WEDDING.TIMELINE_SUBTITLE}
-                        />
-
-                       {/* TIMELINE CONTAINER */}
-                        <Box className="mt-4"
-                            sx={{
-                                position: 'relative',
-                                display: 'flex',
-                                flexDirection: { xs: 'column', md: 'row' },
-                                justifyContent: { xs: 'center', md: 'space-between' },
-                                alignItems: { xs: 'center', md: 'stretch' },
-                                gap: { xs: 4, md: 2 },
-                                maxWidth: { xs: 280, sm: 320, md: 1000 }, // Constraints width on mobile so content centers cleanly
-                                mx: 'auto', // Centers the whole timeline container horizontally
-                            }}
-                        >
-                            {/* CONNECTING LINE (DESKTOP: Horizontal) */}
+                        {/* TAB 0: VENUE AND LOCATION (ACTIVE ON LOAD) */}
+                        <TabPanel value={tabValue} index={0}>
                             <Box
                                 sx={{
-                                    display: { xs: 'none', md: 'block' },
-                                    position: 'absolute',
-                                    top: '55px',
-                                    left: '3%',
-                                    right: '5%',
-                                    height: '2px',
-                                    backgroundColor: '#b8860b',
-                                    zIndex: 0,
+                                    display: 'flex',
+                                    flexDirection: { xs: 'column', md: 'row' }, // Vertical on mobile, strictly Horizontal side-by-side on desktop
+                                    gap: 3,
+                                    width: '100%',
+                                    alignItems: 'stretch'
                                 }}
-                            />
-
-                            {/* CONNECTING LINE (MOBILE: Vertical) */}
-                            <Box
-                                sx={{
-                                    display: { xs: 'block', md: 'none' },
-                                    position: 'absolute',
-                                    top: '20px',
-                                    bottom: '20px',
-                                    left: '20px', // Aligned with the center of the 40px icon box on mobile
-                                    width: '2px',
-                                    backgroundColor: '#b8860b',
-                                    zIndex: 0,
-                                }}
-                            />
-
-                            {/* TIMELINE ITEMS */}
-                            {CONTENT_WEDDING.TIMELINE_BODY.map((event) => {
-                                const IconComponent = event.ICON;
-
-                                return (
-                                    <Box
-                                        key={event.ID}
-                                        sx={{
-                                            position: 'relative',
-                                            zIndex: 1,
-                                            display: 'flex',
-                                            flexDirection: { xs: 'row', md: 'column' },
-                                            alignItems: 'center',
-                                            textAlign: { xs: 'left', md: 'center' },
-                                            flex: 1,
-                                            width: '100%',
-                                        }}
-                                    >
-                                        {/* ICON WITH BACKGROUND MASK */}
+                            >
+                                {/* Ceremony Card */}
+                                <Paper
+                                    elevation={0}
+                                    sx={{
+                                        flex: { xs: '1 1 100%', md: '1 1 50%' }, // Force 50% width horizontal layout
+                                        maxWidth: { xs: '100%', md: '50%' },     // Strictly prevent breaking into 100% width
+                                        minWidth: 0,                             // Prevent long text from expanding container
+                                        borderRadius: 6,
+                                        overflow: 'hidden',
+                                        bgcolor: 'rgba(255, 255, 255, 0.85)',
+                                        border: '1px solid rgba(212, 175, 55, 0.3)',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        transition: 'transform 0.3s ease',
+                                        '&:hover': { transform: 'translateY(-4px)' }
+                                    }}
+                                >
+                                    <Box sx={{ width: '100%', minWidth: 0 }}>
                                         <Box
                                             sx={{
-                                                color: '#b8860b',
-                                                width: 40,
-                                                height: 40,
+                                                height: 180,
+                                                background: 'linear-gradient(to bottom, rgba(125, 157, 134, 0.15), #faf8f5)',
                                                 display: 'flex',
-                                                justifyContent: 'center',
                                                 alignItems: 'center',
-                                                bgcolor: '#fff', // Masks line behind icon
-                                                mr: 2,
-                                                mb: { xs: 0, md: 1.5 },
-                                                flexShrink: 0,
+                                                justifyContent: 'center',
+                                                position: 'relative',
+                                                borderBottom: '1px solid rgba(212, 175, 55, 0.15)'
                                             }}
                                         >
-                                            <IconComponent sx={{ fontSize: { xs: 26, md: 32 } }} />
+                                            <Church sx={{ fontSize: 80, color: '#5E7A65', opacity: 0.85 }} />
+                                            <Chip
+                                                label={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.CEREMONY}
+                                                size="small"
+                                                sx={{
+                                                    position: 'absolute',
+                                                    top: 16,
+                                                    right: 16,
+                                                    bgcolor: 'rgba(94, 122, 101, 0.1)',
+                                                    color: '#5E7A65',
+                                                    fontWeight: 700,
+                                                    fontSize: '0.65rem',
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '0.1em'
+                                                }}
+                                            />
                                         </Box>
 
-                                        {/* DOT ON THE LINE */}
+                                        <Box sx={{ p: { xs: 2.5, sm: 4 }, textAlign: 'center', width: '100%', minWidth: 0 }}>
+                                            <Text
+                                                variant="h4"
+                                                className="cormorant-garamond-regular text-wedding-primary mb-1"
+                                                textKey={CONTENT.TITLE_CHURCH}
+                                            />
+                                            <Text
+                                                variant="body2"
+                                                className="text-gold"
+                                                textKey={CONTENT.TITLE_DATE_V2}
+                                            />
+                                            <Text
+                                                variant="body1"
+                                                className="py-4"
+                                                textKey={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.CHURCH_TAGLINE}
+                                            />
+
+                                            <Chip
+                                                icon={<Church fontSize="small" className="text-wedding-primary"/>}
+                                                label={CONTENT.TITLE_CHURCH_ADDRESS}
+                                                sx={{ 
+                                                    bgcolor: '#fff', 
+                                                    border: '1px solid rgba(212, 175, 55, 0.25)', 
+                                                    color: '#5E7A65', 
+                                                    fontSize: '0.75rem',
+                                                    maxWidth: '100%',
+                                                    height: 'auto',
+                                                    py: 0.75,
+                                                    '& .MuiChip-label': {
+                                                        whiteSpace: 'normal',
+                                                        wordBreak: 'break-word',
+                                                        display: 'block',
+                                                        px: 1
+                                                    }
+                                                }}
+                                            />
+                                        </Box>
+                                    </Box>
+
+                                    <Box sx={{ p: 3, pt: 0, width: '100%' }}>
+                                        <Button
+                                            fullWidth
+                                            variant="outlined"
+                                            startIcon={<Map />}
+                                            onClick={handleOpenViewMapModal}
+                                            className="button-wedding-map cormorant-garamond-regular"
+                                        >
+                                            {CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.MAP_INFO}
+                                        </Button>
+                                    </Box>
+                                </Paper>
+
+                                {/* Reception Card */}
+                                <Paper
+                                    elevation={0}
+                                    sx={{
+                                        flex: { xs: '1 1 100%', md: '1 1 50%' }, // Force 50% width horizontal layout
+                                        maxWidth: { xs: '100%', md: '50%' },     // Strictly prevent breaking into 100% width
+                                        minWidth: 0,                             // Prevent long text from expanding container
+                                        borderRadius: 6,
+                                        overflow: 'hidden',
+                                        bgcolor: 'rgba(255, 255, 255, 0.85)',
+                                        border: '1px solid rgba(212, 175, 55, 0.3)',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        transition: 'transform 0.3s ease',
+                                        '&:hover': { transform: 'translateY(-4px)' }
+                                    }}
+                                >
+                                    <Box sx={{ width: '100%', minWidth: 0 }}>
                                         <Box
                                             sx={{
-                                                width: 12,
-                                                height: 12,
-                                                borderRadius: '50%',
-                                                backgroundColor: '#b8860b',
-                                                mr: 3,
-                                                mb: { xs: 0, md: 2 },
-                                                boxShadow: '0 0 0 3px #fff',
-                                                flexShrink: 0,
+                                                height: 180,
+                                                background: 'linear-gradient(to bottom, rgba(212, 175, 55, 0.15), #faf8f5)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                position: 'relative',
+                                                borderBottom: '1px solid rgba(212, 175, 55, 0.15)'
                                             }}
-                                        />
-
-                                        {/* TEXT CONTENT */}
-                                        <Stack spacing={0.3} sx={{ minWidth: 120 }}>
-                                            <Text
-                                                variant="subtitle1"
-                                                className="cormorant-garamond-regular"
+                                        >
+                                            <WineBar sx={{ fontSize: 80, color: '#d4af37', opacity: 0.85 }} />
+                                            <Chip
+                                                label={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.RECEPTION}
+                                                size="small"
                                                 sx={{
-                                                    fontWeight: 'bold',
-                                                    fontSize: { xs: '1.05rem', md: '1.1rem' },
-                                                    color: '#333',
+                                                    position: 'absolute',
+                                                    top: 16,
+                                                    right: 16,
+                                                    bgcolor: 'rgba(212, 175, 55, 0.15)',
+                                                    color: '#8B6E10',
+                                                    fontWeight: 700,
+                                                    fontSize: '0.65rem',
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '0.1em'
                                                 }}
-                                                textKey={event.TITLE}
                                             />
-                                            {
-                                                event.TIME ?
-                                                    <Text
-                                                        variant="body2"
-                                                        className="cormorant-garamond-regular"
-                                                        sx={{
-                                                            fontSize: { xs: '0.9rem', md: '0.95rem' },
-                                                            color: '#666',
-                                                            mt: "-10px !important"
-                                                        }}
-                                                        textKey={event.TIME}
-                                                    />
-                                                : ""
-                                            }
-                                        </Stack>
+                                        </Box>
+
+                                        <Box sx={{ p: { xs: 2.5, sm: 4 }, textAlign: 'center', width: '100%', minWidth: 0 }}>
+                                            <Text
+                                                variant="h4"
+                                                className="cormorant-garamond-regular text-wedding-primary mb-1"
+                                                textKey={CONTENT.TITLE_RECEPTION}
+                                            />
+                                            <Text
+                                                variant="body2"
+                                                className="text-gold"
+                                                textKey={CONTENT.TITLE_DATE_V4}
+                                            />
+                                            <Text
+                                                variant="body1"
+                                                className="py-4"
+                                                textKey={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.RECEPTION_TAGLINE}
+                                            />
+
+                                            <Chip
+                                                icon={<Church fontSize="small" className="text-wedding-primary"/>}
+                                                label={CONTENT.TITLE_RECEPTION_ADDRESS}
+                                                sx={{ 
+                                                    bgcolor: '#fff', 
+                                                    border: '1px solid rgba(212, 175, 55, 0.25)', 
+                                                    color: '#5E7A65', 
+                                                    fontSize: '0.75rem',
+                                                    maxWidth: '100%',
+                                                    height: 'auto',
+                                                    py: 0.75,
+                                                    '& .MuiChip-label': {
+                                                        whiteSpace: 'normal',
+                                                        wordBreak: 'break-word',
+                                                        display: 'block',
+                                                        px: 1
+                                                    }
+                                                }}
+                                            />
+                                        </Box>
                                     </Box>
-                                );
-                            })}
-                        </Box>
+
+                                    <Box sx={{ p: 3, pt: 0, width: '100%' }}>
+                                        <Button
+                                            fullWidth
+                                            variant="outlined"
+                                            startIcon={<Map />}
+                                            onClick={handleOpenViewMapModal}
+                                            className="button-wedding-map cormorant-garamond-regular"
+                                        >
+                                            {CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.MAP_INFO}
+                                        </Button>
+                                    </Box>
+                                </Paper>
+                            </Box>
+                        </TabPanel>
+
+                        {/* TAB 2: DAY SCHEDULE */}
+                        <TabPanel value={tabValue} index={1}>
+                            <Paper elevation={0} sx={{ p: { xs: 3, sm: 5 }, borderRadius: 6, bgcolor: 'rgba(255, 255, 255, 0.85)', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                                <Box className="text-center mb-3">
+                                    <Text
+                                        variant="caption"
+                                        letterSpacing="widest"
+                                        className="text-uppercase fw-bold"
+                                        textKey={CONTENT_WEDDING.TIMELINE_SUBTITLE}
+                                    />
+                                    <Text
+                                        variant="h4"
+                                        className="cormorant-garamond-regular fw-bold mt-1"
+                                        textKey={CONTENT_WEDDING.TIMELINE_TITLE}
+                                    />
+                                </Box>
+                    
+                                <Stack spacing={3} sx={{ position: 'relative', pl: { xs: 2, sm: 4 } }}>
+                                    <Box sx={{ position: 'absolute', top: 27, bottom: 10, left: { xs: 11, sm: 20 }, width: 2, bgcolor: 'rgba(212, 175, 55, 0.4)' }} />
+                    
+                                    {CONTENT_WEDDING.TIMELINE_BODY.map((evt, idx) => {
+                                        const IconComp = evt.ICON;
+                                        return (
+                                            <Paper
+                                                key={idx}
+                                                elevation={0}
+                                                sx={{
+                                                    p: 3,
+                                                    borderRadius: 4,
+                                                    border: '1px solid rgba(212, 175, 55, 0.25)',
+                                                    bgcolor: '#fff',
+                                                    transition: 'all 0.3s ease',
+                                                    position: 'relative',
+                                                    ml: { xs: 2, sm: 4 },
+                                                    '&:hover': { borderColor: '#d4af37', boxShadow: '0 6px 18px rgba(0,0,0,0.06)' }
+                                                }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        position: 'absolute',
+                                                        left: { xs: -27, sm: -43 },
+                                                        top: 20,
+                                                        width: 14,
+                                                        height: 14,
+                                                        borderRadius: '50%',
+                                                        bgcolor: '#7A1C31',
+                                                        border: '3px solid #d4af37'
+                                                    }}
+                                                />
+                            
+                                                <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} spacing={1} sx={{ mb: 1 }}>
+                                                    <Stack direction="row" alignItems="center" spacing={1.5}>
+                                                    <IconComp fontSize='small' className='text-wedding-primary' />
+                                                    <Text
+                                                        variant="h6"
+                                                        className="cormorant-garamond-regular text-wedding-primary"
+                                                        sx={{ mt: "-6px !important" }}
+                                                        textKey={evt.TITLE}
+                                                    />
+                                                    </Stack>
+                                                    {
+                                                        evt.TIME ? 
+                                                            <Chip
+                                                                label={evt.TIME}
+                                                                size="small"
+                                                                className='fs-8'
+                                                                sx={{
+                                                                    bgcolor: 'rgba(212, 175, 55, 0.15)',
+                                                                    color: '#8B6E10',
+                                                                    fontWeight: 700,
+                                                                    mt: "-2px !important"
+                                                                }}
+                                                            />
+                                                        : ""
+                                                    }
+                                                </Stack>
+                                                <Text
+                                                    className="fw-bold fs-8 mb-1"
+                                                    textKey={`📍 ${evt.LOCATION}`}
+                                                />
+                                                <Text
+                                                    variant="body2"
+                                                    textKey={evt.DESCRIPTION}
+                                                />
+                                            </Paper>
+                                        );
+                                    })}
+                                </Stack>
+                            </Paper>
+                        </TabPanel>
+                    </Box>
+
+                    <Box className="text-center mt-4">
+                        {/* RSVP CALLOUT BANNER */}
+                        <Paper
+                            elevation={0}
+                            className="background-wedding-primary text-center position-relative"
+                            sx={{
+                                p: { xs: 4, sm: 6 },
+                                borderRadius: 6,
+                                color: '#fff',
+                            }}
+                        >
+                            <Text
+                                variant="caption"
+                                className="text-uppercase fw-bold"
+                                letterSpacing="widest"
+                                textKey={CONTENT_WEDDING.FOOTER.TITLE}
+                            />
+                            <Text
+                                className="cormorant-garamond-regular fs-2 my-3"
+                                letterSpacing="wide"
+                                textKey={CONTENT_WEDDING.FOOTER.SUBTITLE}
+                            />
+                            <Text
+                                variant="caption"
+                                letterSpacing="wide"
+                                className="d-block mb-4"
+                                textKey={CONTENT_WEDDING.FOOTER.TAGLINE}
+                            />
+
+                            <Button
+                                variant="contained"
+                                startIcon={<Send />}
+                                onClick={() => setActiveModal('rsvp')}
+                                sx={{
+                                    bgcolor: '#D9A6A4',
+                                    color: '#3D3A37',
+                                    borderRadius: '50px',
+                                    px: 5,
+                                    py: 1.5,
+                                    fontFamily: 'Cormorant Garamond, serif',
+                                    fontSize: '1rem',
+                                    fontWeight: 700,
+                                    letterSpacing: '0.1em',
+                                    textTransform: 'uppercase',
+                                    '&:hover': { bgcolor: '#fff', color: '#7A1C31' }
+                                }}
+                            >
+                                {CONTENT.BUTTON_RSVP}
+                            </Button>
+                        </Paper>
                     </Box>
                 </Container>
             </Box>

@@ -144,6 +144,27 @@ export default function Attire() {
                                         height: 3,
                                         borderRadius: '3px 3px 0 0',
                                     },
+                                    /* STYLED SCROLL BUTTONS */
+                                    '& .MuiTabScrollButton-root': {
+                                        width: 32,
+                                        height: 32,
+                                        borderRadius: '50%',
+                                        bgcolor: 'rgba(212, 175, 55, 0.15)',
+                                        color: '#7A1C31',
+                                        alignSelf: 'center',
+                                        mx: 0.5,
+                                        transition: 'all 0.2s ease',
+                                        opacity: 0.9,
+                                        '&:hover': {
+                                            bgcolor: '#7A1C31',
+                                            color: '#ffffff',
+                                            opacity: 1,
+                                        },
+                                        '&.Mui-disabled': {
+                                            opacity: 0.3,
+                                            bgcolor: 'transparent',
+                                        },
+                                    },
                                 }}
                             >
                                 <Tab icon={<PeopleAlt fontSize="small" />} iconPosition="start" label={CONTENT_ATTIRE.TAB.GUEST.TITLE} />

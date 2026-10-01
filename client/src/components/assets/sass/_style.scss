@@ -92,6 +92,7 @@ h5 {
   background: #FFFDFC !important;
   border: 1px solid $border-wedding-primary !important;
   color: $text-wedding-body !important;
+  border-radius: 10px !important;
 }
 
 
@@ -100,11 +101,11 @@ h5 {
 // ========================================
 
 .card-button {
-  background: #FFFDFC !important;
+  background: $background-wedding-soft !important;
   border: 1px solid $border-wedding-primary !important;
   color: $text-wedding-body !important;
-
-  box-shadow: 0 3px 12px rgba(63, 43, 34, 0.06);
+  border-color: $dusty-rose !important;
+  box-shadow: 0 5px 18px rgba(63, 43, 34, 0.09);
 
   transition:
     background-color 0.25s ease,
@@ -115,13 +116,8 @@ h5 {
 }
 
 .card-button:hover {
-  background: $background-wedding-soft !important;
-  border-color: $dusty-rose !important;
+  background: #FFFDFC !important;
   color: $text-wedding-primary !important;
-
-  box-shadow: 0 5px 18px rgba(63, 43, 34, 0.09);
-
-  transform: translateY(-2px);
 }
 
 
@@ -210,6 +206,25 @@ a:hover {
     color: $text-wedding-secondary !important;
 }
 
+.text-wedding-dusty-rose {
+  color: $dusty-rose !important;
+}
+
+// ========================================
+// BACKGROUND
+// ========================================
+.background-wedding-primary {
+    background-color: $text-wedding-primary!important;
+}
+
+.background-wedding-secondary {
+    background-color: $text-wedding-secondary !important;
+}
+
+.background-wedding-soft {
+    background-color: $background-wedding-soft !important;
+}
+
 
 // ========================================
 // Header Navigation
@@ -277,4 +292,21 @@ a:hover {
   font-size: 1.1rem !important;
   font-weight: 400 !important;
   color: inherit !important;
+}
+
+
+// ========================================
+// BUTTON
+// ========================================
+.button-wedding-map {
+  border-color: rgba(212, 175, 55, 0.6) !important;
+  color: $text-wedding-primary !important;
+  border-radius: 3px !important;
+  padding: 10px 0px !important;
+  letter-spacing: 2px !important;
+  &:hover {
+    background-color: $text-wedding-primary !important;
+    border-color: $text-wedding-primary !important;
+    color: #FFFFFF !important;
+  }
 }

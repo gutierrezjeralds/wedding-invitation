@@ -31,6 +31,8 @@ export default function Header() {
       { label: CONTENT.PAGE_TITLE_ENTOURAGE, href: '/entourage' },
       { label: CONTENT.PAGE_TITLE_ATTIRE, href: '/attire' },
       { label: CONTENT.PAGE_TITLE_FAQ, href: '/faq' },
+      { label: CONTENT.PAGE_TITLE_GIFT, href: '/gift' },
+      { label: CONTENT.BUTTON_RSVP, href: '/rsvp' },
   ];
 
   const handleDrawerToggle = () => {
@@ -65,9 +67,9 @@ export default function Header() {
       <AppBar position="static" color="default" elevation={1}>
         <Container maxWidth="lg">
           <Toolbar disableGutters sx={{ minHeight: { xs: 56, sm: 64 } }}>
-            {/* OUTER FLEX CONTAINER (Not a link, occupies space) */}
+            {/* OUTER FLEX CONTAINER */}
             <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-              {/* LOGO LINK CONTAINER (Clickable area tightly wrapped around image) */}
+              {/* LOGO LINK CONTAINER */}
               <Box
                 component={RouterLink}
                 to="/home"
@@ -76,7 +78,7 @@ export default function Header() {
                   alignItems: 'center',
                   textDecoration: 'none',
                   cursor: 'pointer',
-                  width: 'fit-content', // Restricts wrapper width strictly to logo size
+                  width: 'fit-content',
                 }}
               >
                 <Box
@@ -97,9 +99,40 @@ export default function Header() {
             </Box>
 
             {/* DESKTOP NAVIGATION */}
-            <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 1 }}>
+            <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1 }}>
               {navItems.map((item) => {
                 const isActive = location.pathname === item.href;
+                const isRsvp = item.href === '/rsvp';
+
+                if (isRsvp) {
+                  return (
+                    <Button
+                      key={item.href}
+                      component={RouterLink}
+                      to={item.href}
+                      variant="contained"
+                      className="button-wedding-primary"
+                      sx={{
+                        ml: 1,
+                        px: 2.5,
+                        py: 0.8,
+                        borderRadius: '20px',
+                        bgcolor: '#7A1C31',
+                        color: '#ffffff',
+                        fontWeight: 700,
+                        letterSpacing: '0.05em',
+                        boxShadow: '0px 2px 6px rgba(122, 28, 49, 0.3)',
+                        '&:hover': {
+                          bgcolor: '#8B263E',
+                          boxShadow: '0px 4px 10px rgba(122, 28, 49, 0.4)',
+                        },
+                      }}
+                    >
+                      {item.label}
+                    </Button>
+                  );
+                }
+
                 return (
                   <Button
                     key={item.href}
@@ -141,10 +174,39 @@ export default function Header() {
 
       {/* MOBILE DRAWER */}
       <Drawer anchor="right" open={mobileOpen} onClose={handleDrawerToggle}>
-        <Box sx={{ width: { xs: '80vw', sm: 300 } }} role="presentation">
+        <Box sx={{ width: { xs: '80vw', sm: 300 }, p: 2 }} role="presentation">
           <List>
             {navItems.map((item) => {
               const isActive = location.pathname === item.href;
+              const isRsvp = item.href === '/rsvp';
+
+              if (isRsvp) {
+                return (
+                  <ListItem key={item.href} disablePadding sx={{ mt: 2 }}>
+                    <Button
+                      fullWidth
+                      component={RouterLink}
+                      to={item.href}
+                      variant="contained"
+                      onClick={handleDrawerToggle}
+                      sx={{
+                        py: 1.2,
+                        borderRadius: '25px',
+                        bgcolor: '#7A1C31',
+                        color: '#ffffff',
+                        fontWeight: 700,
+                        letterSpacing: '0.05em',
+                        '&:hover': {
+                          bgcolor: '#8B263E',
+                        },
+                      }}
+                    >
+                      {item.label}
+                    </Button>
+                  </ListItem>
+                );
+              }
+
               return (
                 <ListItem key={item.href} disablePadding>
                   <ListItemButton
@@ -154,6 +216,7 @@ export default function Header() {
                     onClick={handleDrawerToggle}
                     className={`mobile-nav-item ${isActive ? 'is-active' : ''}`}
                     sx={{
+                      borderRadius: 1,
                       '&.Mui-selected': {
                         bgcolor: 'primary.light',
                         color: 'primary.contrastText',

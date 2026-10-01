@@ -1,5 +1,5 @@
 import { 
-    FavoriteBorder, AccessTimeFilled, Church, AddAPhoto, LocalBar, Gite, Toys, Groups, Checkroom
+    FavoriteBorder, AccessTimeFilled, Church, PhotoCamera, WineBar, Gite, AutoAwesome, Groups, Checkroom
 } from '@mui/icons-material';
 
 export const CONTENT = {
@@ -7,17 +7,14 @@ export const CONTENT = {
     TITLE_DATE: "Saturday, July 17, 2027 \nat 10:00 AM",
     TITLE_DATE_V2: "July 17, 2027  •  10AM",
     TITLE_DATE_V3: "07 • 17 • 27",
+    TITLE_DATE_V4: "July 17, 2027  •  12PM",
     TITLE_CHURCH: "St. Augustine Parish Church",
     TITLE_CHURCH_ADDRESS: "Brgy. Santor 1, Tanauan City, Batangas 4232, Philippines",
     TITLE_RECEPTION: "Casa Lucido Events Place",
     TITLE_RECEPTION_ADDRESS: "356 Hilario H. Atienza St., Poblacion Barangay 7, Tanauan City, Batangas 4232, Philippines",
-    TITLE_RSVP: "RSVP",
     TITLE_HASHTAG: "#JerAndShylSayIDo",
+    BUTTON_RSVP: "RSVP NOW",
     BUTTON_VIEWMAP: "Get Directions",
-    FOOTER_GROOM_NAME: "Jerald \n<span class='fs-6 cormorant-sc-regular'>Sena Gutierrez</span>",
-    FOOTER_BRIDE_NAME: "Sheila \n<span class='fs-6 cormorant-sc-regular'>Yuson Bathan</span>",
-    FOOTER_QOUTE: "Since 2016, through all our tomorrows.",
-    FOOTER_BOTTOM: "Mahal by J&S ",
     PAGE_TITLE_HOME: "Home",
     PAGE_TITLE_STORY: "Story",
     PAGE_TITLE_WEDDING: "Wedding",
@@ -25,15 +22,15 @@ export const CONTENT = {
     PAGE_TITLE_ATTIRE: "Attire",
     PAGE_TITLE_FAQ: "FAQ",
     PAGE_TITLE_GIFT: "Gifts",
-    PAGE_SUBTITLE_ATTIRE: "Formal",
-    PAGE_SUBTITLE_FAQ: "Q&A",
+    PAGE_SUBTITLE_ATTIRE: "Formal Palette",
+    PAGE_SUBTITLE_FAQ: "Questions",
     PAGE_SUBTITLE_STORY: "Journey",
     PAGE_SUBTITLE_GIFT: "Blessings",
 };
 
 export const CONTENT_FOOTER = {
     TAGLINE: "Since 2016, through all our tomorrows.",
-    CRIGHT: "Mahal by J&S ",
+    CRIGHT: "Mahal by J&S • ",
     NAME: {
         GROOM_FN: "Jerald",
         GROOM_MN_LN: "Seña Gutierrez",
@@ -127,51 +124,79 @@ export const CONTENT_STORY = {
 
 export const CONTENT_WEDDING = {
     TITLE: "Our Wedding",
-    SUBTITLE: "Saturday, July 17, 2027 \nat 10:00 AM",
-    CEREMONY: "Ceremony",
-    RECEPTION: "Reception",
+    SUBTITLE: "Quote here ....",
+    TAB: {
+        VENUE_AND_LOCATION: {
+            TITLE: "Location",
+            CEREMONY: "Ceremony",
+            RECEPTION: "Reception",
+            CHURCH_TAGLINE: "Where we pledge our vows in solemn, sacred matrimony surrounded by family and loved ones.",
+            RECEPTION_TAGLINE: "Join us after the ceremony for dining, music, celebratory toasts, and joyful dancing!",
+            MAP_INFO: "Interactive Map & Info"
+        },
+        DAY_SCHEDULE: {
+            TITLE: "Timeline"
+        },
+    },
     CEREMONY_BEGINS: "10:00 AM\n<span class='fs-8'>Please arrive by 9:30 AM for seating.</span>",
     RECEPTION_BEGINS: "12:00 PM\n<span class='fs-8'>Gather. Dine. Celebrate.</span>",
-    TIMELINE_TITLE: "Wedding Day Timeline",
-    TIMELINE_SUBTITLE: "Moments We’ll Share Together",
+    TIMELINE_TITLE: "Wedding Schedule",
+    TIMELINE_SUBTITLE: "Interactive Day Guide",
     TIMELINE_BODY: [
         {
             ID: 1,
-            TITLE: "Arrival",
+            TITLE: "Arrival & Welcome",
             TIME: '9:30 AM',
-            ICON: AccessTimeFilled,
+            LOCATION: "St. Augustine Parish Church",
+            DESCRIPTION: "Guests arrive and assemble at the parish church. Ushering and seating begin.",
+            ICON: AccessTimeFilled
         },
         {
             ID: 2,
-            TITLE: "Vows",
+            TITLE: "Holy Matrimony Vows",
             TIME: "",
-            ICON: Church,
+            LOCATION: "St. Augustine Parish Church",
+            DESCRIPTION: "The solemn nuptial ceremony and exchanging of vows before loved ones and God.",
+            ICON: Church
         },
         {
             ID: 3,
-            TITLE: "Photos",
+            TITLE: "Memorial Photos",
             TIME: "",
-            ICON: AddAPhoto,
+            LOCATION: "Church Courtyard",
+            DESCRIPTION: "Pictorial session with beloved entourage and family members",
+            ICON: PhotoCamera
         },
         {
             ID: 4,
-            TITLE: "Grazing",
+            TITLE: "Grazing & Cocktails",
             TIME: "",
-            ICON: LocalBar,
+            LOCATION: "Casa Lucido Events Place",
+            DESCRIPTION: "Welcome drinks, charcuterie, and refreshing cocktail grazing table.",
+            ICON: WineBar
         },
         {
             ID: 5,
-            TITLE: "Banquet",
+            TITLE: "Grand Banquet",
             TIME: "",
-            ICON: Gite,
+            LOCATION: "Main Reception Hall",
+            DESCRIPTION: "Formal luncheon banquet, speeches, cake cutting, and couple’s first dance.",
+            ICON: Gite
         },
         {
             ID: 6,
-            TITLE: "Send-Off",
+            TITLE: "Sparkler Send-Off",
             TIME: '5:30 PM',
-            ICON: Toys,
+            LOCATION: "Garden Lawn",
+            DESCRIPTION: "Sending off Jerald & Sheila with warm wishes and sparkler cheers!",
+            ICON: AutoAwesome
         },
-    ]
+    ],
+    FOOTER: {
+        TITLE: "Kindly Respond",
+        SUBTITLE: "Will You Join Us?",
+        TAGLINE: "Please confirm your presence before July 1, 2027 so we can reserve your seat."
+    }
 };
 
 export const CONTENT_ENTOURAGE = {

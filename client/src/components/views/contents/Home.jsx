@@ -102,8 +102,7 @@ export default function Home() {
                                                     textKey={item.TITLE}
                                                 />
                                                 <Text
-                                                    varian="body1"
-                                                    className="d-block cormorant-garamond-regular"
+                                                    className="d-block cormorant-garamond-regular fs-8"
                                                     textKey={item.SUBTITLE}
                                                 />
                                             </Item>
@@ -113,8 +112,8 @@ export default function Home() {
                             })}
                         </Grid>
 
-                        <Button variant="outlined" className="rsvp-button mt-5" startIcon={<Send />} sx={{width: "15rem"}}>
-                            {CONTENT.TITLE_RSVP}
+                        <Button variant="outlined" size="large" className="rsvp-button mt-5" startIcon={<Send />} sx={{width: "15rem"}}>
+                            {CONTENT.BUTTON_RSVP}
                         </Button>
                     </Box>
                 </Container>

@@ -61,7 +61,7 @@ export function PageTitle({ title, subtitle, icon, ...props }) {
                 />
             )}
 
-            <Divider component="div" role="presentation" className="mt-4">
+            <Divider component="div" role="presentation" className="mt-4 w-50 m-auto text-wedding-primary">
                 {icon || <FavoriteBorder fontSize="small" className="mt-2" />}
             </Divider>
         </Stack>

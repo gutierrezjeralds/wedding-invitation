@@ -11,6 +11,7 @@ import Entourage from './components/views/contents/Entourage';
 import Attire from './components/views/contents/Attire';
 import Faq from './components/views/contents/Faq';
 import Gift from './components/views/contents/Gift';
+import RSVP from './components/views/contents/Rsvp';
 import ScrollToTop from './components/views/utils/ScrollToTop';
 import BackgroundMusic from './components/views/utils/BackgroundMusic';
 // import { useDrivePhotos } from './components/views/utils/GDrive';
@@ -39,6 +40,7 @@ export default function App() {
                 <Route path="/attire" element={<Attire />} />
                 <Route path="/faq" element={<Faq />} />
                 <Route path="/gift" element={<Gift />} />
+                <Route path="/rsvp" element={<RSVP />} />
 
                 {/* Fallback routing */}
                 <Route path="*" element={<Navigate to="/" replace />} />
