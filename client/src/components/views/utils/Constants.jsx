@@ -430,9 +430,9 @@ export const CONTENT_ATTIRE = {
 
 export const CONTENT_FAQ = {
     TITLE: "Frequently Asked Questions",
-    SUBTITLE: "Got questions about Jerald & Sheila’s big day? Search or browse through our helpful guide below.",
-    SEARCH_PLACEHOLDER: "Search questions (e.g. dress code, parking, RSVP)...",
-    SEARCH_NOMATCH: "No matching questions found for '{{0}}'. Try searching for another term!",
+    SUBTITLE: "Have questions about Jerald & Sheila’s wedding? Explore the details below to find everything you need to know for the celebration.",
+    SEARCH_PLACEHOLDER: "Search questions (e.g., ceremony time, dress code, RSVP)",
+    SEARCH_NOMATCH: "No matching questions found for “{{0}}”. Try another search or explore the tabs above.",
     STILL_QUESTION: "Still Have Questions?",
     CANT_FIND: "Can't find the answer you're looking for? Please feel free to reach out to Jerald & Sheila directly. We’ll be happy to help!",
     BUTTON_SEND: "Send Us a Message",
