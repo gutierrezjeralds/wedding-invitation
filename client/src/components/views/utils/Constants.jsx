@@ -124,15 +124,15 @@ export const CONTENT_STORY = {
 
 export const CONTENT_WEDDING = {
     TITLE: "Our Wedding",
-    SUBTITLE: "A closer look at the celebration ahead, from the sacred ceremony to the reception, venues, and thoughtful details that complete the day.",
+    SUBTITLE: "A closer look at the celebration ahead, from the ceremony to the reception, beautiful venues, and thoughtful details that will make this day truly meaningful.",
     TAB: {
         VENUE_AND_LOCATION: {
-            TITLE: "Location",
+            TITLE: "Locations",
             CEREMONY: "Ceremony",
             RECEPTION: "Reception",
-            CHURCH_TAGLINE: "Where we enter into the sacred covenant of marriage before God, surrounded by family and friends.",
-            RECEPTION_TAGLINE: "Join us following the ceremony for dining, music, celebratory toasts, and dancing.",
-            MAP_INFO: "Interactive Map & Info"
+            CHURCH_TAGLINE: "Witness us as we enter into the sacred covenant of marriage before God, surrounded by family and friends.",
+            RECEPTION_TAGLINE: "Join us after the ceremony for dining, music, heartfelt toasts, and dancing with family and friends.",
+            MAP_INFO: "Get Directions"
         },
         DAY_SCHEDULE: {
             TITLE: "Timeline"
