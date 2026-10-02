@@ -194,8 +194,8 @@ export const CONTENT_WEDDING = {
     ],
     FOOTER: {
         TITLE: "Kindly Respond",
-        SUBTITLE: "Will You Join Us?",
-        TAGLINE: "Please confirm your presence before July 1, 2027 so we can reserve your seat."
+        SUBTITLE: "Will You Celebrate With Us?",
+        TAGLINE: "Let us know by July 1, 2027, so we can save a seat for you."
     }
 };
 
