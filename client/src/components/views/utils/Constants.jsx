@@ -202,7 +202,7 @@ export const CONTENT_WEDDING = {
 export const CONTENT_ENTOURAGE = {
     TITLE: "Wedding Party",
     SUBTITLE:
-        "Standing with us as we begin our marriage under God’s loving grace.",
+        "Meet those who will stand beside us as we begin our marriage, guided by faith and love.",
 
     PARENTS: {
         TITLE: "Parents",
@@ -323,7 +323,7 @@ export const CONTENT_ENTOURAGE = {
     LITTLE_ATTENDANT: {
         TITLE: "Little Attendants",
         TAGLINE:
-            "With love for our young attendants who carry the symbols of our love and devotion.",
+            "With love for our cherished little ones who carry the symbols of our love and devotion.",
 
         BEARERS: {
             RING: {
