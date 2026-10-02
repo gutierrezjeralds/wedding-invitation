@@ -376,7 +376,7 @@ export const CONTENT_ENTOURAGE = {
 
 export const CONTENT_ATTIRE = {
     TITLE: "Attire Guide",
-    SUBTITLE: "Dress up and celebrate this joyous occasion with us. Come in elegant <span class='fw-bold'>formal attire</span>, inspired by our attire guide and color palette.",
+    SUBTITLE: "Dress in elegant <span class='fw-bold'>formal attire</span> and celebrate this beautiful occasion with us, inspired by our curated style guide and color palette.",
     TAB: {
         PALETTE: "Color Palette",
         GUEST: {
