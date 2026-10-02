@@ -113,7 +113,7 @@ export const CONTENT_STORY = {
             BODY: "",
         },
     ],
-    SECTION2_PARALLAX_TITLE: ""Two paths crossed, and forever began."",
+    SECTION2_PARALLAX_TITLE: "“Two paths crossed, and forever began.”",
     SECTION2_PARALLAX_SUBTITLE: "July 17, 2027",
     SECTION2_GALLERY_TITLE: "Our Favorite Memories",
     SECTION2_GALLERY_SUBTITLE: "A collection of moments captured through the years.",
