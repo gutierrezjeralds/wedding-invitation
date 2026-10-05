@@ -12,6 +12,7 @@ import Attire from './components/views/contents/Attire';
 import Faq from './components/views/contents/Faq';
 import Gift from './components/views/contents/Gift';
 import RSVP from './components/views/contents/Rsvp';
+import Proposal from './components/views/contents/Proposal';
 import ScrollToTop from './components/views/utils/ScrollToTop';
 import BackgroundMusic from './components/views/utils/BackgroundMusic';
 // import { useDrivePhotos } from './components/views/utils/GDrive';
@@ -20,8 +21,9 @@ export default function App() {
     const location = useLocation();
 
     // Array of paths where the Header should NOT appear
-    const hideHeaderOnPaths = ['/', '/home', '/cover'];
-    const showHeader = !hideHeaderOnPaths.includes(location.pathname);
+    const isProposalPath = location.pathname.startsWith('/proposal');
+    const hideHeaderOnPaths = ['/', "/envelope", '/home', '/cover'];
+    const showHeader = !hideHeaderOnPaths.includes(location.pathname) && !isProposalPath;
 
     // const { photosData, loading, error } = useDrivePhotos();
 
@@ -31,7 +33,10 @@ export default function App() {
             {showHeader && <Header />}
 
             <Routes>
-                <Route path="/" element={<Envelope />} />
+                {/* Test */}
+                <Route path="/" element={<Navigate to="/envelope" replace />} />
+
+                <Route path="/envelope" element={<Envelope />} />
                 <Route path="/cover" element={<Cover />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/story" element={<Story />} />
@@ -41,6 +46,7 @@ export default function App() {
                 <Route path="/faq" element={<Faq />} />
                 <Route path="/gift" element={<Gift />} />
                 <Route path="/rsvp" element={<RSVP />} />
+                <Route path="/proposal/:sId/:sName" element={<Proposal />} />
 
                 {/* Fallback routing */}
                 <Route path="*" element={<Navigate to="/" replace />} />

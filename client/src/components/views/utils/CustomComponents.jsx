@@ -49,6 +49,7 @@ export function PageTitle({ title, subtitle, icon, ...props }) {
         <Stack className="text-center mb-5" spacing={0} {...props}>
             {title && (
                 <Text
+                    component="h1"
                     className="main-page-title"
                     textKey={title}
                 />
