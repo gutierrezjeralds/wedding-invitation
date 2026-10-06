@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container, Stack, Paper, Box, Button, Tabs, Tab, Chip } from '@mui/material';
 import { 
     Church, AccessTimeFilled, Map, WineBar, Send
@@ -36,7 +36,13 @@ export default function Wedding() {
     };
 
     const [openViewMapModal, setOpenViewMapModal] = useState(false);
-    const handleOpenViewMapModal = () => setOpenViewMapModal(true);
+    const [mapModalTab, setMapModalTab] = useState('church');
+
+    const handleOpenViewMapModal = (tab = 'church') => {
+        setMapModalTab(tab);
+        setOpenViewMapModal(true);
+    };
+    
     const handleCloseViewMapModal = () => setOpenViewMapModal(false);
 
     return (
@@ -123,7 +129,7 @@ export default function Wedding() {
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    flexDirection: { xs: 'column', md: 'row' }, // Vertical on mobile, strictly Horizontal side-by-side on desktop
+                                    flexDirection: { xs: 'column', md: 'row' },
                                     gap: 3,
                                     width: '100%',
                                     alignItems: 'stretch'
@@ -133,9 +139,9 @@ export default function Wedding() {
                                 <Paper
                                     elevation={0}
                                     sx={{
-                                        flex: { xs: '1 1 100%', md: '1 1 50%' }, // Force 50% width horizontal layout
-                                        maxWidth: { xs: '100%', md: '50%' },     // Strictly prevent breaking into 100% width
-                                        minWidth: 0,                             // Prevent long text from expanding container
+                                        flex: { xs: '1 1 100%', md: '1 1 50%' },
+                                        maxWidth: { xs: '100%', md: '50%' },
+                                        minWidth: 0,
                                         borderRadius: 6,
                                         overflow: 'hidden',
                                         bgcolor: 'rgba(255, 255, 255, 0.85)',
@@ -221,7 +227,7 @@ export default function Wedding() {
                                             fullWidth
                                             variant="outlined"
                                             startIcon={<Map />}
-                                            onClick={handleOpenViewMapModal}
+                                            onClick={() => handleOpenViewMapModal('church')}
                                             className="button-wedding-map cormorant-garamond-regular"
                                         >
                                             {CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.MAP_INFO}
@@ -233,9 +239,9 @@ export default function Wedding() {
                                 <Paper
                                     elevation={0}
                                     sx={{
-                                        flex: { xs: '1 1 100%', md: '1 1 50%' }, // Force 50% width horizontal layout
-                                        maxWidth: { xs: '100%', md: '50%' },     // Strictly prevent breaking into 100% width
-                                        minWidth: 0,                             // Prevent long text from expanding container
+                                        flex: { xs: '1 1 100%', md: '1 1 50%' },
+                                        maxWidth: { xs: '100%', md: '50%' },
+                                        minWidth: 0,
                                         borderRadius: 6,
                                         overflow: 'hidden',
                                         bgcolor: 'rgba(255, 255, 255, 0.85)',
@@ -321,7 +327,7 @@ export default function Wedding() {
                                             fullWidth
                                             variant="outlined"
                                             startIcon={<Map />}
-                                            onClick={handleOpenViewMapModal}
+                                            onClick={() => handleOpenViewMapModal('reception')}
                                             className="button-wedding-map cormorant-garamond-regular"
                                         >
                                             {CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.MAP_INFO}
@@ -476,7 +482,11 @@ export default function Wedding() {
                     </Box>
                 </Container>
             </Box>
-            <ViewMapModal open={openViewMapModal} handleClose={handleCloseViewMapModal} />
+            <ViewMapModal 
+                open={openViewMapModal} 
+                handleClose={handleCloseViewMapModal} 
+                defaultTab={mapModalTab} 
+            />
         </React.Fragment>
     );
 }

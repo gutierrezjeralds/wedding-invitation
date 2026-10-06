@@ -196,6 +196,86 @@ export const CONTENT_WEDDING = {
         TITLE: "Kindly Respond",
         SUBTITLE: "Will You Celebrate With Us?",
         TAGLINE: "Let us know by July 1, 2027, so we can save a seat for you."
+    },
+    MAP: {
+        CHURCH: [
+            {
+                TITLE: "From Manila — Private Car",
+                LIST: [
+                    {
+                        ITEM: "Take the Tanauan–Sambat Exit from the STAR Tollway."
+                    },
+                    {
+                        ITEM: "After exiting the tollway, turn right and head toward Brgy. Santor 1."
+                    },
+                    {
+                        ITEM: "Continue straight and pass Tanauan City Hall and Petron gas station."
+                    },
+                    {
+                        ITEM: "After passing these landmarks, continue straight until you reach the next intersection. Then, turn right."
+                    },
+                    {
+                        ITEM: "Continue straight until you reach 📍 St. Augustine Parish Church. The destination will be on your left, with parking available around the area."
+                    }
+                ]
+            },
+            {
+                TITLE: "From Batangas — Private Car",
+                LIST: [
+                    {
+                        ITEM: "Take the Tanauan–Sambat Exit from the STAR Tollway."
+                    },
+                    {
+                        ITEM: "After exiting the tollway, turn left and head toward Brgy. Santor 1."
+                    },
+                    {
+                        ITEM: "Continue straight and pass Tanauan City Hall and Petron gas station."
+                    },
+                    {
+                        ITEM: "After passing these landmarks, continue straight until you reach the next intersection. Then, turn right."
+                    },
+                    {
+                        ITEM: "Continue straight until you reach 📍 St. Augustine Parish Church. The destination will be on your left, with parking available around the area."
+                    }
+                ]
+            },
+            {
+                TITLE: "From Tanauan City Proper — Public Transportation",
+                LIST: [
+                    {
+                        ITEM: "Make your way to Tanauan City Proper."
+                    },
+                    {
+                        ITEM: "Take a tricycle heading to Brgy. Santor."
+                    },
+                    {
+                        ITEM: "Tell the driver that your destination is St. Augustine Parish Church."
+                    },
+                    {
+                        ITEM: "Ask to be dropped off at 📍 St. Augustine Parish Church. The destination will be on your left."
+                    }
+                ]
+            }
+        ],
+        RECEPTION: [
+            {
+                TITLE: "How to get from St. Augustine Parish Church to Casa Lucido Events Place",
+                LIST: [
+                    {
+                        ITEM: "From St. Augustine Parish, head toward Tanauan City proper. Once you reach the area of Victory Mall and McDonald’s, turn right."
+                    },
+                    {
+                        ITEM: "Continue straight until you reach the next intersection. Turn right."
+                    },
+                    {
+                        ITEM: "Continue straight to the following intersection, then turn right again."
+                    },
+                    {
+                        ITEM: "Continue straight until you reach 📍 Casa Lucido Event Place. The destination will be on your right, with parking available on the left."
+                    }
+                ]
+            }
+        ]
     }
 };
 
