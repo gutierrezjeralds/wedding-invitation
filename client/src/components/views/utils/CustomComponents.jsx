@@ -1,5 +1,5 @@
-import { Typography, Stack, Divider } from '@mui/material';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import { Typography, Stack, Divider, Box } from '@mui/material';
+import { Favorite, FavoriteBorder} from '@mui/icons-material';
 
 // Reusable Text Component
 export function Text({ letterSpacing, preserveNewlines = true, textKey, children, sx, ...props }) {
@@ -62,9 +62,19 @@ export function PageTitle({ title, subtitle, icon, ...props }) {
                 />
             )}
 
-            <Divider component="div" role="presentation" className="mt-4 w-50 m-auto text-wedding-primary">
-                {icon || <FavoriteBorder fontSize="small" className="mt-2" />}
-            </Divider>
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mt: 3,
+                    gap: 2,
+                }}
+            >
+                <Box sx={{ width: 40, height: '1px', backgroundColor: '#C5A059' }} />
+                <Favorite sx={{ fontSize: 16, color: '#C5A059' }} />
+                <Box sx={{ width: 40, height: '1px', backgroundColor: '#C5A059' }} />
+            </Box>
         </Stack>
     );
 }

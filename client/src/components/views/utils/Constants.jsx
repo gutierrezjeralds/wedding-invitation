@@ -22,6 +22,7 @@ export const CONTENT = {
     PAGE_TITLE_ATTIRE: "Attire",
     PAGE_TITLE_FAQ: "FAQ",
     PAGE_TITLE_GIFT: "Gifts",
+    PAGE_TITLE_RSVP: "RSVP",
     PAGE_SUBTITLE_ATTIRE: "Formal Palette",
     PAGE_SUBTITLE_FAQ: "Questions",
     PAGE_SUBTITLE_STORY: "Journey",
