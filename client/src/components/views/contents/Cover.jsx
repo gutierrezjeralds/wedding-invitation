@@ -118,7 +118,6 @@ function SwarmButterflyItem({ delay, startX, startY, endX, endY, scale, flapSpee
                 pointerEvents: 'none',
             }}
         >
-            {/* Wing Flapping Physics Motion Container */}
             <motion.div
                 animate={{ scaleX: [1, 0.2, 1] }}
                 transition={{ duration: flapSpeed, repeat: Infinity, ease: "easeInOut" }}
@@ -134,17 +133,56 @@ function SwarmButterflyItem({ delay, startX, startY, endX, endY, scale, flapSpee
     );
 }
 
+// --- ELEGANT SEQUENCED DIGIT COMPONENT ---
+// Sequence order: Index 0, 1, 2 for '0', '1', '2' -> Index 3, 4, 5 for '7', '7', '7'
+function ElegantSequenceDigit({ digit, sequenceIndex, isSevenColumn }) {
+    const animDelay = sequenceIndex * 0.32; // Graceful 320ms rhythmic pace
+
+    return (
+        <motion.span
+            initial={{
+                opacity: 0,
+                y: isSevenColumn ? 24 : 40,
+                scale: isSevenColumn ? 1.4 : 1.25,
+                filter: 'blur(16px)',
+                letterSpacing: '0.1em',
+                color: isSevenColumn ? '#FDF0A6' : '#FAF5ED',
+                textShadow: '0px 0px 20px rgba(212, 175, 55, 0.8)',
+            }}
+            animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                filter: 'blur(0px)',
+                letterSpacing: '-0.02em',
+                color: '#FFFFFF',
+                textShadow: '0px 4px 18px rgba(0, 0, 0, 0.65)',
+            }}
+            transition={{
+                duration: 0.95,
+                delay: animDelay,
+                ease: [0.16, 1, 0.3, 1], // Ultra-smooth luxury deceleration curve
+            }}
+            style={{
+                display: 'inline-block',
+                willChange: 'transform, opacity, filter, color',
+            }}
+        >
+            {digit}
+        </motion.span>
+    );
+}
+
 export default function CurtainIntro() {
     const navigate = useNavigate();
     const [isOpening, setIsOpening] = useState(false);
 
-    // Generate 38 completely randomized butterfly trajectories across the viewport
     const butterflySwarm = useMemo(() => {
         return Array.from({ length: 20 }).map((_, i) => {
-            const startX = Math.random() * 90 + 5; // Spread 5vw to 95vw
-            const startY = Math.random() * 80 + 10; // Spread 10vh to 90vh
-            const driftX = (Math.random() - 0.5) * 40; // Horizontal sway (-20vw to +20vw)
-            const driftY = -(Math.random() * 35 + 20); // Upward float (-20vh to -55vh)
+            const startX = Math.random() * 90 + 5;
+            const startY = Math.random() * 80 + 10;
+            const driftX = (Math.random() - 0.5) * 40;
+            const driftY = -(Math.random() * 35 + 20);
 
             const isWineRed = i % 2 === 0;
 
@@ -167,13 +205,14 @@ export default function CurtainIntro() {
     }, []);
 
     useEffect(() => {
+        // Allows full completion of 0 -> 1 -> 2 -> 7 -> 7 -> 7 sequence before curtain pulls
         const openTimer = setTimeout(() => {
             setIsOpening(true);
-        }, 1500);
+        }, 3000);
 
         const redirectTimer = setTimeout(() => {
             navigate('/home', { replace: true });
-        }, 4500);
+        }, 5800);
 
         return () => {
             clearTimeout(openTimer);
@@ -222,7 +261,7 @@ export default function CurtainIntro() {
                     }}
                 />
 
-                {/* Sparkling 4-Point Stars (Twinkling floating particles) */}
+                {/* Sparkling 4-Point Stars */}
                 {Array.from({ length: 42 }).map((_, i) => {
                     const particleColors = ['#FAF5ED', '#D8A7B1', '#6B1D2F', '#D4AF37', '#FFFFFF'];
                     const color = particleColors[i % particleColors.length];
@@ -367,7 +406,7 @@ export default function CurtainIntro() {
     );
 }
 
-// Full Magazine Cover (07 17 27 Stack)
+// Full Magazine Cover (Refined Editorial Sequence: 0 -> 1 -> 2 then 7 -> 7 -> 7)
 function CoverContent({ isOpening }) {
     return (
         <Box
@@ -410,7 +449,7 @@ function CoverContent({ isOpening }) {
                     position: 'absolute',
                     inset: 0,
                     background:
-                    'radial-gradient(circle at 50% 50%, rgba(107, 29, 47, 0.25) 0%, rgba(0, 0, 0, 0.70) 80%)',
+                        'radial-gradient(circle at 50% 50%, rgba(107, 29, 47, 0.25) 0%, rgba(0, 0, 0, 0.70) 80%)',
                     mixBlendMode: 'multiply',
                 }}
             />
@@ -424,6 +463,7 @@ function CoverContent({ isOpening }) {
                     userSelect: 'none',
                 }}
             >
+                {/* FIRST LINE: 07 */}
                 <Typography
                     variant="h1"
                     sx={{
@@ -433,13 +473,16 @@ function CoverContent({ isOpening }) {
                         fontSize: { xs: '6.5rem', sm: '9.5rem', md: '12rem' },
                         lineHeight: 0.8,
                         color: '#FFFFFF',
-                        textShadow: '2px 4px 16px rgba(0, 0, 0, 0.7)',
                         letterSpacing: '-0.02em',
                     }}
                 >
-                    07
+                    {/* Sequence 1: '0' */}
+                    <ElegantSequenceDigit digit="0" sequenceIndex={0} isSevenColumn={false} />
+                    {/* Sequence 4: First '7' */}
+                    <ElegantSequenceDigit digit="7" sequenceIndex={3} isSevenColumn={true} />
                 </Typography>
 
+                {/* SECOND LINE: 17 */}
                 <Typography
                     variant="h1"
                     sx={{
@@ -449,14 +492,17 @@ function CoverContent({ isOpening }) {
                         fontSize: { xs: '6.5rem', sm: '9.5rem', md: '12rem' },
                         lineHeight: 0.8,
                         color: '#FFFFFF',
-                        textShadow: '2px 4px 16px rgba(0, 0, 0, 0.8)',
                         letterSpacing: '-0.02em',
                         my: { xs: -1, sm: -2 },
                     }}
                 >
-                    17
+                    {/* Sequence 2: '1' */}
+                    <ElegantSequenceDigit digit="1" sequenceIndex={1} isSevenColumn={false} />
+                    {/* Sequence 5: Second '7' */}
+                    <ElegantSequenceDigit digit="7" sequenceIndex={4} isSevenColumn={true} />
                 </Typography>
 
+                {/* THIRD LINE: 27 */}
                 <Typography
                     variant="h1"
                     sx={{
@@ -466,22 +512,31 @@ function CoverContent({ isOpening }) {
                         fontSize: { xs: '6.5rem', sm: '9.5rem', md: '12rem' },
                         lineHeight: 0.8,
                         color: '#FFFFFF',
-                        textShadow: '2px 4px 16px rgba(0, 0, 0, 0.7)',
                         letterSpacing: '-0.02em',
                     }}
                 >
-                    27
+                    {/* Sequence 3: '2' */}
+                    <ElegantSequenceDigit digit="2" sequenceIndex={2} isSevenColumn={false} />
+                    {/* Sequence 6: Third '7' */}
+                    <ElegantSequenceDigit digit="7" sequenceIndex={5} isSevenColumn={true} />
                 </Typography>
 
-                <Text
-                    variant="h3"
-                    className="great-vibes-regular mt-5 d-block"
-                    sx={{
-                        color: '#FAF5ED',
-                        opacity: 0.9,
-                    }}
-                    textKey={CONTENT.TITLE_NAME}
-                />
+                {/* NAMES SUBTITLE */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 0.95, y: 0 }}
+                    transition={{ delay: 2.1, duration: 1.0, ease: "easeOut" }}
+                >
+                    <Text
+                        variant="h3"
+                        className="great-vibes-regular mt-5 d-block"
+                        sx={{
+                            color: '#FAF5ED',
+                            textShadow: '0px 2px 12px rgba(0,0,0,0.8)',
+                        }}
+                        textKey={CONTENT.TITLE_NAME}
+                    />
+                </motion.div>
             </Box>
         </Box>
     );
