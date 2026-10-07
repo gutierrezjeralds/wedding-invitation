@@ -4,7 +4,7 @@ import {
 
 export const CONTENT = {
     TITLE_NAME: "Jerald <span class='pinyon-script-regular'>&</span> Sheila",
-    TITLE_DATE: "Saturday, July 17, 2027 \nat 10:00 AM",
+    TITLE_DATE: "Saturday, July 17, 2027 at 10:00 AM",
     TITLE_DATE_V2: "July 17, 2027  •  10AM",
     TITLE_DATE_V3: "07 • 17 • 27",
     TITLE_DATE_V4: "July 17, 2027  •  12PM",
@@ -43,7 +43,7 @@ export const CONTENT_FOOTER = {
 export const CONTENT_ENVELOPE = {
     YOURINVITED: "YOU'RE CORDIALLY INVITED!",
     TOCELEBRATE: "to witness our vows before God",
-    WAXSEAL: "Tap the <h2 class='d-inline-block'>Wax Seal</h5> to Open",
+    WAXSEAL: "Tap the <h2 class='d-inline-block'>Wax Seal</h2> to Open",
     BIBLEVERSE: "And now these three remain: faith, hope and love, \nBut the greatest of these is love.",
     BIBLEVERSE_ID: "— 1 CORINTHIANS 13:13 —",
 };

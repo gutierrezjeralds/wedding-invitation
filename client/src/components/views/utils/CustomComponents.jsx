@@ -43,12 +43,32 @@ export function Text({ letterSpacing, preserveNewlines = true, textKey, children
     );
 }
 
+// Resusable Divider
+export function FavoriteDivider() {
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                my: 3,
+                gap: 2,
+            }}
+        >
+            <Box sx={{ width: 40, height: '1px', backgroundColor: '#C5A059' }} />
+            <Favorite sx={{ fontSize: 16, color: '#C5A059' }} />
+            <Box sx={{ width: 40, height: '1px', backgroundColor: '#C5A059' }} />
+        </Box>
+    )
+}
+
 // Reusable Page Title
 export function PageTitle({ title, subtitle, icon, ...props }) {
     return (
         <Stack className="text-center mb-5" spacing={0} {...props}>
             {title && (
                 <Text
+                    variant="h3"
                     component="h1"
                     className="main-page-title"
                     textKey={title}
@@ -57,24 +77,14 @@ export function PageTitle({ title, subtitle, icon, ...props }) {
 
             {subtitle && (
                 <Text
-                    className="main-page-subtitle"
+                    className=""
+                    variant="h5"
+                    component="div"
                     textKey={subtitle}
                 />
             )}
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    mt: 3,
-                    gap: 2,
-                }}
-            >
-                <Box sx={{ width: 40, height: '1px', backgroundColor: '#C5A059' }} />
-                <Favorite sx={{ fontSize: 16, color: '#C5A059' }} />
-                <Box sx={{ width: 40, height: '1px', backgroundColor: '#C5A059' }} />
-            </Box>
+            <FavoriteDivider />
         </Stack>
     );
 }
