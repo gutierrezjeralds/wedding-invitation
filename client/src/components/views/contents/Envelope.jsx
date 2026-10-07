@@ -46,8 +46,7 @@ export default function Envelope() {
                         <FavoriteDivider />
 
                         <Text
-                            variant="h2"
-                            component="h1"
+                            variant="h1"
                             textKey={CONTENT.TITLE_NAME}
                         />
 
