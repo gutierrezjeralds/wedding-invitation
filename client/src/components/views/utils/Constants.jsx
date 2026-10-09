@@ -247,10 +247,15 @@ export const CONTENT_WEDDING = {
                         ITEM: "Make your way to Tanauan City Proper."
                     },
                     {
-                        ITEM: "Choose your tricycle option:
-Option 1 – Special Trip: Hire a tricycle exclusively for your trip.
-Option 2 – Regular Trip: Proceed to the Brgy. Santor tricycle terminal / TODA, located behind the TMO office
-"
+                        ITEM: "Choose your tricycle option:",
+                        LIST: [
+                            {
+                                ITEM: "Option 1 – Special Trip: Hire a tricycle exclusively for your trip."
+                            },
+                            {
+                                ITEM: "Option 2 – Regular Trip: Proceed to the Brgy. Santor tricycle terminal / TODA, located behind the TMO office"
+                            }
+                        ]
                     },
                     {
                         ITEM: "Ask the driver to drop you off at 📍 St. Augustine Parish Church. The destination will be on your left."

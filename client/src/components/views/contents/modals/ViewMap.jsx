@@ -237,6 +237,31 @@ export default function ViewMapModal({ open, handleClose, defaultTab = 'church' 
                                                                 variant="body2"
                                                                 textKey={lists.ITEM}
                                                             />
+                                                            
+                                                            {/* Nested list rendering with optional chaining to prevent undefined crashes */}
+                                                            {lists.LIST && Array.isArray(lists.LIST) && lists.LIST.length > 0 && (
+                                                                <Box component="ul" sx={{ mt: 0.5, mb: 0.5, pl: 2 }}>
+                                                                    {lists.LIST.map((datas, idxs) => (
+                                                                        <Box
+                                                                            component="li"
+                                                                            key={idxs}
+                                                                            sx={{
+                                                                                mb: idxs === lists.LIST.length - 1 ? 0 : 0.5,
+                                                                                fontSize: '0.88rem',
+                                                                                lineHeight: 1.4,
+                                                                                '&::marker': {
+                                                                                    color: '#5E7A65',
+                                                                                }
+                                                                            }}
+                                                                        >
+                                                                            <Text
+                                                                                variant="body2"
+                                                                                textKey={datas.ITEM}
+                                                                            />
+                                                                        </Box>
+                                                                    ))}
+                                                                </Box>
+                                                            )}
                                                         </Box>
                                                     ))}
                                                 </Box>
@@ -269,7 +294,7 @@ export default function ViewMapModal({ open, handleClose, defaultTab = 'church' 
                 </DialogActions>
             </Dialog>
 
-            {/* Lightbox Modal */}
+            {/* Lightbox Preview Modal */}
             <Dialog
                 open={Boolean(previewImage)}
                 onClose={() => setPreviewImage(null)}
@@ -284,7 +309,7 @@ export default function ViewMapModal({ open, handleClose, defaultTab = 'church' 
                     }
                 }}
             >
-                {/* Fixed Control Bar */}
+                {/* Control Bar */}
                 <Stack
                     direction="row"
                     spacing={1}
