@@ -17,11 +17,9 @@ import {
   Alert,
   Stack,
   CircularProgress,
-  Divider,
 } from '@mui/material';
-import { Add, Delete, Favorite } from '@mui/icons-material';
-import { Text, PageTitle } from '../utils/CustomComponents';
-import { supabase } from '../../../lib/supabase';
+import { Add, Delete } from '@mui/icons-material';
+import { PageTitle } from '../utils/CustomComponents';
 
 // ============================================================
 // Constants & Theme Tokens
@@ -48,27 +46,14 @@ const ROLE_OPTIONS = [
   'Guest',
 ];
 
-const TITLE_OPTIONS = [
-  'Mr.',
-  'Mrs.',
-  'Ms.',
-  'Dr.',
-];
+const TITLE_OPTIONS = ['Mr.', 'Mrs.', 'Ms.', 'Dr.'];
 
-const CONNECTED_TO_OPTIONS = [
-  'Groom',
-  'Bride',
-  'Both',
-];
+const CONNECTED_TO_OPTIONS = ['Groom', 'Bride', 'Both'];
 
-const RELATIONSHIP_OPTIONS = [
-  'Family',
-  'Friend',
-  'Colleague',
-];
+const RELATIONSHIP_OPTIONS = ['Family', 'Friend', 'Colleague'];
 
 // ============================================================
-// Empty Guest
+// Empty Guest Blueprint
 // ============================================================
 
 const emptyGuest = {
@@ -169,7 +154,7 @@ export default function RSVP() {
   };
 
   // ==========================================================
-  // Validation
+  // Validation Rules
   // ==========================================================
 
   const validate = () => {
@@ -219,7 +204,7 @@ export default function RSVP() {
   };
 
   // ==========================================================
-  // Submit Handler
+  // Submit Handler (POST to /api/rsvp)
   // ==========================================================
 
   const handleSubmit = async (event) => {
@@ -235,45 +220,24 @@ export default function RSVP() {
     setIsSubmitting(true);
 
     try {
-      const rsvpId = crypto.randomUUID();
+      const payload = {
+        primaryGuest: parentGuest,
+        additionalGuests: parentGuest.willAttend === 'Yes' ? additionalGuests : [],
+        partyCount: parentGuest.willAttend === 'Yes' ? 1 + additionalGuests.length : 0,
+      };
 
-      const { error: rsvpError } = await supabase
-        .from('rsvps')
-        .insert({
-          id: rsvpId,
-          title: parentGuest.title,
-          first_name: parentGuest.firstName,
-          middle_name: parentGuest.middleName || null,
-          last_name: parentGuest.lastName,
-          age: Number(parentGuest.age),
-          contact_number: parentGuest.contactNumber,
-          role_on_wedding: parentGuest.roleOnWedding,
-          connected_to: parentGuest.connectedTo,
-          relationship: parentGuest.relationship,
-          will_attend: parentGuest.willAttend === 'Yes',
-          message: parentGuest.message || null,
-        });
+      const response = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-      if (rsvpError) throw rsvpError;
+      const result = await response.json();
 
-      if (parentGuest.willAttend === 'Yes' && additionalGuests.length > 0) {
-        const guestsToInsert = additionalGuests.map((guest) => ({
-          rsvp_id: rsvpId,
-          title: guest.title,
-          first_name: guest.firstName,
-          middle_name: guest.middleName || null,
-          last_name: guest.lastName,
-          age: Number(guest.age),
-          role_on_wedding: guest.roleOnWedding,
-          connected_to: guest.connectedTo,
-          relationship: guest.relationship,
-        }));
-
-        const { error: guestsError } = await supabase
-          .from('additional_guests')
-          .insert(guestsToInsert);
-
-        if (guestsError) throw guestsError;
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Failed to submit RSVP');
       }
 
       setSubmitted(true);
@@ -283,8 +247,6 @@ export default function RSVP() {
         message: '',
       });
       setAdditionalGuests([]);
-      setErrors({});
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
       console.error('RSVP submission error:', error);
@@ -317,16 +279,15 @@ export default function RSVP() {
 
   return (
     <React.Fragment>
-      <Box
-        sx={{
-          backgroundColor: PALETTE.ivoryBg
-        }}
-      >
+      <Box sx={{ backgroundColor: PALETTE.ivoryBg, minHeight: '100vh', py: 4 }}>
         <Container maxWidth="lg" className="py-5">
           {/* Page Title */}
-          <PageTitle title="RSVP" subtitle="We would be delighted to celebrate this special day with you. Kindly let us know if you will be joining us." />
+          <PageTitle
+            title="RSVP"
+            subtitle="We would be delighted to celebrate this special day with you. Kindly let us know if you will be joining us."
+          />
 
-          {/* Alert Feedback */}
+          {/* Feedback Alerts */}
           {submitted && (
             <Alert
               severity="success"
@@ -359,9 +320,7 @@ export default function RSVP() {
 
           {/* Form */}
           <Box component="form" onSubmit={handleSubmit} noValidate>
-            {/* ==================================================
-                PRIMARY GUEST DETAILS
-            ================================================== */}
+            {/* PRIMARY GUEST DETAILS */}
             <Paper
               elevation={0}
               sx={{
@@ -609,9 +568,7 @@ export default function RSVP() {
               </Stack>
             </Paper>
 
-            {/* ==================================================
-                ADDITIONAL GUESTS
-            ================================================== */}
+            {/* ADDITIONAL GUESTS */}
             {parentGuest.willAttend === 'Yes' && (
               <Paper
                 elevation={0}
@@ -904,9 +861,7 @@ export default function RSVP() {
               </Paper>
             )}
 
-            {/* ==================================================
-                MESSAGE
-            ================================================== */}
+            {/* MESSAGE FOR BRIDE & GROOM */}
             <Paper
               elevation={0}
               sx={{
@@ -955,9 +910,7 @@ export default function RSVP() {
               />
             </Paper>
 
-            {/* ==================================================
-                SUBMIT
-            ================================================== */}
+            {/* SUBMIT BUTTON */}
             <Box sx={{ mt: 5, textAlign: 'center' }}>
               <Button
                 type="submit"

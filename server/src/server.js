@@ -1,8 +1,8 @@
 /*eslint no-console: 0*/
 
 /**
- * Date Created: 09/14/2026
- * Objective: API Server
+- Date Created: 09/14/2026
+- Objective: API Server
  */
 
 import express from 'express';
@@ -10,6 +10,7 @@ import cors from 'cors';
 // import helmet from 'helmet';
 import dotenv from 'dotenv';
 import routerGoogle from './routers/Google.js';
+import routerRsvp from './routers/Rsvp.js';
 
 dotenv.config();
 
@@ -30,9 +31,17 @@ app.get('/', (req, res) => {
 });
 
 /**
- * Collection of routes.
+- Collection of routes.
  */
 // Google Routes
 app.use('/api/google', routerGoogle);
+
+// RSVP Routes
+app.use('/api/rsvp', routerRsvp);
+
+// Start Server (CRITICAL: Keeps process running)
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 export default app;
