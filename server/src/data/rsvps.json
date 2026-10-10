@@ -1,0 +1,33 @@
+[
+  {
+    "id": "rsvp_1791611747978",
+    "submittedAt": "2026-10-10T05:55:47.978Z",
+    "primaryGuest": {
+      "title": "Mr.",
+      "firstName": "Jerald",
+      "middleName": "",
+      "lastName": "Gutierrez",
+      "age": "32",
+      "contactNumber": "09088936797",
+      "roleOnWedding": "Principal Sponsors",
+      "connectedTo": "Groom",
+      "relationship": "Family",
+      "willAttend": "Yes",
+      "message": ""
+    },
+    "additionalGuests": [
+      {
+        "title": "Mrs.",
+        "firstName": "Sheila",
+        "middleName": "",
+        "lastName": "Bathan",
+        "age": "31",
+        "contactNumber": "",
+        "roleOnWedding": "Principal Sponsors",
+        "connectedTo": "Bride",
+        "relationship": "Family"
+      }
+    ],
+    "partyCount": 2
+  }
+]
