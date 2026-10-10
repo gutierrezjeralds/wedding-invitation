@@ -125,7 +125,7 @@ export const CONTENT_STORY = {
 
 export const CONTENT_WEDDING = {
     TITLE: "Our Wedding",
-    SUBTITLE: "A closer look at the celebration ahead, from the ceremony to the reception, beautiful venues, and thoughtful details that will make this day truly meaningful.",
+    SUBTITLE: "A thoughtfully envisioned celebration of our love, from the sacred ceremony to the elegant reception.",
     TAB: {
         VENUE_AND_LOCATION: {
             TITLE: "Locations",
