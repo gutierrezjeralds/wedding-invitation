@@ -97,8 +97,8 @@ export function PageTitle({ title, subtitle, icon, ...props }) {
             {subtitle && (
                 <Text
                     className=""
-                    variant="h5"
-                    component="div"
+                    variant="body1"
+                    component=""
                     textKey={subtitle}
                 />
             )}
