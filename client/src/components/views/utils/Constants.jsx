@@ -616,6 +616,11 @@ export const CONTENT_PROPOSAL = {
         CEREMONY: "The Ceremony",
         RECEPTION: "The Reception"
     },
+    FOOTER: {
+        LINE1: "More details about our celebration will be shared in our official website invitation soon.",
+        LINE2: "With love and gratitude,",
+        LINE3: "Jerald and Sheila"
+    },
     PRINCIPAL: {
         TITLE: "Principal Sponsors",
         LETTER: {

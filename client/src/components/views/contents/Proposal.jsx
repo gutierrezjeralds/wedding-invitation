@@ -7,6 +7,7 @@ import { CONTENT_PROPOSAL, CONTENT_ATTIRE, CONTENT } from '../utils/Constants';
 // Assets
 import imgChurch from "../../assets/img/proposal/church.png";
 import imgTitleName from "../../assets/img/proposal/title_name.png";
+import imgFooter from "../../assets/img/proposal/footer.png";
 
 // Assets background
 const sCloudflareBaseDirectUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/images";
@@ -102,7 +103,7 @@ export default function Gift() {
                                 <Box
                                     component="img"
                                     src={imgTitleName}
-                                    alt="St. Augustine Parish Church Illustration"
+                                    alt="Jerald and Sheila"
                                     sx={{
                                         width: '100%',
                                         maxWidth: 700,
@@ -381,7 +382,37 @@ export default function Gift() {
                     }}
                 >
                     <Container maxWidth="lg" className="py-5">
-
+                        <Box className="text-center py-5">
+                            <Box className="d-flex justify-content-center align-items-center">
+                                <Box
+                                    component="img"
+                                    src={imgFooter}
+                                    alt="Jerald and Sheila"
+                                    sx={{
+                                        width: '100%',
+                                        maxWidth: 100,
+                                        height: 'auto',
+                                        display: 'block',
+                                        borderRadius: 2,
+                                        filter: 'drop-shadow(0px 8px 20px rgba(0,0,0,0.08))',
+                                        mb: {xs: 15, sm: 7}
+                                    }}
+                                />
+                            </Box>
+                            <Text
+                                variant="caption"
+                                className="d-block mb-5"
+                                textKey={CONTENT_PROPOSAL.FOOTER.LINE1}
+                            />
+                            <Text
+                                variant="caption"
+                                textKey={CONTENT_PROPOSAL.FOOTER.LINE2}
+                            />
+                            <Text
+                                variant="h2"
+                                textKey={CONTENT_PROPOSAL.FOOTER.LINE3}
+                            />
+                        </Box>
                     </Container>
                 </Box>
             </React.Fragment>
