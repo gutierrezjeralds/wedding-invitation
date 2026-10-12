@@ -33,7 +33,18 @@ export default function Gift() {
     const { sId, sName } = useParams();
     const _sName = sName?.toLowerCase();
     const _sId = sId?.toUpperCase();
-    const oLetter = CONTENT_PROPOSAL?.[_sId]?.LETTER?.[_sName];
+    let oLetter = null;
+    let oText = [];
+
+    // Get Proper Object
+    if (sId && sId.includes("entourage")) {
+        const sIds = _sId.split("-");
+        oLetter = CONTENT_PROPOSAL?.[sIds[0]]?.[sIds[1]]?.LETTER?.[_sName];
+        oText = CONTENT_PROPOSAL?.[sIds[0]]?.[sIds[1]];
+    } else {
+        oLetter = CONTENT_PROPOSAL?.[_sId]?.LETTER?.[_sName];
+        oText = CONTENT_PROPOSAL?.[_sId];
+    }
 
     if (oLetter) {
         const sCloudflareBaseUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/api/images";
@@ -48,7 +59,8 @@ export default function Gift() {
                     .catch((err) => console.error(`Error loading ${endpoint}:`, err));
             };
 
-            const sIdLower = sId?.toLowerCase();
+            const sIdLower = (sId?.toLowerCase()).split("-")[0];
+            console.log("sIdLower", sIdLower)
 
             if (sIdLower === "principal" || sIdLower === "secondary") {
                 fetchAndSort('/attire/sponsors/dress', setImgAttireDress);
@@ -57,7 +69,7 @@ export default function Gift() {
 
             if (sIdLower === "entourage") {
                 fetchAndSort('/attire/entourage/dress/adult', setImgAttireDress);
-                fetchAndSort('/attire/entourage/dress/child', setImgAttirePalette);
+                fetchAndSort('/attire/entourage/palette', setImgAttirePalette);
             }
 
             if (sIdLower === "parents") {
@@ -98,7 +110,7 @@ export default function Gift() {
                             </Box>
                             <Text
                                 variant="h4"
-                                component="body1"
+                                component="div"
                                 className="fst-italic"
                                 textKey={CONTENT_PROPOSAL.INTRO.TAGLINE}
                             />
@@ -195,7 +207,7 @@ export default function Gift() {
                                     <Text
                                         variant="h5"
                                         className="great-vibes-regular mb-1 text-center"
-                                        textKey={CONTENT_PROPOSAL[_sId]?.TITLE}
+                                        textKey={oText?.TITLE}
                                     />
                                     <Swiper
                                         modules={[Navigation, Pagination, Autoplay]}
@@ -226,16 +238,11 @@ export default function Gift() {
                                 <Box>
                                     <Text
                                         className="mb-3 fs-8 cormorant-garamond-regular"
-                                        textKey={CONTENT_PROPOSAL[_sId]?.ATTIRE?.MESSAGE}
+                                        textKey={oText?.ATTIRE?.MESSAGE}
                                     />
                                     <Stack spacing={2}>
                                         {imgAttirePalette.map((item, index) => (
                                             <React.Fragment key={index}>
-                                                <Text
-                                                    variant="caption"
-                                                    className="text-center cormorant-garamond-regular"
-                                                    textKey={CONTENT_ATTIRE?.TAB?.GUEST?.[`SUBDETAILS_${index + 1}`]}
-                                                />
                                                 <Box className="d-flex flex-row justify-content-center align-items-center">
                                                     <Box
                                                         component="img"
