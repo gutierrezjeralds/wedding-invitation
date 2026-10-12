@@ -721,11 +721,71 @@ export const CONTENT_PROPOSAL = {
                 MESSAGE: "To complement the timeless elegance of our celebration, we graciously invite our beloved Principal Sponsors (Godparents) to wear a Barong Tagalog for gentlemen and a Modern Filipiniana Gown for ladies, following the color palette below. \n\nWe humbly ask for your kind understanding that the attire, hair and makeup (where applicable), and any other related personal expenses shall be at your own expense. Your presence as our Principal Sponsors is one of the greatest honors and blessings we could receive. We sincerely appreciate your thoughtfulness and support in helping us create a celebration that is both elegant and meaningful. \n\nThank you for being part of this unforgettable milestone in our lives."
             }
         },
-        LITTLE_ATTENDANT: {
-
+        BEARER: {
+            TITLE: "Little Attendant",
+            LETTER: {
+                "yuson-123": {
+                    NAME: "COL Germiniano Yuson Jr (RET) and Mrs Ethel Yuson",
+                    MESSAGE: "Stepping into this sacred season of our lives, we find ourselves filled with gratitude as we prepare to receive the Sacrament of Marriage and begin the sacred covenant God has called us to. This journey has reminded us of the many blessings He has placed along our path and the people who have helped shape who we are today. \n\nAmong those blessings, you hold a truly special place in our hearts. The love you share, the values you uphold, and the example you continue to set are qualities we deeply admire and respect. Your life has been a beautiful reflection of faith, kindness, and commitment, and it would be our greatest honor to have you stand with us as we begin this new chapter in our lives. \n\nAs our Godparents, we hope to be blessed with your prayers, wisdom, and guidance—not only on our wedding day but throughout the journey of our marriage. We believe that your presence in our lives will continue to remind us to nurture the love and commitment we have promised to one another with faith, patience, and devotion. \n\nWith all our love and gratitude, we humbly ask…",
+                    QUESTION: {
+                        WHAT: "Will you be our",
+                        WHO: "Ring Bearer?"
+                    },
+                },
+                "yuson-456": {
+                    NAME: "COL Germiniano Yuson Jr (RET) and Mrs Ethel Yuson",
+                    MESSAGE: "Stepping into this sacred season of our lives, we find ourselves filled with gratitude as we prepare to receive the Sacrament of Marriage and begin the sacred covenant God has called us to. This journey has reminded us of the many blessings He has placed along our path and the people who have helped shape who we are today. \n\nAmong those blessings, you hold a truly special place in our hearts. The love you share, the values you uphold, and the example you continue to set are qualities we deeply admire and respect. Your life has been a beautiful reflection of faith, kindness, and commitment, and it would be our greatest honor to have you stand with us as we begin this new chapter in our lives. \n\nAs our Godparents, we hope to be blessed with your prayers, wisdom, and guidance—not only on our wedding day but throughout the journey of our marriage. We believe that your presence in our lives will continue to remind us to nurture the love and commitment we have promised to one another with faith, patience, and devotion. \n\nWith all our love and gratitude, we humbly ask…",
+                    QUESTION: {
+                        WHAT: "Will you be our",
+                        WHO: "Coin Bearer?"
+                    },
+                },
+                "yuson-456": {
+                    NAME: "COL Germiniano Yuson Jr (RET) and Mrs Ethel Yuson",
+                    MESSAGE: "Stepping into this sacred season of our lives, we find ourselves filled with gratitude as we prepare to receive the Sacrament of Marriage and begin the sacred covenant God has called us to. This journey has reminded us of the many blessings He has placed along our path and the people who have helped shape who we are today. \n\nAmong those blessings, you hold a truly special place in our hearts. The love you share, the values you uphold, and the example you continue to set are qualities we deeply admire and respect. Your life has been a beautiful reflection of faith, kindness, and commitment, and it would be our greatest honor to have you stand with us as we begin this new chapter in our lives. \n\nAs our Godparents, we hope to be blessed with your prayers, wisdom, and guidance—not only on our wedding day but throughout the journey of our marriage. We believe that your presence in our lives will continue to remind us to nurture the love and commitment we have promised to one another with faith, patience, and devotion. \n\nWith all our love and gratitude, we humbly ask…",
+                    QUESTION: {
+                        WHAT: "Will you be our",
+                        WHO: "Flower Girl?"
+                    },
+                },
+            },
+            ATTIRE: {
+                MESSAGE: "To complement the timeless elegance of our celebration, we graciously invite our beloved Principal Sponsors (Godparents) to wear a Barong Tagalog for gentlemen and a Modern Filipiniana Gown for ladies, following the color palette below. \n\nWe humbly ask for your kind understanding that the attire, hair and makeup (where applicable), and any other related personal expenses shall be at your own expense. Your presence as our Principal Sponsors is one of the greatest honors and blessings we could receive. We sincerely appreciate your thoughtfulness and support in helping us create a celebration that is both elegant and meaningful. \n\nThank you for being part of this unforgettable milestone in our lives."
+            }
         }
     },
     PARENTS: {
-
+        BRIDE: {
+            TITLE: "Parents",
+            LETTER: {
+                "yuson-123": {
+                    NAME: "COL Germiniano Yuson Jr (RET) and Mrs Ethel Yuson",
+                    MESSAGE: "Stepping into this sacred season of our lives, we find ourselves filled with gratitude as we prepare to receive the Sacrament of Marriage and begin the sacred covenant God has called us to. This journey has reminded us of the many blessings He has placed along our path and the people who have helped shape who we are today. \n\nAmong those blessings, you hold a truly special place in our hearts. The love you share, the values you uphold, and the example you continue to set are qualities we deeply admire and respect. Your life has been a beautiful reflection of faith, kindness, and commitment, and it would be our greatest honor to have you stand with us as we begin this new chapter in our lives. \n\nAs our Godparents, we hope to be blessed with your prayers, wisdom, and guidance—not only on our wedding day but throughout the journey of our marriage. We believe that your presence in our lives will continue to remind us to nurture the love and commitment we have promised to one another with faith, patience, and devotion. \n\nWith all our love and gratitude, we humbly ask…",
+                    QUESTION: {
+                        WHAT: "Will you stand by my side as my",
+                        WHO: "Parent.......?"
+                    },
+                },
+            },
+            ATTIRE: {
+                MESSAGE: "To complement the timeless elegance of our celebration, we graciously invite our beloved Principal Sponsors (Godparents) to wear a Barong Tagalog for gentlemen and a Modern Filipiniana Gown for ladies, following the color palette below. \n\nWe humbly ask for your kind understanding that the attire, hair and makeup (where applicable), and any other related personal expenses shall be at your own expense. Your presence as our Principal Sponsors is one of the greatest honors and blessings we could receive. We sincerely appreciate your thoughtfulness and support in helping us create a celebration that is both elegant and meaningful. \n\nThank you for being part of this unforgettable milestone in our lives."
+            }
+        },
+        GROOM: {
+            TITLE: "Parents",
+            LETTER: {
+                "yuson-123": {
+                    NAME: "COL Germiniano Yuson Jr (RET) and Mrs Ethel Yuson",
+                    MESSAGE: "Stepping into this sacred season of our lives, we find ourselves filled with gratitude as we prepare to receive the Sacrament of Marriage and begin the sacred covenant God has called us to. This journey has reminded us of the many blessings He has placed along our path and the people who have helped shape who we are today. \n\nAmong those blessings, you hold a truly special place in our hearts. The love you share, the values you uphold, and the example you continue to set are qualities we deeply admire and respect. Your life has been a beautiful reflection of faith, kindness, and commitment, and it would be our greatest honor to have you stand with us as we begin this new chapter in our lives. \n\nAs our Godparents, we hope to be blessed with your prayers, wisdom, and guidance—not only on our wedding day but throughout the journey of our marriage. We believe that your presence in our lives will continue to remind us to nurture the love and commitment we have promised to one another with faith, patience, and devotion. \n\nWith all our love and gratitude, we humbly ask…",
+                    QUESTION: {
+                        WHAT: "Will you stand by my side as my",
+                        WHO: "Parent.......?"
+                    },
+                },
+            },
+            ATTIRE: {
+                MESSAGE: "To complement the timeless elegance of our celebration, we graciously invite our beloved Principal Sponsors (Godparents) to wear a Barong Tagalog for gentlemen and a Modern Filipiniana Gown for ladies, following the color palette below. \n\nWe humbly ask for your kind understanding that the attire, hair and makeup (where applicable), and any other related personal expenses shall be at your own expense. Your presence as our Principal Sponsors is one of the greatest honors and blessings we could receive. We sincerely appreciate your thoughtfulness and support in helping us create a celebration that is both elegant and meaningful. \n\nThank you for being part of this unforgettable milestone in our lives."
+            }
+        },
     }
 }

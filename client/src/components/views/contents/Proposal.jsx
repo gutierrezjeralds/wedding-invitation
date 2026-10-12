@@ -37,7 +37,7 @@ export default function Gift() {
     let oText = [];
 
     // Get Proper Object
-    if (sId && sId.includes("entourage")) {
+    if (sId && (sId.includes("entourage") || sId.includes("parents"))) {
         const sIds = _sId.split("-");
         oLetter = CONTENT_PROPOSAL?.[sIds[0]]?.[sIds[1]]?.LETTER?.[_sName];
         oText = CONTENT_PROPOSAL?.[sIds[0]]?.[sIds[1]];
@@ -59,8 +59,9 @@ export default function Gift() {
                     .catch((err) => console.error(`Error loading ${endpoint}:`, err));
             };
 
-            const sIdLower = (sId?.toLowerCase()).split("-")[0];
-            console.log("sIdLower", sIdLower)
+            const sIds = (sId?.toLowerCase()).split("-");
+            const sIdLower = sIds[0];
+            const sIdSubLower = sIds[1];
 
             if (sIdLower === "principal" || sIdLower === "secondary") {
                 fetchAndSort('/attire/sponsors/dress', setImgAttireDress);
@@ -68,7 +69,12 @@ export default function Gift() {
             }
 
             if (sIdLower === "entourage") {
-                fetchAndSort('/attire/entourage/dress/adult', setImgAttireDress);
+                if (sIdSubLower === "bridemaids" || sIdSubLower === "groomsmen") {
+                    fetchAndSort('/attire/entourage/dress/adult', setImgAttireDress);
+                } else {
+                    fetchAndSort('/attire/entourage/dress/child', setImgAttireDress);
+                }
+
                 fetchAndSort('/attire/entourage/palette', setImgAttirePalette);
             }
 
