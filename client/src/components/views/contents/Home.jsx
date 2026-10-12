@@ -113,7 +113,7 @@ export default function Home() {
                             })}
                         </Grid>
 
-                        <Button variant="outlined" size="large" className="rsvp-button mt-5" startIcon={<Send />} sx={{width: "15rem"}}>
+                        <Button component={RouterLink} to="/rsvp" variant="outlined" size="large" className="rsvp-button mt-5" startIcon={<Send />} sx={{width: "15rem"}}>
                             {CONTENT.BUTTON_RSVP}
                         </Button>
                     </Box>

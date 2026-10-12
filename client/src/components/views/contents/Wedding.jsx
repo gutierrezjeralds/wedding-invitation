@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { Container, Stack, Paper, Box, Button, Tabs, Tab, Chip } from '@mui/material';
 import { 
     Church, AccessTimeFilled, Map, WineBar, Send
@@ -442,26 +443,27 @@ export default function Wedding() {
                         >
                             <Text
                                 variant="caption"
-                                className="text-uppercase fw-bold"
+                                className="text-uppercase fw-bold text-light"
                                 letterSpacing="widest"
                                 textKey={CONTENT_WEDDING.FOOTER.TITLE}
                             />
                             <Text
-                                className="cormorant-garamond-regular fs-2 my-3"
+                                className="cormorant-garamond-regular fs-2 my-3 text-light"
                                 letterSpacing="wide"
                                 textKey={CONTENT_WEDDING.FOOTER.SUBTITLE}
                             />
                             <Text
                                 variant="caption"
                                 letterSpacing="wide"
-                                className="d-block mb-4"
+                                className="d-block mb-4 text-light"
                                 textKey={CONTENT_WEDDING.FOOTER.TAGLINE}
                             />
 
                             <Button
+                                component={RouterLink}
+                                to="/rsvp"
                                 variant="contained"
                                 startIcon={<Send />}
-                                onClick={() => setActiveModal('rsvp')}
                                 sx={{
                                     bgcolor: '#D9A6A4',
                                     color: '#3D3A37',
