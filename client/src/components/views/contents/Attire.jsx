@@ -110,39 +110,37 @@ export default function Attire() {
 
                     {/* Custom Styled MUI Tabs */}
                     <Box sx={{ width: '100%' }}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Box
+                            sx={{
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                mb: { xs: 3, sm: 4 },
+                                borderBottom: 1,
+                                borderColor: 'divider',
+                            }}
+                        >
                             <Tabs
                                 value={tabValue}
                                 onChange={handleTabChange}
                                 variant="scrollable"
                                 scrollButtons="auto"
                                 allowScrollButtonsMobile
+                                textColor="primary"
+                                indicatorColor="primary"
                                 sx={{
-                                    width: '100%',
-                                    '& .MuiTabs-scroller': {
-                                        display: { sm: 'flex' },
-                                        justifyContent: { sm: 'center' },
-                                    },
-                                    '& .MuiTabs-flexContainer': {
-                                        justifyContent: { sm: 'center' },
+                                    minHeight: { xs: 40, sm: 48 },
+                                    '& .MuiTabs-scrollButtons': {
+                                        color: '#A08053',
                                     },
                                     '& .MuiTab-root': {
-                                        fontSize: { xs: '0.75rem', sm: '0.9rem' },
-                                        fontWeight: 500,
-                                        textTransform: 'uppercase',
-                                        letterSpacing: { xs: 0.5, sm: 1.5 },
-                                        minWidth: { xs: 'auto', sm: 120 },
+                                        textTransform: 'none',
+                                        fontWeight: 600,
+                                        fontSize: { xs: '0.85rem', sm: '0.95rem' },
                                         px: { xs: 1.5, sm: 3 },
-                                        py: 1,
-                                        color: 'text.secondary',
-                                        '&.Mui-selected': {
-                                            color: '#d4af37',
-                                        },
-                                    },
-                                    '& .MuiTabs-indicator': {
-                                        backgroundColor: '#d4af37',
-                                        height: 3,
-                                        borderRadius: '3px 3px 0 0',
+                                        py: { xs: 1, sm: 1.5 },
+                                        minHeight: { xs: 40, sm: 48 },
+                                        whiteSpace: 'nowrap',
                                     },
                                     /* STYLED SCROLL BUTTONS */
                                     '& .MuiTabScrollButton-root': {

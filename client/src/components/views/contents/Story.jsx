@@ -422,6 +422,27 @@ export default function Story() {
                                     minHeight: { xs: 40, sm: 48 },
                                     whiteSpace: 'nowrap',
                                 },
+                                /* STYLED SCROLL BUTTONS */
+                                '& .MuiTabScrollButton-root': {
+                                    width: 32,
+                                    height: 32,
+                                    borderRadius: '50%',
+                                    bgcolor: 'rgba(212, 175, 55, 0.15)',
+                                    color: '#7A1C31',
+                                    alignSelf: 'center',
+                                    mx: 0.5,
+                                    transition: 'all 0.2s ease',
+                                    opacity: 0.9,
+                                    '&:hover': {
+                                        bgcolor: '#7A1C31',
+                                        color: '#ffffff',
+                                        opacity: 1,
+                                    },
+                                    '&.Mui-disabled': {
+                                        opacity: 0.3,
+                                        bgcolor: 'transparent',
+                                    },
+                                },
                             }}
                         >
                             <Tab label={CONTENT_STORY.SECTION_GALLER_TAB1_TITLE} />
