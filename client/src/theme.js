@@ -33,7 +33,7 @@ const theme = createTheme({
       // Responsive font size for mobile (down to 'sm' breakpoint)
       [defaultTheme.breakpoints.down('sm')]: {
         fontSize: '3rem', // Matches standard h2 scale on mobile
-      },
+      }
     },
 
     // Title Header (Default variant: h2, rendering component: h1)
@@ -42,6 +42,12 @@ const theme = createTheme({
       color: '#6B1D2F',      // Wine Red (Primary)
       fontWeight: 400,
       lineHeight: 1.2,
+      fontSize: '4rem', // Default desktop font size
+
+      // Responsive font size for mobile (down to 'sm' breakpoint)
+      [defaultTheme.breakpoints.down('sm')]: {
+        fontSize: '3.5rem', // Matches standard h2 scale on mobile
+      }
     },
 
     // Sub Title Header 1, rendering component: div

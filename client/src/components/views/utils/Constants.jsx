@@ -6,7 +6,7 @@ export const CONTENT = {
     TITLE_NAME: "Jerald <span class='pinyon-script-regular'>&</span> Sheila",
     TITLE_DATE: "Saturday, July 17, 2027 at 10:00 AM",
     TITLE_DATE_V2: "July 17, 2027  •  10AM",
-    TITLE_DATE_V3: "07 • 17 • 27",
+    TITLE_DATE_V3: "July 17, 2027",
     TITLE_DATE_V4: "July 17, 2027  •  12PM",
     TITLE_CHURCH: "St. Augustine Parish Church",
     TITLE_CHURCH_ADDRESS: "Brgy. Santor 1, Tanauan City, Batangas",
@@ -59,7 +59,7 @@ export const CONTENT_HOME = {
             TO: '/story',
             ICON: FavoriteBorder,
             TITLE: CONTENT.PAGE_TITLE_STORY,
-            SUBTITLE: "Our journey from where it all began to today."
+            SUBTITLE: "Our journey from where it all began."
         },
         {
             ID: 'wedding',

@@ -44,7 +44,7 @@ export function Text({ letterSpacing, preserveNewlines = true, textKey, children
 }
 
 // Resusable Divider
-export function FavoriteDivider() {
+export function FavoriteDividerSmall() {
     return (
         <Box
             sx={{
@@ -58,6 +58,25 @@ export function FavoriteDivider() {
             <Box sx={{ width: 40, height: '1px', backgroundColor: '#C5A059' }} />
             <Favorite sx={{ fontSize: 16, color: '#C5A059' }} />
             <Box sx={{ width: 40, height: '1px', backgroundColor: '#C5A059' }} />
+        </Box>
+    )
+}
+
+// Resusable Divider
+export function FavoriteDividerMediumn() {
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                my: 3,
+                gap: 2,
+            }}
+        >
+            <Box sx={{ width: 100, height: '1px', backgroundColor: '#C5A059' }} />
+            <Favorite sx={{ fontSize: 16, color: '#C5A059' }} />
+            <Box sx={{ width: 100, height: '1px', backgroundColor: '#C5A059' }} />
         </Box>
     )
 }
@@ -84,7 +103,7 @@ export function PageTitle({ title, subtitle, icon, ...props }) {
                 />
             )}
 
-            <FavoriteDivider />
+            <FavoriteDividerSmall />
         </Stack>
     );
 }

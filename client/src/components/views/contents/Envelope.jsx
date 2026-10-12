@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import { Container, Box, Divider, Link } from '@mui/material';
 import { Favorite } from '@mui/icons-material';
-import { Text, FavoriteDivider } from '../utils/CustomComponents';
+import { Text, FavoriteDividerSmall } from '../utils/CustomComponents';
 import GlobalButterflies from '../utils/GlobalButterfliesAnimation';
 import { CONTENT, CONTENT_ENVELOPE } from '../utils/Constants';
 
@@ -43,7 +43,7 @@ export default function Envelope() {
                             textKey={CONTENT_ENVELOPE.TOCELEBRATE}
                         />
 
-                        <FavoriteDivider />
+                        <FavoriteDividerSmall />
 
                         <Text
                             variant="h1"

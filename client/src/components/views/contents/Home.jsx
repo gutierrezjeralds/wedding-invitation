@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Container, Box, Divider, Grid, Paper, styled , Link, Button} from '@mui/material';
 import { FavoriteBorder, Favorite, Church, Groups, Checkroom, Send } from '@mui/icons-material';
-import { Text } from '../utils/CustomComponents';
+import { Text, FavoriteDividerSmall, FavoriteDividerMediumn } from '../utils/CustomComponents';
 import Countdown from '../utils/Countdown';
 import { CONTENT, CONTENT_HOME } from '../utils/Constants';
 
@@ -38,17 +38,19 @@ export default function Home() {
                     <Box className="text-center">
                         <Text
                             letterSpacing="wide"
-                            variant="h3"
-                            className="great-vibes-regular"
-                            textKey={CONTENT.TITLE_NAME}
+                            variant="h6"
+                            className="text-uppercase
+                            cormorant-garamond-regular"
+                            textKey={CONTENT_HOME.GETTINGMARRIED}
                         />
+
+                        <FavoriteDividerSmall />
 
                         <Text
                             letterSpacing="wide"
-                            variant="h6"
-                            className="text-uppercase
-                            cormorant-garamond-regular mt-5"
-                            textKey={CONTENT_HOME.GETTINGMARRIED}
+                            variant="h2"
+                            className="great-vibes-regular"
+                            textKey={CONTENT.TITLE_NAME}
                         />
 
                         <Text
@@ -58,6 +60,8 @@ export default function Home() {
                             textKey={CONTENT.TITLE_DATE_V3}
                         />
 
+                        <FavoriteDividerSmall />
+
                         <Text
                             letterSpacing="wide"
                             className="cormorant-garamond-regular fs-8"
@@ -66,19 +70,15 @@ export default function Home() {
 
                         <Countdown />
 
-                        <Divider component="div" role="presentation" className='p-4 m-auto' sx={{width: "20rem"}}>
-                            <FavoriteBorder fontSize="small" className='mt-2' />
-                        </Divider>
-
                         <Text
                             letterSpacing="wide"
                             variant="h6"
-                            className="cormorant-garamond-regular"
+                            className="cormorant-garamond-regular mt-4"
                             textKey={CONTENT_HOME.PAGE_TITLE}
                         />
 
                         <Text
-                            variant="caption"
+                            variant="body1"
                             className="cormorant-garamond-regular"
                             textKey={CONTENT_HOME.PAGE_SUBTITLE}
                         />
@@ -102,7 +102,8 @@ export default function Home() {
                                                     textKey={item.TITLE}
                                                 />
                                                 <Text
-                                                    className="d-block cormorant-garamond-regular fs-8"
+                                                    variant="caption"
+                                                    className="d-block cormorant-garamond-regular"
                                                     textKey={item.SUBTITLE}
                                                 />
                                             </Item>
