@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
     Box,
     Container,
-    Typography,
     Accordion,
     AccordionSummary,
     AccordionDetails,
@@ -46,9 +45,9 @@ function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} })
                 sx={{
                     p: { xs: 0.8, sm: 1.2 },
                     pb: { xs: 2, sm: 3 },
-                    bgcolor: '#FFFFFF',
+                    bgcolor: 'background.paper',
                     borderRadius: '2px',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
+                    boxShadow: '0 8px 24px rgba(107, 29, 47, 0.08)',
                     position: 'relative',
                 }}
             >
@@ -61,9 +60,9 @@ function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} })
                             transform: 'translateX(-50%) rotate(-2deg)',
                             width: { xs: 35, sm: 50 },
                             height: { xs: 14, sm: 18 },
-                            bgcolor: 'rgba(220, 215, 200, 0.7)',
+                            bgcolor: 'rgba(212, 175, 55, 0.35)',
                             backdropFilter: 'blur(2px)',
-                            border: '1px solid rgba(200, 190, 170, 0.4)',
+                            border: '1px solid rgba(212, 175, 55, 0.2)',
                             zIndex: 2,
                         }}
                     />
@@ -106,8 +105,6 @@ export default function Story() {
         setGalleryTab(newValue);
         setSelectedImage(0);
         setLightboxOpen(false);
-
-        // Randomize the quilted layout for the new tab
         setRandomLayout(Math.floor(Math.random() * 3));
     };
 
@@ -209,7 +206,7 @@ export default function Story() {
 
     return (
         <React.Fragment>
-            <Box>
+            <Box sx={{ bgcolor: 'background.default' }}>
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
                     <PageTitle title={CONTENT_STORY.TITLE} subtitle={CONTENT_STORY.SUBTITLE} />
@@ -226,15 +223,13 @@ export default function Story() {
                         <Box sx={{ flex: 1, width: '100%' }}>
                             <Text
                                 variant="caption"
-                                className="text-uppercase fw-bold d-block fs-8 mb-1 text-gold"
-                                letterSpacing="largest"
+                                sx={{ color: 'primary.main', fontWeight: 700, display: 'block', mb: 1, letterSpacing: '0.15em', textTransform: 'uppercase' }}
                                 textKey={CONTENT_STORY.SECTION1_CONTENT_TAGLINE}
                             />
 
                             <Text
-                                variant="h3"
-                                className="cormorant-garamond-regular mb-2"
-                                sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}
+                                variant="h2"
+                                sx={{ color: 'primary.main', mb: 2, fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}
                                 textKey={CONTENT_STORY.SECTION1_CONTENT_TITLE}
                             />
 
@@ -242,12 +237,13 @@ export default function Story() {
                                 sx={{
                                     width: 40,
                                     height: 2,
-                                    bgcolor: '#A08053',
+                                    bgcolor: 'primary.main',
                                     mb: 3,
+                                    opacity: 0.6,
                                 }}
                             />
 
-                            <Text variant="body1" className="mb-2" textKey={CONTENT_STORY.SECTION1_CONTENT_SUBTITLE} />
+                            <Text variant="body1" sx={{ mb: 3, display: 'block' }} textKey={CONTENT_STORY.SECTION1_CONTENT_SUBTITLE} />
 
                             {/* Accordion Chapters */}
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
@@ -265,11 +261,11 @@ export default function Story() {
                                             sx={{
                                                 bgcolor: 'transparent',
                                                 '&:before': { display: 'none' },
-                                                borderBottom: '1px solid #E3DDD3',
+                                                borderBottom: '1px solid rgba(107, 29, 47, 0.15)',
                                             }}
                                         >
                                             <AccordionSummary
-                                                expandIcon={<ExpandMore sx={{ color: '#6E6B67' }} />}
+                                                expandIcon={<ExpandMore sx={{ color: 'primary.main' }} />}
                                                 sx={{
                                                     px: 0,
                                                     py: 1,
@@ -281,10 +277,10 @@ export default function Story() {
                                                     },
                                                 }}
                                             >
-                                                <Text className="fw-bold fs-6" sx={{ color: '#A08053', minWidth: 24 }}>
+                                                <Text sx={{ color: 'primary.main', fontWeight: 700, minWidth: 24, fontSize: '1rem' }}>
                                                     {chapter.ID}
                                                 </Text>
-                                                <Text className="cormorant-garamond-regular fs-5">
+                                                <Text variant="h5" sx={{ color: 'secondary.main', fontSize: '1.25rem' }}>
                                                     {chapter.TITLE}
                                                 </Text>
                                             </AccordionSummary>
@@ -294,13 +290,13 @@ export default function Story() {
                                                     elevation={0}
                                                     sx={{
                                                         p: { xs: 2, sm: 2.5 },
-                                                        bgcolor: '#FAF5ED',
-                                                        border: '1px solid #ECE3D7',
-                                                        borderRadius: 1,
-                                                        ml: { xs: 0, sm: 4 }, // Responsive Indentation
+                                                        bgcolor: 'background.paper',
+                                                        border: '1px solid rgba(107, 29, 47, 0.15)',
+                                                        borderRadius: 2,
+                                                        ml: { xs: 0, sm: 4 },
                                                     }}
                                                 >
-                                                    <Text variant="body2" className="fs-7" textKey={chapter.BODY} />
+                                                    <Text variant="body1" sx={{ color: 'text.primary' }} textKey={chapter.BODY} />
                                                 </Paper>
                                             </AccordionDetails>
                                         </Accordion>
@@ -351,9 +347,9 @@ export default function Story() {
                             >
                                 <Text
                                     sx={{
-                                        fontFamily: '"Caveat", "Dancing Script", cursive',
-                                        fontSize: { xs: '1.5rem', sm: '2.2rem', md: '2.4rem' },
-                                        color: '#7D6A53',
+                                        fontFamily: '"Great Vibes", cursive',
+                                        fontSize: { xs: '2rem', sm: '2.8rem', md: '3.2rem' },
+                                        color: 'primary.main',
                                         lineHeight: 1.1,
                                         transform: 'rotate(-6deg)',
                                     }}
@@ -372,19 +368,18 @@ export default function Story() {
                 height="350px"
             />
 
-            <Box>
+            <Box sx={{ bgcolor: 'background.default' }}>
                 {/* Moments Gallery Section */}
                 <Container maxWidth="lg" className="py-5">
                     <Box sx={{ textAlign: 'center', mb: { xs: 3, sm: 4 } }}>
                         <Text
-                            variant="h4"
-                            className="pinyon-script-regular"
-                            sx={{ color: '#5a4632', fontSize: { xs: '2rem', sm: '2.5rem' } }}
+                            variant="h2"
+                            sx={{ color: 'primary.main', mb: 1, fontSize: { xs: '3rem', sm: '3.5rem' } }}
                             textKey={CONTENT_STORY.SECTION2_GALLERY_TITLE}
                         />
                         <Text
-                            variant="body2" color="text.secondary"
-                            sx={{ px: 2 }}
+                            variant="caption"
+                            sx={{ px: 2, color: 'text.secondary', display: 'block' }}
                             textKey={CONTENT_STORY.SECTION2_GALLERY_SUBTITLE}
                         />
                     </Box>
@@ -406,36 +401,40 @@ export default function Story() {
                             variant="scrollable"
                             scrollButtons="auto"
                             allowScrollButtonsMobile
-                            textColor="primary"
-                            indicatorColor="primary"
                             sx={{
                                 minHeight: { xs: 40, sm: 48 },
-                                '& .MuiTabs-scrollButtons': {
-                                    color: '#A08053',
-                                },
                                 '& .MuiTab-root': {
-                                    textTransform: 'none',
-                                    fontWeight: 600,
                                     fontSize: { xs: '0.85rem', sm: '0.95rem' },
+                                    fontWeight: 600,
+                                    textTransform: 'none',
                                     px: { xs: 1.5, sm: 3 },
                                     py: { xs: 1, sm: 1.5 },
                                     minHeight: { xs: 40, sm: 48 },
                                     whiteSpace: 'nowrap',
+                                    color: 'text.primary',
+                                    '&.Mui-selected': {
+                                        color: 'primary.main',
+                                    },
+                                },
+                                '& .MuiTabs-indicator': {
+                                    backgroundColor: 'primary.main',
+                                    height: 3,
+                                    borderRadius: '3px 3px 0 0',
                                 },
                                 /* STYLED SCROLL BUTTONS */
                                 '& .MuiTabScrollButton-root': {
                                     width: 32,
                                     height: 32,
                                     borderRadius: '50%',
-                                    bgcolor: 'rgba(212, 175, 55, 0.15)',
-                                    color: '#7A1C31',
+                                    bgcolor: 'rgba(107, 29, 47, 0.1)',
+                                    color: 'primary.main',
                                     alignSelf: 'center',
                                     mx: 0.5,
                                     transition: 'all 0.2s ease',
                                     opacity: 0.9,
                                     '&:hover': {
-                                        bgcolor: '#7A1C31',
-                                        color: '#ffffff',
+                                        bgcolor: 'primary.main',
+                                        color: 'primary.contrastText',
                                         opacity: 1,
                                     },
                                     '&.Mui-disabled': {
@@ -505,25 +504,22 @@ export default function Story() {
                                             borderRadius: { xs: 1, sm: 1.5 },
                                             position: 'relative',
                                             '& img': {
-                                                transition:
-                                                    'transform 0.4s ease, filter 0.4s ease',
+                                                transition: 'transform 0.4s ease, filter 0.4s ease',
                                             },
                                             '&:hover img': {
                                                 transform: 'scale(1.035)',
                                                 filter: 'brightness(0.92)',
                                             },
                                             '&:focus-visible': {
-                                                outline: '2px solid #A08053',
+                                                outline: '2px solid',
+                                                outlineColor: 'primary.main',
                                                 outlineOffset: '-2px',
                                             },
                                         }}
                                     >
                                         <img
                                             src={item.url}
-                                            alt={
-                                                item.name ||
-                                                `Gallery image ${index + 1}`
-                                            }
+                                            alt={item.name || `Gallery image ${index + 1}`}
                                             loading="lazy"
                                             style={{
                                                 width: '100%',
@@ -543,16 +539,14 @@ export default function Story() {
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                color: '#8A8177',
+                                color: 'text.secondary',
                             }}
                         >
-                            <Typography variant="body2">
-                                Loading photos...
-                            </Typography>
+                            <Text variant="body1" textKey="Loading photos..." />
                         </Box>
                     )}
 
-                    {/* Lightbox - only navigates through the currently selected tab */}
+                    {/* Lightbox */}
                     <Dialog
                         open={lightboxOpen}
                         onClose={closeLightbox}
@@ -589,7 +583,8 @@ export default function Story() {
 
                         {/* Image counter */}
                         {currentGallery.length > 0 && (
-                            <Typography
+                            <Box
+                                component="span"
                                 sx={{
                                     position: 'absolute',
                                     top: { xs: 18, sm: 26 },
@@ -599,10 +594,11 @@ export default function Story() {
                                     color: 'rgba(255,255,255,0.85)',
                                     fontSize: { xs: '0.8rem', sm: '0.9rem' },
                                     letterSpacing: '0.08em',
+                                    fontFamily: '"Montserrat", sans-serif',
                                 }}
                             >
                                 {selectedImage + 1} / {currentGallery.length}
-                            </Typography>
+                            </Box>
                         )}
 
                         {/* Previous */}
@@ -625,10 +621,7 @@ export default function Story() {
                             >
                                 <ArrowBackIosNew
                                     sx={{
-                                        fontSize: {
-                                            xs: 18,
-                                            sm: 24,
-                                        },
+                                        fontSize: { xs: 18, sm: 24 },
                                     }}
                                 />
                             </IconButton>
@@ -643,20 +636,13 @@ export default function Story() {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    p: {
-                                        xs: 7,
-                                        sm: 9,
-                                        md: 10,
-                                    },
+                                    p: { xs: 7, sm: 9, md: 10 },
                                 }}
                             >
                                 <Box
                                     component="img"
                                     src={currentGallery[selectedImage].url}
-                                    alt={
-                                        currentGallery[selectedImage].name ||
-                                        `Gallery image ${selectedImage + 1}`
-                                    }
+                                    alt={currentGallery[selectedImage].name || `Gallery image ${selectedImage + 1}`}
                                     sx={{
                                         maxWidth: '100%',
                                         maxHeight: '100%',
@@ -689,10 +675,7 @@ export default function Story() {
                             >
                                 <ArrowForwardIos
                                     sx={{
-                                        fontSize: {
-                                            xs: 18,
-                                            sm: 24,
-                                        },
+                                        fontSize: { xs: 18, sm: 24 },
                                     }}
                                 />
                             </IconButton>
