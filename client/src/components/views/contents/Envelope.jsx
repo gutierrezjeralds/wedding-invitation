@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useTranslation, Trans } from 'react-i18next';
 import { Container, Box, Divider, Link } from '@mui/material';
 import { Favorite } from '@mui/icons-material';
 import { Text, FavoriteDividerSmall } from '../utils/CustomComponents';
@@ -14,7 +13,6 @@ const sBackgroundDekstop = sCloudflareBaseDirectUrl + "/background/desktop/envel
 const sBackgroundMobile = sCloudflareBaseDirectUrl + "/background/mobile/envelope.png";
 
 export default function Envelope() {
-    const { t: oI18n } = useTranslation();
     return (
         <React.Fragment>
             <GlobalButterflies primary="#d71128" secondary="#F8C8DC" />
@@ -29,10 +27,10 @@ export default function Envelope() {
                 }}
             >
                 <Container maxWidth="lg" className="py-5">
-                    <Box className="text-center">
+                    <Box className="text-center" sx={{mt: {xs: 20, sm: 5}}}>
                         <Text
                             letterSpacing="wide"
-                            variant="h6"
+                            variant="body1"
                             textKey={CONTENT_ENVELOPE.YOURINVITED}
                         />
 
@@ -43,21 +41,22 @@ export default function Envelope() {
                             textKey={CONTENT_ENVELOPE.TOCELEBRATE}
                         />
 
-                        <FavoriteDividerSmall />
-
                         <Text
                             variant="h1"
+                            className="my-4"
                             textKey={CONTENT.TITLE_NAME}
                         />
 
+                        <FavoriteDividerSmall />
+
                         <Text
-                            variant="body1"
-                            className="my-3"
+                            variant="caption"
+                            className="mt-5"
                             textKey={CONTENT.TITLE_DATE}
                         />
 
                         <Text
-                            variant="h6"
+                            variant="body1"
                             className="text-uppercase"
                             textKey={CONTENT.TITLE_CHURCH}
                         />
@@ -80,13 +79,14 @@ export default function Envelope() {
                         </Link>
 
                         <Text
-                            variant="h6"
+                            variant="caption"
+                            className="fst-normal"
                             sx={{mt: "-35px", mb: "-20px"}}
                             textKey={CONTENT_ENVELOPE.WAXSEAL}
                         />
                     </Box>
 
-                    <Box className="text-center">
+                    <Box className="text-center" sx={{mb: {xs: 30, sm: 5}}}>
                         <Text
                             variant="body1"
                             className="cormorant-garamond-regular mt-3"
