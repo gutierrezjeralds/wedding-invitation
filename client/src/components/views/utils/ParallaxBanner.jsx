@@ -60,7 +60,7 @@ export default function ParallaxBanner({
                         position: 'relative',
                         zIndex: 2,
                         textAlign: 'center',
-                        color: '#FFFFFF',
+                        color: 'primary.contrastText',
                         px: 2,
                     }}
                 >
@@ -73,6 +73,7 @@ export default function ParallaxBanner({
                                 mb: subtitle ? 1 : 0,
                                 textShadow: '0 2px 4px rgba(0,0,0,0.4)',
                                 fontSize: { xs: '1.75rem', sm: '2.3rem', md: '2.8rem' },
+                                color: 'primary.contrastText',
                             }}
                             textKey={title}
                         />
