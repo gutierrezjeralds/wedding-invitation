@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Container, Tabs, Tab, Paper, Stack, Grid, Card, CardMedia, Divider } from '@mui/material';
+import { Box, Container, Tabs, Tab, Paper, Stack, Grid, Card, CardMedia } from '@mui/material';
 import { FamilyRestroom, MilitaryTech, Groups, PeopleAlt } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import { CONTENT_ATTIRE } from '../utils/Constants';
@@ -74,11 +74,8 @@ export default function Attire() {
         if (!Array.isArray(dataArray)) return [];
 
         return [...dataArray].sort((a, b) => {
-            // Extract filename from URL (e.g., "https://domain.com/path/01-dress.jpg" -> "01-dress.jpg")
             const nameA = (a.url || a.name || '').split('/').pop();
             const nameB = (b.url || b.name || '').split('/').pop();
-
-            // Natural sort handles numeric prefixes cleanly (e.g. 1, 2, 10 instead of 1, 10, 2)
             return nameA.localeCompare(nameB, undefined, { numeric: true, sensitivity: 'base' });
         });
     };
@@ -101,9 +98,63 @@ export default function Attire() {
         fetchAndSort('/attire/parents/palette', setImgParentsPalette);
     }, [sCloudflareBaseUrl]);
 
+    // Reusable Swiper Component
+    const renderSwiper = (dataList) => (
+        <Box
+            sx={{
+                width: '100%',
+                minWidth: 0,
+                '& .swiper': {
+                    paddingBottom: '35px',
+                },
+                '& .swiper-button-next, & .swiper-button-prev': {
+                    color: 'primary.main',
+                    '&::after': {
+                        fontSize: '1.2rem',
+                        fontWeight: 'bold',
+                    },
+                },
+                '& .swiper-pagination-bullet': {
+                    backgroundColor: '#ccc',
+                    opacity: 0.7,
+                },
+                '& .swiper-pagination-bullet-active': {
+                    backgroundColor: 'primary.main',
+                    opacity: 1,
+                    width: 12,
+                    borderRadius: 4,
+                },
+            }}
+        >
+            <Swiper
+                modules={[Navigation, Pagination, Autoplay]}
+                spaceBetween={15}
+                slidesPerView={1}
+                navigation
+                pagination={{ clickable: true }}
+                autoplay={{ delay: 3500, disableOnInteraction: false }}
+            >
+                {dataList.map((item, index) => (
+                    <SwiperSlide key={index}>
+                        <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(107, 29, 47, 0.06)' }}>
+                            <CardMedia
+                                component="img"
+                                height="380"
+                                image={item.url}
+                                alt={`Attire sample ${index + 1}`}
+                                loading="lazy"
+                                sx={{ objectFit: 'contain', bgcolor: 'background.paper', py: 2 }}
+                            />
+                        </Card>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+        </Box>
+    );
+
     return (
-         <React.Fragment>
-            <Box>
+        <React.Fragment>
+            <Box sx={{ bgcolor: 'background.default' }}>
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
                     <PageTitle title={CONTENT_ATTIRE.TITLE} subtitle={CONTENT_ATTIRE.SUBTITLE} />
@@ -126,36 +177,40 @@ export default function Attire() {
                                 variant="scrollable"
                                 scrollButtons="auto"
                                 allowScrollButtonsMobile
-                                textColor="primary"
-                                indicatorColor="primary"
                                 sx={{
                                     minHeight: { xs: 40, sm: 48 },
-                                    '& .MuiTabs-scrollButtons': {
-                                        color: '#A08053',
-                                    },
                                     '& .MuiTab-root': {
-                                        textTransform: 'none',
-                                        fontWeight: 600,
                                         fontSize: { xs: '0.85rem', sm: '0.95rem' },
+                                        fontWeight: 600,
+                                        textTransform: 'none',
                                         px: { xs: 1.5, sm: 3 },
                                         py: { xs: 1, sm: 1.5 },
                                         minHeight: { xs: 40, sm: 48 },
                                         whiteSpace: 'nowrap',
+                                        color: 'text.primary',
+                                        '&.Mui-selected': {
+                                            color: 'primary.main',
+                                        },
+                                    },
+                                    '& .MuiTabs-indicator': {
+                                        backgroundColor: 'primary.main',
+                                        height: 3,
+                                        borderRadius: '3px 3px 0 0',
                                     },
                                     /* STYLED SCROLL BUTTONS */
                                     '& .MuiTabScrollButton-root': {
                                         width: 32,
                                         height: 32,
                                         borderRadius: '50%',
-                                        bgcolor: 'rgba(212, 175, 55, 0.15)',
-                                        color: '#7A1C31',
+                                        bgcolor: 'rgba(107, 29, 47, 0.1)',
+                                        color: 'primary.main',
                                         alignSelf: 'center',
                                         mx: 0.5,
                                         transition: 'all 0.2s ease',
                                         opacity: 0.9,
                                         '&:hover': {
-                                            bgcolor: '#7A1C31',
-                                            color: '#ffffff',
+                                            bgcolor: 'primary.main',
+                                            color: 'primary.contrastText',
                                             opacity: 1,
                                         },
                                         '&.Mui-disabled': {
@@ -172,86 +227,36 @@ export default function Attire() {
                             </Tabs>
                         </Box>
 
-                        {/* TAB 0: GUESTS (ACTIVE ON LOAD) */}
+                        {/* TAB 0: GUESTS */}
                         <TabPanel value={tabValue} index={0}>
-                            <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
+                            <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: 'background.paper', border: '1px solid rgba(107, 29, 47, 0.15)' }}>
                                 <Text
                                     variant="body1"
-                                    className="playfair-display-regular mb-1 text-gold"
+                                    className="mb-1"
+                                    sx={{ color: 'primary.main', fontWeight: 600, display: 'block' }}
                                     textKey={CONTENT_ATTIRE.TAB.GUEST.GUIDE}
                                 />
                                 <Text
                                     variant="caption"
+                                    sx={{ display: 'block' }}
                                     textKey={CONTENT_ATTIRE.TAB.GUEST.DETAILS}
                                 />
 
-                                {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
                                 <Box
                                     sx={{
                                         display: 'grid',
-                                        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, // 50% left, 50% right
+                                        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
                                         gap: 4,
                                     }}
                                     className="mt-3"
                                 >
-                                    {/* COLUMN 1: LEFT SIDE (Carousel) */}
-                                    <Box
-                                        sx={{
-                                            width: '100%',
-                                            minWidth: 0, // Prevents Swiper from overflowing flex/grid containers
-                                            '& .swiper': {
-                                                paddingBottom: '35px',
-                                            },
-                                            '& .swiper-button-next, & .swiper-button-prev': {
-                                                color: '#d4af37',
-                                                '&::after': {
-                                                    fontSize: '1.2rem',
-                                                    fontWeight: 'bold',
-                                                },
-                                            },
-                                            '& .swiper-pagination-bullet': {
-                                                backgroundColor: '#ccc',
-                                                opacity: 0.7,
-                                            },
-                                            '& .swiper-pagination-bullet-active': {
-                                                backgroundColor: '#d4af37',
-                                                opacity: 1,
-                                                width: 12,
-                                                borderRadius: 4,
-                                            },
-                                        }}
-                                    >
-                                        <Swiper
-                                            modules={[Navigation, Pagination, Autoplay]}
-                                            spaceBetween={15}
-                                            slidesPerView={1}
-                                            navigation
-                                            pagination={{ clickable: true }}
-                                            autoplay={{ delay: 3500, disableOnInteraction: false }}
-                                        >
-                                            {imgGuestDress.map((item, index) => (
-                                                <SwiperSlide key={index}>
-                                                    <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
-                                                        <CardMedia
-                                                            component="img"
-                                                            height="380"
-                                                            image={item.url}
-                                                            alt={`Attire sample ${index + 1}`}
-                                                            loading="lazy"
-                                                            sx={{ objectFit: 'contain', bgcolor: '#fff', py: 2 }}
-                                                        />
-                                                    </Card>
-                                                </SwiperSlide>
-                                            ))}
-                                        </Swiper>
-                                    </Box>
+                                    {renderSwiper(imgGuestDress)}
 
-                                    {/* COLUMN 2: RIGHT SIDE (Text Content) */}
                                     <Box>
                                         <Stack spacing={2}>
                                             <Text
                                                 variant="h6"
-                                                className="playfair-display-regular text-gold"
+                                                sx={{ color: 'secondary.main', display: 'block' }}
                                                 textKey={CONTENT_ATTIRE.TAB.PALETTE}
                                             />
                                             {imgGuestPalette.map((item, index) => (
@@ -259,6 +264,7 @@ export default function Attire() {
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
+                                                        sx={{ display: 'block' }}
                                                         textKey={CONTENT_ATTIRE.TAB.GUEST["SUBDETAILS_" + (index + 1)]}
                                                     />
                                                     <Box className="d-flex flex-row justify-content-center align-items-center">
@@ -267,11 +273,11 @@ export default function Attire() {
                                                             src={item.url}
                                                             alt={`Palette sample ${index + 1}`}
                                                             sx={{
-                                                                width: '100%',          // Responsive width
-                                                                maxWidth: 400,          // Maximum width limit
-                                                                height: 'auto',         // Maintain aspect ratio
+                                                                width: '100%',
+                                                                maxWidth: 400,
+                                                                height: 'auto',
                                                                 display: 'block',
-                                                                mx: 'auto',             // Center horizontally
+                                                                mx: 'auto',
                                                             }}
                                                         />
                                                     </Box>
@@ -283,93 +289,44 @@ export default function Attire() {
                             </Paper>
                         </TabPanel>
 
-                        {/* TAB 2: SPONSORS */}
+                        {/* TAB 1: SPONSORS */}
                         <TabPanel value={tabValue} index={1}>
-                            <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
+                            <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: 'background.paper', border: '1px solid rgba(107, 29, 47, 0.15)' }}>
                                 <Text
                                     variant="body1"
-                                    className="playfair-display-regular mb-1 text-gold"
+                                    className="mb-1"
+                                    sx={{ color: 'primary.main', fontWeight: 600, display: 'block' }}
                                     textKey={CONTENT_ATTIRE.TAB.SPONSORS.GUIDE}
                                 />
                                 <Text
                                     variant="caption"
+                                    sx={{ display: 'block' }}
                                     textKey={CONTENT_ATTIRE.TAB.SPONSORS.DETAILS}
                                 />
 
-                                {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
                                 <Box
                                     sx={{
                                         display: 'grid',
-                                        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, // 50% left, 50% right
+                                        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
                                         gap: 4,
                                     }}
                                     className="mt-3"
                                 >
-                                    {/* COLUMN 1: LEFT SIDE (Carousel) */}
-                                    <Box
-                                        sx={{
-                                            width: '100%',
-                                            minWidth: 0, // Prevents Swiper from overflowing flex/grid containers
-                                            '& .swiper': {
-                                                paddingBottom: '35px',
-                                            },
-                                            '& .swiper-button-next, & .swiper-button-prev': {
-                                                color: '#d4af37',
-                                                '&::after': {
-                                                    fontSize: '1.2rem',
-                                                    fontWeight: 'bold',
-                                                },
-                                            },
-                                            '& .swiper-pagination-bullet': {
-                                                backgroundColor: '#ccc',
-                                                opacity: 0.7,
-                                            },
-                                            '& .swiper-pagination-bullet-active': {
-                                                backgroundColor: '#d4af37',
-                                                opacity: 1,
-                                                width: 12,
-                                                borderRadius: 4,
-                                            },
-                                        }}
-                                    >
-                                        <Swiper
-                                            modules={[Navigation, Pagination, Autoplay]}
-                                            spaceBetween={15}
-                                            slidesPerView={1}
-                                            navigation
-                                            pagination={{ clickable: true }}
-                                            autoplay={{ delay: 3500, disableOnInteraction: false }}
-                                        >
-                                            {imgSponsorsDress.map((item, index) => (
-                                                <SwiperSlide key={index}>
-                                                    <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
-                                                        <CardMedia
-                                                            component="img"
-                                                            height="380"
-                                                            image={item.url}
-                                                            alt={`Attire sample ${index + 1}`}
-                                                            loading="lazy"
-                                                            sx={{ objectFit: 'contain', bgcolor: '#fff', py: 2 }}
-                                                        />
-                                                    </Card>
-                                                </SwiperSlide>
-                                            ))}
-                                        </Swiper>
-                                    </Box>
+                                    {renderSwiper(imgSponsorsDress)}
 
-                                    {/* COLUMN 2: RIGHT SIDE (Text Content) */}
                                     <Box>
                                         <Stack spacing={2}>
                                             <Text
                                                 variant="h6"
-                                                className="playfair-display-regular text-gold"
+                                                sx={{ color: 'secondary.main', display: 'block' }}
                                                 textKey={CONTENT_ATTIRE.TAB.PALETTE}
                                             />
                                             {imgSponsorsPalette.map((item, index) => (
-                                                 <React.Fragment key={index}>
+                                                <React.Fragment key={index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
+                                                        sx={{ display: 'block' }}
                                                         textKey={CONTENT_ATTIRE.TAB.SPONSORS["SUBDETAILS_" + (index + 1)]}
                                                     />
                                                     <Box className="d-flex flex-row justify-content-center align-items-center">
@@ -378,11 +335,11 @@ export default function Attire() {
                                                             src={item.url}
                                                             alt={`Palette sample ${index + 1}`}
                                                             sx={{
-                                                                width: '100%',          // Responsive width
-                                                                maxWidth: 400,          // Maximum width limit
-                                                                height: 'auto',         // Maintain aspect ratio
+                                                                width: '100%',
+                                                                maxWidth: 400,
+                                                                height: 'auto',
                                                                 display: 'block',
-                                                                mx: 'auto',             // Center horizontally
+                                                                mx: 'auto',
                                                             }}
                                                         />
                                                     </Box>
@@ -394,222 +351,73 @@ export default function Attire() {
                             </Paper>
                         </TabPanel>
 
-                        {/* TAB 3: ENTOURAGE */}
+                        {/* TAB 2: ENTOURAGE */}
                         <TabPanel value={tabValue} index={2}>
-                            <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
+                            <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: 'background.paper', border: '1px solid rgba(107, 29, 47, 0.15)' }}>
                                 <Text
                                     variant="body1"
-                                    className="playfair-display-regular mb-1 text-gold"
+                                    className="mb-1"
+                                    sx={{ color: 'primary.main', fontWeight: 600, display: 'block' }}
                                     textKey={CONTENT_ATTIRE.TAB.ENTOURAGE.GUIDE}
                                 />
                                 <Text
                                     variant="caption"
+                                    sx={{ display: 'block' }}
                                     textKey={CONTENT_ATTIRE.TAB.ENTOURAGE.DETAILS}
                                 />
 
-                                {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
                                 <Box
                                     sx={{
                                         display: 'grid',
-                                        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, // 50% left, 50% right
+                                        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
                                         gap: 4,
                                     }}
                                     className="mt-3"
                                 >
-                                    {/* COLUMN 1: LEFT SIDE (Carousel) */}
-                                    <Box
-                                        sx={{
-                                            width: '100%',
-                                            minWidth: 0, // Prevents Swiper from overflowing flex/grid containers
-                                            '& .swiper': {
-                                                paddingBottom: '35px',
-                                            },
-                                            '& .swiper-button-next, & .swiper-button-prev': {
-                                                color: '#d4af37',
-                                                '&::after': {
-                                                    fontSize: '1.2rem',
-                                                    fontWeight: 'bold',
-                                                },
-                                            },
-                                            '& .swiper-pagination-bullet': {
-                                                backgroundColor: '#ccc',
-                                                opacity: 0.7,
-                                            },
-                                            '& .swiper-pagination-bullet-active': {
-                                                backgroundColor: '#d4af37',
-                                                opacity: 1,
-                                                width: 12,
-                                                borderRadius: 4,
-                                            },
-                                        }}
-                                    >
-                                        <Swiper
-                                            modules={[Navigation, Pagination, Autoplay]}
-                                            spaceBetween={15}
-                                            slidesPerView={1}
-                                            navigation
-                                            pagination={{ clickable: true }}
-                                            autoplay={{ delay: 3500, disableOnInteraction: false }}
-                                        >
-                                            {imgEntourageDressAdult.map((item, index) => (
-                                                <SwiperSlide key={index}>
-                                                    <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
-                                                        <CardMedia
-                                                            component="img"
-                                                            height="380"
-                                                            image={item.url}
-                                                            alt={`Attire sample ${index + 1}`}
-                                                            loading="lazy"
-                                                            sx={{ objectFit: 'contain', bgcolor: '#fff', py: 2 }}
-                                                        />
-                                                    </Card>
-                                                </SwiperSlide>
-                                            ))}
-                                        </Swiper>
-                                    </Box>
-
-                                    {/* COLUMN 2: RIGHT SIDE (Text Content) */}
-                                    <Box
-                                        sx={{
-                                            width: '100%',
-                                            minWidth: 0, // Prevents Swiper from overflowing flex/grid containers
-                                            '& .swiper': {
-                                                paddingBottom: '35px',
-                                            },
-                                            '& .swiper-button-next, & .swiper-button-prev': {
-                                                color: '#d4af37',
-                                                '&::after': {
-                                                    fontSize: '1.2rem',
-                                                    fontWeight: 'bold',
-                                                },
-                                            },
-                                            '& .swiper-pagination-bullet': {
-                                                backgroundColor: '#ccc',
-                                                opacity: 0.7,
-                                            },
-                                            '& .swiper-pagination-bullet-active': {
-                                                backgroundColor: '#d4af37',
-                                                opacity: 1,
-                                                width: 12,
-                                                borderRadius: 4,
-                                            },
-                                        }}
-                                    >
-                                        <Swiper
-                                            modules={[Navigation, Pagination, Autoplay]}
-                                            spaceBetween={15}
-                                            slidesPerView={1}
-                                            navigation
-                                            pagination={{ clickable: true }}
-                                            autoplay={{ delay: 3500, disableOnInteraction: false }}
-                                        >
-                                            {imgEntourageDressChild.map((item, index) => (
-                                                <SwiperSlide key={index}>
-                                                    <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
-                                                        <CardMedia
-                                                            component="img"
-                                                            height="380"
-                                                            image={item.url}
-                                                            alt={`Attire sample ${index + 1}`}
-                                                            loading="lazy"
-                                                            sx={{ objectFit: 'contain', bgcolor: '#fff', py: 2 }}
-                                                        />
-                                                    </Card>
-                                                </SwiperSlide>
-                                            ))}
-                                        </Swiper>
-                                    </Box>
+                                    {renderSwiper(imgEntourageDressAdult)}
+                                    {renderSwiper(imgEntourageDressChild)}
                                 </Box>
                             </Paper>
                         </TabPanel>
 
-                        {/* TAB 1: PARENTS */}
+                        {/* TAB 3: PARENTS */}
                         <TabPanel value={tabValue} index={3}>
-                            <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: '#fdfbf7', border: '1px solid #f0e6d2' }}>
+                            <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, bgcolor: 'background.paper', border: '1px solid rgba(107, 29, 47, 0.15)' }}>
                                 <Text
                                     variant="body1"
-                                    className="playfair-display-regular mb-1 text-gold"
+                                    className="mb-1"
+                                    sx={{ color: 'primary.main', fontWeight: 600, display: 'block' }}
                                     textKey={CONTENT_ATTIRE.TAB.PARENTS.GUIDE}
                                 />
                                 <Text
                                     variant="caption"
+                                    sx={{ display: 'block' }}
                                     textKey={CONTENT_ATTIRE.TAB.PARENTS.DETAILS}
                                 />
 
-                                {/* CSS GRID: Guarantees 2 equal columns on desktop, 1 column on mobile */}
                                 <Box
                                     sx={{
                                         display: 'grid',
-                                        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, // 50% left, 50% right
+                                        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
                                         gap: 4,
                                     }}
                                     className="mt-3"
                                 >
-                                    {/* COLUMN 1: LEFT SIDE (Carousel) */}
-                                    <Box
-                                        sx={{
-                                            width: '100%',
-                                            minWidth: 0, // Prevents Swiper from overflowing flex/grid containers
-                                            '& .swiper': {
-                                                paddingBottom: '35px',
-                                            },
-                                            '& .swiper-button-next, & .swiper-button-prev': {
-                                                color: '#d4af37',
-                                                '&::after': {
-                                                    fontSize: '1.2rem',
-                                                    fontWeight: 'bold',
-                                                },
-                                            },
-                                            '& .swiper-pagination-bullet': {
-                                                backgroundColor: '#ccc',
-                                                opacity: 0.7,
-                                            },
-                                            '& .swiper-pagination-bullet-active': {
-                                                backgroundColor: '#d4af37',
-                                                opacity: 1,
-                                                width: 12,
-                                                borderRadius: 4,
-                                            },
-                                        }}
-                                    >
-                                        <Swiper
-                                            modules={[Navigation, Pagination, Autoplay]}
-                                            spaceBetween={15}
-                                            slidesPerView={1}
-                                            navigation
-                                            pagination={{ clickable: true }}
-                                            autoplay={{ delay: 3500, disableOnInteraction: false }}
-                                        >
-                                            {imgParentsDress.map((item, index) => (
-                                                <SwiperSlide key={index}>
-                                                    <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
-                                                        <CardMedia
-                                                            component="img"
-                                                            height="380"
-                                                            image={item.url}
-                                                            alt={`Attire sample ${index + 1}`}
-                                                            loading="lazy"
-                                                            sx={{ objectFit: 'contain', bgcolor: '#fff', py: 2 }}
-                                                        />
-                                                    </Card>
-                                                </SwiperSlide>
-                                            ))}
-                                        </Swiper>
-                                    </Box>
+                                    {renderSwiper(imgParentsDress)}
 
-                                    {/* COLUMN 2: RIGHT SIDE (Text Content) */}
                                     <Box>
                                         <Stack spacing={2}>
                                             <Text
                                                 variant="h6"
-                                                className="playfair-display-regular text-gold"
+                                                sx={{ color: 'secondary.main', display: 'block' }}
                                                 textKey={CONTENT_ATTIRE.TAB.PALETTE}
                                             />
                                             {imgParentsPalette.map((item, index) => (
-                                                 <React.Fragment key={index}>
+                                                <React.Fragment key={index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
+                                                        sx={{ display: 'block' }}
                                                         textKey={CONTENT_ATTIRE.TAB.PARENTS["SUBDETAILS_" + (index + 1)]}
                                                     />
                                                     <Box className="d-flex flex-row justify-content-center align-items-center">
@@ -618,11 +426,11 @@ export default function Attire() {
                                                             src={item.url}
                                                             alt={`Palette sample ${index + 1}`}
                                                             sx={{
-                                                                width: '100%',          // Responsive width
-                                                                maxWidth: 400,          // Maximum width limit
-                                                                height: 'auto',         // Maintain aspect ratio
+                                                                width: '100%',
+                                                                maxWidth: 400,
+                                                                height: 'auto',
                                                                 display: 'block',
-                                                                mx: 'auto',             // Center horizontally
+                                                                mx: 'auto',
                                                             }}
                                                         />
                                                     </Box>
@@ -635,15 +443,16 @@ export default function Attire() {
                         </TabPanel>
                     </Box>
 
-                    <Box className="text-center">
+                    {/* DONT ATTIRE NOTES SECTION */}
+                    <Box className="text-center mt-5">
                         <Text
                             variant="h6"
-                            className="cormorant-sc-regular mt-5"
+                            sx={{ color: 'primary.main', display: 'block' }}
                             textKey={CONTENT_ATTIRE.NOTE_TITLE}
                         />
                         <Text
                             variant="caption"
-                            className="playfair-display-regular"
+                            sx={{ color: 'text.secondary', display: 'block', mb: 3 }}
                             textKey={CONTENT_ATTIRE.NOTE_SUBTITLE}
                         />
 
@@ -656,15 +465,14 @@ export default function Attire() {
                                             p: 2,
                                             height: '100%',
                                             borderRadius: 3,
-                                            bgcolor: '#fdfbf7',
-                                            border: '1px solid #f0e6d2',
+                                            bgcolor: 'background.paper',
+                                            border: '1px solid rgba(107, 29, 47, 0.15)',
                                             display: 'flex',
                                             flexDirection: 'column',
                                             alignItems: 'center',
                                             justifyContent: 'space-between',
                                         }}
                                     >
-                                        {/* Image Wrapper Container */}
                                         <Box
                                             sx={{
                                                 width: '100px',
@@ -688,20 +496,17 @@ export default function Attire() {
                                             />
                                         </Box>
 
-                                        {/* Text Content */}
                                         <Box sx={{ textAlign: 'center', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                             <Text
-                                                variant="subtitle2"
-                                                className="cormorant-sc-bold text-gold"
+                                                variant="h6"
+                                                sx={{ color: 'secondary.main', fontSize: '0.85rem', lineHeight: 1.2, display: 'block' }}
                                                 textKey={item.title}
-                                                sx={{ fontSize: '0.85rem', lineHeight: 1.2 }}
                                             />
                                             {item.subtitle && (
                                                 <Text
                                                     variant="caption"
-                                                    className="cormorant-garamond-regular"
-                                                    textKey={item.subtitle}
                                                     sx={{ fontSize: '0.75rem', display: 'block', mt: 0.5 }}
+                                                    textKey={item.subtitle}
                                                 />
                                             )}
                                         </Box>
