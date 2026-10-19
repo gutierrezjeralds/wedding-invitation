@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Container,
-  Typography,
   Box,
   TextField,
   FormControl,
@@ -17,26 +16,14 @@ import {
   Alert,
   Stack,
   CircularProgress,
+  Typography
 } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
-import { PageTitle } from '../utils/CustomComponents';
+import { Text, PageTitle } from '../utils/CustomComponents';
 
 // ============================================================
-// Constants & Theme Tokens
+// Constants & Options
 // ============================================================
-
-const PALETTE = {
-  ivoryBg: '#FAF7F2',
-  paperBg: '#FFFFFF',
-  sageGreen: '#72866E',
-  sageHover: '#5C6E59',
-  champagneGold: '#C5A059',
-  champagneLight: 'rgba(197, 160, 89, 0.15)',
-  burgundy: '#6B2D3E',
-  textPrimary: '#2C3E35',
-  textSecondary: '#6B7A70',
-  borderGold: 'rgba(197, 160, 89, 0.3)',
-};
 
 const ROLE_OPTIONS = [
   'Principal Sponsors',
@@ -257,29 +244,29 @@ export default function RSVP() {
     }
   };
 
-  // Custom styling rules for inputs
+  // Custom theme-compliant styling rules for inputs
   const fieldSx = {
     '& .MuiOutlinedInput-root': {
       borderRadius: 2,
-      backgroundColor: '#FAFAF8',
+      backgroundColor: 'background.default',
       '& fieldset': {
-        borderColor: PALETTE.borderGold,
+        borderColor: 'rgba(107, 29, 47, 0.2)',
       },
       '&:hover fieldset': {
-        borderColor: PALETTE.champagneGold,
+        borderColor: 'primary.main',
       },
       '&.Mui-focused fieldset': {
-        borderColor: PALETTE.sageGreen,
+        borderColor: 'primary.main',
       },
     },
     '& .MuiInputLabel-root.Mui-focused': {
-      color: PALETTE.sageGreen,
+      color: 'primary.main',
     },
   };
 
   return (
     <React.Fragment>
-      <Box sx={{ backgroundColor: PALETTE.ivoryBg, minHeight: '100vh', py: 4 }}>
+      <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 4 }}>
         <Container maxWidth="lg" className="py-5">
           {/* Page Title */}
           <PageTitle
@@ -294,9 +281,10 @@ export default function RSVP() {
               sx={{
                 mb: 4,
                 borderRadius: 2,
-                backgroundColor: 'rgba(114, 134, 110, 0.12)',
-                color: PALETTE.textPrimary,
-                border: `1px solid ${PALETTE.sageGreen}`,
+                backgroundColor: 'rgba(107, 29, 47, 0.08)',
+                color: 'primary.main',
+                border: '1px solid',
+                borderColor: 'primary.main',
               }}
             >
               <strong>Thank you!</strong> Your RSVP response has been recorded successfully.
@@ -309,9 +297,10 @@ export default function RSVP() {
               sx={{
                 mb: 4,
                 borderRadius: 2,
-                backgroundColor: 'rgba(107, 45, 62, 0.1)',
-                color: PALETTE.burgundy,
-                border: `1px solid ${PALETTE.burgundy}`,
+                backgroundColor: 'rgba(143, 57, 72, 0.08)',
+                color: 'secondary.main',
+                border: '1px solid',
+                borderColor: 'secondary.main',
               }}
             >
               {submitError}
@@ -325,36 +314,23 @@ export default function RSVP() {
               elevation={0}
               sx={{
                 p: { xs: 3, sm: 4 },
-                backgroundColor: PALETTE.paperBg,
-                border: `1px solid ${PALETTE.borderGold}`,
+                backgroundColor: 'background.paper',
+                border: '1px solid rgba(107, 29, 47, 0.15)',
                 borderRadius: 3,
-                boxShadow: '0 8px 24px rgba(0,0,0,0.03)',
+                boxShadow: '0 8px 24px rgba(107, 29, 47, 0.04)',
               }}
             >
-              <Typography
+              <Text
                 variant="h5"
-                sx={{
-                  fontFamily: '"Cormorant Garamond", serif',
-                  fontWeight: 600,
-                  color: PALETTE.textPrimary,
-                  mb: 0.5,
-                  fontSize: '1.6rem',
-                }}
-              >
-                Guest Information
-              </Typography>
+                sx={{ color: 'secondary.main', mb: 0.5, display: 'block', fontSize: '1.6rem' }}
+                textKey="Guest Information"
+              />
 
-              <Typography
-                variant="body2"
-                sx={{
-                  color: PALETTE.textSecondary,
-                  mb: 3.5,
-                  lineHeight: 1.6,
-                  fontFamily: '"Montserrat", sans-serif',
-                }}
-              >
-                Please enter the information of the guest named on the invitation.
-              </Typography>
+              <Text
+                variant="caption"
+                sx={{ color: 'text.secondary', mb: 3.5, display: 'block', lineHeight: 1.6 }}
+                textKey="Please enter the information of the guest named on the invitation."
+              />
 
               <Stack spacing={2.5}>
                 {/* Title */}
@@ -519,8 +495,7 @@ export default function RSVP() {
                     sx={{
                       mb: 1,
                       fontWeight: 600,
-                      color: PALETTE.textPrimary,
-                      fontFamily: '"Montserrat", sans-serif',
+                      color: 'text.primary',
                     }}
                   >
                     Will you attend?
@@ -536,26 +511,26 @@ export default function RSVP() {
                       control={
                         <Radio
                           sx={{
-                            color: PALETTE.champagneGold,
-                            '&.Mui-checked': { color: PALETTE.sageGreen },
+                            color: 'secondary.main',
+                            '&.Mui-checked': { color: 'primary.main' },
                           }}
                         />
                       }
                       label="Yes, I will attend"
-                      sx={{ color: PALETTE.textPrimary }}
+                      sx={{ color: 'text.primary' }}
                     />
                     <FormControlLabel
                       value="No"
                       control={
                         <Radio
                           sx={{
-                            color: PALETTE.champagneGold,
-                            '&.Mui-checked': { color: PALETTE.sageGreen },
+                            color: 'secondary.main',
+                            '&.Mui-checked': { color: 'primary.main' },
                           }}
                         />
                       }
                       label="No, I won't be able to attend"
-                      sx={{ color: PALETTE.textPrimary }}
+                      sx={{ color: 'text.primary' }}
                     />
                   </RadioGroup>
 
@@ -575,36 +550,23 @@ export default function RSVP() {
                 sx={{
                   mt: 3.5,
                   p: { xs: 3, sm: 4 },
-                  backgroundColor: PALETTE.paperBg,
-                  border: `1px solid ${PALETTE.borderGold}`,
+                  backgroundColor: 'background.paper',
+                  border: '1px solid rgba(107, 29, 47, 0.15)',
                   borderRadius: 3,
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.03)',
+                  boxShadow: '0 8px 24px rgba(107, 29, 47, 0.04)',
                 }}
               >
-                <Typography
+                <Text
                   variant="h5"
-                  sx={{
-                    fontFamily: '"Cormorant Garamond", serif',
-                    fontWeight: 600,
-                    color: PALETTE.textPrimary,
-                    mb: 0.5,
-                    fontSize: '1.6rem',
-                  }}
-                >
-                  Additional Guest(s)
-                </Typography>
+                  sx={{ color: 'secondary.main', mb: 0.5, display: 'block', fontSize: '1.6rem' }}
+                  textKey="Additional Guest(s)"
+                />
 
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: PALETTE.textSecondary,
-                    mb: 3,
-                    lineHeight: 1.6,
-                    fontFamily: '"Montserrat", sans-serif',
-                  }}
-                >
-                  If your invitation includes additional guests, please add their information below.
-                </Typography>
+                <Text
+                  variant="caption"
+                  sx={{ color: 'text.secondary', mb: 3, display: 'block', lineHeight: 1.6 }}
+                  textKey="If your invitation includes additional guests, please add their information below."
+                />
 
                 {additionalGuests.length === 0 && (
                   <Box
@@ -613,14 +575,14 @@ export default function RSVP() {
                       px: 2,
                       mb: 2,
                       textAlign: 'center',
-                      border: `1px dashed ${PALETTE.champagneGold}`,
+                      border: '1px dashed rgba(107, 29, 47, 0.3)',
                       borderRadius: 2,
-                      backgroundColor: PALETTE.champagneLight,
+                      backgroundColor: 'rgba(107, 29, 47, 0.03)',
                     }}
                   >
                     <Typography
                       variant="body2"
-                      sx={{ color: PALETTE.textSecondary, fontStyle: 'italic' }}
+                      sx={{ color: 'text.secondary', fontStyle: 'italic' }}
                     >
                       No additional guests added yet.
                     </Typography>
@@ -635,9 +597,9 @@ export default function RSVP() {
                       elevation={0}
                       sx={{
                         p: { xs: 2.5, sm: 3 },
-                        border: `1px solid ${PALETTE.borderGold}`,
+                        border: '1px solid rgba(107, 29, 47, 0.15)',
                         borderRadius: 2,
-                        backgroundColor: '#FCFCFB',
+                        backgroundColor: 'background.default',
                       }}
                     >
                       <Box
@@ -653,7 +615,7 @@ export default function RSVP() {
                           sx={{
                             fontFamily: '"Cormorant Garamond", serif',
                             fontWeight: 700,
-                            color: PALETTE.textPrimary,
+                            color: 'text.primary',
                             fontSize: '1.25rem',
                           }}
                         >
@@ -664,9 +626,9 @@ export default function RSVP() {
                           onClick={() => removeAdditionalGuest(index)}
                           aria-label={`Remove guest ${index + 1}`}
                           sx={{
-                            color: PALETTE.burgundy,
+                            color: 'secondary.main',
                             '&:hover': {
-                              backgroundColor: 'rgba(107, 45, 62, 0.08)',
+                              backgroundColor: 'rgba(143, 57, 72, 0.08)',
                             },
                           }}
                         >
@@ -844,15 +806,15 @@ export default function RSVP() {
                   sx={{
                     mt: 3,
                     py: 1.2,
-                    color: PALETTE.sageGreen,
-                    borderColor: PALETTE.sageGreen,
+                    color: 'primary.main',
+                    borderColor: 'primary.main',
                     letterSpacing: '0.05em',
                     fontWeight: 600,
                     textTransform: 'uppercase',
                     fontSize: '0.825rem',
                     '&:hover': {
-                      borderColor: PALETTE.sageHover,
-                      backgroundColor: 'rgba(114, 134, 110, 0.08)',
+                      borderColor: 'secondary.main',
+                      backgroundColor: 'rgba(107, 29, 47, 0.04)',
                     },
                   }}
                 >
@@ -867,36 +829,23 @@ export default function RSVP() {
               sx={{
                 mt: 3.5,
                 p: { xs: 3, sm: 4 },
-                backgroundColor: PALETTE.paperBg,
-                border: `1px solid ${PALETTE.borderGold}`,
+                backgroundColor: 'background.paper',
+                border: '1px solid rgba(107, 29, 47, 0.15)',
                 borderRadius: 3,
-                boxShadow: '0 8px 24px rgba(0,0,0,0.03)',
+                boxShadow: '0 8px 24px rgba(107, 29, 47, 0.04)',
               }}
             >
-              <Typography
+              <Text
                 variant="h5"
-                sx={{
-                  fontFamily: '"Cormorant Garamond", serif',
-                  fontWeight: 600,
-                  color: PALETTE.textPrimary,
-                  mb: 0.5,
-                  fontSize: '1.6rem',
-                }}
-              >
-                Message for the Bride & Groom
-              </Typography>
+                sx={{ color: 'secondary.main', mb: 0.5, display: 'block', fontSize: '1.6rem' }}
+                textKey="Message for the Bride & Groom"
+              />
 
-              <Typography
-                variant="body2"
-                sx={{
-                  color: PALETTE.textSecondary,
-                  mb: 2.5,
-                  lineHeight: 1.6,
-                  fontFamily: '"Montserrat", sans-serif',
-                }}
-              >
-                Leave us a message, greeting, or well wishes.
-              </Typography>
+              <Text
+                variant="caption"
+                sx={{ color: 'text.secondary', mb: 2.5, display: 'block', lineHeight: 1.6 }}
+                textKey="Leave us a message, greeting, or well wishes."
+              />
 
               <TextField
                 fullWidth
@@ -922,17 +871,17 @@ export default function RSVP() {
                   minWidth: { sm: 260 },
                   py: 1.6,
                   px: 5,
-                  backgroundColor: PALETTE.sageGreen,
-                  color: '#FFFFFF',
+                  backgroundColor: 'primary.main',
+                  color: 'primary.contrastText',
                   fontSize: '0.9rem',
                   fontWeight: 600,
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                   borderRadius: 2,
-                  boxShadow: '0 4px 14px rgba(114, 134, 110, 0.35)',
+                  boxShadow: '0 4px 14px rgba(107, 29, 47, 0.3)',
                   '&:hover': {
-                    backgroundColor: PALETTE.sageHover,
-                    boxShadow: '0 6px 18px rgba(114, 134, 110, 0.45)',
+                    backgroundColor: 'secondary.main',
+                    boxShadow: '0 6px 18px rgba(107, 29, 47, 0.4)',
                   },
                 }}
               >
