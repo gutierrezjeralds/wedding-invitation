@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Container, Stack, Paper, Box, Button, Tabs, Tab, Chip } from '@mui/material';
+import { Container, Stack, Paper, Box, Button, Tabs, Tab, Chip, Typography } from '@mui/material';
 import { 
     Church, AccessTimeFilled, Map, WineBar, Send
 } from '@mui/icons-material';
@@ -53,8 +53,7 @@ export default function Wedding() {
                 sx={{
                     '--bg-desktop': `url(${sBackgroundDekstop})`,
                     '--bg-mobile': `url(${sBackgroundMobile})`,
-                    // Fallback background color if images fail to load or are empty
-                    backgroundColor: '#faf8f5',
+                    backgroundColor: 'background.default',
                 }}
             >
                 <Container maxWidth="lg" className="py-5">
@@ -87,13 +86,13 @@ export default function Wedding() {
                                         minWidth: { xs: 'auto', sm: 120 },
                                         px: { xs: 1.5, sm: 3 },
                                         py: 1,
-                                        color: 'text.secondary',
+                                        color: 'text.primary',
                                         '&.Mui-selected': {
-                                            color: '#d4af37',
+                                            color: 'primary.main',
                                         },
                                     },
                                     '& .MuiTabs-indicator': {
-                                        backgroundColor: '#d4af37',
+                                        backgroundColor: 'primary.main',
                                         height: 3,
                                         borderRadius: '3px 3px 0 0',
                                     },
@@ -102,15 +101,15 @@ export default function Wedding() {
                                         width: 32,
                                         height: 32,
                                         borderRadius: '50%',
-                                        bgcolor: 'rgba(212, 175, 55, 0.15)',
-                                        color: '#7A1C31',
+                                        bgcolor: 'rgba(107, 29, 47, 0.1)',
+                                        color: 'primary.main',
                                         alignSelf: 'center',
                                         mx: 0.5,
                                         transition: 'all 0.2s ease',
                                         opacity: 0.9,
                                         '&:hover': {
-                                            bgcolor: '#7A1C31',
-                                            color: '#ffffff',
+                                            bgcolor: 'primary.main',
+                                            color: 'primary.contrastText',
                                             opacity: 1,
                                         },
                                         '&.Mui-disabled': {
@@ -145,8 +144,8 @@ export default function Wedding() {
                                         minWidth: 0,
                                         borderRadius: 6,
                                         overflow: 'hidden',
-                                        bgcolor: 'rgba(255, 255, 255, 0.85)',
-                                        border: '1px solid rgba(212, 175, 55, 0.3)',
+                                        bgcolor: 'background.paper',
+                                        border: '1px solid rgba(107, 29, 47, 0.2)',
                                         display: 'flex',
                                         flexDirection: 'column',
                                         justifyContent: 'space-between',
@@ -158,15 +157,15 @@ export default function Wedding() {
                                         <Box
                                             sx={{
                                                 height: 180,
-                                                background: 'linear-gradient(to bottom, rgba(125, 157, 134, 0.15), #faf8f5)',
+                                                background: 'linear-gradient(to bottom, rgba(107, 29, 47, 0.08), #FAF7F2)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
                                                 position: 'relative',
-                                                borderBottom: '1px solid rgba(212, 175, 55, 0.15)'
+                                                borderBottom: '1px solid rgba(107, 29, 47, 0.1)'
                                             }}
                                         >
-                                            <Church sx={{ fontSize: 80, color: '#5E7A65', opacity: 0.85 }} />
+                                            <Church sx={{ fontSize: 80, color: 'primary.main', opacity: 0.85 }} />
                                             <Chip
                                                 label={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.CEREMONY}
                                                 size="small"
@@ -174,8 +173,8 @@ export default function Wedding() {
                                                     position: 'absolute',
                                                     top: 16,
                                                     right: 16,
-                                                    bgcolor: 'rgba(94, 122, 101, 0.1)',
-                                                    color: '#5E7A65',
+                                                    bgcolor: 'rgba(107, 29, 47, 0.1)',
+                                                    color: 'primary.main',
                                                     fontWeight: 700,
                                                     fontSize: '0.65rem',
                                                     textTransform: 'uppercase',
@@ -186,28 +185,30 @@ export default function Wedding() {
 
                                         <Box sx={{ p: { xs: 2.5, sm: 4 }, textAlign: 'center', width: '100%', minWidth: 0 }}>
                                             <Text
-                                                variant="h4"
-                                                className="cormorant-garamond-regular text-wedding-primary mb-1"
+                                                variant="h5"
+                                                className="mb-1"
                                                 textKey={CONTENT.TITLE_CHURCH}
                                             />
+                                            
                                             <Text
-                                                variant="body2"
-                                                className="text-gold"
+                                                variant="caption"
+                                                sx={{ display: 'block', mb: 2 }}
                                                 textKey={CONTENT.TITLE_DATE_V2}
                                             />
+
                                             <Text
                                                 variant="body1"
-                                                className="py-4"
+                                                className="py-2"
                                                 textKey={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.CHURCH_TAGLINE}
                                             />
 
                                             <Chip
-                                                icon={<Church fontSize="small" className="text-wedding-primary"/>}
+                                                icon={<Church fontSize="small" sx={{ color: 'primary.main !important' }} />}
                                                 label={CONTENT.TITLE_CHURCH_ADDRESS}
                                                 sx={{ 
-                                                    bgcolor: '#fff', 
-                                                    border: '1px solid rgba(212, 175, 55, 0.25)', 
-                                                    color: '#5E7A65', 
+                                                    bgcolor: 'background.paper', 
+                                                    border: '1px solid rgba(107, 29, 47, 0.2)', 
+                                                    color: 'text.primary', 
                                                     fontSize: '0.75rem',
                                                     maxWidth: '100%',
                                                     height: 'auto',
@@ -229,7 +230,17 @@ export default function Wedding() {
                                             variant="outlined"
                                             startIcon={<Map />}
                                             onClick={() => handleOpenViewMapModal('church')}
-                                            className="button-wedding-map cormorant-garamond-regular"
+                                            sx={{
+                                                borderColor: 'primary.main',
+                                                color: 'primary.main',
+                                                fontFamily: '"Cormorant Garamond", serif',
+                                                fontWeight: 600,
+                                                '&:hover': {
+                                                    bgcolor: 'primary.main',
+                                                    color: 'primary.contrastText',
+                                                    borderColor: 'primary.main'
+                                                }
+                                            }}
                                         >
                                             {CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.MAP_INFO}
                                         </Button>
@@ -245,8 +256,8 @@ export default function Wedding() {
                                         minWidth: 0,
                                         borderRadius: 6,
                                         overflow: 'hidden',
-                                        bgcolor: 'rgba(255, 255, 255, 0.85)',
-                                        border: '1px solid rgba(212, 175, 55, 0.3)',
+                                        bgcolor: 'background.paper',
+                                        border: '1px solid rgba(107, 29, 47, 0.2)',
                                         display: 'flex',
                                         flexDirection: 'column',
                                         justifyContent: 'space-between',
@@ -258,15 +269,15 @@ export default function Wedding() {
                                         <Box
                                             sx={{
                                                 height: 180,
-                                                background: 'linear-gradient(to bottom, rgba(212, 175, 55, 0.15), #faf8f5)',
+                                                background: 'linear-gradient(to bottom, rgba(143, 57, 72, 0.08), #FAF7F2)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
                                                 position: 'relative',
-                                                borderBottom: '1px solid rgba(212, 175, 55, 0.15)'
+                                                borderBottom: '1px solid rgba(107, 29, 47, 0.1)'
                                             }}
                                         >
-                                            <WineBar sx={{ fontSize: 80, color: '#d4af37', opacity: 0.85 }} />
+                                            <WineBar sx={{ fontSize: 80, color: 'secondary.main', opacity: 0.85 }} />
                                             <Chip
                                                 label={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.RECEPTION}
                                                 size="small"
@@ -274,8 +285,8 @@ export default function Wedding() {
                                                     position: 'absolute',
                                                     top: 16,
                                                     right: 16,
-                                                    bgcolor: 'rgba(212, 175, 55, 0.15)',
-                                                    color: '#8B6E10',
+                                                    bgcolor: 'rgba(143, 57, 72, 0.1)',
+                                                    color: 'secondary.main',
                                                     fontWeight: 700,
                                                     fontSize: '0.65rem',
                                                     textTransform: 'uppercase',
@@ -286,28 +297,30 @@ export default function Wedding() {
 
                                         <Box sx={{ p: { xs: 2.5, sm: 4 }, textAlign: 'center', width: '100%', minWidth: 0 }}>
                                             <Text
-                                                variant="h4"
-                                                className="cormorant-garamond-regular text-wedding-primary mb-1"
+                                                variant="h5"
+                                                className="mb-1"
                                                 textKey={CONTENT.TITLE_RECEPTION}
                                             />
+
                                             <Text
-                                                variant="body2"
-                                                className="text-gold"
+                                                variant="caption"
+                                                sx={{ display: 'block', mb: 2 }}
                                                 textKey={CONTENT.TITLE_DATE_V4}
                                             />
+
                                             <Text
                                                 variant="body1"
-                                                className="py-4"
+                                                className="py-2"
                                                 textKey={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.RECEPTION_TAGLINE}
                                             />
 
                                             <Chip
-                                                icon={<Church fontSize="small" className="text-wedding-primary"/>}
+                                                icon={<WineBar fontSize="small" sx={{ color: 'primary.main !important' }} />}
                                                 label={CONTENT.TITLE_RECEPTION_ADDRESS}
                                                 sx={{ 
-                                                    bgcolor: '#fff', 
-                                                    border: '1px solid rgba(212, 175, 55, 0.25)', 
-                                                    color: '#5E7A65', 
+                                                    bgcolor: 'background.paper', 
+                                                    border: '1px solid rgba(107, 29, 47, 0.2)', 
+                                                    color: 'text.primary', 
                                                     fontSize: '0.75rem',
                                                     maxWidth: '100%',
                                                     height: 'auto',
@@ -329,7 +342,17 @@ export default function Wedding() {
                                             variant="outlined"
                                             startIcon={<Map />}
                                             onClick={() => handleOpenViewMapModal('reception')}
-                                            className="button-wedding-map cormorant-garamond-regular"
+                                            sx={{
+                                                borderColor: 'primary.main',
+                                                color: 'primary.main',
+                                                fontFamily: '"Cormorant Garamond", serif',
+                                                fontWeight: 600,
+                                                '&:hover': {
+                                                    bgcolor: 'primary.main',
+                                                    color: 'primary.contrastText',
+                                                    borderColor: 'primary.main'
+                                                }
+                                            }}
                                         >
                                             {CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.MAP_INFO}
                                         </Button>
@@ -340,23 +363,22 @@ export default function Wedding() {
 
                         {/* TAB 2: DAY SCHEDULE */}
                         <TabPanel value={tabValue} index={1}>
-                            <Paper elevation={0} sx={{ p: { xs: 3, sm: 5 }, borderRadius: 6, bgcolor: 'rgba(255, 255, 255, 0.85)', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                            <Paper elevation={0} sx={{ p: { xs: 3, sm: 5 }, borderRadius: 6, bgcolor: 'background.paper', border: '1px solid rgba(107, 29, 47, 0.2)' }}>
                                 <Box className="text-center mb-3">
                                     <Text
                                         variant="caption"
-                                        letterSpacing="widest"
-                                        className="text-uppercase fw-bold"
+                                        sx={{ letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, display: 'block' }}
                                         textKey={CONTENT_WEDDING.TIMELINE_SUBTITLE}
                                     />
                                     <Text
-                                        variant="h4"
-                                        className="cormorant-garamond-regular fw-bold mt-1"
+                                        variant="h5"
+                                        sx={{ mt: 1, color: 'primary.main' }}
                                         textKey={CONTENT_WEDDING.TIMELINE_TITLE}
                                     />
                                 </Box>
                     
                                 <Stack spacing={3} sx={{ position: 'relative', pl: { xs: 2, sm: 4 } }}>
-                                    <Box sx={{ position: 'absolute', top: 27, bottom: 10, left: { xs: 11, sm: 20 }, width: 2, bgcolor: 'rgba(212, 175, 55, 0.4)' }} />
+                                    <Box sx={{ position: 'absolute', top: 27, bottom: 10, left: { xs: 11, sm: 20 }, width: 2, bgcolor: 'rgba(107, 29, 47, 0.3)' }} />
                     
                                     {CONTENT_WEDDING.TIMELINE_BODY.map((evt, idx) => {
                                         const IconComp = evt.ICON;
@@ -367,12 +389,12 @@ export default function Wedding() {
                                                 sx={{
                                                     p: 3,
                                                     borderRadius: 4,
-                                                    border: '1px solid rgba(212, 175, 55, 0.25)',
-                                                    bgcolor: '#fff',
+                                                    border: '1px solid rgba(107, 29, 47, 0.15)',
+                                                    bgcolor: 'background.default',
                                                     transition: 'all 0.3s ease',
                                                     position: 'relative',
                                                     ml: { xs: 2, sm: 4 },
-                                                    '&:hover': { borderColor: '#d4af37', boxShadow: '0 6px 18px rgba(0,0,0,0.06)' }
+                                                    '&:hover': { borderColor: 'primary.main', boxShadow: '0 6px 18px rgba(107, 29, 47, 0.08)' }
                                                 }}
                                             >
                                                 <Box
@@ -383,43 +405,42 @@ export default function Wedding() {
                                                         width: 14,
                                                         height: 14,
                                                         borderRadius: '50%',
-                                                        bgcolor: '#7A1C31',
-                                                        border: '3px solid #d4af37'
+                                                        bgcolor: 'primary.main',
+                                                        border: '3px solid #FAF7F2'
                                                     }}
                                                 />
                             
                                                 <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} spacing={1} sx={{ mb: 1 }}>
                                                     <Stack direction="row" alignItems="center" spacing={1.5}>
-                                                    <IconComp fontSize='small' className='text-wedding-primary' />
-                                                    <Text
-                                                        variant="h6"
-                                                        className="cormorant-garamond-regular text-wedding-primary"
-                                                        sx={{ mt: "-6px !important" }}
-                                                        textKey={evt.TITLE}
-                                                    />
+                                                        <IconComp fontSize='small' sx={{ color: 'primary.main' }} />
+                                                        <Text
+                                                            variant="h6"
+                                                            sx={{ color: 'primary.main', fontFamily: '"Cormorant Garamond", serif', fontWeight: 700 }}
+                                                            textKey={evt.TITLE}
+                                                        />
                                                     </Stack>
                                                     {
                                                         evt.TIME ? 
                                                             <Chip
                                                                 label={evt.TIME}
                                                                 size="small"
-                                                                className='fs-8'
                                                                 sx={{
-                                                                    bgcolor: 'rgba(212, 175, 55, 0.15)',
-                                                                    color: '#8B6E10',
+                                                                    bgcolor: 'rgba(107, 29, 47, 0.1)',
+                                                                    color: 'primary.main',
                                                                     fontWeight: 700,
-                                                                    mt: "-2px !important"
+                                                                    fontSize: '0.75rem'
                                                                 }}
                                                             />
                                                         : ""
                                                     }
                                                 </Stack>
                                                 <Text
-                                                    className="fw-bold fs-8 mb-1"
+                                                    variant="caption"
+                                                    sx={{ display: 'block', mb: 1, color: 'text.secondary', fontWeight: 600 }}
                                                     textKey={`📍 ${evt.LOCATION}`}
                                                 />
                                                 <Text
-                                                    variant="body2"
+                                                    variant="body1"
                                                     textKey={evt.DESCRIPTION}
                                                 />
                                             </Paper>
@@ -434,28 +455,30 @@ export default function Wedding() {
                         {/* RSVP CALLOUT BANNER */}
                         <Paper
                             elevation={0}
-                            className="background-wedding-primary text-center position-relative"
                             sx={{
                                 p: { xs: 4, sm: 6 },
                                 borderRadius: 6,
-                                color: '#fff',
+                                color: 'primary.contrastText',
+                                bgcolor: 'primary.main',
+                                textAlign: 'center',
+                                position: 'relative'
                             }}
                         >
                             <Text
                                 variant="caption"
-                                className="text-uppercase fw-bold text-light"
-                                letterSpacing="widest"
+                                sx={{ color: 'primary.contrastText', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, display: 'block' }}
                                 textKey={CONTENT_WEDDING.FOOTER.TITLE}
                             />
+                            
                             <Text
-                                className="cormorant-garamond-regular fs-2 my-3 text-light"
-                                letterSpacing="wide"
+                                variant="h2"
+                                sx={{ color: 'primary.contrastText', my: 2 }}
                                 textKey={CONTENT_WEDDING.FOOTER.SUBTITLE}
                             />
+
                             <Text
                                 variant="caption"
-                                letterSpacing="wide"
-                                className="d-block mb-4 text-light"
+                                sx={{ color: 'primary.contrastText', display: 'block', mb: 4, letterSpacing: '0.05em' }}
                                 textKey={CONTENT_WEDDING.FOOTER.TAGLINE}
                             />
 
@@ -465,17 +488,17 @@ export default function Wedding() {
                                 variant="contained"
                                 startIcon={<Send />}
                                 sx={{
-                                    bgcolor: '#D9A6A4',
-                                    color: '#3D3A37',
+                                    bgcolor: 'background.paper',
+                                    color: 'primary.main',
                                     borderRadius: '50px',
                                     px: 5,
                                     py: 1.5,
-                                    fontFamily: 'Cormorant Garamond, serif',
+                                    fontFamily: '"Cormorant Garamond", serif',
                                     fontSize: '1rem',
                                     fontWeight: 700,
                                     letterSpacing: '0.1em',
                                     textTransform: 'uppercase',
-                                    '&:hover': { bgcolor: '#fff', color: '#7A1C31' }
+                                    '&:hover': { bgcolor: 'secondary.main', color: 'secondary.contrastText' }
                                 }}
                             >
                                 {CONTENT.BUTTON_RSVP}
