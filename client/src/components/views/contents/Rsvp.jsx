@@ -16,7 +16,15 @@ import {
   Alert,
   Stack,
   CircularProgress,
-  Typography
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
@@ -60,6 +68,9 @@ const emptyGuest = {
 // ============================================================
 
 export default function RSVP() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   // Primary guest state
   const [parentGuest, setParentGuest] = useState({
     ...emptyGuest,
@@ -153,7 +164,7 @@ export default function RSVP() {
 
     if (!parentGuest.age) {
       newErrors.age = 'Age is required.';
-    } else if (Number(parentGuest.age) < 1 || Number(parentGuest.age) > 120) {
+    } else if (Number(parentGuest.age) < 15 || Number(parentGuest.age) > 120) {
       newErrors.age = 'Please enter a valid age.';
     }
 
@@ -177,7 +188,7 @@ export default function RSVP() {
         if (!guest.lastName.trim()) newErrors[`guest_${index}_lastName`] = 'Required.';
         if (!guest.age) {
           newErrors[`guest_${index}_age`] = 'Required.';
-        } else if (Number(guest.age) < 1 || Number(guest.age) > 120) {
+        } else if (Number(guest.age) < 15 || Number(guest.age) > 120) {
           newErrors[`guest_${index}_age`] = 'Invalid.';
         }
         if (!guest.roleOnWedding) newErrors[`guest_${index}_roleOnWedding`] = 'Required.';
@@ -397,7 +408,6 @@ export default function RSVP() {
                   fullWidth
                   label="Age"
                   name="age"
-                  type="number"
                   value={parentGuest.age}
                   onChange={handleParentChange}
                   error={Boolean(errors.age)}
@@ -549,7 +559,7 @@ export default function RSVP() {
                 elevation={0}
                 sx={{
                   mt: 3.5,
-                  p: { xs: 3, sm: 4 },
+                  p: { xs: 2, sm: 4 },
                   backgroundColor: 'background.paper',
                   border: '1px solid rgba(107, 29, 47, 0.15)',
                   borderRadius: 3,
@@ -589,213 +599,346 @@ export default function RSVP() {
                   </Box>
                 )}
 
-                {/* Guest Cards */}
-                <Stack spacing={2.5}>
-                  {additionalGuests.map((guest, index) => (
-                    <Paper
-                      key={index}
-                      elevation={0}
-                      sx={{
-                        p: { xs: 2.5, sm: 3 },
-                        border: '1px solid rgba(107, 29, 47, 0.15)',
-                        borderRadius: 2,
-                        backgroundColor: 'background.default',
-                      }}
-                    >
-                      <Box
+                {/* Responsive View: Table for Desktop / Stacked Cards for Mobile */}
+                {additionalGuests.length > 0 && !isMobile ? (
+                  <TableContainer component={Paper} elevation={0} sx={{ border: '1px solid rgba(107, 29, 47, 0.15)', borderRadius: 2, mb: 3 }}>
+                    <Table sx={{ minWidth: 700 }} aria-label="additional guests table">
+                      <TableHead sx={{ bgcolor: 'rgba(107, 29, 47, 0.04)' }}>
+                        <TableRow>
+                          <TableCell sx={{ fontWeight: 600, color: 'primary.main', width: '80px' }}>No.</TableCell>
+                          <TableCell sx={{ fontWeight: 600, color: 'primary.main', width: '100px' }}>Title</TableCell>
+                          <TableCell sx={{ fontWeight: 600, color: 'primary.main' }}>First Name</TableCell>
+                          <TableCell sx={{ fontWeight: 600, color: 'primary.main' }}>Last Name</TableCell>
+                          <TableCell sx={{ fontWeight: 600, color: 'primary.main', width: '80px' }}>Age</TableCell>
+                          <TableCell sx={{ fontWeight: 600, color: 'primary.main' }}>Role</TableCell>
+                          <TableCell sx={{ fontWeight: 600, color: 'primary.main' }}>Connection</TableCell>
+                          <TableCell sx={{ fontWeight: 600, color: 'primary.main' }}>Relationship</TableCell>
+                          <TableCell align="center" sx={{ fontWeight: 600, color: 'primary.main', width: '60px' }}>Action</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {additionalGuests.map((guest, index) => (
+                          <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell sx={{ fontWeight: 600 }}>{index + 1}</TableCell>
+                            <TableCell>
+                              <FormControl fullWidth size="small" error={Boolean(errors[`guest_${index}_title`])} sx={fieldSx}>
+                                <Select
+                                  name="title"
+                                  value={guest.title}
+                                  onChange={(event) => handleAdditionalGuestChange(index, event)}
+                                  displayEmpty
+                                >
+                                  <MenuItem value="" disabled>Select</MenuItem>
+                                  {TITLE_OPTIONS.map((title) => (
+                                    <MenuItem key={title} value={title}>{title}</MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </TableCell>
+                            <TableCell>
+                              <TextField
+                                fullWidth
+                                size="small"
+                                name="firstName"
+                                value={guest.firstName}
+                                onChange={(event) => handleAdditionalGuestChange(index, event)}
+                                error={Boolean(errors[`guest_${index}_firstName`])}
+                                sx={fieldSx}
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <TextField
+                                fullWidth
+                                size="small"
+                                name="lastName"
+                                value={guest.lastName}
+                                onChange={(event) => handleAdditionalGuestChange(index, event)}
+                                error={Boolean(errors[`guest_${index}_lastName`])}
+                                sx={fieldSx}
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <TextField
+                                fullWidth
+                                size="small"
+                                name="age"
+                                value={guest.age}
+                                onChange={(event) => handleAdditionalGuestChange(index, event)}
+                                error={Boolean(errors[`guest_${index}_age`])}
+                                inputProps={{ min: 15, max: 100 }}
+                                sx={fieldSx}
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <FormControl fullWidth size="small" error={Boolean(errors[`guest_${index}_roleOnWedding`])} sx={fieldSx}>
+                                <Select
+                                  name="roleOnWedding"
+                                  value={guest.roleOnWedding}
+                                  onChange={(event) => handleAdditionalGuestChange(index, event)}
+                                  displayEmpty
+                                >
+                                  <MenuItem value="" disabled>Select Role</MenuItem>
+                                  {ROLE_OPTIONS.map((role) => (
+                                    <MenuItem key={role} value={role}>{role}</MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </TableCell>
+                            <TableCell>
+                              <FormControl fullWidth size="small" error={Boolean(errors[`guest_${index}_connectedTo`])} sx={fieldSx}>
+                                <Select
+                                  name="connectedTo"
+                                  value={guest.connectedTo}
+                                  onChange={(event) => handleAdditionalGuestChange(index, event)}
+                                  displayEmpty
+                                >
+                                  <MenuItem value="" disabled>Select</MenuItem>
+                                  {CONNECTED_TO_OPTIONS.map((option) => (
+                                    <MenuItem key={option} value={option}>{option}</MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </TableCell>
+                            <TableCell>
+                              <FormControl fullWidth size="small" error={Boolean(errors[`guest_${index}_relationship`])} sx={fieldSx}>
+                                <Select
+                                  name="relationship"
+                                  value={guest.relationship}
+                                  onChange={(event) => handleAdditionalGuestChange(index, event)}
+                                  displayEmpty
+                                >
+                                  <MenuItem value="" disabled>Select</MenuItem>
+                                  {RELATIONSHIP_OPTIONS.map((option) => (
+                                    <MenuItem key={option} value={option}>{option}</MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </TableCell>
+                            <TableCell align="center">
+                              <IconButton
+                                onClick={() => removeAdditionalGuest(index)}
+                                aria-label={`Remove guest ${index + 1}`}
+                                sx={{
+                                  color: 'secondary.main',
+                                  '&:hover': { backgroundColor: 'rgba(143, 57, 72, 0.08)' },
+                                }}
+                              >
+                                <Delete fontSize="small" />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                ) : (
+                  /* Mobile Stacked Cards Layout */
+                  <Stack spacing={2.5} sx={{ mb: 3 }}>
+                    {additionalGuests.map((guest, index) => (
+                      <Paper
+                        key={index}
+                        elevation={0}
                         sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          mb: 2,
+                          p: { xs: 2, sm: 3 },
+                          border: '1px solid rgba(107, 29, 47, 0.15)',
+                          borderRadius: 2,
+                          backgroundColor: 'background.default',
                         }}
                       >
-                        <Typography
-                          variant="subtitle1"
+                        <Box
                           sx={{
-                            fontFamily: '"Cormorant Garamond", serif',
-                            fontWeight: 700,
-                            color: 'text.primary',
-                            fontSize: '1.25rem',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            mb: 2,
                           }}
                         >
-                          Guest {index + 1}
-                        </Typography>
-
-                        <IconButton
-                          onClick={() => removeAdditionalGuest(index)}
-                          aria-label={`Remove guest ${index + 1}`}
-                          sx={{
-                            color: 'secondary.main',
-                            '&:hover': {
-                              backgroundColor: 'rgba(143, 57, 72, 0.08)',
-                            },
-                          }}
-                        >
-                          <Delete fontSize="small" />
-                        </IconButton>
-                      </Box>
-
-                      <Stack spacing={2}>
-                        {/* Title */}
-                        <FormControl
-                          fullWidth
-                          error={Boolean(errors[`guest_${index}_title`])}
-                          sx={fieldSx}
-                        >
-                          <InputLabel>Title</InputLabel>
-                          <Select
-                            name="title"
-                            value={guest.title}
-                            label="Title"
-                            onChange={(event) => handleAdditionalGuestChange(index, event)}
+                          <Typography
+                            variant="subtitle1"
+                            sx={{
+                              fontFamily: '"Cormorant Garamond", serif',
+                              fontWeight: 700,
+                              color: 'text.primary',
+                              fontSize: '1.25rem',
+                            }}
                           >
-                            {TITLE_OPTIONS.map((title) => (
-                              <MenuItem key={title} value={title}>
-                                {title}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                          {errors[`guest_${index}_title`] && (
-                            <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
-                              {errors[`guest_${index}_title`]}
-                            </Typography>
-                          )}
-                        </FormControl>
+                            Guest {index + 1}
+                          </Typography>
 
-                        {/* First Name */}
-                        <TextField
-                          fullWidth
-                          label="First Name"
-                          name="firstName"
-                          value={guest.firstName}
-                          onChange={(event) => handleAdditionalGuestChange(index, event)}
-                          error={Boolean(errors[`guest_${index}_firstName`])}
-                          helperText={errors[`guest_${index}_firstName`]}
-                          required
-                          sx={fieldSx}
-                        />
-
-                        {/* Middle Name */}
-                        <TextField
-                          fullWidth
-                          label="Middle Name"
-                          name="middleName"
-                          value={guest.middleName}
-                          onChange={(event) => handleAdditionalGuestChange(index, event)}
-                          helperText="Optional"
-                          sx={fieldSx}
-                        />
-
-                        {/* Last Name */}
-                        <TextField
-                          fullWidth
-                          label="Last Name"
-                          name="lastName"
-                          value={guest.lastName}
-                          onChange={(event) => handleAdditionalGuestChange(index, event)}
-                          error={Boolean(errors[`guest_${index}_lastName`])}
-                          helperText={errors[`guest_${index}_lastName`]}
-                          required
-                          sx={fieldSx}
-                        />
-
-                        {/* Age */}
-                        <TextField
-                          fullWidth
-                          label="Age"
-                          name="age"
-                          type="number"
-                          value={guest.age}
-                          onChange={(event) => handleAdditionalGuestChange(index, event)}
-                          error={Boolean(errors[`guest_${index}_age`])}
-                          helperText={errors[`guest_${index}_age`]}
-                          inputProps={{ min: 15, max: 100 }}
-                          required
-                          sx={fieldSx}
-                        />
-
-                        {/* Role */}
-                        <FormControl
-                          fullWidth
-                          error={Boolean(errors[`guest_${index}_roleOnWedding`])}
-                          sx={fieldSx}
-                        >
-                          <InputLabel>Role on the Wedding</InputLabel>
-                          <Select
-                            name="roleOnWedding"
-                            value={guest.roleOnWedding}
-                            label="Role on the Wedding"
-                            onChange={(event) => handleAdditionalGuestChange(index, event)}
+                          <IconButton
+                            onClick={() => removeAdditionalGuest(index)}
+                            aria-label={`Remove guest ${index + 1}`}
+                            sx={{
+                              color: 'secondary.main',
+                              '&:hover': {
+                                backgroundColor: 'rgba(143, 57, 72, 0.08)',
+                              },
+                            }}
                           >
-                            {ROLE_OPTIONS.map((role) => (
-                              <MenuItem key={role} value={role}>
-                                {role}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                          {errors[`guest_${index}_roleOnWedding`] && (
-                            <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
-                              {errors[`guest_${index}_roleOnWedding`]}
-                            </Typography>
-                          )}
-                        </FormControl>
+                            <Delete fontSize="small" />
+                          </IconButton>
+                        </Box>
 
-                        {/* Connected To */}
-                        <FormControl
-                          fullWidth
-                          error={Boolean(errors[`guest_${index}_connectedTo`])}
-                          sx={fieldSx}
-                        >
-                          <InputLabel>Who are you connected to?</InputLabel>
-                          <Select
-                            name="connectedTo"
-                            value={guest.connectedTo}
-                            label="Who are you connected to?"
-                            onChange={(event) => handleAdditionalGuestChange(index, event)}
+                        <Stack spacing={2}>
+                          {/* Title */}
+                          <FormControl
+                            fullWidth
+                            error={Boolean(errors[`guest_${index}_title`])}
+                            sx={fieldSx}
                           >
-                            {CONNECTED_TO_OPTIONS.map((option) => (
-                              <MenuItem key={option} value={option}>
-                                {option}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                          {errors[`guest_${index}_connectedTo`] && (
-                            <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
-                              {errors[`guest_${index}_connectedTo`]}
-                            </Typography>
-                          )}
-                        </FormControl>
+                            <InputLabel>Title</InputLabel>
+                            <Select
+                              name="title"
+                              value={guest.title}
+                              label="Title"
+                              onChange={(event) => handleAdditionalGuestChange(index, event)}
+                            >
+                              {TITLE_OPTIONS.map((title) => (
+                                <MenuItem key={title} value={title}>
+                                  {title}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                            {errors[`guest_${index}_title`] && (
+                              <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
+                                {errors[`guest_${index}_title`]}
+                              </Typography>
+                            )}
+                          </FormControl>
 
-                        {/* Relationship */}
-                        <FormControl
-                          fullWidth
-                          error={Boolean(errors[`guest_${index}_relationship`])}
-                          sx={fieldSx}
-                        >
-                          <InputLabel>Relationship</InputLabel>
-                          <Select
-                            name="relationship"
-                            value={guest.relationship}
-                            label="Relationship"
+                          {/* First Name */}
+                          <TextField
+                            fullWidth
+                            label="First Name"
+                            name="firstName"
+                            value={guest.firstName}
                             onChange={(event) => handleAdditionalGuestChange(index, event)}
+                            error={Boolean(errors[`guest_${index}_firstName`])}
+                            helperText={errors[`guest_${index}_firstName`]}
+                            required
+                            sx={fieldSx}
+                          />
+
+                          {/* Middle Name */}
+                          <TextField
+                            fullWidth
+                            label="Middle Name"
+                            name="middleName"
+                            value={guest.middleName}
+                            onChange={(event) => handleAdditionalGuestChange(index, event)}
+                            helperText="Optional"
+                            sx={fieldSx}
+                          />
+
+                          {/* Last Name */}
+                          <TextField
+                            fullWidth
+                            label="Last Name"
+                            name="lastName"
+                            value={guest.lastName}
+                            onChange={(event) => handleAdditionalGuestChange(index, event)}
+                            error={Boolean(errors[`guest_${index}_lastName`])}
+                            helperText={errors[`guest_${index}_lastName`]}
+                            required
+                            sx={fieldSx}
+                          />
+
+                          {/* Age */}
+                          <TextField
+                            fullWidth
+                            label="Age"
+                            name="age"
+                            value={guest.age}
+                            onChange={(event) => handleAdditionalGuestChange(index, event)}
+                            error={Boolean(errors[`guest_${index}_age`])}
+                            helperText={errors[`guest_${index}_age`]}
+                            inputProps={{ min: 15, max: 100 }}
+                            required
+                            sx={fieldSx}
+                          />
+
+                          {/* Role */}
+                          <FormControl
+                            fullWidth
+                            error={Boolean(errors[`guest_${index}_roleOnWedding`])}
+                            sx={fieldSx}
                           >
-                            {RELATIONSHIP_OPTIONS.map((option) => (
-                              <MenuItem key={option} value={option}>
-                                {option}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                          {errors[`guest_${index}_relationship`] && (
-                            <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
-                              {errors[`guest_${index}_relationship`]}
-                            </Typography>
-                          )}
-                        </FormControl>
-                      </Stack>
-                    </Paper>
-                  ))}
-                </Stack>
+                            <InputLabel>Role on the Wedding</InputLabel>
+                            <Select
+                              name="roleOnWedding"
+                              value={guest.roleOnWedding}
+                              label="Role on the Wedding"
+                              onChange={(event) => handleAdditionalGuestChange(index, event)}
+                            >
+                              {ROLE_OPTIONS.map((role) => (
+                                <MenuItem key={role} value={role}>
+                                  {role}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                            {errors[`guest_${index}_roleOnWedding`] && (
+                              <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
+                                {errors[`guest_${index}_roleOnWedding`]}
+                              </Typography>
+                            )}
+                          </FormControl>
+
+                          {/* Connected To */}
+                          <FormControl
+                            fullWidth
+                            error={Boolean(errors[`guest_${index}_connectedTo`])}
+                            sx={fieldSx}
+                          >
+                            <InputLabel>Who are you connected to?</InputLabel>
+                            <Select
+                              name="connectedTo"
+                              value={guest.connectedTo}
+                              label="Who are you connected to?"
+                              onChange={(event) => handleAdditionalGuestChange(index, event)}
+                            >
+                              {CONNECTED_TO_OPTIONS.map((option) => (
+                                <MenuItem key={option} value={option}>
+                                  {option}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                            {errors[`guest_${index}_connectedTo`] && (
+                              <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
+                                {errors[`guest_${index}_connectedTo`]}
+                              </Typography>
+                            )}
+                          </FormControl>
+
+                          {/* Relationship */}
+                          <FormControl
+                            fullWidth
+                            error={Boolean(errors[`guest_${index}_relationship`])}
+                            sx={fieldSx}
+                          >
+                            <InputLabel>Relationship</InputLabel>
+                            <Select
+                              name="relationship"
+                              value={guest.relationship}
+                              label="Relationship"
+                              onChange={(event) => handleAdditionalGuestChange(index, event)}
+                            >
+                              {RELATIONSHIP_OPTIONS.map((option) => (
+                                <MenuItem key={option} value={option}>
+                                  {option}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                            {errors[`guest_${index}_relationship`] && (
+                              <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
+                                {errors[`guest_${index}_relationship`]}
+                              </Typography>
+                            )}
+                          </FormControl>
+                        </Stack>
+                      </Paper>
+                    ))}
+                  </Stack>
+                )}
 
                 <Button
                   type="button"
@@ -804,7 +947,7 @@ export default function RSVP() {
                   onClick={addAdditionalGuest}
                   fullWidth
                   sx={{
-                    mt: 3,
+                    mt: 1,
                     py: 1.2,
                     color: 'primary.main',
                     borderColor: 'primary.main',
