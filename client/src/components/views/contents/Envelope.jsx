@@ -63,7 +63,7 @@ export default function Envelope() {
                     </Box>
 
                     <Box className="text-center">
-                        <Link component={RouterLink} to="/cover" className='d-inline-block'>
+                        <Link component={RouterLink} to="/cover">
                             <Box
                                 component="img"
                                 src={sImgEnvelope}
