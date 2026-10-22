@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider, CssBaseline } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import './locale/i18n'; // Initializes i18n auto-detection on load
-import './components/assets/sass/screen.scss'
+import './components/assets/sass/screen.scss';
 
-import theme from './theme';
+import DynamicThemeProvider from './components/views/utils/ThemeWrapper';
 import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <DynamicThemeProvider>
       <BrowserRouter>
         <CssBaseline />
         <App />
       </BrowserRouter>
-    </ThemeProvider>
+    </DynamicThemeProvider>
   </React.StrictMode>
 );

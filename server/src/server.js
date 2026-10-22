@@ -11,6 +11,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import routerGoogle from './routers/Google.js';
 import routerRsvp from './routers/Rsvp.js';
+import routeTheme from './routers/Theme.js';
 import dbConnect from './dbConn/Mongoose.js';
 
 dotenv.config();
@@ -36,14 +37,10 @@ app.get('/', (req, res) => {
   });
 });
 
-/**
-- Collection of routes.
- */
-// Google Routes
+// Collection of routes.
 app.use('/api/google', routerGoogle);
-
-// RSVP Routes
 app.use('/api/rsvp', routerRsvp);
+app.use('/api/theme', routeTheme);
 
 // Start Server (CRITICAL: Keeps process running)
 app.listen(PORT, () => {

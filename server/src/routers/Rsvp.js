@@ -1,6 +1,6 @@
 import express from 'express';
 import dbConnect from '../dbConn/Mongoose.js';
-import RSVP from '../handlers/MongooseModel.js';
+import RSVP from '../models/RsvpSchema.js';
 
 const router = express.Router();
 

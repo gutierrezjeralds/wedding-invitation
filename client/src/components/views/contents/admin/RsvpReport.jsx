@@ -47,7 +47,7 @@ import {
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { Text, PageTitle } from '../../utils/CustomComponents';
+import { Text } from '../../utils/CustomComponents';
 
 const CHART_METRICS = [
   { id: 'attendance', label: 'Attendance Status' },
@@ -412,12 +412,7 @@ export default function RsvpReport() {
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
-      <Container maxWidth="lg" className="py-5">
-        <PageTitle
-          title="RSVP Summary Report"
-          subtitle="Real-time attendance metrics, guest list tree structure, and analytics breakdowns."
-        />
-
+      <Container maxWidth="lg">
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', my: 8 }}>
             <CircularProgress sx={{ color: 'primary.main' }} />

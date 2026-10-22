@@ -24,10 +24,15 @@ import Faq from './components/views/contents/Faq';
 import Gift from './components/views/contents/Gift';
 import RSVP from './components/views/contents/Rsvp';
 import Proposal from './components/views/contents/Proposal';
+
+// Admin Imports
+import AdminLayout from './components/views/contents/admin/AdminLayout';
+import AdminHome from './components/views/contents/admin/Home';
 import RsvpReport from './components/views/contents/admin/RsvpReport';
+import ThemeSettings from './components/views/contents/admin/ThemeSettings';
+
 import ScrollToTop from './components/views/utils/ScrollToTop';
 import BackgroundMusic from './components/views/utils/BackgroundMusic';
-// import { useDrivePhotos } from './components/views/utils/GDrive';
 
 // Password configuration (defaults to 'admin123' or environment variable)
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'admin123';
@@ -58,7 +63,7 @@ function AdminProtectedRoute({ children }) {
     navigate('/', { replace: true });
   };
 
-  // If already authenticated, display admin page directly
+  // If already authenticated, display admin layout directly
   if (isAuthenticated) {
     return children;
   }
@@ -159,10 +164,11 @@ function AdminProtectedRoute({ children }) {
 export default function App() {
   const location = useLocation();
 
-  // Array of paths where the Header should NOT appear
+  // Array of paths where public Header/Footer should NOT appear
   const isProposalPath = location.pathname.startsWith('/proposal');
-  const hideHeaderOnPaths = ['/', '/envelope', '/home', '/cover', '/admin', '/admin/rsvp'];
-  const showHeader = !hideHeaderOnPaths.includes(location.pathname) && !isProposalPath;
+  const isAdminPath = location.pathname.startsWith('/admin');
+  const hideHeaderOnPaths = ['/', '/envelope', '/home', '/cover'];
+  const showHeader = !hideHeaderOnPaths.includes(location.pathname) && !isProposalPath && !isAdminPath;
 
   return (
     <React.Fragment>
@@ -187,16 +193,19 @@ export default function App() {
         {/* Proposal */}
         <Route path="/proposal/:sId/:sName" element={<Proposal />} />
 
-        {/* Protected Admin Routes */}
-        <Route path="/admin" element={<Navigate to="/admin/rsvp" replace />} />
+        {/* Protected Admin Routes with Sidebar Layout */}
         <Route
-          path="/admin/rsvp"
+          path="/admin"
           element={
             <AdminProtectedRoute>
-              <RsvpReport />
+              <AdminLayout />
             </AdminProtectedRoute>
           }
-        />
+        >
+          <Route index element={<AdminHome />} />
+          <Route path="rsvp" element={<RsvpReport />} />
+          <Route path="theme" element={<ThemeSettings />} />
+        </Route>
 
         {/* Fallback routing */}
         <Route path="*" element={<Navigate to="/" replace />} />
