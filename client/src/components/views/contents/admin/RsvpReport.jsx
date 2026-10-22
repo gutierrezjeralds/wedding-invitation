@@ -9,6 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TableSortLabel,
   IconButton,
   Collapse,
   Chip,
@@ -20,7 +21,8 @@ import {
   Select,
   MenuItem,
   CircularProgress,
-  Stack
+  Stack,
+  Button
 } from '@mui/material';
 import {
   KeyboardArrowDown,
@@ -29,7 +31,9 @@ import {
   CheckCircle,
   Cancel,
   AssignmentTurnedIn,
-  BarChart as BarChartIcon
+  BarChart as BarChartIcon,
+  FileDownload,
+  PictureAsPdf
 } from '@mui/icons-material';
 import {
   BarChart,
@@ -38,10 +42,11 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Cell,
-  PieChart,
-  Pie
+  Cell
 } from 'recharts';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { Text, PageTitle } from '../../utils/CustomComponents';
 
 const CHART_METRICS = [
@@ -159,6 +164,10 @@ export default function RsvpReport() {
   const [loading, setLoading] = useState(true);
   const [selectedChartMetric, setSelectedChartMetric] = useState('attendance');
 
+  // Sorting state
+  const [orderBy, setOrderBy] = useState('firstName');
+  const [order, setOrder] = useState('asc');
+
   useEffect(() => {
     fetch('/api/rsvp')
       .then((res) => res.json())
@@ -170,6 +179,37 @@ export default function RsvpReport() {
       .catch((err) => console.error('Error fetching RSVP records:', err))
       .finally(() => setLoading(false));
   }, []);
+
+  // Sort Handler
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  // Compute Sorted List for UI
+  const sortedRsvpList = useMemo(() => {
+    return [...rsvpList].sort((a, b) => {
+      let valueA = a[orderBy] ?? '';
+      let valueB = b[orderBy] ?? '';
+
+      if (orderBy === 'name') {
+        valueA = `${a.firstName || ''} ${a.lastName || ''}`.trim().toLowerCase();
+        valueB = `${b.firstName || ''} ${b.lastName || ''}`.trim().toLowerCase();
+      } else if (typeof valueA === 'string') {
+        valueA = valueA.toLowerCase();
+        valueB = valueB.toLowerCase();
+      }
+
+      if (valueA < valueB) {
+        return order === 'asc' ? -1 : 1;
+      }
+      if (valueA > valueB) {
+        return order === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }, [rsvpList, order, orderBy]);
 
   // Compute Metrics & Aggregations
   const stats = useMemo(() => {
@@ -190,11 +230,10 @@ export default function RsvpReport() {
     return { totalSubmissions, totalPartyCount, attendingSubmissions, declinedSubmissions };
   }, [rsvpList]);
 
-  // Compute Dynamic Chart Data Based on Selected Category Dropdown
+  // Compute Dynamic Chart Data
   const chartData = useMemo(() => {
     const counts = {};
 
-    // Gather all individual guests (Primary + Sub-guests)
     const allGuests = [];
     rsvpList.forEach((primary) => {
       allGuests.push({ ...primary, isPrimary: true });
@@ -231,6 +270,146 @@ export default function RsvpReport() {
     }));
   }, [rsvpList, selectedChartMetric, stats]);
 
+  // Excel Export Handler
+  const handleExportExcel = () => {
+    const exportRows = [];
+
+    sortedRsvpList.forEach((primary) => {
+      exportRows.push({
+        'Guest Type': 'Primary Guest',
+        'Full Name': `${primary.title || ''} ${primary.firstName || ''} ${primary.middleName || ''} ${primary.lastName || ''}`.trim(),
+        'Age': primary.age || '—',
+        'Contact Number': primary.contactNumber || '—',
+        'Role': primary.roleOnWedding || '—',
+        'Connection': primary.connectedTo || '—',
+        'Relationship': primary.relationship || '—',
+        'Attending Status': primary.willAttend === 'Yes' ? 'Attending' : 'Declined',
+        'Party Size': primary.willAttend === 'Yes' ? primary.partyCount : 0,
+        'Message': primary.message || '—',
+      });
+
+      if (primary.willAttend === 'Yes' && Array.isArray(primary.additionalGuests)) {
+        primary.additionalGuests.forEach((sub) => {
+          exportRows.push({
+            'Guest Type': '  └─ Accompanying',
+            'Full Name': `${sub.title || ''} ${sub.firstName || ''} ${sub.middleName || ''} ${sub.lastName || ''}`.trim(),
+            'Age': sub.age || '—',
+            'Contact Number': '—',
+            'Role': sub.roleOnWedding || '—',
+            'Connection': sub.connectedTo || '—',
+            'Relationship': sub.relationship || '—',
+            'Attending Status': 'Attending',
+            'Party Size': '—',
+            'Message': '—',
+          });
+        });
+      }
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(exportRows);
+
+    worksheet['!cols'] = [
+      { wch: 20 },
+      { wch: 28 },
+      { wch: 8 },
+      { wch: 16 },
+      { wch: 22 },
+      { wch: 14 },
+      { wch: 16 },
+      { wch: 16 },
+      { wch: 12 },
+      { wch: 30 },
+    ];
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'RSVP Guests List');
+    XLSX.writeFile(workbook, `Wedding_RSVP_Summary_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  };
+
+  // PDF Export Handler (Attending Guests Reception Sheet)
+  const handleExportPDF = () => {
+    const doc = new jsPDF();
+
+    // 1. Collect ONLY attending guests (Primary + Sub-guests)
+    const attendingList = [];
+
+    rsvpList.forEach((primary) => {
+      if (primary.willAttend === 'Yes') {
+        const primaryFullName = `${primary.title || ''} ${primary.firstName || ''} ${primary.middleName || ''} ${primary.lastName || ''}`.trim();
+        attendingList.push({
+          fullName: primaryFullName,
+          role: primary.roleOnWedding || '—',
+          connection: primary.connectedTo || '—',
+          relationship: primary.relationship || '—',
+        });
+
+        if (Array.isArray(primary.additionalGuests)) {
+          primary.additionalGuests.forEach((sub) => {
+            const subFullName = `${sub.title || ''} ${sub.firstName || ''} ${sub.middleName || ''} ${sub.lastName || ''}`.trim();
+            attendingList.push({
+              fullName: subFullName,
+              role: sub.roleOnWedding || '—',
+              connection: sub.connectedTo || '—',
+              relationship: sub.relationship || '—',
+            });
+          });
+        }
+      }
+    });
+
+    // 2. Sort ALL attending guests alphabetically by Full Name (A-Z)
+    attendingList.sort((a, b) => a.fullName.localeCompare(b.fullName));
+
+    // 3. Document Title Header
+    doc.setFontSize(18);
+    doc.setTextColor(107, 29, 47); // Wine Red
+    doc.text('Reception Guest Check-In List', 14, 20);
+
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Total Attending Guests: ${attendingList.length} | Generated: ${new Date().toLocaleDateString()}`, 14, 27);
+
+    // 4. PDF Table Setup
+    const tableHeaders = [['No.', 'Full Name', 'Role', 'Connection', 'Relationship']];
+    const tableData = attendingList.map((guest, index) => [
+      index + 1,
+      guest.fullName,
+      guest.role,
+      guest.connection,
+      guest.relationship,
+    ]);
+
+    autoTable(doc, {
+      head: tableHeaders,
+      body: tableData,
+      startY: 32,
+      theme: 'grid',
+      headStyles: {
+        fillColor: [107, 29, 47],
+        textColor: [255, 255, 255],
+        fontStyle: 'bold',
+        halign: 'left',
+      },
+      alternateRowStyles: {
+        fillColor: [250, 247, 242],
+      },
+      styles: {
+        fontSize: 9,
+        cellPadding: 3,
+        textColor: [44, 62, 53],
+      },
+      columnStyles: {
+        0: { cellWidth: 12, halign: 'center' }, // No.
+        1: { cellWidth: 60 },                  // Full Name
+        2: { cellWidth: 45 },                  // Role
+        3: { cellWidth: 32 },                  // Connection
+        4: { cellWidth: 35 },                  // Relationship
+      },
+    });
+
+    doc.save(`Reception_Guest_CheckIn_List_${new Date().toISOString().slice(0, 10)}.pdf`);
+  };
+
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
       <Container maxWidth="lg" className="py-5">
@@ -245,13 +424,30 @@ export default function RsvpReport() {
           </Box>
         ) : (
           <Stack spacing={4}>
-            {/* KPI STATS TILES */}
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={0} sx={{ p: 2, border: '1px solid rgba(107, 29, 47, 0.15)', borderRadius: 3, bgcolor: 'background.paper' }}>
-                  <CardContent sx={{ p: '16px !important' }}>
+            {/* KPI STATS TILES (CENTERED & EQUAL WIDTH) */}
+            <Grid 
+              container 
+              spacing={3} 
+              justifyContent="center" 
+              alignItems="stretch"
+              sx={{ width: '100%', m: 0 }}
+            >
+              <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', flexGrow: 1 }}>
+                <Card 
+                  elevation={0} 
+                  sx={{ 
+                    p: 2, 
+                    border: '1px solid rgba(107, 29, 47, 0.15)', 
+                    borderRadius: 3, 
+                    bgcolor: 'background.paper', 
+                    width: '100%', 
+                    display: 'flex', 
+                    alignItems: 'center' 
+                  }}
+                >
+                  <CardContent sx={{ p: '16px !important', width: '100%' }}>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                      <AssignmentTurnedIn sx={{ fontSize: 40, color: 'primary.main' }} />
+                      <AssignmentTurnedIn sx={{ fontSize: 40, color: 'primary.main', flexShrink: 0 }} />
                       <Box>
                         <Text variant="caption" sx={{ color: 'text.secondary', display: 'block' }} textKey="Submissions" />
                         <Text variant="h5" sx={{ fontWeight: 700, color: 'text.primary' }}>{stats.totalSubmissions}</Text>
@@ -261,11 +457,22 @@ export default function RsvpReport() {
                 </Card>
               </Grid>
 
-              <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={0} sx={{ p: 2, border: '1px solid rgba(107, 29, 47, 0.15)', borderRadius: 3, bgcolor: 'background.paper' }}>
-                  <CardContent sx={{ p: '16px !important' }}>
+              <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', flexGrow: 1 }}>
+                <Card 
+                  elevation={0} 
+                  sx={{ 
+                    p: 2, 
+                    border: '1px solid rgba(107, 29, 47, 0.15)', 
+                    borderRadius: 3, 
+                    bgcolor: 'background.paper', 
+                    width: '100%', 
+                    display: 'flex', 
+                    alignItems: 'center' 
+                  }}
+                >
+                  <CardContent sx={{ p: '16px !important', width: '100%' }}>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                      <People sx={{ fontSize: 40, color: 'primary.main' }} />
+                      <People sx={{ fontSize: 40, color: 'primary.main', flexShrink: 0 }} />
                       <Box>
                         <Text variant="caption" sx={{ color: 'text.secondary', display: 'block' }} textKey="Confirmed Guests" />
                         <Text variant="h5" sx={{ fontWeight: 700, color: 'primary.main' }}>{stats.totalPartyCount}</Text>
@@ -275,11 +482,22 @@ export default function RsvpReport() {
                 </Card>
               </Grid>
 
-              <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={0} sx={{ p: 2, border: '1px solid rgba(107, 29, 47, 0.15)', borderRadius: 3, bgcolor: 'background.paper' }}>
-                  <CardContent sx={{ p: '16px !important' }}>
+              <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', flexGrow: 1 }}>
+                <Card 
+                  elevation={0} 
+                  sx={{ 
+                    p: 2, 
+                    border: '1px solid rgba(107, 29, 47, 0.15)', 
+                    borderRadius: 3, 
+                    bgcolor: 'background.paper', 
+                    width: '100%', 
+                    display: 'flex', 
+                    alignItems: 'center' 
+                  }}
+                >
+                  <CardContent sx={{ p: '16px !important', width: '100%' }}>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                      <CheckCircle sx={{ fontSize: 40, color: '#5E7A65' }} />
+                      <CheckCircle sx={{ fontSize: 40, color: '#5E7A65', flexShrink: 0 }} />
                       <Box>
                         <Text variant="caption" sx={{ color: 'text.secondary', display: 'block' }} textKey="Attending Parties" />
                         <Text variant="h5" sx={{ fontWeight: 700, color: '#5E7A65' }}>{stats.attendingSubmissions}</Text>
@@ -289,11 +507,22 @@ export default function RsvpReport() {
                 </Card>
               </Grid>
 
-              <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={0} sx={{ p: 2, border: '1px solid rgba(107, 29, 47, 0.15)', borderRadius: 3, bgcolor: 'background.paper' }}>
-                  <CardContent sx={{ p: '16px !important' }}>
+              <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', flexGrow: 1 }}>
+                <Card 
+                  elevation={0} 
+                  sx={{ 
+                    p: 2, 
+                    border: '1px solid rgba(107, 29, 47, 0.15)', 
+                    borderRadius: 3, 
+                    bgcolor: 'background.paper', 
+                    width: '100%', 
+                    display: 'flex', 
+                    alignItems: 'center' 
+                  }}
+                >
+                  <CardContent sx={{ p: '16px !important', width: '100%' }}>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                      <Cancel sx={{ fontSize: 40, color: 'secondary.main' }} />
+                      <Cancel sx={{ fontSize: 40, color: 'secondary.main', flexShrink: 0 }} />
                       <Box>
                         <Text variant="caption" sx={{ color: 'text.secondary', display: 'block' }} textKey="Declined Parties" />
                         <Text variant="h5" sx={{ fontWeight: 700, color: 'secondary.main' }}>{stats.declinedSubmissions}</Text>
@@ -361,7 +590,7 @@ export default function RsvpReport() {
               </Box>
             </Paper>
 
-            {/* TREE STRUCTURE GUEST TABLE */}
+            {/* TREE STRUCTURE GUEST TABLE WITH SORTING & EXPORT BUTTONS */}
             <Paper
               elevation={0}
               sx={{
@@ -371,29 +600,135 @@ export default function RsvpReport() {
                 borderRadius: 3,
               }}
             >
-              <Text
-                variant="h5"
-                sx={{ color: 'secondary.main', mb: 2, fontSize: '1.4rem', px: 1, display: 'block' }}
-                textKey="All Submissions (Guest Tree List)"
-              />
+              <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} spacing={2} sx={{ mb: 2, px: 1 }}>
+                <Text
+                  variant="h5"
+                  sx={{ color: 'secondary.main', fontSize: '1.4rem', display: 'block' }}
+                  textKey="All Submissions (Guest List)"
+                />
+
+                <Stack direction="row" spacing={1.5}>
+                  <Button
+                    variant="outlined"
+                    startIcon={<PictureAsPdf />}
+                    onClick={handleExportPDF}
+                    sx={{
+                      borderColor: 'primary.main',
+                      color: 'primary.main',
+                      fontWeight: 600,
+                      borderRadius: 2,
+                      textTransform: 'uppercase',
+                      fontSize: '0.825rem',
+                      px: 2,
+                      '&:hover': {
+                        borderColor: 'secondary.main',
+                        bgcolor: 'rgba(107, 29, 47, 0.04)',
+                      },
+                    }}
+                  >
+                    Export PDF
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    startIcon={<FileDownload />}
+                    onClick={handleExportExcel}
+                    sx={{
+                      bgcolor: 'primary.main',
+                      color: 'primary.contrastText',
+                      fontWeight: 600,
+                      borderRadius: 2,
+                      textTransform: 'uppercase',
+                      fontSize: '0.825rem',
+                      px: 2.5,
+                      '&:hover': {
+                        bgcolor: 'secondary.main',
+                      },
+                    }}
+                  >
+                    Export Excel
+                  </Button>
+                </Stack>
+              </Stack>
 
               <TableContainer component={Paper} elevation={0} sx={{ border: '1px solid rgba(107, 29, 47, 0.15)', borderRadius: 2 }}>
                 <Table aria-label="collapsible rsvp tree table">
                   <TableHead sx={{ bgcolor: 'rgba(107, 29, 47, 0.05)' }}>
                     <TableRow>
                       <TableCell />
-                      <TableCell sx={{ fontWeight: 700, color: 'primary.main' }}>Primary Guest</TableCell>
+                      
+                      {/* Sortable: Primary Guest Name */}
+                      <TableCell sx={{ fontWeight: 700, color: 'primary.main' }}>
+                        <TableSortLabel
+                          active={orderBy === 'name'}
+                          direction={orderBy === 'name' ? order : 'asc'}
+                          onClick={() => handleRequestSort('name')}
+                        >
+                          Primary Guest
+                        </TableSortLabel>
+                      </TableCell>
+
                       <TableCell sx={{ fontWeight: 700, color: 'primary.main' }}>Contact</TableCell>
-                      <TableCell sx={{ fontWeight: 700, color: 'primary.main' }}>Role</TableCell>
-                      <TableCell sx={{ fontWeight: 700, color: 'primary.main' }}>Connection</TableCell>
-                      <TableCell sx={{ fontWeight: 700, color: 'primary.main' }}>Relationship</TableCell>
-                      <TableCell align="center" sx={{ fontWeight: 700, color: 'primary.main' }}>Status</TableCell>
-                      <TableCell align="center" sx={{ fontWeight: 700, color: 'primary.main' }}>Party Size</TableCell>
+
+                      {/* Sortable: Role */}
+                      <TableCell sx={{ fontWeight: 700, color: 'primary.main' }}>
+                        <TableSortLabel
+                          active={orderBy === 'roleOnWedding'}
+                          direction={orderBy === 'roleOnWedding' ? order : 'asc'}
+                          onClick={() => handleRequestSort('roleOnWedding')}
+                        >
+                          Role
+                        </TableSortLabel>
+                      </TableCell>
+
+                      {/* Sortable: Connection */}
+                      <TableCell sx={{ fontWeight: 700, color: 'primary.main' }}>
+                        <TableSortLabel
+                          active={orderBy === 'connectedTo'}
+                          direction={orderBy === 'connectedTo' ? order : 'asc'}
+                          onClick={() => handleRequestSort('connectedTo')}
+                        >
+                          Connection
+                        </TableSortLabel>
+                      </TableCell>
+
+                      {/* Sortable: Relationship */}
+                      <TableCell sx={{ fontWeight: 700, color: 'primary.main' }}>
+                        <TableSortLabel
+                          active={orderBy === 'relationship'}
+                          direction={orderBy === 'relationship' ? order : 'asc'}
+                          onClick={() => handleRequestSort('relationship')}
+                        >
+                          Relationship
+                        </TableSortLabel>
+                      </TableCell>
+
+                      {/* Sortable: Attendance Status */}
+                      <TableCell align="center" sx={{ fontWeight: 700, color: 'primary.main' }}>
+                        <TableSortLabel
+                          active={orderBy === 'willAttend'}
+                          direction={orderBy === 'willAttend' ? order : 'asc'}
+                          onClick={() => handleRequestSort('willAttend')}
+                        >
+                          Status
+                        </TableSortLabel>
+                      </TableCell>
+
+                      {/* Sortable: Party Size */}
+                      <TableCell align="center" sx={{ fontWeight: 700, color: 'primary.main' }}>
+                        <TableSortLabel
+                          active={orderBy === 'partyCount'}
+                          direction={orderBy === 'partyCount' ? order : 'asc'}
+                          onClick={() => handleRequestSort('partyCount')}
+                        >
+                          Party Size
+                        </TableSortLabel>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rsvpList.length > 0 ? (
-                      rsvpList.map((row) => <GuestRow key={row._id} row={row} />)
+                    {sortedRsvpList.length > 0 ? (
+                      sortedRsvpList.map((row) => <GuestRow key={row._id} row={row} />)
                     ) : (
                       <TableRow>
                         <TableCell colSpan={8} align="center" sx={{ py: 4, color: 'text.secondary' }}>
