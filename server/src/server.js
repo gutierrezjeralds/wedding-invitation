@@ -11,6 +11,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import routerGoogle from './routers/Google.js';
 import routerRsvp from './routers/Rsvp.js';
+import dbConnect from './dbConn/Mongoose.js';
 
 dotenv.config();
 
@@ -22,6 +23,11 @@ const PORT = process.env.PORT || 5001;
 // app.use(helmet());
 app.use(cors());
 app.use(express.json());
+
+// 2. Connect to MongoDB when the server boots up (or use middleware per route)
+dbConnect()
+  .then(() => console.log('MongoDB Connected Successfully'))
+  .catch((err) => console.error('MongoDB Connection Error:', err));
 
 // Health check
 app.get('/', (req, res) => {
