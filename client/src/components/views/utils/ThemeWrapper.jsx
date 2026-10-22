@@ -2,11 +2,11 @@ import React, { createContext, useContext, useEffect, useState, useMemo } from '
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CircularProgress, Box } from '@mui/material';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 const ThemeUpdateContext = createContext(null);
 
 export function useThemeUpdater() {
   const context = useContext(ThemeUpdateContext);
-  // Safe fallback to prevent crashes if rendered outside the provider
   return context || { fetchTheme: () => {} };
 }
 
@@ -16,13 +16,20 @@ export default function DynamicThemeProvider({ children }) {
 
   const fetchTheme = async () => {
     try {
-      const res = await fetch('/api/theme');
+      const res = await fetch(`${API_BASE_URL}/api/theme`);
+      const contentType = res.headers.get('content-type');
+
+      // Check if response is valid JSON to prevent <!doctype html> crashes
+      if (!res.ok || !contentType || !contentType.includes('application/json')) {
+        throw new Error('Received non-JSON response from API server');
+      }
+
       const result = await res.json();
-      if (result.success) {
+      if (result.success && result.data) {
         setThemeConfig(result.data);
       }
     } catch (err) {
-      console.error('Failed to load dynamic theme, falling back to default', err);
+      console.error('Failed to load dynamic theme, falling back to default theme', err);
     } finally {
       setLoading(false);
     }

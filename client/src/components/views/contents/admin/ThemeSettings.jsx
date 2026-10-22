@@ -1,27 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Paper, TextField, Button, Typography, Stack, Alert, Divider } from '@mui/material';
+import {
+  Box,
+  Paper,
+  TextField,
+  Button,
+  Typography,
+  Stack,
+  Alert,
+  Divider,
+  CircularProgress
+} from '@mui/material';
 import { useThemeUpdater } from '../../utils/ThemeWrapper';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export default function ThemeSettings() {
   const { fetchTheme } = useThemeUpdater();
   const [formData, setFormData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    fetch('/api/theme')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) setFormData(data.data);
-      });
+    fetch(`${API_BASE_URL}/api/theme`)
+      .then(async (res) => {
+        const contentType = res.headers.get('content-type');
+        if (res.ok && contentType && contentType.includes('application/json')) {
+          return res.json();
+        }
+        return null;
+      })
+      .then((data) => {
+        if (data && data.success) {
+          setFormData(data.data);
+        }
+      })
+      .catch((err) => console.error('Error fetching theme settings:', err))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleChange = (section, field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [section]: {
         ...prev[section],
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   };
 
@@ -29,7 +52,7 @@ export default function ThemeSettings() {
     e.preventDefault();
     setSuccess(false);
     try {
-      const res = await fetch('/api/theme', {
+      const res = await fetch(`${API_BASE_URL}/api/theme`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -37,7 +60,7 @@ export default function ThemeSettings() {
       const result = await res.json();
       if (result.success) {
         setSuccess(true);
-        fetchTheme(); // Refreshes global theme instantly across the app!
+        fetchTheme(); // Refreshes global theme across the app
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } catch (err) {
@@ -45,7 +68,13 @@ export default function ThemeSettings() {
     }
   };
 
-  if (!formData) return null;
+  if (loading || !formData) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+        <CircularProgress sx={{ color: 'primary.main' }} />
+      </Box>
+    );
+  }
 
   return (
     <Paper sx={{ p: { xs: 3, sm: 5 }, maxWidth: 800, mx: 'auto', mt: 4, mb: 6, borderRadius: 3 }}>
@@ -147,7 +176,7 @@ export default function ThemeSettings() {
                 label="Global Font Family"
                 value={formData.typography?.fontFamily || ''}
                 onChange={(e) => handleChange('typography', 'fontFamily', e.target.value)}
-                helperText="Example: &quot;Montserrat&quot;, sans-serif"
+                helperText='Example: "Montserrat", sans-serif'
               />
 
               {/* H1 Settings */}
