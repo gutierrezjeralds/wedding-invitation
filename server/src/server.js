@@ -14,11 +14,6 @@ const PORT = process.env.PORT || 5001;
 app.use(cors());
 app.use(express.json());
 
-// Boot up MongoDB
-dbConnect()
-  .then(() => console.log('MongoDB Connected Successfully'))
-  .catch((err) => console.error('MongoDB Connection Error:', err));
-
 // Routes
 app.use('/api/google', routerGoogle);
 app.use('/api/rsvp', routerRsvp);
