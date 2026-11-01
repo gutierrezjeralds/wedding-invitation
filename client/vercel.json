@@ -7,14 +7,6 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/theme",
-      "destination": "/api/index.js"
-    },
-    {
-      "source": "/rsvp",
-      "destination": "/api/index.js"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
