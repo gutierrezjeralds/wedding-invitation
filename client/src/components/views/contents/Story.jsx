@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Container,
@@ -22,8 +22,7 @@ import {
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
 import { CONTENT_STORY } from '../utils/Constants';
-
-import imgParallax from "../../assets/img/parallax/story.jpg";
+import { useMedia } from '../utils/MediaContext';
 
 // Reusable Polaroid Card Sub-Component
 function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} }) {
@@ -86,13 +85,23 @@ function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} })
 }
 
 export default function Story() {
-    const sCloudflareBaseUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/api/images";
+    const { getAsset, getGalleryAssets } = useMedia();
+
+    // Dynamic background assets from Media Context
+    const sPageBackgroundDesktop = getAsset('story', 'background', 'desktop');
+    const sPageBackgroundMobile = getAsset('story', 'background', 'mobile');
+    const sParallaxImg = getAsset('story', 'parallax');
+
+    // Highlights (using gallery under a specific identifier or general gallery)
+    const imgHighlights = getGalleryAssets('story', 'gallery', 'highlights');
+
+    // Gallery tab categories mapped from MongoDB categories
+    const imgGalleryTogether = getGalleryAssets('story', 'gallery', 'dating');
+    const imgGalleryProposal = getGalleryAssets('story', 'gallery', 'engagement');
+    const imgGalleryPrenup = getGalleryAssets('story', 'gallery', 'prenup');
+
     const [expanded, setExpanded] = useState('panel01');
     const [galleryTab, setGalleryTab] = useState(0);
-    const [imgHighlights, setImgHighlights] = useState([]);
-    const [imgGalleryTogether, setImgGalleryTogether] = useState([]);
-    const [imgGalleryProposal, setImgGalleryProposal] = useState([]);
-    const [imgGalleryPrenup, setImgGalleryPrenup] = useState([]);
     const [randomLayout, setRandomLayout] = useState(0);
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(0);
@@ -136,30 +145,6 @@ export default function Story() {
             prev === currentGallery.length - 1 ? 0 : prev + 1
         );
     };
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/story/highlights")
-        .then((res) => res.json())
-        .then(setImgHighlights);
-    }, []);
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/story/gallery/together")
-        .then((res) => res.json())
-        .then(setImgGalleryTogether);
-    }, []);
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/story/gallery/proposal")
-        .then((res) => res.json())
-        .then(setImgGalleryProposal);
-    }, []);
-
-    useEffect(() => {
-        fetch(sCloudflareBaseUrl + "/story/gallery/prenup")
-        .then((res) => res.json())
-        .then(setImgGalleryPrenup);
-    }, []);
 
     const highlightStyles = [
         {
@@ -206,7 +191,14 @@ export default function Story() {
 
     return (
         <React.Fragment>
-            <Box sx={{ bgcolor: 'background.default' }}>
+            <Box
+                className="page-background"
+                sx={{
+                    '--bg-desktop': `url(${sPageBackgroundDesktop})`,
+                    '--bg-mobile': `url(${sPageBackgroundMobile})`,
+                    backgroundColor: 'background.default',
+                }}
+            >
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
                     <PageTitle title={CONTENT_STORY.TITLE} subtitle={CONTENT_STORY.SUBTITLE} />
@@ -324,7 +316,7 @@ export default function Story() {
 
                                 return (
                                     <PolaroidCard
-                                        key={image.key || image.url || index}
+                                        key={image._id || image.url || index}
                                         src={image.url}
                                         alt={image.name || `Story Highlights ${index + 1}`}
                                         rotation={style.rotation}
@@ -362,7 +354,7 @@ export default function Story() {
             </Box>
 
             <ParallaxBanner
-                image={imgParallax}
+                image={sParallaxImg}
                 title={CONTENT_STORY.SECTION2_PARALLAX_TITLE}
                 subtitle={CONTENT_STORY.SECTION2_PARALLAX_SUBTITLE}
                 height="350px"
@@ -421,7 +413,6 @@ export default function Story() {
                                     height: 3,
                                     borderRadius: '3px 3px 0 0',
                                 },
-                                /* STYLED SCROLL BUTTONS */
                                 '& .MuiTabScrollButton-root': {
                                     width: 32,
                                     height: 32,
@@ -494,7 +485,7 @@ export default function Story() {
 
                                 return (
                                     <ImageListItem
-                                        key={item.key || item.url || index}
+                                        key={item._id || item.url || index}
                                         cols={layout.cols}
                                         rows={layout.rows}
                                         onClick={() => openLightbox(index)}
@@ -542,7 +533,7 @@ export default function Story() {
                                 color: 'text.secondary',
                             }}
                         >
-                            <Text variant="body1" textKey="Loading photos..." />
+                            <Text variant="body1" textKey="No photos uploaded for this chapter yet." />
                         </Box>
                     )}
 

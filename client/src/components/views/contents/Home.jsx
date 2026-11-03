@@ -5,13 +5,14 @@ import { FavoriteBorder, Favorite, Church, Groups, Checkroom, Send } from '@mui/
 import { Text, FavoriteDividerSmall, FavoriteDividerMediumn } from '../utils/CustomComponents';
 import Countdown from '../utils/Countdown';
 import { CONTENT, CONTENT_HOME } from '../utils/Constants';
-
-// Assets background
-const sCloudflareBaseDirectUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/images";
-const sBackgroundDekstop = sCloudflareBaseDirectUrl + "/background/desktop/home.png";
-const sBackgroundMobile = sCloudflareBaseDirectUrl + "/background/mobile/home.png";
+import { useMedia } from '../utils/MediaContext';
 
 export default function Home() {
+    // Mongoose Assets
+    const { getAsset } = useMedia();
+    const sPageBackgroundDesktop = getAsset('home', 'background', 'desktop');
+    const sPageBackgroundMobile = getAsset('home', 'background', 'mobile');
+    
     const Item = styled(Paper)(({ theme }) => ({
             backgroundColor: '#fff',
             ...theme.typography.body2,
@@ -28,8 +29,8 @@ export default function Home() {
             <Box
                 className="page-background"
                 sx={{
-                    '--bg-desktop': `url(${sBackgroundDekstop})`,
-                    '--bg-mobile': `url(${sBackgroundMobile})`,
+                    '--bg-desktop': `url(${sPageBackgroundDesktop})`,
+                    '--bg-mobile': `url(${sPageBackgroundMobile})`,
                     // Fallback background color if images fail to load or are empty
                     backgroundColor: '#faf8f5',
                 }}

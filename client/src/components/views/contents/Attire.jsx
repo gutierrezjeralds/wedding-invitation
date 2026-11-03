@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Container, Tabs, Tab, Paper, Stack, Grid, Card, CardMedia } from '@mui/material';
 import { FamilyRestroom, MilitaryTech, Groups, PeopleAlt } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import { CONTENT_ATTIRE } from '../utils/Constants';
+import { useMedia } from '../utils/MediaContext';
 
 // Import Swiper React components & required modules
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -13,7 +14,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-// Dynamically import all images from the 'dont' folder
+// Dynamically import all images from the 'dont' folder (kept as local static icons if needed)
 const imgDontModules = import.meta.glob('../../assets/img/attire/dont/*.{png,jpg,jpeg,webp}', {
     eager: true,
     import: 'default',
@@ -21,7 +22,7 @@ const imgDontModules = import.meta.glob('../../assets/img/attire/dont/*.{png,jpg
 
 // Convert module object into a sorted array of image URLs
 const imgDontAttireList = Object.keys(imgDontModules)
-    .sort() // Ensures order 1.png, 2.png, 3.png...
+    .sort()
     .map((key) => imgDontModules[key]);
 
 function TabPanel(props) {
@@ -41,20 +42,30 @@ function TabPanel(props) {
 }
 
 export default function Attire() {
-    const sCloudflareBaseUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/api/images";
+    const { getAsset, getGalleryAssets } = useMedia();
+
+    // Dynamic background assets from Media Context
+    const sPageBackgroundDesktop = getAsset('attire', 'background', 'desktop');
+    const sPageBackgroundMobile = getAsset('attire', 'background', 'mobile');
+
     const [tabValue, setTabValue] = useState(0);
-    const [imgGuestDress, setImgGuestDress] = useState([]);
-    const [imgGuestPalette, setImgGuestPalette] = useState([]);
-    const [imgSponsorsDress, setImgSponsorsDress] = useState([]);
-    const [imgSponsorsPalette, setImgSponsorsPalette] = useState([]);
-    const [imgEntourageDressAdult, setImgEntourageDressAdult] = useState([]);
-    const [imgEntourageDressChild, setImgEntourageDressChild] = useState([]);
-    const [imgParentsDress, setImgParentsDress] = useState([]);
-    const [imgParentsPalette, setImgParentsPalette] = useState([]);
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
     };
+
+    // Fetch dynamic assets from MongoDB via Media Context categorized by Attire sections
+    const imgGuestDress = getGalleryAssets('attire', 'gallery', 'guest');
+    const imgGuestPalette = getGalleryAssets('attire', 'palette', 'guest');
+
+    const imgSponsorsDress = getGalleryAssets('attire', 'gallery', 'sponsors');
+    const imgSponsorsPalette = getGalleryAssets('attire', 'palette', 'sponsors');
+
+    const imgEntourageDressAdult = getGalleryAssets('attire', 'gallery', 'entourage-adults');
+    const imgEntourageDressChild = getGalleryAssets('attire', 'gallery', 'entourage-childs');
+
+    const imgParentsDress = getGalleryAssets('attire', 'gallery', 'parents');
+    const imgParentsPalette = getGalleryAssets('attire', 'palette', 'parents');
 
     // Dynamically generated array based on folder contents & translations
     const imgDontAttire = imgDontAttireList.map((src, index) => {
@@ -68,35 +79,6 @@ export default function Attire() {
             subtitle: CONTENT_ATTIRE[sSubtitle],
         };
     });
-
-    // Helper to extract filename from URL and perform natural sorting
-    const sortByFilename = (dataArray) => {
-        if (!Array.isArray(dataArray)) return [];
-
-        return [...dataArray].sort((a, b) => {
-            const nameA = (a.url || a.name || '').split('/').pop();
-            const nameB = (b.url || b.name || '').split('/').pop();
-            return nameA.localeCompare(nameB, undefined, { numeric: true, sensitivity: 'base' });
-        });
-    };
-
-    useEffect(() => {
-        const fetchAndSort = (endpoint, setter) => {
-            fetch(`${sCloudflareBaseUrl}${endpoint}`)
-            .then((res) => res.json())
-            .then((data) => setter(sortByFilename(data)))
-            .catch((err) => console.error(`Error loading ${endpoint}:`, err));
-        };
-
-        fetchAndSort('/attire/guest/dress', setImgGuestDress);
-        fetchAndSort('/attire/guest/palette', setImgGuestPalette);
-        fetchAndSort('/attire/sponsors/dress', setImgSponsorsDress);
-        fetchAndSort('/attire/sponsors/palette', setImgSponsorsPalette);
-        fetchAndSort('/attire/entourage/dress/adult', setImgEntourageDressAdult);
-        fetchAndSort('/attire/entourage/dress/child', setImgEntourageDressChild);
-        fetchAndSort('/attire/parents/dress', setImgParentsDress);
-        fetchAndSort('/attire/parents/palette', setImgParentsPalette);
-    }, [sCloudflareBaseUrl]);
 
     // Reusable Swiper Component
     const renderSwiper = (dataList) => (
@@ -135,7 +117,7 @@ export default function Attire() {
                 autoplay={{ delay: 3500, disableOnInteraction: false }}
             >
                 {dataList.map((item, index) => (
-                    <SwiperSlide key={index}>
+                    <SwiperSlide key={item._id || index}>
                         <Card sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 4px 12px rgba(107, 29, 47, 0.06)' }}>
                             <CardMedia
                                 component="img"
@@ -154,7 +136,18 @@ export default function Attire() {
 
     return (
         <React.Fragment>
-            <Box sx={{ bgcolor: 'background.default' }}>
+            <Box 
+                sx={{ 
+                    bgcolor: 'background.default',
+                    backgroundImage: {
+                        xs: sPageBackgroundMobile ? `url(${sPageBackgroundMobile})` : 'none',
+                        md: sPageBackgroundDesktop ? `url(${sPageBackgroundDesktop})` : 'none',
+                    },
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                }}
+            >
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
                     <PageTitle title={CONTENT_ATTIRE.TITLE} subtitle={CONTENT_ATTIRE.SUBTITLE} />
@@ -260,7 +253,7 @@ export default function Attire() {
                                                 textKey={CONTENT_ATTIRE.TAB.PALETTE}
                                             />
                                             {imgGuestPalette.map((item, index) => (
-                                                <React.Fragment key={index}>
+                                                <React.Fragment key={item._id || index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
@@ -322,7 +315,7 @@ export default function Attire() {
                                                 textKey={CONTENT_ATTIRE.TAB.PALETTE}
                                             />
                                             {imgSponsorsPalette.map((item, index) => (
-                                                <React.Fragment key={index}>
+                                                <React.Fragment key={item._id || index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"
@@ -413,7 +406,7 @@ export default function Attire() {
                                                 textKey={CONTENT_ATTIRE.TAB.PALETTE}
                                             />
                                             {imgParentsPalette.map((item, index) => (
-                                                <React.Fragment key={index}>
+                                                <React.Fragment key={item._id || index}>
                                                     <Text
                                                         variant="caption"
                                                         className="text-center"

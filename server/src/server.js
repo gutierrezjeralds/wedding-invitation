@@ -2,9 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import routerGoogle from './routers/Google.js';
-import routerRsvp from './routers/Rsvp.js';
-import routeTheme from './routers/Theme.js';
-import dbConnect from './dbConn/Mongoose.js';
+import routerRsvp from './routers/mongoose/Rsvp.js';
+import routeTheme from './routers/mongoose/Theme.js';
+import routeMedia from './routers/mongoose/Media.js';
 
 dotenv.config();
 
@@ -18,6 +18,7 @@ app.use(express.json());
 app.use('/api/google', routerGoogle);
 app.use('/api/rsvp', routerRsvp);
 app.use('/api/theme', routeTheme);
+app.use('/api/media', routeMedia);
 
 app.get('/api', (req, res) => {
   res.json({ message: 'API is running' });

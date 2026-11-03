@@ -1,18 +1,18 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Container, Box, Divider, Link } from '@mui/material';
-import { Favorite } from '@mui/icons-material';
+import { Container, Box, Link } from '@mui/material';
 import { Text, FavoriteDividerSmall } from '../utils/CustomComponents';
 import GlobalButterflies from '../utils/GlobalButterfliesAnimation';
 import { CONTENT, CONTENT_ENVELOPE } from '../utils/Constants';
-
-// Assets background
-const sCloudflareBaseDirectUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/images";
-const sImgEnvelope = sCloudflareBaseDirectUrl + "/envelope/envelope.png";
-const sBackgroundDekstop = sCloudflareBaseDirectUrl + "/background/desktop/envelope.png";
-const sBackgroundMobile = sCloudflareBaseDirectUrl + "/background/mobile/envelope.png";
+import { useMedia } from '../utils/MediaContext';
 
 export default function Envelope() {
+    // Mongoose Assets
+    const { getAsset } = useMedia();
+    const sPageBackgroundDesktop = getAsset('envelope', 'background', 'desktop');
+    const sPageBackgroundMobile = getAsset('envelope', 'background', 'mobile');
+    const sPageEnvelope = getAsset('envelope', 'envelope');
+
     return (
         <React.Fragment>
             <GlobalButterflies primary="#d71128" secondary="#F8C8DC" />
@@ -20,8 +20,8 @@ export default function Envelope() {
             <Box
                 className="page-background"
                 sx={{
-                    '--bg-desktop': `url(${sBackgroundDekstop})`,
-                    '--bg-mobile': `url(${sBackgroundMobile})`,
+                    '--bg-desktop': `url(${sPageBackgroundDesktop})`,
+                    '--bg-mobile': `url(${sPageBackgroundMobile})`,
                     // Fallback background color if images fail to load or are empty
                     backgroundColor: '#faf8f5',
                 }}
@@ -66,7 +66,7 @@ export default function Envelope() {
                         <Link component={RouterLink} to="/cover">
                             <Box
                                 component="img"
-                                src={sImgEnvelope}
+                                src={sPageEnvelope}
                                 alt="Envelope"
                                 sx={{
                                     width: '100%',          // Responsive width

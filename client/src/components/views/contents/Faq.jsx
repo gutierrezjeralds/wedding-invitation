@@ -18,8 +18,14 @@ import {
 import { ExpandMore, Search, Clear, QuestionMark, ContactSupport, CheckCircle, ContentCopy } from '@mui/icons-material';
 import { Text } from '../utils/CustomComponents';
 import { CONTENT_FAQ } from '../utils/Constants';
+import { useMedia } from '../utils/MediaContext';
 
 export default function Faq() {
+    // Mongoose Assets
+    const { getAsset } = useMedia();
+    const sPageBackgroundDesktop = getAsset('faq', 'background', 'desktop');
+    const sPageBackgroundMobile = getAsset('faq', 'background', 'mobile');
+
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [expandedPanel, setExpandedPanel] = useState(false);
@@ -60,7 +66,14 @@ export default function Faq() {
 
     return (
         <React.Fragment>
-            <Box sx={{ bgcolor: 'background.default' }}>
+            <Box
+                className="page-background"
+                sx={{
+                    '--bg-desktop': `url(${sPageBackgroundDesktop})`,
+                    '--bg-mobile': `url(${sPageBackgroundMobile})`,
+                    backgroundColor: 'background.default',
+                }}
+            >
                 <Container maxWidth="lg" className="py-5">
                     {/* Header Banner */}
                     <Paper

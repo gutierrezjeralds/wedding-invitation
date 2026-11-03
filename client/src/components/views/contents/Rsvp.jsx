@@ -28,6 +28,7 @@ import {
 } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
+import { useMedia } from '../utils/MediaContext';
 
 // ============================================================
 // Constants & Options
@@ -68,6 +69,11 @@ const emptyGuest = {
 // ============================================================
 
 export default function RSVP() {
+  // Mongoose Assets
+  const { getAsset } = useMedia();
+  const sPageBackgroundDesktop = getAsset('home', 'background', 'desktop');
+  const sPageBackgroundMobile = getAsset('home', 'background', 'mobile');
+  
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -277,7 +283,15 @@ export default function RSVP() {
 
   return (
     <React.Fragment>
-      <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 4 }}>
+      <Box
+          className="page-background"
+          sx={{
+              '--bg-desktop': `url(${sPageBackgroundDesktop})`,
+              '--bg-mobile': `url(${sPageBackgroundMobile})`,
+              // Fallback background color if images fail to load or are empty
+              backgroundColor: '#faf8f5',
+          }}
+      >
         <Container maxWidth="lg" className="py-5">
           {/* Page Title */}
           <PageTitle

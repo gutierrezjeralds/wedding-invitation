@@ -1,6 +1,6 @@
 import express from 'express';
-import dbConnect from '../dbConn/Mongoose.js';
-import ThemeConfig from '../models/ThemeSchema.js';
+import dbConnect from '../../dbConn/Mongoose.js';
+import ThemeConfig from '../../models/mongoose/ThemeSchema.js';
 
 const router = express.Router();
 

@@ -7,11 +7,7 @@ import {
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ViewMapModal from './modals/ViewMap';
 import { CONTENT, CONTENT_WEDDING } from '../utils/Constants';
-
-// Assets background
-const sCloudflareBaseDirectUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/images";
-const sBackgroundDekstop = sCloudflareBaseDirectUrl + "/background/desktop/wedding.png";
-const sBackgroundMobile = sCloudflareBaseDirectUrl + "/background/mobile/wedding.png";
+import { useMedia } from '../utils/MediaContext';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -30,6 +26,11 @@ function TabPanel(props) {
 }
 
 export default function Wedding() {
+    // Mongoose Assets
+    const { getAsset } = useMedia();
+    const sPageBackgroundDesktop = getAsset('wedding', 'background', 'desktop');
+    const sPageBackgroundMobile = getAsset('wedding', 'background', 'mobile');
+    
     const [tabValue, setTabValue] = useState(0);
 
     const handleTabChange = (event, newValue) => {
@@ -51,8 +52,8 @@ export default function Wedding() {
             <Box
                 className="page-background"
                 sx={{
-                    '--bg-desktop': `url(${sBackgroundDekstop})`,
-                    '--bg-mobile': `url(${sBackgroundMobile})`,
+                    '--bg-desktop': `url(${sPageBackgroundDesktop})`,
+                    '--bg-mobile': `url(${sPageBackgroundMobile})`,
                     backgroundColor: 'background.default',
                 }}
             >

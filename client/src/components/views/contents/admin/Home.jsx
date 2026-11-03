@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
-import { PeopleAlt, Palette } from '@mui/icons-material';
+import { PeopleAlt, Palette, Backup } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { PageTitle } from '../../utils/CustomComponents';
 
@@ -8,19 +8,52 @@ export default function AdminHome() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ py: 2, px: 2 }}>
+    <Box sx={{ py: 2, px: 2, maxWidth: 1200, mx: 'auto' }}>
       <PageTitle
         title="Welcome to Admin Dashboard"
-        subtitle="Manage website aesthetics, view real-time RSVP analytics, and export guest check-in sheets."
+        subtitle="Manage website assets, dynamic colors, view real-time RSVP analytics, and export guest check-in sheets."
       />
 
-      <Grid container spacing={3} sx={{ mt: 3, justifyContent: 'center' }}>
-        <Grid item xs={12} sm={6} md={5}>
+      <Grid container spacing={3} sx={{ mt: 3 }}>
+        {/* Media & Asset Manager Card */}
+        <Grid item class="w-100">
+          <Card
+            elevation={0}
+            onClick={() => navigate('/admin/media')}
+            sx={{
+              p: 2,
+              height: '100%',
+              border: '1px solid rgba(107, 29, 47, 0.15)',
+              borderRadius: 3,
+              cursor: 'pointer',
+              bgcolor: 'background.paper',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 24px rgba(107, 29, 47, 0.12)',
+              },
+            }}
+          >
+            <CardContent>
+              <Backup sx={{ fontSize: 44, color: 'primary.main', mb: 2 }} />
+              <Typography variant="h6" sx={{ color: 'secondary.main', fontWeight: 700, mb: 1 }}>
+                Media & Asset Manager
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                Upload, optimize, and organize site backgrounds, banners, story tabs, attire inspiration slides, and color palettes.
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* RSVP Summary Report Card */}
+        <Grid item class="w-100">
           <Card
             elevation={0}
             onClick={() => navigate('/admin/rsvp')}
             sx={{
               p: 2,
+              height: '100%',
               border: '1px solid rgba(107, 29, 47, 0.15)',
               borderRadius: 3,
               cursor: 'pointer',
@@ -44,12 +77,14 @@ export default function AdminHome() {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={5}>
+        {/* Theme & Typography Settings Card */}
+        <Grid item class="w-100">
           <Card
             elevation={0}
             onClick={() => navigate('/admin/theme')}
             sx={{
               p: 2,
+              height: '100%',
               border: '1px solid rgba(107, 29, 47, 0.15)',
               borderRadius: 3,
               cursor: 'pointer',

@@ -1,24 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { Container, Box, Stack, Card, CardMedia } from '@mui/material';
 import { Text } from '../utils/CustomComponents';
-import { CONTENT_PROPOSAL, CONTENT_ATTIRE, CONTENT } from '../utils/Constants';
+import { CONTENT_PROPOSAL, CONTENT } from '../utils/Constants';
+import { useMedia } from '../utils/MediaContext';
 
 // Assets
 import imgChurch from "../../assets/img/proposal/church.png";
 import imgTitleName from "../../assets/img/proposal/title_name.png";
 import imgFooter from "../../assets/img/proposal/footer.png";
-
-// Assets background
-const sCloudflareBaseDirectUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/images";
-const sBackgroundDekstop1 = sCloudflareBaseDirectUrl + "/background/desktop/proposal-1.png";
-const sBackgroundMobile1 = sCloudflareBaseDirectUrl + "/background/mobile/proposal-1.png";
-const sBackgroundDekstop2 = sCloudflareBaseDirectUrl + "/background/desktop/proposal-2.png";
-const sBackgroundMobile2 = sCloudflareBaseDirectUrl + "/background/mobile/proposal-2.png";
-const sBackgroundDekstop3 = sCloudflareBaseDirectUrl + "/background/desktop/proposal-3.png";
-const sBackgroundMobile3 = sCloudflareBaseDirectUrl + "/background/mobile/proposal-3.png";
-const sBackgroundDekstop4 = sCloudflareBaseDirectUrl + "/background/desktop/proposal-4.png";
-const sBackgroundMobile4 = sCloudflareBaseDirectUrl + "/background/mobile/proposal-4.png";
 
 // Import Swiper React components & required modules
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -28,12 +18,26 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { m } from 'framer-motion';
 
-export default function Gift() {
+export default function Proposal() {
     const { sId, sName } = useParams();
     const _sName = sName?.toLowerCase();
     const _sId = sId?.toUpperCase();
+    const { getAsset, getGalleryAssets } = useMedia();
+
+    // Section Backgrounds dynamically retrieved from MongoDB via composite categories
+    const sBackgroundDesktop1 = getAsset('proposal', 'background', 'section1-desktop');
+    const sBackgroundMobile1 = getAsset('proposal', 'background', 'section1-mobile');
+
+    const sBackgroundDesktop2 = getAsset('proposal', 'background', 'section2-desktop');
+    const sBackgroundMobile2 = getAsset('proposal', 'background', 'section2-mobile');
+
+    const sBackgroundDesktop3 = getAsset('proposal', 'background', 'section3-desktop');
+    const sBackgroundMobile3 = getAsset('proposal', 'background', 'section3-mobile');
+
+    const sBackgroundDesktop4 = getAsset('proposal', 'background', 'section4-desktop');
+    const sBackgroundMobile4 = getAsset('proposal', 'background', 'section4-mobile');
+
     let oLetter = null;
     let oText = [];
 
@@ -48,52 +52,37 @@ export default function Gift() {
     }
 
     if (oLetter) {
-        const sCloudflareBaseUrl = "https://wedding-images-api.jeraldandsheila.workers.dev/api/images";
-        const [imgAttireDress, setImgAttireDress] = useState([]);
-        const [imgAttirePalette, setImgAttirePalette] = useState([]);
+        const sIds = (sId?.toLowerCase()).split("-");
+        const sIdLower = sIds[0];
+        const sIdSubLower = sIds[1];
 
-        useEffect(() => {
-            const fetchAndSort = (endpoint, setter) => {
-                fetch(`${sCloudflareBaseUrl}${endpoint}`)
-                    .then((res) => res.json())
-                    .then((data) => setter(data))
-                    .catch((err) => console.error(`Error loading ${endpoint}:`, err));
-            };
+        let imgAttireDress = [];
+        let imgAttirePalette = [];
 
-            const sIds = (sId?.toLowerCase()).split("-");
-            const sIdLower = sIds[0];
-            const sIdSubLower = sIds[1];
-
-            if (sIdLower === "principal" || sIdLower === "secondary") {
-                fetchAndSort('/attire/sponsors/dress', setImgAttireDress);
-                fetchAndSort('/attire/sponsors/palette', setImgAttirePalette);
+        // Pull attire dresses & palettes dynamically from MediaContext
+        if (sIdLower === "principal" || sIdLower === "secondary") {
+            imgAttireDress = getGalleryAssets('attire', 'gallery', 'principal');
+            imgAttirePalette = getGalleryAssets('attire', 'palette', 'principal');
+        } else if (sIdLower === "entourage") {
+            if (sIdSubLower === "bridemaids" || sIdSubLower === "groomsmen") {
+                imgAttireDress = getGalleryAssets('attire', 'gallery', 'entourage');
+            } else {
+                imgAttireDress = getGalleryAssets('attire', 'gallery', 'parents');
             }
-
-            if (sIdLower === "entourage") {
-                if (sIdSubLower === "bridemaids" || sIdSubLower === "groomsmen") {
-                    fetchAndSort('/attire/entourage/dress/adult', setImgAttireDress);
-                } else {
-                    fetchAndSort('/attire/entourage/dress/child', setImgAttireDress);
-                }
-
-                fetchAndSort('/attire/entourage/palette', setImgAttirePalette);
-            }
-
-            if (sIdLower === "parents") {
-                fetchAndSort('/attire/parents/dress', setImgAttireDress);
-                fetchAndSort('/attire/parents/palette', setImgAttirePalette);
-            }
-        }, [sId, sCloudflareBaseUrl]);
+            imgAttirePalette = getGalleryAssets('attire', 'palette', 'guest');
+        } else if (sIdLower === "parents") {
+            imgAttireDress = getGalleryAssets('attire', 'gallery', 'parents');
+            imgAttirePalette = getGalleryAssets('attire', 'palette', 'parents');
+        }
 
         return (
             <React.Fragment>
-                {/* Proposal Greetings Section */}
+                {/* Proposal Greetings Section (Section 1) */}
                 <Box
                     className="page-background"
                     sx={{
-                        '--bg-desktop': `url(${sBackgroundDekstop1})`,
-                        '--bg-mobile': `url(${sBackgroundMobile1})`,
-                        // Fallback background color if images fail to load or are empty
+                        '--bg-desktop': sBackgroundDesktop1 ? `url(${sBackgroundDesktop1})` : 'none',
+                        '--bg-mobile': sBackgroundMobile1 ? `url(${sBackgroundMobile1})` : 'none',
                         backgroundColor: '#faf8f5',
                     }}
                 >
@@ -111,7 +100,7 @@ export default function Gift() {
                                         display: 'block',
                                         borderRadius: 2,
                                         filter: 'drop-shadow(0px 8px 20px rgba(0,0,0,0.08))',
-                                        mb: {xs: 15, sm: 7}
+                                        mb: { xs: 15, sm: 7 }
                                     }}
                                 />
                             </Box>
@@ -130,13 +119,12 @@ export default function Gift() {
                     </Container>
                 </Box>
 
-                {/* Proposal Message Section */}
+                {/* Proposal Message Section (Section 2) */}
                 <Box
                     className="page-background"
                     sx={{
-                        '--bg-desktop': `url(${sBackgroundDekstop2})`,
-                        '--bg-mobile': `url(${sBackgroundMobile2})`,
-                        // Fallback background color if images fail to load or are empty
+                        '--bg-desktop': sBackgroundDesktop2 ? `url(${sBackgroundDesktop2})` : 'none',
+                        '--bg-mobile': sBackgroundMobile2 ? `url(${sBackgroundMobile2})` : 'none',
                         backgroundColor: '#faf8f5',
                     }}
                 >
@@ -148,7 +136,7 @@ export default function Gift() {
                             />
                             <Text
                                 className="my-4 cormorant-garamond-regular fs-6"
-                                sx={{pb: {xs: 0, sm: 5}}}
+                                sx={{ pb: { xs: 0, sm: 5 } }}
                                 textKey={oLetter.MESSAGE}
                             />
                             <Text
@@ -169,7 +157,6 @@ export default function Gift() {
                 <Box className="background-wedding-soft">
                     <Container maxWidth="lg" className="py-5">
                         <Box>
-                            {/* CSS GRID: 2 equal columns on desktop, 1 column on mobile */}
                             <Box
                                 sx={{
                                     display: 'grid',
@@ -178,7 +165,7 @@ export default function Gift() {
                                 }}
                                 className="mt-3"
                             >
-                                {/* COLUMN 1: LEFT SIDE (Swiper Carousel) */}
+                                {/* LEFT SIDE: Swiper Carousel */}
                                 <Box
                                     sx={{
                                         width: '100%',
@@ -225,7 +212,7 @@ export default function Gift() {
                                         autoplay={{ delay: 3500, disableOnInteraction: false }}
                                     >
                                         {imgAttireDress.map((item, index) => (
-                                            <SwiperSlide key={index}>
+                                            <SwiperSlide key={item._id || index}>
                                                 <Card sx={{ borderRadius: 3, overflow: 'hidden', bgcolor: 'transparent !important', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
                                                     <CardMedia
                                                         component="img"
@@ -241,7 +228,7 @@ export default function Gift() {
                                     </Swiper>
                                 </Box>
 
-                                {/* COLUMN 2: RIGHT SIDE (Palette & Details) */}
+                                {/* RIGHT SIDE: Palette & Details */}
                                 <Box>
                                     <Text
                                         className="mb-3 fs-8 cormorant-garamond-regular"
@@ -249,7 +236,7 @@ export default function Gift() {
                                     />
                                     <Stack spacing={2}>
                                         {imgAttirePalette.map((item, index) => (
-                                            <React.Fragment key={index}>
+                                            <React.Fragment key={item._id || index}>
                                                 <Box className="d-flex flex-row justify-content-center align-items-center">
                                                     <Box
                                                         component="img"
@@ -273,13 +260,12 @@ export default function Gift() {
                     </Container>
                 </Box>
 
-                {/* Event Schedule & Venue Details (2-Column Layout) */}
+                {/* Event Schedule & Venue Details (Section 3) */}
                 <Box
                     className="page-background"
                     sx={{
-                        '--bg-desktop': `url(${sBackgroundDekstop3})`,
-                        '--bg-mobile': `url(${sBackgroundMobile3})`,
-                        // Fallback background color if images fail to load or are empty
+                        '--bg-desktop': sBackgroundDesktop3 ? `url(${sBackgroundDesktop3})` : 'none',
+                        '--bg-mobile': sBackgroundMobile3 ? `url(${sBackgroundMobile3})` : 'none',
                         backgroundColor: '#faf8f5',
                     }}
                 >
@@ -297,7 +283,7 @@ export default function Gift() {
                                 <Box
                                     component="img"
                                     src={imgChurch}
-                                    alt="St. Augustine Parish Church Illustration"
+                                    alt="Parish Church Illustration"
                                     sx={{
                                         width: '100%',
                                         maxWidth: 450,
@@ -309,7 +295,7 @@ export default function Gift() {
                                 />
                             </Box>
 
-                            {/* COLUMN 2: VENUE & SCHEDULE TEXT DETAILS */}
+                            {/* COLUMN 2: VENUE & SCHEDULE DETAILS */}
                             <Box className="text-center">
                                 <Text
                                     variant="caption"
@@ -371,13 +357,13 @@ export default function Gift() {
                         </Box>
                     </Container>
                 </Box>
-                {/* Proposal footer section */}
+
+                {/* Proposal Footer Section (Section 4) */}
                 <Box
                     className="page-background"
                     sx={{
-                        '--bg-desktop': `url(${sBackgroundDekstop4})`,
-                        '--bg-mobile': `url(${sBackgroundMobile4})`,
-                        // Fallback background color if images fail to load or are empty
+                        '--bg-desktop': sBackgroundDesktop4 ? `url(${sBackgroundDesktop4})` : 'none',
+                        '--bg-mobile': sBackgroundMobile4 ? `url(${sBackgroundMobile4})` : 'none',
                         backgroundColor: '#faf8f5',
                     }}
                 >
@@ -395,7 +381,7 @@ export default function Gift() {
                                         display: 'block',
                                         borderRadius: 2,
                                         filter: 'drop-shadow(0px 8px 20px rgba(0,0,0,0.08))',
-                                        mb: {xs: 15, sm: 7}
+                                        mb: { xs: 15, sm: 7 }
                                     }}
                                 />
                             </Box>
@@ -418,7 +404,6 @@ export default function Gift() {
             </React.Fragment>
         );
     } else {
-        // return <Navigate to="/" replace />;
-        return ("");
+        return <Navigate to="/" replace />;
     }
 }

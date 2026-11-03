@@ -4,6 +4,7 @@ import { Box, Typography } from '@mui/material';
 import { Text } from '../utils/CustomComponents';
 import { CONTENT } from '../utils/Constants';
 import { motion } from 'framer-motion';
+import { useMedia } from '../utils/MediaContext';
 
 // --- Sparkling 4-Point Star Component ---
 function SparklingStar({ color, size }) {
@@ -134,9 +135,8 @@ function SwarmButterflyItem({ delay, startX, startY, endX, endY, scale, flapSpee
 }
 
 // --- ELEGANT SEQUENCED DIGIT COMPONENT ---
-// Sequence order: Index 0, 1, 2 for '0', '1', '2' -> Index 3, 4, 5 for '7', '7', '7'
 function ElegantSequenceDigit({ digit, sequenceIndex, isSevenColumn }) {
-    const animDelay = sequenceIndex * 0.32; // Graceful 320ms rhythmic pace
+    const animDelay = sequenceIndex * 0.32;
 
     return (
         <motion.span
@@ -161,7 +161,7 @@ function ElegantSequenceDigit({ digit, sequenceIndex, isSevenColumn }) {
             transition={{
                 duration: 0.95,
                 delay: animDelay,
-                ease: [0.16, 1, 0.3, 1], // Ultra-smooth luxury deceleration curve
+                ease: [0.16, 1, 0.3, 1],
             }}
             style={{
                 display: 'inline-block',
@@ -174,6 +174,9 @@ function ElegantSequenceDigit({ digit, sequenceIndex, isSevenColumn }) {
 }
 
 export default function CurtainIntro() {
+    const { getAsset } = useMedia();
+    const sPageBackground = getAsset('cover', 'background');
+
     const navigate = useNavigate();
     const [isOpening, setIsOpening] = useState(false);
 
@@ -205,7 +208,6 @@ export default function CurtainIntro() {
     }, []);
 
     useEffect(() => {
-        // Allows full completion of 0 -> 1 -> 2 -> 7 -> 7 -> 7 sequence before curtain pulls
         const openTimer = setTimeout(() => {
             setIsOpening(true);
         }, 3000);
@@ -243,7 +245,6 @@ export default function CurtainIntro() {
                     overflow: 'hidden',
                 }}
             >
-                {/* Majestic Pulsing Champagne & Wine Red Aura */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ 
@@ -261,7 +262,6 @@ export default function CurtainIntro() {
                     }}
                 />
 
-                {/* Sparkling 4-Point Stars */}
                 {Array.from({ length: 42 }).map((_, i) => {
                     const particleColors = ['#FAF5ED', '#D8A7B1', '#6B1D2F', '#D4AF37', '#FFFFFF'];
                     const color = particleColors[i % particleColors.length];
@@ -364,10 +364,10 @@ export default function CurtainIntro() {
                         width: '100vw',
                         height: '100vh',
                         position: 'relative',
-                        bgcolor: '#111111',
+                        bgcolor: '#121914',
                     }}
                 >
-                    <CoverContent isOpening={isOpening} />
+                    <CoverContent isOpening={isOpening} sPageBackground={sPageBackground} side="left" />
                 </Box>
             </motion.div>
 
@@ -396,27 +396,28 @@ export default function CurtainIntro() {
                         height: '100vh',
                         position: 'relative',
                         left: '-50vw',
-                        bgcolor: '#111111',
+                        bgcolor: '#121914',
                     }}
                 >
-                    <CoverContent isOpening={isOpening} />
+                    <CoverContent isOpening={isOpening} sPageBackground={sPageBackground} side="right" />
                 </Box>
             </motion.div>
         </Box>
     );
 }
 
-// Full Magazine Cover (Refined Editorial Sequence: 0 -> 1 -> 2 then 7 -> 7 -> 7)
-function CoverContent({ isOpening }) {
+// Full Magazine Cover with proper full-screen background alignment across panels
+function CoverContent({ isOpening, sPageBackground }) {
     return (
         <Box
             sx={{
-                width: '100%',
-                height: '100%',
+                width: '100vw',
+                height: '100vh',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'relative',
+                bgcolor: '#121914',
             }}
         >
             {/* Background Editorial Image */}
@@ -426,17 +427,17 @@ function CoverContent({ isOpening }) {
                 style={{
                     position: 'absolute',
                     inset: 0,
-                    width: '100%',
-                    height: '100%',
+                    width: '100vw',
+                    height: '100vh',
                 }}
             >
                 <Box
                     component="img"
-                    src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80"
+                    src={sPageBackground}
                     alt="Wedding Editorial Cover"
                     sx={{
-                        width: '100%',
-                        height: '100%',
+                        width: '100vw',
+                        height: '100vh',
                         objectFit: 'cover',
                         filter: 'grayscale(50%) contrast(110%) brightness(80%)',
                     }}
@@ -448,6 +449,8 @@ function CoverContent({ isOpening }) {
                 sx={{
                     position: 'absolute',
                     inset: 0,
+                    width: '100vw',
+                    height: '100vh',
                     background:
                         'radial-gradient(circle at 50% 50%, rgba(107, 29, 47, 0.25) 0%, rgba(0, 0, 0, 0.70) 80%)',
                     mixBlendMode: 'multiply',
@@ -457,10 +460,13 @@ function CoverContent({ isOpening }) {
             {/* Stacked 07 / 17 / 27 Typography */}
             <Box
                 sx={{
-                    position: 'relative',
+                    position: 'absolute',
+                    left: '50vw',
+                    transform: 'translateX(-50%)',
                     zIndex: 1,
                     textAlign: 'center',
                     userSelect: 'none',
+                    width: '100vw',
                 }}
             >
                 {/* FIRST LINE: 07 */}
@@ -476,9 +482,7 @@ function CoverContent({ isOpening }) {
                         letterSpacing: '-0.02em',
                     }}
                 >
-                    {/* Sequence 1: '0' */}
                     <ElegantSequenceDigit digit="0" sequenceIndex={0} isSevenColumn={false} />
-                    {/* Sequence 4: First '7' */}
                     <ElegantSequenceDigit digit="7" sequenceIndex={3} isSevenColumn={true} />
                 </Typography>
 
@@ -496,9 +500,7 @@ function CoverContent({ isOpening }) {
                         my: { xs: -1, sm: -2 },
                     }}
                 >
-                    {/* Sequence 2: '1' */}
                     <ElegantSequenceDigit digit="1" sequenceIndex={1} isSevenColumn={false} />
-                    {/* Sequence 5: Second '7' */}
                     <ElegantSequenceDigit digit="7" sequenceIndex={4} isSevenColumn={true} />
                 </Typography>
 
@@ -515,9 +517,7 @@ function CoverContent({ isOpening }) {
                         letterSpacing: '-0.02em',
                     }}
                 >
-                    {/* Sequence 3: '2' */}
                     <ElegantSequenceDigit digit="2" sequenceIndex={2} isSevenColumn={false} />
-                    {/* Sequence 6: Third '7' */}
                     <ElegantSequenceDigit digit="7" sequenceIndex={5} isSevenColumn={true} />
                 </Typography>
 

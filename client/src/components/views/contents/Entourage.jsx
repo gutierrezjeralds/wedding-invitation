@@ -5,10 +5,15 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
 import { CONTENT_ENTOURAGE } from '../utils/Constants';
-
-import imgParallax from "../../assets/img/parallax/entourage.jpg";
+import { useMedia } from '../utils/MediaContext';
 
 export default function Entourage() {
+    // Dynamic background assets from Media Context
+    const { getAsset } = useMedia();
+    const sPageBackgroundDesktop = getAsset('entourage', 'background', 'desktop');
+    const sPageBackgroundMobile = getAsset('entourage', 'background', 'mobile');
+    const sParallaxImg = getAsset('entourage', 'parallax');
+
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.background.paper,
         ...theme.typography.body2,
@@ -22,7 +27,14 @@ export default function Entourage() {
 
     return (
         <React.Fragment>
-            <Box sx={{ bgcolor: 'background.default' }}>
+            <Box
+                className="page-background"
+                sx={{
+                    '--bg-desktop': `url(${sPageBackgroundDesktop})`,
+                    '--bg-mobile': `url(${sPageBackgroundMobile})`,
+                    backgroundColor: 'background.default',
+                }}
+            >
                 <Container maxWidth="lg" className="py-5">
                     {/* Page Title */}
                     <PageTitle title={CONTENT_ENTOURAGE.TITLE} subtitle={CONTENT_ENTOURAGE.SUBTITLE} />
@@ -303,7 +315,7 @@ export default function Entourage() {
                 </Container>
 
                 <ParallaxBanner
-                    image={imgParallax}
+                    image={sParallaxImg}
                     title={CONTENT_ENTOURAGE.PARALLAX_TITLE}
                     subtitle={CONTENT_ENTOURAGE.PARALLAX_SUBTITLE}
                     height="350px"
