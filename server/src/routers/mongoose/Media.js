@@ -6,6 +6,21 @@ import Media from '../../models/mongoose/MediaSchema.js';
 
 const router = express.Router();
 
+// Ensure MongoDB is connected before processing media requests
+router.use(async (req, res, next) => {
+  try {
+    await dbConnect();
+    next();
+  } catch (error) {
+    console.error('Media MongoDB Connection Error:', error);
+
+    return res.status(503).json({
+      success: false,
+      message: 'Database connection failed',
+    });
+  }
+});
+
 // Configure multer to keep files temporarily in memory buffer
 const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 }, // Allow up to 10MB raw uploads from admin

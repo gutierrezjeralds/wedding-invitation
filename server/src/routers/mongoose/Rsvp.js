@@ -4,11 +4,24 @@ import RSVP from '../../models/mongoose/RsvpSchema.js';
 
 const router = express.Router();
 
+// Ensure MongoDB is connected before processing media requests
+router.use(async (req, res, next) => {
+  try {
+    await dbConnect();
+    next();
+  } catch (error) {
+    console.error('Media MongoDB Connection Error:', error);
+
+    return res.status(503).json({
+      success: false,
+      message: 'Database connection failed',
+    });
+  }
+});
+
 // POST: Save RSVP
 router.post('/', async (req, res) => {
   try {
-    await dbConnect(); // Ensure connection is active
-
     const { primaryGuest, additionalGuests } = req.body;
 
     const newRsvp = new RSVP({
@@ -35,7 +48,6 @@ router.post('/', async (req, res) => {
 // GET: Fetch all RSVPs (for Admin table & graphs)
 router.get('/', async (req, res) => {
   try {
-    await dbConnect();
     const rsvps = await RSVP.find({}).sort({ createdAt: -1 });
     return res.status(200).json({ success: true, data: rsvps });
   } catch (error) {
