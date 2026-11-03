@@ -24,9 +24,14 @@ import {
   TableHead,
   TableRow,
   useMediaQuery,
-  useTheme
+  useTheme,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
-import { Add, Delete } from '@mui/icons-material';
+import { Add, Delete, ChildCare } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import { useMedia } from '../utils/MediaContext';
 
@@ -38,7 +43,7 @@ const ROLE_OPTIONS = [
   'Principal Sponsors',
   'Secondary Sponsors',
   'Entourage',
-  'Parents of Bride or Groom',
+  'Parents',
   'Guest',
 ];
 
@@ -93,6 +98,9 @@ export default function RSVP() {
   const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Age Notice Dialog State
+  const [ageWarningOpen, setAgeWarningOpen] = useState(false);
+
   // ==========================================================
   // Change Handlers
   // ==========================================================
@@ -141,6 +149,14 @@ export default function RSVP() {
     setSubmitError('');
   };
 
+  // Trigger popup when focus leaves the Age input field
+  const handleAgeBlur = (ageValue) => {
+    const ageNum = Number(ageValue);
+    if (ageValue !== '' && ageNum > 0 && ageNum < 15) {
+      setAgeWarningOpen(true);
+    }
+  };
+
   const addAdditionalGuest = () => {
     setAdditionalGuests((prev) => [
       ...prev,
@@ -170,8 +186,11 @@ export default function RSVP() {
 
     if (!parentGuest.age) {
       newErrors.age = 'Age is required.';
-    } else if (Number(parentGuest.age) < 15 || Number(parentGuest.age) > 120) {
-      newErrors.age = 'Please enter a valid age.';
+    } else {
+      const ageNum = Number(parentGuest.age);
+      if (ageNum < 1 || ageNum > 120) {
+        newErrors.age = 'Please enter a valid age.';
+      }
     }
 
     if (!parentGuest.contactNumber.trim()) {
@@ -194,8 +213,11 @@ export default function RSVP() {
         if (!guest.lastName.trim()) newErrors[`guest_${index}_lastName`] = 'Required.';
         if (!guest.age) {
           newErrors[`guest_${index}_age`] = 'Required.';
-        } else if (Number(guest.age) < 15 || Number(guest.age) > 120) {
-          newErrors[`guest_${index}_age`] = 'Invalid.';
+        } else {
+          const subAgeNum = Number(guest.age);
+          if (subAgeNum < 1 || subAgeNum > 120) {
+            newErrors[`guest_${index}_age`] = 'Invalid.';
+          }
         }
         if (!guest.roleOnWedding) newErrors[`guest_${index}_roleOnWedding`] = 'Required.';
         if (!guest.connectedTo) newErrors[`guest_${index}_connectedTo`] = 'Required.';
@@ -288,7 +310,6 @@ export default function RSVP() {
           sx={{
               '--bg-desktop': `url(${sPageBackgroundDesktop})`,
               '--bg-mobile': `url(${sPageBackgroundMobile})`,
-              // Fallback background color if images fail to load or are empty
               backgroundColor: '#faf8f5',
           }}
       >
@@ -396,11 +417,10 @@ export default function RSVP() {
                 {/* Middle Name */}
                 <TextField
                   fullWidth
-                  label="Middle Name"
+                  label="Middle Name (Optional)"
                   name="middleName"
                   value={parentGuest.middleName}
                   onChange={handleParentChange}
-                  helperText="Optional"
                   sx={fieldSx}
                 />
 
@@ -417,16 +437,24 @@ export default function RSVP() {
                   sx={fieldSx}
                 />
 
-                {/* Age */}
+                {/* Age with onBlur Check */}
                 <TextField
                   fullWidth
                   label="Age"
                   name="age"
+                  type="text"
                   value={parentGuest.age}
                   onChange={handleParentChange}
+                  onBlur={() => handleAgeBlur(parentGuest.age)}
+                  onKeyPress={(e) => {
+                    // Allow only numeric digits (0-9), backspace, tab, delete, arrow keys
+                    if (!/[0-9]/.test(e.key) && !['Backspace', 'Tab', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                   error={Boolean(errors.age)}
                   helperText={errors.age}
-                  inputProps={{ min: 15, max: 100 }}
+                  inputProps={{ maxLength: 3, inputMode: 'numeric', pattern: '[0-9]*' }}
                   required
                   sx={fieldSx}
                 />
@@ -439,7 +467,7 @@ export default function RSVP() {
                   value={parentGuest.contactNumber}
                   onChange={handleParentChange}
                   error={Boolean(errors.contactNumber)}
-                  helperText={errors.contactNumber || 'Example: 09171234567'}
+                  helperText={errors.contactNumber}
                   placeholder="09XXXXXXXXX"
                   inputProps={{ inputMode: 'tel' }}
                   required
@@ -676,10 +704,19 @@ export default function RSVP() {
                                 fullWidth
                                 size="small"
                                 name="age"
+                                type="text"
                                 value={guest.age}
                                 onChange={(event) => handleAdditionalGuestChange(index, event)}
+                                onBlur={() => handleAgeBlur(guest.age)}
+                                onKeyPress={(e) => {
+                                  if (!/[0-9]/.test(e.key) && !['Backspace', 'Tab', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                                 error={Boolean(errors[`guest_${index}_age`])}
-                                inputProps={{ min: 15, max: 100 }}
+                                helperText={errors[`guest_${index}_age`]}
+                                inputProps={{ maxLength: 3, inputMode: 'numeric', pattern: '[0-9]*' }}
+                                required
                                 sx={fieldSx}
                               />
                             </TableCell>
@@ -836,11 +873,10 @@ export default function RSVP() {
                           {/* Middle Name */}
                           <TextField
                             fullWidth
-                            label="Middle Name"
+                            label="Middle Name (Optional)"
                             name="middleName"
                             value={guest.middleName}
                             onChange={(event) => handleAdditionalGuestChange(index, event)}
-                            helperText="Optional"
                             sx={fieldSx}
                           />
 
@@ -857,16 +893,18 @@ export default function RSVP() {
                             sx={fieldSx}
                           />
 
-                          {/* Age */}
+                          {/* Age with onBlur Check */}
                           <TextField
                             fullWidth
                             label="Age"
                             name="age"
+                            type="number"
                             value={guest.age}
                             onChange={(event) => handleAdditionalGuestChange(index, event)}
+                            onBlur={() => handleAgeBlur(guest.age)}
                             error={Boolean(errors[`guest_${index}_age`])}
                             helperText={errors[`guest_${index}_age`]}
-                            inputProps={{ min: 15, max: 100 }}
+                            inputProps={{ min: 1, max: 120 }}
                             required
                             sx={fieldSx}
                           />
@@ -1055,6 +1093,54 @@ export default function RSVP() {
           </Box>
         </Container>
       </Box>
+
+      {/* AGE SEATING POLICY POPUP DIALOG */}
+      <Dialog
+        open={ageWarningOpen}
+        onClose={() => setAgeWarningOpen(false)}
+        aria-labelledby="age-policy-dialog-title"
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            p: 1.5,
+            border: '1px solid rgba(107, 29, 47, 0.15)',
+            boxShadow: '0 12px 32px rgba(107, 29, 47, 0.15)',
+          },
+        }}
+      >
+        <DialogTitle id="age-policy-dialog-title" sx={{ display: 'flex', alignItems: 'center', gap: 1.5, color: 'primary.main' }}>
+          <ChildCare sx={{ fontSize: 32 }} />
+          <Typography variant="h6" component="span" sx={{ fontWeight: 700, fontFamily: '"Cormorant Garamond", serif', fontSize: '1.4rem' }}>
+            Guest Age Policy Notice
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ color: 'text.primary', fontSize: '0.975rem', lineHeight: 1.65 }}>
+            We love children, but due to limited seating, guests should be 15 years old and above. Younger guests may attend if they are part of the wedding entourage or are close family of the bride and groom, with prior approval from us.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button
+            onClick={() => setAgeWarningOpen(false)}
+            variant="contained"
+            sx={{
+              bgcolor: 'primary.main',
+              color: 'primary.contrastText',
+              borderRadius: 2,
+              px: 3,
+              py: 0.8,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              '&:hover': {
+                bgcolor: 'secondary.main',
+              },
+            }}
+          >
+            I Understand
+          </Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   );
 }

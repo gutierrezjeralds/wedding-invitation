@@ -330,13 +330,30 @@ export default function RsvpReport() {
   const handleExportPDF = () => {
     const doc = new jsPDF();
 
-    // 1. Collect ONLY attending guests (Primary + Sub-guests)
+    // 1. Define custom Role sequence hierarchy (matching exact database strings)
+    const ROLE_PRIORITY = {
+      'Parents': 1,
+      'Principal Sponsors': 2,
+      'Secondary Sponsors': 3,
+      'Entourage': 4,
+      'Guest': 5,
+    };
+
+    const getRolePriority = (roleStr) => {
+      if (!roleStr) return 99;
+      const normalizedRole = roleStr.trim();
+      return ROLE_PRIORITY[normalizedRole] ?? 99;
+    };
+
+    // 2. Collect attending guests with both firstName and lastName extracted
     const attendingList = [];
 
     rsvpList.forEach((primary) => {
       if (primary.willAttend === 'Yes') {
         const primaryFullName = `${primary.title || ''} ${primary.firstName || ''} ${primary.middleName || ''} ${primary.lastName || ''}`.trim();
         attendingList.push({
+          firstName: (primary.firstName || '').trim(),
+          lastName: (primary.lastName || '').trim(),
           fullName: primaryFullName,
           role: primary.roleOnWedding || '—',
           connection: primary.connectedTo || '—',
@@ -347,6 +364,8 @@ export default function RsvpReport() {
           primary.additionalGuests.forEach((sub) => {
             const subFullName = `${sub.title || ''} ${sub.firstName || ''} ${sub.middleName || ''} ${sub.lastName || ''}`.trim();
             attendingList.push({
+              firstName: (sub.firstName || '').trim(),
+              lastName: (sub.lastName || '').trim(),
               fullName: subFullName,
               role: sub.roleOnWedding || '—',
               connection: sub.connectedTo || '—',
@@ -357,10 +376,34 @@ export default function RsvpReport() {
       }
     });
 
-    // 2. Sort ALL attending guests alphabetically by Full Name (A-Z)
-    attendingList.sort((a, b) => a.fullName.localeCompare(b.fullName));
+    // 3. SORT: 1st by Role Hierarchy Sequence, 2nd conditionally by Last Name or First Name
+    attendingList.sort((a, b) => {
+      const rolePriorityA = getRolePriority(a.role);
+      const rolePriorityB = getRolePriority(b.role);
 
-    // 3. Document Title Header
+      // Compare Role Sequence first
+      if (rolePriorityA !== rolePriorityB) {
+        return rolePriorityA - rolePriorityB;
+      }
+
+      // If roles are the same:
+      // Parents, Principal Sponsors, Secondary Sponsors, Entourage -> Sort by Last Name
+      // Guest -> Sort by First Name
+      const roleName = a.role.trim();
+      const isGuest = roleName === 'Guest';
+
+      if (!isGuest) {
+        // Sort by Last Name, fallback to First Name if last name matches/missing
+        const lastNameCompare = a.lastName.localeCompare(b.lastName, undefined, { sensitivity: 'base' });
+        if (lastNameCompare !== 0) return lastNameCompare;
+        return a.firstName.localeCompare(b.firstName, undefined, { sensitivity: 'base' });
+      } else {
+        // Sort by First Name for Guests
+        return a.firstName.localeCompare(b.firstName, undefined, { sensitivity: 'base' });
+      }
+    });
+
+    // 4. Document Title Header
     doc.setFontSize(18);
     doc.setTextColor(107, 29, 47); // Wine Red
     doc.text('Reception Guest Check-In List', 14, 20);
@@ -369,7 +412,7 @@ export default function RsvpReport() {
     doc.setTextColor(100, 100, 100);
     doc.text(`Total Attending Guests: ${attendingList.length} | Generated: ${new Date().toLocaleDateString()}`, 14, 27);
 
-    // 4. PDF Table Setup
+    // 5. PDF Table Setup
     const tableHeaders = [['No.', 'Full Name', 'Role', 'Connection', 'Relationship']];
     const tableData = attendingList.map((guest, index) => [
       index + 1,
