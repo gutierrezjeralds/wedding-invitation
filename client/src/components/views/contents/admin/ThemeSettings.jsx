@@ -77,7 +77,7 @@ export default function ThemeSettings() {
   }
 
   return (
-    <Paper sx={{ p: { xs: 3, sm: 5 }, maxWidth: 800, mx: 'auto', mt: 4, mb: 6, borderRadius: 3 }}>
+    <Paper sx={{ p: { xs: 3, sm: 5 }, mx: 'auto', mt: 4, mb: 6, borderRadius: 3 }}>
       <Typography variant="h5" sx={{ mb: 1, color: 'primary.main', fontSize: '1.8rem' }}>
         Customize Theme & Typography
       </Typography>

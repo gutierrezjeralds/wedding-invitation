@@ -144,17 +144,28 @@ router.get('/', async (req, res) => {
 // 3. SERVE IMAGE BINARY DIRECTLY BY ID
 // ==========================================
 router.get('/image/:id', async (req, res) => {
+  console.log('MEDIA IMAGE ROUTE HIT:', req.params.id);
+
   try {
     const media = await Media.findById(req.params.id);
+
     if (!media || !media.imgData) {
-      return res.status(404).json({ success: false, message: 'Image not found' });
+      return res.status(404).json({
+        success: false,
+        message: 'Image not found'
+      });
     }
 
-    res.set('Content-Type', media.contentType); // Serves correct image/png or image/jpeg
+    res.set('Content-Type', media.contentType);
     res.send(media.imgData);
+
   } catch (error) {
     console.error('Error serving image binary:', error);
-    res.status(500).json({ success: false, message: 'Error loading image' });
+
+    return res.status(500).json({
+      success: false,
+      message: 'Error loading image'
+    });
   }
 });
 
