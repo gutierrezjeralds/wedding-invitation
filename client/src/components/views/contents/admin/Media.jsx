@@ -38,7 +38,7 @@ const ALL_TYPES = [
   { value: 'parallax', label: 'Parallax Image (Single)' },
   { value: 'gallery', label: 'Gallery Slides (Multiple)' },
   { value: 'palette', label: 'Color Palette Swatch (Single)' },
-  { value: 'qr', label: 'QR Code (Single)' },
+  { value: 'qr', label: 'QR Code (Multiple)' },
 ];
 
 // Specific sub-categories for pages like Story or Attire
@@ -65,6 +65,14 @@ const PAGE_CATEGORIES_MAP = {
     { value: 'section2', label: 'Section 2' },
     { value: 'section3', label: 'Section 3' },
     { value: 'section4', label: 'Section 4' },
+  ],
+  gifts: [
+    { value: 'gcash', label: 'GCash' },
+    { value: 'maya', label: 'Maya' },
+    { value: 'maribank', label: 'Maribank' },
+    { value: 'bpi', label: 'BPI' },
+    { value: 'bdo', label: 'BDO' },
+    { value: 'unionbank', label: 'Unionbank' },
   ]
 };
 
@@ -381,7 +389,7 @@ export default function AdminMediaPanel() {
                   <input
                     type="file"
                     hidden
-                    multiple={selectedType === 'gallery'}
+                    multiple={selectedType === 'gallery' || selectedType === "qr"}
                     accept="image/*"
                     onChange={handleFileChange}
                   />

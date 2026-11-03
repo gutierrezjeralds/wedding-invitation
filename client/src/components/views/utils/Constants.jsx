@@ -603,6 +603,21 @@ export const CONTENT_FAQ = {
     ]
 };
 
+export const CONTENT_GIFT = {
+    TITLE: "Gifts & Registry",
+    SUBTITLE: "Your presence at our wedding is the greatest gift of all.",
+    NOTE_TITLE: "A Note on Wedding Gifts",
+    NOTE_BODY: "We are blessed beyond measure to have you celebrate this milestone with us. If you wish to honor us with a token of love, contributions toward our future home together or thoughtful house essentials would be deeply appreciated as we build our life side-by-side.",
+    VENUE_NOTE: "Or feel free to bring your gifts directly to the venue!",
+    DIGITAL_TITLE: "Digital Blessings & Fund",
+    DIGITAL_SUBTITLE: "Scan or download QR code directly.",
+    DOWLOAD_QR: "Download QR",
+    HOUSE_TITLE: "House & Home Essentials Registry",
+    HOUSE_SUBTITLE: "For door-to-door deliveries or registry gifts sent prior to the wedding.",
+    HOUSE_ADDRESS_TITLE: "Delivery Address (Lipa City)",
+    HOUSE_ADDRESS: "Idesia, Block 8 Lot 14, J.P. Laurel Highway, Brgy. Inosloban, Lipa City, Batangas"
+};
+
 export const CONTENT_PROPOSAL = {
     TO: "To {{0}},",
     ATTIRE_GUIDE: "Attire Guide",
