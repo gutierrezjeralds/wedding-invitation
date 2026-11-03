@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
     AppBar,
@@ -14,6 +14,7 @@ import {
     Toolbar,
 } from '@mui/material';
 import { CONTENT } from './utils/Constants';
+import { useMedia } from './utils/MediaContext';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import imgLogo from '../assets/img/header/header_logo.png';
@@ -22,7 +23,7 @@ import ParallaxBanner from '../views/utils/ParallaxBanner';
 export default function Header() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [bannerUrl, setBannerUrl] = useState('');
+  const { getAsset } = useMedia();
 
   const navItems = [
       { label: CONTENT.PAGE_TITLE_HOME, href: '/home' },
@@ -39,17 +40,12 @@ export default function Header() {
       setMobileOpen((prev) => !prev);
   };
 
-  useEffect(() => {
-    const currentPath = location.pathname.replace('/', '') || 'home';
+  // Determine current page key (e.g., 'home', 'story', 'attire', etc.)
+  const rawPath = location.pathname.replace('/', '').toLowerCase();
+  const currentPage = rawPath === '' ? 'home' : rawPath;
 
-    // Resolves the image path relative to the current file dynamically
-    const dynamicBannerUrl = new URL(
-      `../assets/img/header/banner/${currentPath}.jpeg`,
-      import.meta.url
-    ).href;
-
-    setBannerUrl(dynamicBannerUrl);
-  }, [location.pathname]);
+  // Retrieve banner asset dynamically from MongoDB via MediaContext
+  const bannerUrl = getAsset(currentPage, 'banner') || "";
 
   return (
     <Box>

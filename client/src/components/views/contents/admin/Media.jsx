@@ -84,10 +84,10 @@ export default function AdminMediaPanel() {
     switch (page) {
       case 'envelope':
         return ALL_TYPES.filter((t) => ['envelope', 'background'].includes(t.value));
+      case 'home':
       case 'cover':
       case 'proposal':
         return ALL_TYPES.filter((t) => ['background'].includes(t.value));
-      case 'home':
       case 'wedding':
       case 'faq':
       case 'rsvp':
