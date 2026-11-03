@@ -25,14 +25,10 @@ import {
   TableRow,
   useMediaQuery,
   useTheme,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
 } from '@mui/material';
 import { Add, Delete, ChildCare } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
+import AgePolicyDialog from '../contents/modals/AgePolicy';
 import { useMedia } from '../utils/MediaContext';
 
 // ============================================================
@@ -1095,52 +1091,10 @@ export default function RSVP() {
       </Box>
 
       {/* AGE SEATING POLICY POPUP DIALOG */}
-      <Dialog
+      <AgePolicyDialog
         open={ageWarningOpen}
         onClose={() => setAgeWarningOpen(false)}
-        aria-labelledby="age-policy-dialog-title"
-        PaperProps={{
-          sx: {
-            borderRadius: 3,
-            p: 1.5,
-            border: '1px solid rgba(107, 29, 47, 0.15)',
-            boxShadow: '0 12px 32px rgba(107, 29, 47, 0.15)',
-          },
-        }}
-      >
-        <DialogTitle id="age-policy-dialog-title" sx={{ display: 'flex', alignItems: 'center', gap: 1.5, color: 'primary.main' }}>
-          <ChildCare sx={{ fontSize: 32 }} />
-          <Typography variant="h6" component="span" sx={{ fontWeight: 700, fontFamily: '"Cormorant Garamond", serif', fontSize: '1.4rem' }}>
-            Guest Age Policy Notice
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ color: 'text.primary', fontSize: '0.975rem', lineHeight: 1.65 }}>
-            We love children, but due to limited seating, guests should be 15 years old and above. Younger guests may attend if they are part of the wedding entourage or are close family of the bride and groom, with prior approval from us.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button
-            onClick={() => setAgeWarningOpen(false)}
-            variant="contained"
-            sx={{
-              bgcolor: 'primary.main',
-              color: 'primary.contrastText',
-              borderRadius: 2,
-              px: 3,
-              py: 0.8,
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              '&:hover': {
-                bgcolor: 'secondary.main',
-              },
-            }}
-          >
-            I Understand
-          </Button>
-        </DialogActions>
-      </Dialog>
+      />
     </React.Fragment>
   );
 }

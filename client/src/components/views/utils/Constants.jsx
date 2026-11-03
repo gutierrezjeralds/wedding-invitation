@@ -27,6 +27,7 @@ export const CONTENT = {
     PAGE_SUBTITLE_FAQ: "Questions",
     PAGE_SUBTITLE_STORY: "Journey",
     PAGE_SUBTITLE_GIFT: "Blessings",
+    AGEPOLICY_TITLE: "Guest Age Policy Notice"
 };
 
 export const CONTENT_FOOTER = {
