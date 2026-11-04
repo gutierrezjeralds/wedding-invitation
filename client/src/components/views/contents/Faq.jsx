@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Container,
   Accordion,
@@ -13,14 +13,30 @@ import {
   Card,
   CardContent,
   IconButton,
-  Tooltip
+  Tooltip,
+  CircularProgress
 } from '@mui/material';
 import { ExpandMore, Search, Clear, QuestionMark, ContactSupport, CheckCircle, ContentCopy } from '@mui/icons-material';
 import { Text } from '../utils/CustomComponents';
-import { CONTENT_FAQ } from '../utils/Constants';
 import { useMedia } from '../utils/MediaContext';
+import { fetchPageContent } from '../utils/ConstantContent';
 
 export default function Faq() {
+    const [CONTENT_FAQ, setContent] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadAllData() {
+            const [contentData] = await Promise.all([
+                fetchPageContent('faq')
+            ]);
+
+            setContent(contentData);
+            setLoading(false);
+        }
+        loadAllData();
+    }, []);
+    
     // Mongoose Assets
     const { getAsset } = useMedia();
     const sPageBackgroundDesktop = getAsset('faq', 'background', 'desktop');
@@ -31,9 +47,9 @@ export default function Faq() {
     const [expandedPanel, setExpandedPanel] = useState(false);
     const [copiedId, setCopiedId] = useState(null);
 
-    // Fetch categories and FAQ data directly from CONTENT_FAQ
-    const faqCategories = CONTENT_FAQ.CATEGORIES || [];
-    const faqData = CONTENT_FAQ.DATA || [];
+    // Safe fallback arrays if data is still loading or empty
+    const faqCategories = CONTENT_FAQ?.CATEGORIES || [];
+    const faqData = CONTENT_FAQ?.DATA || [];
 
     // Clear search when switching categories
     const handleCategoryChange = (categoryId) => {
@@ -63,6 +79,14 @@ export default function Faq() {
         setCopiedId(faq.ID);
         setTimeout(() => setCopiedId(null), 2000);
     };
+
+    if (loading || !CONTENT_FAQ) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+                <CircularProgress color="primary" />
+            </Box>
+        );
+    }
 
     return (
         <React.Fragment>
@@ -215,7 +239,6 @@ export default function Faq() {
                                 </AccordionSummary>
                                 
                                 <AccordionDetails sx={{ px: 3, pb: 3, pt: 0, bgcolor: 'background.default' }}>
-                                    {/* Direct rendering for HTML string in answer */}
                                     <Text
                                         variant="body1"
                                         sx={{ lineHeight: 1.7, whiteSpace: 'pre-line', pt: 2, display: 'block' }}

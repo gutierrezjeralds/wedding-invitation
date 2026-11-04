@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Container, Stack, Paper, Box, Button, Tabs, Tab, Chip, Typography } from '@mui/material';
+import { Container, Stack, Paper, Box, Button, Tabs, Tab, Chip, CircularProgress } from '@mui/material';
 import { 
     Church, AccessTimeFilled, Map, WineBar, Send
 } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ViewMapModal from './modals/ViewMap';
-import { CONTENT, CONTENT_WEDDING } from '../utils/Constants';
 import { useMedia } from '../utils/MediaContext';
+import { fetchPageContent } from '../utils/ConstantContent';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -46,6 +46,28 @@ export default function Wedding() {
     };
     
     const handleCloseViewMapModal = () => setOpenViewMapModal(false);
+        
+    const [CONTENT, setGlobalContent] = useState(null);
+    const [CONTENT_WEDDING, setContent] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadAllData() {
+            const [globalData, contentData] = await Promise.all([
+                fetchPageContent('global'),
+                fetchPageContent('wedding')
+            ]);
+
+            setGlobalContent(globalData);
+            setContent(contentData);
+            setLoading(false);
+        }
+        loadAllData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress />;
+    }
 
     return (
         <React.Fragment>
@@ -369,19 +391,19 @@ export default function Wedding() {
                                     <Text
                                         variant="caption"
                                         sx={{ letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, display: 'block' }}
-                                        textKey={CONTENT_WEDDING.TIMELINE_SUBTITLE}
+                                        textKey={CONTENT_WEDDING.TAB.DAY_SCHEDULE.TIMELINE_SUBTITLE}
                                     />
                                     <Text
                                         variant="h5"
                                         sx={{ mt: 1, color: 'primary.main' }}
-                                        textKey={CONTENT_WEDDING.TIMELINE_TITLE}
+                                        textKey={CONTENT_WEDDING.TAB.DAY_SCHEDULE.TIMELINE_TITLE}
                                     />
                                 </Box>
                     
                                 <Stack spacing={3} sx={{ position: 'relative', pl: { xs: 2, sm: 4 } }}>
                                     <Box sx={{ position: 'absolute', top: 27, bottom: 10, left: { xs: 11, sm: 20 }, width: 2, bgcolor: 'rgba(107, 29, 47, 0.3)' }} />
                     
-                                    {CONTENT_WEDDING.TIMELINE_BODY.map((evt, idx) => {
+                                    {CONTENT_WEDDING.TAB.DAY_SCHEDULE.TIMELINE_BODY.map((evt, idx) => {
                                         const IconComp = evt.ICON;
                                         return (
                                             <Paper

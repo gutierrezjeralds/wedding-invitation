@@ -1,10 +1,31 @@
-import React from 'react';
-import { Box, Container, Typography, Divider, Stack } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Container, Divider, Stack, CircularProgress } from '@mui/material';
 import { Favorite, LocationOn, CalendarToday } from '@mui/icons-material';
 import { Text } from './utils/CustomComponents';
-import { CONTENT, CONTENT_FOOTER } from './utils/Constants';
+import { fetchPageContent } from './utils/ConstantContent';
 
 export default function WeddingFooter() {
+    const [CONTENT, setGlobalContent] = useState(null);
+    const [CONTENT_FOOTER, setContent] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadAllData() {
+            const [globalData, contentData] = await Promise.all([
+                fetchPageContent('global'),
+                fetchPageContent('footer')
+            ]);
+
+            setGlobalContent(globalData);
+            setContent(contentData);
+            setLoading(false);
+        }
+        loadAllData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress />;
+    }
     return (
         <Box
             component="footer"

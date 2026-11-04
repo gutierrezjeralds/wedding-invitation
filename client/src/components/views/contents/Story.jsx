@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Container,
@@ -12,6 +12,7 @@ import {
     ImageListItem,
     Dialog,
     IconButton,
+    CircularProgress
 } from '@mui/material';
 import {
     ExpandMore,
@@ -21,8 +22,8 @@ import {
 } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
-import { CONTENT_STORY } from '../utils/Constants';
 import { useMedia } from '../utils/MediaContext';
+import { fetchPageContent } from '../utils/ConstantContent';
 
 // Reusable Polaroid Card Sub-Component
 function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} }) {
@@ -188,6 +189,25 @@ export default function Story() {
             },
         },
     ];
+        
+    const [CONTENT_STORY, setContent] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadAllData() {
+            const [contentData] = await Promise.all([
+                fetchPageContent('story')
+            ]);
+
+            setContent(contentData);
+            setLoading(false);
+        }
+        loadAllData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress />;
+    }
 
     return (
         <React.Fragment>

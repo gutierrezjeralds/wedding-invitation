@@ -29,7 +29,7 @@ export default function AgePolicyDialog({ open, onClose }) {
       <DialogTitle id="age-policy-dialog-title" sx={{ display: 'flex', alignItems: 'center', gap: 1.5, color: 'primary.main' }}>
         <ChildCare sx={{ fontSize: 32 }} />
         <Typography variant="h6" component="span" sx={{ fontWeight: 700, fontFamily: '"Cormorant Garamond", serif', fontSize: '1.4rem' }}>
-          {CONTENT.AGEPOLICY_TITLE}
+          {CONTENT.AGE_POLICY_TITLE}
         </Typography>
       </DialogTitle>
       <DialogContent>

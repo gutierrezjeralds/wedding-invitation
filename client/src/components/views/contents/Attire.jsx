@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { Box, Container, Tabs, Tab, Paper, Stack, Grid, Card, CardMedia } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Container, Tabs, Tab, Paper, Stack, Grid, Card, CardMedia, CircularProgress } from '@mui/material';
 import { FamilyRestroom, MilitaryTech, Groups, PeopleAlt } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
-import { CONTENT_ATTIRE } from '../utils/Constants';
+import { CONTENT_ATTIRE_DONT } from '../utils/Constants';
 import { useMedia } from '../utils/MediaContext';
 
 // Import Swiper React components & required modules
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { fetchPageContent } from '../utils/ConstantContent';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -75,8 +76,8 @@ export default function Attire() {
         return {
             id,
             src,
-            title: CONTENT_ATTIRE[sTitle],
-            subtitle: CONTENT_ATTIRE[sSubtitle],
+            title: CONTENT_ATTIRE_DONT[sTitle],
+            subtitle: CONTENT_ATTIRE_DONT[sSubtitle],
         };
     });
 
@@ -133,6 +134,26 @@ export default function Attire() {
             </Swiper>
         </Box>
     );
+
+    const [CONTENT_ATTIRE, setContent] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadAllData() {
+            const [contentData] = await Promise.all([
+                fetchPageContent('attire')
+            ]);
+
+            setContent(contentData);
+            setLoading(false);
+        }
+        loadAllData();
+    }, []);
+
+
+    if (loading) {
+        return <CircularProgress />;
+    }
 
     return (
         <React.Fragment>

@@ -5,6 +5,7 @@ import routerGoogle from './routers/Google.js';
 import routerRsvp from './routers/mongoose/Rsvp.js';
 import routeTheme from './routers/mongoose/Theme.js';
 import routeMedia from './routers/mongoose/Media.js';
+import routeContent from './routers/mongoose/Content.js';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use('/api/google', routerGoogle);
 app.use('/api/rsvp', routerRsvp);
 app.use('/api/theme', routeTheme);
 app.use('/api/media', routeMedia);
+app.use('/api/content', routeContent);
 
 app.get('/api', (req, res) => {
   res.json({ message: 'API is running' });

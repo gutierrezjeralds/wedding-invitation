@@ -28,6 +28,7 @@ import Proposal from './components/views/contents/Proposal';
 // Admin Imports
 import AdminLayout from './components/views/contents/admin/AdminLayout';
 import AdminHome from './components/views/contents/admin/Home';
+import Content from './components/views/contents/admin/Content';
 import Media from './components/views/contents/admin/Media';
 import RsvpReport from './components/views/contents/admin/RsvpReport';
 import ThemeSettings from './components/views/contents/admin/ThemeSettings';
@@ -204,6 +205,7 @@ export default function App() {
           }
         >
           <Route index element={<AdminHome />} />
+          <Route path="content" element={<Content />} />
           <Route path="media" element={<Media />} />
           <Route path="rsvp" element={<RsvpReport />} />
           <Route path="theme" element={<ThemeSettings />} />

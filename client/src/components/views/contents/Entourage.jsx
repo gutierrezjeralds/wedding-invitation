@@ -1,11 +1,11 @@
-import React from 'react';
-import { Box, Container, Grid, Divider, styled, Paper } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Container, Grid, Divider, styled, Paper, CircularProgress } from '@mui/material';
 import ChurchIcon from '@mui/icons-material/Church';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
-import { CONTENT_ENTOURAGE } from '../utils/Constants';
 import { useMedia } from '../utils/MediaContext';
+import { fetchPageContent } from '../utils/ConstantContent';
 
 export default function Entourage() {
     // Dynamic background assets from Media Context
@@ -24,6 +24,25 @@ export default function Entourage() {
         border: '1px solid rgba(107, 29, 47, 0.15)',
         boxShadow: '0 4px 12px rgba(107, 29, 47, 0.04)',
     }));
+            
+    const [CONTENT_ENTOURAGE, setContent] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadAllData() {
+            const [contentData] = await Promise.all([
+                fetchPageContent('entourage')
+            ]);
+
+            setContent(contentData);
+            setLoading(false);
+        }
+        loadAllData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress />;
+    }
 
     return (
         <React.Fragment>
@@ -120,12 +139,12 @@ export default function Entourage() {
                                         sx={{ color: 'secondary.main', mb: 1, display: 'block' }}
                                         textKey={CONTENT_ENTOURAGE.PRINCIPAL_SPONSORS.SUBTITLE}
                                     />
-                                    {CONTENT_ENTOURAGE.PRINCIPAL_SPONSORS.LIST.map((sponsor, idx) => (
+                                    {CONTENT_ENTOURAGE.PRINCIPAL_SPONSORS.NAMES.map((sponsor, idx) => (
                                         <Text 
                                             key={idx} 
                                             variant="body1" 
                                             sx={{ display: 'block', mb: 0.5 }} 
-                                            textKey={sponsor.NAME} 
+                                            textKey={sponsor} 
                                         />
                                     ))}
                                 </Item>
@@ -198,7 +217,7 @@ export default function Entourage() {
                                     />
                                     <Text
                                         variant="body1"
-                                        sx={{ display: 'block', fontWeight: 600 }}
+                                        sx={{ display: 'block' }}
                                         textKey={CONTENT_ENTOURAGE.ENTOURAGE.BRIDAL_PRIMARY.MOH.NAME}
                                     />
                                 </Item>
@@ -212,7 +231,7 @@ export default function Entourage() {
                                     />
                                     <Text
                                         variant="body1"
-                                        sx={{ display: 'block', fontWeight: 600 }}
+                                        sx={{ display: 'block' }}
                                         textKey={CONTENT_ENTOURAGE.ENTOURAGE.BRIDAL_PRIMARY.BEST_MAN.NAME}
                                     />
                                 </Item>

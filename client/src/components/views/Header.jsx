@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
     AppBar,
@@ -13,27 +13,40 @@ import {
     ListItemText,
     Toolbar,
 } from '@mui/material';
-import { CONTENT } from './utils/Constants';
 import { useMedia } from './utils/MediaContext';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import imgLogo from '../assets/img/header/header_logo.png';
 import ParallaxBanner from '../views/utils/ParallaxBanner';
+import { fetchPageContent } from './utils/ConstantContent';
 
 export default function Header() {
+  const [CONTENT, setGlobalContent] = useState(null);
+
+  useEffect(() => {
+      async function loadAllData() {
+          const [globalData] = await Promise.all([
+              fetchPageContent('global'),
+          ]);
+
+          setGlobalContent(globalData);
+      }
+      loadAllData();
+  }, []);
+  
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { getAsset } = useMedia();
 
   const navItems = [
-      { label: CONTENT.PAGE_TITLE_HOME, href: '/home' },
-      { label: CONTENT.PAGE_TITLE_STORY, href: '/story' },
-      { label: CONTENT.PAGE_TITLE_WEDDING, href: '/wedding' },
-      { label: CONTENT.PAGE_TITLE_ENTOURAGE, href: '/entourage' },
-      { label: CONTENT.PAGE_TITLE_ATTIRE, href: '/attire' },
-      { label: CONTENT.PAGE_TITLE_FAQ, href: '/faq' },
-      { label: CONTENT.PAGE_TITLE_GIFT, href: '/gift' },
-      { label: CONTENT.BUTTON_RSVP, href: '/rsvp' },
+      { label: CONTENT?.PAGE_TITLE_HOME, href: '/home' },
+      { label: CONTENT?.PAGE_TITLE_STORY, href: '/story' },
+      { label: CONTENT?.PAGE_TITLE_WEDDING, href: '/wedding' },
+      { label: CONTENT?.PAGE_TITLE_ENTOURAGE, href: '/entourage' },
+      { label: CONTENT?.PAGE_TITLE_ATTIRE, href: '/attire' },
+      { label: CONTENT?.PAGE_TITLE_FAQ, href: '/faq' },
+      { label: CONTENT?.PAGE_TITLE_GIFT, href: '/gift' },
+      { label: CONTENT?.BUTTON_RSVP, href: '/rsvp' },
   ];
 
   const handleDrawerToggle = () => {

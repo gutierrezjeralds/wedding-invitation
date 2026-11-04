@@ -1,17 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Container, Box, Divider, Grid, Paper, styled , Link, Button} from '@mui/material';
-import { FavoriteBorder, Favorite, Church, Groups, Checkroom, Send } from '@mui/icons-material';
-import { Text, FavoriteDividerSmall, FavoriteDividerMediumn } from '../utils/CustomComponents';
+import { Container, Box, Grid, Paper, styled , Link, Button, CircularProgress} from '@mui/material';
+import { Send } from '@mui/icons-material';
+import { Text, FavoriteDividerSmall } from '../utils/CustomComponents';
 import Countdown from '../utils/Countdown';
-import { CONTENT, CONTENT_HOME } from '../utils/Constants';
 import { useMedia } from '../utils/MediaContext';
+import { fetchPageContent } from '../utils/ConstantContent';
+import { DynamicIcon } from '../utils/IconMap';
 
 export default function Home() {
     // Mongoose Assets
     const { getAsset } = useMedia();
     const sPageBackgroundDesktop = getAsset('home', 'background', 'desktop');
     const sPageBackgroundMobile = getAsset('home', 'background', 'mobile');
+    
+    const [CONTENT, setGlobalContent] = useState(null);
+    const [CONTENT_HOME, setContent] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadAllData() {
+            const [globalData, contentData] = await Promise.all([
+                fetchPageContent('global'),
+                fetchPageContent('home')
+            ]);
+
+            setGlobalContent(globalData);
+            setContent(contentData);
+            setLoading(false);
+        }
+        loadAllData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress />;
+    }
     
     const Item = styled(Paper)(({ theme }) => ({
             backgroundColor: '#fff',
@@ -75,18 +98,17 @@ export default function Home() {
                             letterSpacing="wide"
                             variant="h6"
                             className="cormorant-garamond-regular mt-4"
-                            textKey={CONTENT_HOME.PAGE_TITLE}
+                            textKey={CONTENT_HOME.GUIDE_TITLE}
                         />
 
                         <Text
                             variant="body1"
                             className="cormorant-garamond-regular"
-                            textKey={CONTENT_HOME.PAGE_SUBTITLE}
+                            textKey={CONTENT_HOME.GUIDE_SUBTITLE}
                         />
 
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="mt-4">
                             {CONTENT_HOME.ITEM_NAVIGATION.map((item) => {
-                                const IconComponent = item.ICON;
                                 return (
                                     <Grid size={{ xs: 6, sm: 3 }} key={item.ID}>
                                         <Link 
@@ -96,7 +118,7 @@ export default function Home() {
                                             sx={{ color: 'inherit', display: 'block' }}
                                         >
                                             <Item className="card card-button py-3">
-                                                <IconComponent fontSize="large" />
+                                                <DynamicIcon iconName={item.ICON} fontSize="large" />
                                                 <Text
                                                     variant="h6"
                                                     className="text-uppercase d-block cormorant-garamond-regular"

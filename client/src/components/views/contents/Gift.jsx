@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Container,
     Paper,
@@ -6,7 +6,8 @@ import {
     Button,
     Chip,
     Stack,
-    Typography
+    Typography,
+    CircularProgress
 } from '@mui/material';
 import {
     CardGiftcard,
@@ -18,8 +19,8 @@ import {
     Download
 } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
-import { CONTENT_GIFT } from '../utils/Constants';
 import { useMedia } from '../utils/MediaContext';
+import { fetchPageContent } from '../utils/ConstantContent';
 
 export default function Gifts() {
     // Mongoose / Cloudflare Media Assets
@@ -63,7 +64,26 @@ export default function Gifts() {
         }
     };
 
-    const sHomeAddress = CONTENT_GIFT.HOUSE_ADDRESS;
+    const [CONTENT_GIFT, setContent] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadAllData() {
+            const [contentData] = await Promise.all([
+                fetchPageContent('gift')
+            ]);
+
+            setContent(contentData);
+            setLoading(false);
+        }
+        loadAllData();
+    }, []);
+
+    if (loading) {
+        return <CircularProgress />;
+    }
+
+    const sHomeAddress = CONTENT_GIFT?.HOUSE_ADDRESS;
 
     return (
         <React.Fragment>
