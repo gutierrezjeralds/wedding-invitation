@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
     AppBar,
@@ -12,18 +12,21 @@ import {
     ListItemButton,
     ListItemText,
     Toolbar,
+    Tooltip
 } from '@mui/material';
-import { useMedia } from './utils/MediaContext';
+import { Menu, PictureAsPdf } from '@mui/icons-material'
 
-import MenuIcon from '@mui/icons-material/Menu';
+import { useMedia } from './utils/MediaContext';
 import imgLogo from '../assets/img/header/header_logo.png';
 import ParallaxBanner from '../views/utils/ParallaxBanner';
 import { useContent } from './utils/ConstantContent';
+import { downloadWeddingDetailsPdf } from './utils/GenerateWeddingPdf';
 
 export default function Header() {
   // Retrieval from context cache
   const { getPageContent } = useContent();
   const CONTENT = getPageContent('global');
+  const CONTENT_ENTOURAGE = getPageContent('entourage');
   
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -42,6 +45,10 @@ export default function Header() {
 
   const handleDrawerToggle = () => {
       setMobileOpen((prev) => !prev);
+  };
+
+  const handleDownloadPdf = () => {
+      downloadWeddingDetailsPdf(CONTENT, CONTENT_ENTOURAGE);
   };
 
   // Determine current page key (e.g., 'home', 'story', 'attire', etc.)
@@ -106,30 +113,57 @@ export default function Header() {
 
                 if (isRsvp) {
                   return (
-                    <Button
-                      key={item.href}
-                      component={RouterLink}
-                      to={item.href}
-                      variant="contained"
-                      className="button-wedding-primary"
-                      sx={{
-                        ml: 1,
-                        px: 2.5,
-                        py: 0.8,
-                        borderRadius: '20px',
-                        bgcolor: '#7A1C31',
-                        color: '#ffffff',
-                        fontWeight: 700,
-                        letterSpacing: '0.05em',
-                        boxShadow: '0px 2px 6px rgba(122, 28, 49, 0.3)',
-                        '&:hover': {
-                          bgcolor: '#8B263E',
-                          boxShadow: '0px 4px 10px rgba(122, 28, 49, 0.4)',
-                        },
-                      }}
-                    >
-                      {item.label}
-                    </Button>
+                    <React.Fragment key={item.href}>
+                      {/* PDF DOWNLOAD BUTTON (BEside RSVP) */}
+                      <Tooltip title="Download Wedding Details & Entourage PDF" placement="bottom">
+                        <Button
+                          variant="outlined"
+                          onClick={handleDownloadPdf}
+                          startIcon={<PictureAsPdf />}
+                          sx={{
+                            ml: 1,
+                            px: 2,
+                            py: 0.8,
+                            borderRadius: '20px',
+                            borderColor: '#7A1C31',
+                            color: '#7A1C31',
+                            fontWeight: 700,
+                            letterSpacing: '0.03em',
+                            '&:hover': {
+                              borderColor: '#8B263E',
+                              bgcolor: 'rgba(122, 28, 49, 0.04)',
+                            },
+                          }}
+                        >
+                          PDF
+                        </Button>
+                      </Tooltip>
+
+                      {/* RSVP BUTTON */}
+                      <Button
+                        component={RouterLink}
+                        to={item.href}
+                        variant="contained"
+                        className="button-wedding-primary"
+                        sx={{
+                          ml: 1,
+                          px: 2.5,
+                          py: 0.8,
+                          borderRadius: '20px',
+                          bgcolor: '#7A1C31',
+                          color: '#ffffff',
+                          fontWeight: 700,
+                          letterSpacing: '0.05em',
+                          boxShadow: '0px 2px 6px rgba(122, 28, 49, 0.3)',
+                          '&:hover': {
+                            bgcolor: '#8B263E',
+                            boxShadow: '0px 4px 10px rgba(122, 28, 49, 0.4)',
+                          },
+                        }}
+                      >
+                        {item.label}
+                      </Button>
+                    </React.Fragment>
                   );
                 }
 
@@ -166,7 +200,7 @@ export default function Header() {
               sx={{ display: { xs: 'flex', sm: 'none' } }}
               aria-label="open navigation menu"
             >
-              <MenuIcon fontSize='large' />
+              <Menu fontSize='large' />
             </IconButton>
           </Toolbar>
         </Container>
@@ -182,28 +216,58 @@ export default function Header() {
 
               if (isRsvp) {
                 return (
-                  <ListItem key={item.href} disablePadding sx={{ mt: 2 }}>
-                    <Button
-                      fullWidth
-                      component={RouterLink}
-                      to={item.href}
-                      variant="contained"
-                      onClick={handleDrawerToggle}
-                      sx={{
-                        py: 1.2,
-                        borderRadius: '25px',
-                        bgcolor: '#7A1C31',
-                        color: '#ffffff',
-                        fontWeight: 700,
-                        letterSpacing: '0.05em',
-                        '&:hover': {
-                          bgcolor: '#8B263E',
-                        },
-                      }}
-                    >
-                      {item.label}
-                    </Button>
-                  </ListItem>
+                  <React.Fragment key={item.href}>
+                    {/* MOBILE PDF DOWNLOAD BUTTON */}
+                    <ListItem disablePadding sx={{ mt: 2 }}>
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        onClick={() => {
+                          handleDownloadPdf();
+                          handleDrawerToggle();
+                        }}
+                        startIcon={<PictureAsPdf />}
+                        sx={{
+                          py: 1.2,
+                          borderRadius: '25px',
+                          borderColor: '#7A1C31',
+                          color: '#7A1C31',
+                          fontWeight: 700,
+                          letterSpacing: '0.05em',
+                          '&:hover': {
+                            borderColor: '#8B263E',
+                            bgcolor: 'rgba(122, 28, 49, 0.04)',
+                          },
+                        }}
+                      >
+                        DOWNLOAD DETAILS (PDF)
+                      </Button>
+                    </ListItem>
+
+                    {/* MOBILE RSVP BUTTON */}
+                    <ListItem disablePadding sx={{ mt: 1.5 }}>
+                      <Button
+                        fullWidth
+                        component={RouterLink}
+                        to={item.href}
+                        variant="contained"
+                        onClick={handleDrawerToggle}
+                        sx={{
+                          py: 1.2,
+                          borderRadius: '25px',
+                          bgcolor: '#7A1C31',
+                          color: '#ffffff',
+                          fontWeight: 700,
+                          letterSpacing: '0.05em',
+                          '&:hover': {
+                            bgcolor: '#8B263E',
+                          },
+                        }}
+                      >
+                        {item.label}
+                      </Button>
+                    </ListItem>
+                  </React.Fragment>
                 );
               }
 
