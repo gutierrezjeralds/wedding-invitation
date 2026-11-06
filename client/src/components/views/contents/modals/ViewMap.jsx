@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import { Close, ContentCopy, Check, OpenInNew, ZoomIn, ZoomOut, RestartAlt, ExpandMore } from '@mui/icons-material';
 import { Text } from '../../utils/CustomComponents';
-import { CONTENT, CONTENT_WEDDING } from '../../utils/Constants';
+import { fetchPageContent } from '../../utils/ConstantContent';
 
 // Assets
 import imgMap from "../../../assets/img/wedding/map.png";
@@ -30,6 +30,23 @@ import imgChurchLandmark from "../../../assets/img/wedding/church_map.png";
 import imgReceptionLandmark from "../../../assets/img/wedding/reception_map.png";
 
 export default function ViewMapModal({ open, handleClose, defaultTab = 'church' }) {
+    const [CONTENT, setGlobalContent] = useState(null);
+    const [CONTENT_WEDDING, setContent] = useState(null);
+
+    useEffect(() => {
+        async function loadAllData() {
+            const [globalData, contentData] = await Promise.all([
+                fetchPageContent('global'),
+                fetchPageContent('wedding')
+            ]);
+
+            setGlobalContent(globalData);
+            setContent(contentData);
+            setLoading(false);
+        }
+        loadAllData();
+    }, []);
+
     const [mapTab, setMapTab] = useState(defaultTab);
     const [copiedAddress, setCopiedAddress] = useState(false);
     const [previewImage, setPreviewImage] = useState(null);
@@ -79,7 +96,7 @@ export default function ViewMapModal({ open, handleClose, defaultTab = 'church' 
         setExpandedAccordion(isExpanded ? panelIndex : false);
     };
 
-    const mapDirections = mapTab === 'church' ? CONTENT_WEDDING.MAP.CHURCH : CONTENT_WEDDING.MAP.RECEPTION;
+    const mapDirections = mapTab === 'church' ? CONTENT_WEDDING?.MAP?.CHURCH : CONTENT_WEDDING?.MAP?.RECEPTION;
 
     return (
         <React.Fragment>
@@ -173,11 +190,11 @@ export default function ViewMapModal({ open, handleClose, defaultTab = 'church' 
                                 <Text
                                     variant="h5"
                                     className="cormorant-garamond-regular fw-bold"
-                                    textKey={mapTab === 'church' ? CONTENT.TITLE_CHURCH : CONTENT.TITLE_RECEPTION}
+                                    textKey={mapTab === 'church' ? CONTENT?.TITLE_CHURCH : CONTENT?.TITLE_RECEPTION}
                                 />
                                 <Text
                                     variant="body2"
-                                    textKey={mapTab === 'church' ? CONTENT.TITLE_CHURCH_ADDRESS : CONTENT.TITLE_RECEPTION_ADDRESS}
+                                    textKey={mapTab === 'church' ? CONTENT?.TITLE_CHURCH_ADDRESS : CONTENT?.TITLE_RECEPTION_ADDRESS}
                                 />
 
                                 {/* Accordion List for Directions (Church or Reception) */}
@@ -277,7 +294,7 @@ export default function ViewMapModal({ open, handleClose, defaultTab = 'church' 
                 <DialogActions sx={{ p: 2.5 }}>
                     <Button
                         startIcon={copiedAddress ? <Check /> : <ContentCopy />}
-                        onClick={() => handleCopyAddress(mapTab === 'church' ? CONTENT.TITLE_CHURCH_ADDRESS : CONTENT.TITLE_RECEPTION_ADDRESS)}
+                        onClick={() => handleCopyAddress(mapTab === 'church' ? CONTENT?.TITLE_CHURCH_ADDRESS : CONTENT?.TITLE_RECEPTION_ADDRESS)}
                         sx={{ color: '#7A1C31' }}
                     >
                         {copiedAddress ? 'Copied!' : 'Copy Address'}
@@ -289,7 +306,7 @@ export default function ViewMapModal({ open, handleClose, defaultTab = 'church' 
                         target="_blank"
                         sx={{ bgcolor: '#7A1C31', '&:hover': { bgcolor: '#8B263E', color: '#D9A6A4' } }}
                     >
-                        {CONTENT.BUTTON_VIEWMAP}
+                        {CONTENT?.BUTTON_VIEWMAP}
                     </Button>
                 </DialogActions>
             </Dialog>

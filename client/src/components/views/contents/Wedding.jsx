@@ -8,6 +8,7 @@ import { Text, PageTitle } from '../utils/CustomComponents';
 import ViewMapModal from './modals/ViewMap';
 import { useMedia } from '../utils/MediaContext';
 import { fetchPageContent } from '../utils/ConstantContent';
+import { DynamicIcon } from '../utils/IconMap';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -265,7 +266,7 @@ export default function Wedding() {
                                                 }
                                             }}
                                         >
-                                            {CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.MAP_INFO}
+                                            {CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.MAP_BUTTON}
                                         </Button>
                                     </Box>
                                 </Paper>
@@ -377,7 +378,7 @@ export default function Wedding() {
                                                 }
                                             }}
                                         >
-                                            {CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.MAP_INFO}
+                                            {CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.MAP_BUTTON}
                                         </Button>
                                     </Box>
                                 </Paper>
@@ -404,7 +405,6 @@ export default function Wedding() {
                                     <Box sx={{ position: 'absolute', top: 27, bottom: 10, left: { xs: 11, sm: 20 }, width: 2, bgcolor: 'rgba(107, 29, 47, 0.3)' }} />
                     
                                     {CONTENT_WEDDING.TAB.DAY_SCHEDULE.TIMELINE_BODY.map((evt, idx) => {
-                                        const IconComp = evt.ICON;
                                         return (
                                             <Paper
                                                 key={idx}
@@ -435,7 +435,7 @@ export default function Wedding() {
                             
                                                 <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} spacing={1} sx={{ mb: 1 }}>
                                                     <Stack direction="row" alignItems="center" spacing={1.5}>
-                                                        <IconComp fontSize='small' sx={{ color: 'primary.main' }} />
+                                                        <DynamicIcon iconName={evt.ICON} fontSize="small" sx={{ color: 'primary.main' }} />
                                                         <Text
                                                             variant="h6"
                                                             sx={{ color: 'primary.main', fontFamily: '"Cormorant Garamond", serif', fontWeight: 700 }}

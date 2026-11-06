@@ -87,166 +87,40 @@ export const CONTENT_STORY = {
 };
 
 export const CONTENT_WEDDING = {
-    TITLE: "Our Wedding",
-    SUBTITLE: "A thoughtfully envisioned celebration of our love, from the sacred ceremony to the elegant reception.",
+    TITLE: "",
+    SUBTITLE: "",
     TAB: {
         VENUE_AND_LOCATION: {
-            TITLE: "Locations",
-            CEREMONY: "Ceremony",
-            RECEPTION: "Reception",
-            CHURCH_TAGLINE: "Witness us as we enter into the sacred covenant of marriage before God, surrounded by family and friends.",
-            RECEPTION_TAGLINE: "Join us after the ceremony for dining, music, heartfelt toasts, and dancing with family and friends.",
-            MAP_INFO: "Get Directions"
+            TITLE: "",
+            CEREMONY: "",
+            RECEPTION: "",
+            CHURCH_TAGLINE: "",
+            RECEPTION_TAGLINE: "",
+            MAP_BUTTON: ""
         },
         DAY_SCHEDULE: {
-            TITLE: "Timeline",
-            TIMELINE_TITLE: "Wedding Schedule",
-            TIMELINE_SUBTITLE: "Interactive Day Guide",
-            TIMELINE_BODY: [
-                {
-                    ID: 1,
-                    TITLE: "Arrival & Welcome",
-                    TIME: '9:30 AM',
-                    LOCATION: "St. Augustine Parish Church",
-                    DESCRIPTION: "Guests arrive and assemble at the parish church. Ushering and seating begin.",
-                    ICON: AccessTimeFilled
-                },
-                {
-                    ID: 2,
-                    TITLE: "Holy Matrimony Vows",
-                    TIME: "",
-                    LOCATION: "St. Augustine Parish Church",
-                    DESCRIPTION: "The solemn nuptial ceremony and exchanging of vows before loved ones and God.",
-                    ICON: Church
-                },
-                {
-                    ID: 3,
-                    TITLE: "Memorial Photos",
-                    TIME: "",
-                    LOCATION: "Church Courtyard",
-                    DESCRIPTION: "Pictorial session with beloved entourage and family members",
-                    ICON: PhotoCamera
-                },
-                {
-                    ID: 4,
-                    TITLE: "Grazing & Cocktails",
-                    TIME: "",
-                    LOCATION: "Casa Lucido Events Place",
-                    DESCRIPTION: "Welcome drinks, charcuterie, and refreshing cocktail grazing table.",
-                    ICON: WineBar
-                },
-                {
-                    ID: 5,
-                    TITLE: "Grand Banquet",
-                    TIME: "",
-                    LOCATION: "Main Reception Hall",
-                    DESCRIPTION: "Formal luncheon banquet, speeches, cake cutting, and couple’s first dance.",
-                    ICON: Gite
-                },
-                {
-                    ID: 6,
-                    TITLE: "Sparkler Send-Off",
-                    TIME: '5:30 PM',
-                    LOCATION: "Garden Lawn",
-                    DESCRIPTION: "Sending off Jerald & Sheila with warm wishes and sparkler cheers!",
-                    ICON: AutoAwesome
-                },
-            ],
+            TITLE: "",
+            TIMELINE_TITLE: "",
+            TIMELINE_SUBTITLE: "",
+            TIMELINE_BODY: [],
         },
     },
     FOOTER: {
-        TITLE: "Kindly Respond",
-        SUBTITLE: "Will You Celebrate With Us?",
-        TAGLINE: "Let us know by July 1, 2027, so we can save a seat for you."
+        TITLE: "",
+        SUBTITLE: "",
+        TAGLINE: ""
     },
     MAP: {
         CHURCH: [
             {
-                TITLE: "From Manila — Private Car",
-                LIST: [
-                    {
-                        ITEM: "Take the Tanauan–Sambat Exit from the STAR Tollway."
-                    },
-                    {
-                        ITEM: "After exiting the tollway, turn right and head toward Brgy. Santor 1."
-                    },
-                    {
-                        ITEM: "Continue straight and pass Tanauan City Hall and Petron gas station."
-                    },
-                    {
-                        ITEM: "After passing these landmarks, continue straight until you reach the next intersection. Then, turn right."
-                    },
-                    {
-                        ITEM: "Continue straight until you reach 📍 St. Augustine Parish Church. The destination will be on your left, with parking available around the area."
-                    }
-                ]
-            },
-            {
-                TITLE: "From Batangas — Private Car",
-                LIST: [
-                    {
-                        ITEM: "Take the Tanauan–Sambat Exit from the STAR Tollway."
-                    },
-                    {
-                        ITEM: "After exiting the tollway, turn left and head toward Brgy. Santor 1."
-                    },
-                    {
-                        ITEM: "Continue straight and pass Tanauan City Hall and Petron gas station."
-                    },
-                    {
-                        ITEM: "After passing these landmarks, continue straight until you reach the next intersection. Then, turn right."
-                    },
-                    {
-                        ITEM: "Continue straight until you reach 📍 St. Augustine Parish Church. The destination will be on your left, with parking available around the area."
-                    }
-                ]
-            },
-            {
-                TITLE: "From Tanauan City Proper — Public Transportation",
-                LIST: [
-                    {
-                        ITEM: "Make your way to Tanauan City Proper."
-                    },
-                    {
-                        ITEM: "Choose your tricycle option:",
-                        LIST: [
-                            {
-                                ITEM: "Option 1 – Special Trip: Hire a tricycle exclusively for your trip."
-                            },
-                            {
-                                ITEM: "Option 2 – Regular Trip: Proceed to the Brgy. Santor tricycle terminal / TODA, located behind the TMO office"
-                            }
-                        ]
-                    },
-
-
-                    
-                    {
-                        ITEM: "Ask the driver to drop you off at 📍 St. Augustine Parish Church. The destination will be on your left."
-                    },
-                    {
-                        ITEM: "Ask to be dropped off at 📍 St. Augustine Parish Church. The destination will be on your left."
-                    }
-                ]
+                TITLE: "",
+                LIST: []
             }
         ],
         RECEPTION: [
             {
-                TITLE: "From St. Augustine Parish Church to Casa Lucido Events Place",
-                LIST: [
-                    {
-                        ITEM: "From St. Augustine Parish, head toward Tanauan City proper. Once you reach the area of Victory Mall and McDonald’s, turn right."
-                    },
-                    {
-                        ITEM: "Continue straight until you reach the next intersection. Turn right."
-                    },
-                    {
-                        ITEM: "Continue straight to the following intersection, then turn right again."
-                    },
-                    {
-                        ITEM: "Continue straight until you reach 📍 Casa Lucido Events Place. The destination will be on your right, with parking available on the left."
-                    }
-                ]
+                TITLE: "",
+                LIST: []
             }
         ]
     }
