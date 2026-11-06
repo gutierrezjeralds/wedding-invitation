@@ -24,8 +24,9 @@ import Proposal from './components/views/contents/Proposal';
 import AdminLoginModal from './components/views/contents/admin/LoginModal';
 import AdminLayout from './components/views/contents/admin/AdminLayout';
 import AdminHome from './components/views/contents/admin/Home';
-import Content from './components/views/contents/admin/Content';
-import Media from './components/views/contents/admin/Media';
+import ContentManager from './components/views/contents/admin/ContentManager';
+import MediaManager from './components/views/contents/admin/MediaManager';
+import MusicManager from './components/views/contents/admin/Music';
 import RsvpReport from './components/views/contents/admin/RsvpReport';
 import ThemeSettings from './components/views/contents/admin/ThemeSettings';
 
@@ -125,8 +126,9 @@ function AppRoutes() {
           }
         >
           <Route index element={<AdminHome />} />
-          <Route path="content" element={<Content />} />
-          <Route path="media" element={<Media />} />
+          <Route path="content" element={<ContentManager />} />
+          <Route path="media" element={<MediaManager />} />
+          <Route path="music" element={<MusicManager />} />
           <Route path="rsvp" element={<RsvpReport />} />
           <Route path="theme" element={<ThemeSettings />} />
         </Route>

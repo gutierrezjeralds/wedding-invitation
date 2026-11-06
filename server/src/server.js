@@ -6,6 +6,7 @@ import routerRsvp from './routers/mongoose/Rsvp.js';
 import routeTheme from './routers/mongoose/Theme.js';
 import routeMedia from './routers/mongoose/Media.js';
 import routeContent from './routers/mongoose/Content.js';
+import routeMusic from './routers/mongoose/Music.js';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use('/api/rsvp', routerRsvp);
 app.use('/api/theme', routeTheme);
 app.use('/api/media', routeMedia);
 app.use('/api/content', routeContent);
+app.use('/api/music', routeMusic);
 
 app.get('/api', (req, res) => {
   res.json({ message: 'API is running' });
