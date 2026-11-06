@@ -138,6 +138,8 @@ function AppRoutes() {
       </Routes>
 
       {showHeader && <Footer />}
+
+      <BackgroundMusic isAdminPath={isAdminPath} />
     </React.Fragment>
   );
 }

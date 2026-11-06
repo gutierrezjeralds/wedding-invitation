@@ -6,6 +6,7 @@ const musicSchema = new mongoose.Schema({
   size: { type: Number, required: true },
   url: { type: String, required: true }, // URL or Base64 data stream path
   category: { type: String, default: 'background-music' },
+  isEnabled: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now }
 });
 
