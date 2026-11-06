@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Button,
-  Box,
-  Typography,
-  Alert,
-  CircularProgress
-} from '@mui/material';
+import { Box, Typography, CircularProgress } from '@mui/material';
 import { ContentProvider, useContent } from './components/views/utils/ConstantContent';
 import DynamicThemeProvider from './components/views/utils/ThemeWrapper';
 import { MediaProvider } from './components/views/utils/MediaContext';
@@ -32,6 +21,7 @@ import RSVP from './components/views/contents/Rsvp';
 import Proposal from './components/views/contents/Proposal';
 
 // Admin Imports
+import AdminLoginModal from './components/views/contents/admin/LoginModal';
 import AdminLayout from './components/views/contents/admin/AdminLayout';
 import AdminHome from './components/views/contents/admin/Home';
 import Content from './components/views/contents/admin/Content';
@@ -42,132 +32,34 @@ import ThemeSettings from './components/views/contents/admin/ThemeSettings';
 import ScrollToTop from './components/views/utils/ScrollToTop';
 import BackgroundMusic from './components/views/utils/BackgroundMusic';
 
-// Password configuration (defaults to 'admin123' or environment variable)
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'admin123';
-
 // ============================================================
-// Protected Route Component with Password Popup Modal
+// Protected Route Component using the separate Modal
 // ============================================================
 function AdminProtectedRoute({ children }) {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return sessionStorage.getItem('isAdminAuthenticated') === 'true';
   });
-  const [passwordInput, setPasswordInput] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
-
-  const handlePasswordSubmit = (e) => {
-    e.preventDefault();
-    if (passwordInput === ADMIN_PASSWORD) {
-      sessionStorage.setItem('isAdminAuthenticated', 'true');
-      setIsAuthenticated(true);
-      setErrorMsg('');
-    } else {
-      setErrorMsg('Incorrect password. Please try again.');
-    }
-  };
 
   const handleCancel = () => {
     navigate('/', { replace: true });
   };
 
-  // If already authenticated, display admin layout directly
   if (isAuthenticated) {
     return children;
   }
 
-  // Otherwise, display Password Authentication Modal
   return (
-    <Dialog
+    <AdminLoginModal
       open={!isAuthenticated}
-      onClose={handleCancel}
-      maxWidth="xs"
-      fullWidth
-      PaperProps={{
-        sx: {
-          borderRadius: 3,
-          p: 1,
-          border: '1px solid rgba(107, 29, 47, 0.2)',
-          bgcolor: 'background.paper',
-        },
-      }}
-    >
-      <DialogTitle
-        sx={{
-          fontFamily: '"Cormorant Garamond", serif',
-          fontWeight: 700,
-          color: 'primary.main',
-          fontSize: '1.5rem',
-          textAlign: 'center',
-          pb: 1,
-        }}
-      >
-        Admin Access Required
-      </DialogTitle>
-
-      <Box component="form" onSubmit={handlePasswordSubmit}>
-        <DialogContent>
-          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2, textAlign: 'center' }}>
-            Please enter the password to access the administrator dashboard.
-          </Typography>
-
-          {errorMsg && (
-            <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>
-              {errorMsg}
-            </Alert>
-          )}
-
-          <TextField
-            autoFocus
-            fullWidth
-            type="password"
-            label="Password"
-            variant="outlined"
-            value={passwordInput}
-            onChange={(e) => setPasswordInput(e.target.value)}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                borderRadius: 2,
-                backgroundColor: 'background.default',
-                '& fieldset': { borderColor: 'rgba(107, 29, 47, 0.2)' },
-                '&:hover fieldset': { borderColor: 'primary.main' },
-                '&.Mui-focused fieldset': { borderColor: 'primary.main' },
-              },
-              '& .MuiInputLabel-root.Mui-focused': { color: 'primary.main' },
-            }}
-          />
-        </DialogContent>
-
-        <DialogActions sx={{ px: 3, pb: 2, justifyContent: 'space-between' }}>
-          <Button
-            onClick={handleCancel}
-            sx={{ color: 'text.secondary', fontWeight: 600 }}
-          >
-            Cancel
-          </Button>
-
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              bgcolor: 'primary.main',
-              color: 'primary.contrastText',
-              px: 3,
-              fontWeight: 600,
-              borderRadius: 2,
-              '&:hover': { bgcolor: 'secondary.main' },
-            }}
-          >
-            Unlock
-          </Button>
-        </DialogActions>
-      </Box>
-    </Dialog>
+      onSuccess={() => setIsAuthenticated(true)}
+      onCancel={handleCancel}
+    />
   );
 }
 
 // ============================================================
-// Main App Component
+// Main App Routes
 // ============================================================
 function AppRoutes() {
   const { loading } = useContent();
@@ -247,7 +139,6 @@ function AppRoutes() {
     </React.Fragment>
   );
 }
-
 
 export default function App() {
   return (
