@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import { Close, ContentCopy, Check, OpenInNew, ZoomIn, ZoomOut, RestartAlt, ExpandMore } from '@mui/icons-material';
 import { Text } from '../../utils/CustomComponents';
-import { fetchPageContent } from '../../utils/ConstantContent';
+import { useContent } from '../../utils/ConstantContent';
 
 // Assets
 import imgMap from "../../../assets/img/wedding/map.png";
@@ -30,22 +30,10 @@ import imgChurchLandmark from "../../../assets/img/wedding/church_map.png";
 import imgReceptionLandmark from "../../../assets/img/wedding/reception_map.png";
 
 export default function ViewMapModal({ open, handleClose, defaultTab = 'church' }) {
-    const [CONTENT, setGlobalContent] = useState(null);
-    const [CONTENT_WEDDING, setContent] = useState(null);
-
-    useEffect(() => {
-        async function loadAllData() {
-            const [globalData, contentData] = await Promise.all([
-                fetchPageContent('global'),
-                fetchPageContent('wedding')
-            ]);
-
-            setGlobalContent(globalData);
-            setContent(contentData);
-            setLoading(false);
-        }
-        loadAllData();
-    }, []);
+    // Retrieval from context cache
+    const { getPageContent } = useContent();
+    const CONTENT = getPageContent('global');
+    const CONTENT_WEDDING = getPageContent('wedding');
 
     const [mapTab, setMapTab] = useState(defaultTab);
     const [copiedAddress, setCopiedAddress] = useState(false);

@@ -2,26 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Box, Container, Divider, Stack } from '@mui/material';
 import { Favorite, LocationOn, CalendarToday } from '@mui/icons-material';
 import { Text } from './utils/CustomComponents';
-import { fetchPageContent } from './utils/ConstantContent';
+import { useContent } from './utils/ConstantContent';
 
 export default function WeddingFooter() {
-    const [CONTENT, setGlobalContent] = useState(null);
-    const [CONTENT_FOOTER, setContent] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function loadAllData() {
-            const [globalData, contentData] = await Promise.all([
-                fetchPageContent('global'),
-                fetchPageContent('footer')
-            ]);
-
-            setGlobalContent(globalData);
-            setContent(contentData);
-            setLoading(false);
-        }
-        loadAllData();
-    }, []);
+    // Retrieval from context cache
+    const { getPageContent } = useContent();
+    const CONTENT = getPageContent('global');
+    const CONTENT_FOOTER = getPageContent('footer');
 
     return (
         <Box

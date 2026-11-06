@@ -11,8 +11,7 @@ import {
     ImageList,
     ImageListItem,
     Dialog,
-    IconButton,
-    CircularProgress
+    IconButton
 } from '@mui/material';
 import {
     ExpandMore,
@@ -23,7 +22,7 @@ import {
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
 import { useMedia } from '../utils/MediaContext';
-import { fetchPageContent } from '../utils/ConstantContent';
+import { useContent } from '../utils/ConstantContent';
 
 // Reusable Polaroid Card Sub-Component
 function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} }) {
@@ -86,6 +85,10 @@ function PolaroidCard({ src, alt, rotation = '0deg', hasTape = false, sx = {} })
 }
 
 export default function Story() {
+    // Retrieval from context cache
+    const { getPageContent } = useContent();
+    const CONTENT_STORY = getPageContent('story');
+
     const { getAsset, getGalleryAssets } = useMedia();
 
     // Dynamic background assets from Media Context
@@ -189,25 +192,6 @@ export default function Story() {
             },
         },
     ];
-        
-    const [CONTENT_STORY, setContent] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function loadAllData() {
-            const [contentData] = await Promise.all([
-                fetchPageContent('story')
-            ]);
-
-            setContent(contentData);
-            setLoading(false);
-        }
-        loadAllData();
-    }, []);
-
-    if (loading) {
-        return <CircularProgress />;
-    }
 
     return (
         <React.Fragment>

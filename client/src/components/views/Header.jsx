@@ -18,21 +18,12 @@ import { useMedia } from './utils/MediaContext';
 import MenuIcon from '@mui/icons-material/Menu';
 import imgLogo from '../assets/img/header/header_logo.png';
 import ParallaxBanner from '../views/utils/ParallaxBanner';
-import { fetchPageContent } from './utils/ConstantContent';
+import { useContent } from './utils/ConstantContent';
 
 export default function Header() {
-  const [CONTENT, setGlobalContent] = useState(null);
-
-  useEffect(() => {
-      async function loadAllData() {
-          const [globalData] = await Promise.all([
-              fetchPageContent('global'),
-          ]);
-
-          setGlobalContent(globalData);
-      }
-      loadAllData();
-  }, []);
+  // Retrieval from context cache
+  const { getPageContent } = useContent();
+  const CONTENT = getPageContent('global');
   
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);

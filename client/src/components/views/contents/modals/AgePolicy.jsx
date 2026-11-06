@@ -9,9 +9,14 @@ import {
   Button,
 } from '@mui/material';
 import { ChildCare } from '@mui/icons-material';
-import { CONTENT, CONTENT_FAQ } from '../../utils/Constants';
+import { useContent } from '../../utils/ConstantContent';
 
 export default function AgePolicyDialog({ open, onClose }) {
+  // Retrieval from context cache
+  const { getPageContent } = useContent();
+  const CONTENT = getPageContent('global');
+  const CONTENT_FAQ = getPageContent('faq');
+  
   return (
     <Dialog
       open={open}

@@ -20,9 +20,13 @@ import {
 } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import { useMedia } from '../utils/MediaContext';
-import { fetchPageContent } from '../utils/ConstantContent';
+import { useContent } from '../utils/ConstantContent';
 
 export default function Gifts() {
+    // Retrieval from context cache
+    const { getPageContent } = useContent();
+    const CONTENT_GIFT = getPageContent('gift');
+
     // Mongoose / Cloudflare Media Assets
     const { getAsset, getGalleryAssets } = useMedia();
     const sPageBackgroundDesktop = getAsset('gifts', 'background', 'desktop');
@@ -63,25 +67,6 @@ export default function Gifts() {
             window.open(imageUrl, '_blank');
         }
     };
-
-    const [CONTENT_GIFT, setContent] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function loadAllData() {
-            const [contentData] = await Promise.all([
-                fetchPageContent('gift')
-            ]);
-
-            setContent(contentData);
-            setLoading(false);
-        }
-        loadAllData();
-    }, []);
-
-    if (loading) {
-        return <CircularProgress />;
-    }
 
     const sHomeAddress = CONTENT_GIFT?.HOUSE_ADDRESS;
 

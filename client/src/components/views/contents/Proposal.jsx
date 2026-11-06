@@ -3,7 +3,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import { Container, Box, Stack, Card, CardMedia } from '@mui/material';
 import { Text } from '../utils/CustomComponents';
 import { useMedia } from '../utils/MediaContext';
-import { fetchPageContent } from '../utils/ConstantContent';
+import { useContent } from '../utils/ConstantContent';
 
 // Assets
 import imgChurch from "../../assets/img/proposal/church.png";
@@ -20,6 +20,11 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 export default function Proposal() {
+    // Retrieval from context cache
+    const { getPageContent } = useContent();
+    const CONTENT = getPageContent('global');
+    const CONTENT_PROPOSAL = getPageContent('proposal');
+    
     const { sId, sName } = useParams();
     const _sName = sName?.toLowerCase();
     const _sId = sId?.toUpperCase();
@@ -37,24 +42,6 @@ export default function Proposal() {
 
     const sBackgroundDesktop4 = getAsset('proposal', 'background', 'section4-desktop');
     const sBackgroundMobile4 = getAsset('proposal', 'background', 'section4-mobile');
-            
-    const [CONTENT, setGlobalContent] = useState(null);
-    const [CONTENT_PROPOSAL, setContent] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function loadAllData() {
-            const [globalData, contentData] = await Promise.all([
-                fetchPageContent('global'),
-                fetchPageContent('proposal')
-            ]);
-
-            setGlobalContent(globalData);
-            setContent(contentData);
-            setLoading(false);
-        }
-        loadAllData();
-    }, []);
 
     let oLetter = null;
     let oText = [];
@@ -91,10 +78,6 @@ export default function Proposal() {
         } else if (sIdLower === "parents") {
             imgAttireDress = getGalleryAssets('attire', 'gallery', 'parents');
             imgAttirePalette = getGalleryAssets('attire', 'palette', 'parents');
-        }
-
-        if (loading) {
-            return <CircularProgress />;
         }
 
         return (

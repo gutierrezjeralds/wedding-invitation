@@ -13,29 +13,17 @@ import {
   Card,
   CardContent,
   IconButton,
-  Tooltip,
-  CircularProgress
+  Tooltip
 } from '@mui/material';
 import { ExpandMore, Search, Clear, QuestionMark, ContactSupport, CheckCircle, ContentCopy } from '@mui/icons-material';
 import { Text } from '../utils/CustomComponents';
 import { useMedia } from '../utils/MediaContext';
-import { fetchPageContent } from '../utils/ConstantContent';
+import { useContent } from '../utils/ConstantContent';
 
 export default function Faq() {
-    const [CONTENT_FAQ, setContent] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function loadAllData() {
-            const [contentData] = await Promise.all([
-                fetchPageContent('faq')
-            ]);
-
-            setContent(contentData);
-            setLoading(false);
-        }
-        loadAllData();
-    }, []);
+    // Retrieval from context cache
+    const { getPageContent } = useContent();
+    const CONTENT_FAQ = getPageContent('faq');
     
     // Mongoose Assets
     const { getAsset } = useMedia();
@@ -79,14 +67,6 @@ export default function Faq() {
         setCopiedId(faq.ID);
         setTimeout(() => setCopiedId(null), 2000);
     };
-
-    if (loading || !CONTENT_FAQ) {
-        return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-                <CircularProgress color="primary" />
-            </Box>
-        );
-    }
 
     return (
         <React.Fragment>

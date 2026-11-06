@@ -1,40 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Container, Box, Grid, Paper, styled , Link, Button, CircularProgress} from '@mui/material';
+import { Container, Box, Grid, Paper, styled , Link, Button} from '@mui/material';
 import { Send } from '@mui/icons-material';
 import { Text, FavoriteDividerSmall } from '../utils/CustomComponents';
 import Countdown from '../utils/Countdown';
 import { useMedia } from '../utils/MediaContext';
-import { fetchPageContent } from '../utils/ConstantContent';
+import { useContent } from '../utils/ConstantContent';
 import { DynamicIcon } from '../utils/IconMap';
 
 export default function Home() {
+    // Retrieval from context cache
+    const { getPageContent } = useContent();
+    const CONTENT = getPageContent('global');
+    const CONTENT_HOME = getPageContent('home');
+
     // Mongoose Assets
     const { getAsset } = useMedia();
     const sPageBackgroundDesktop = getAsset('home', 'background', 'desktop');
     const sPageBackgroundMobile = getAsset('home', 'background', 'mobile');
-    
-    const [CONTENT, setGlobalContent] = useState(null);
-    const [CONTENT_HOME, setContent] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function loadAllData() {
-            const [globalData, contentData] = await Promise.all([
-                fetchPageContent('global'),
-                fetchPageContent('home')
-            ]);
-
-            setGlobalContent(globalData);
-            setContent(contentData);
-            setLoading(false);
-        }
-        loadAllData();
-    }, []);
-
-    if (loading) {
-        return <CircularProgress />;
-    }
     
     const Item = styled(Paper)(({ theme }) => ({
             backgroundColor: '#fff',

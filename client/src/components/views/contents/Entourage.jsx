@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container, Grid, Divider, styled, Paper, CircularProgress } from '@mui/material';
+import { Box, Container, Grid, Divider, styled, Paper } from '@mui/material';
 import ChurchIcon from '@mui/icons-material/Church';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ParallaxBanner from '../utils/ParallaxBanner';
 import { useMedia } from '../utils/MediaContext';
-import { fetchPageContent } from '../utils/ConstantContent';
+import { useContent } from '../utils/ConstantContent';
 
 export default function Entourage() {
+    // Retrieval from context cache
+    const { getPageContent } = useContent();
+    const CONTENT_ENTOURAGE = getPageContent('entourage');
+
     // Dynamic background assets from Media Context
     const { getAsset } = useMedia();
     const sPageBackgroundDesktop = getAsset('entourage', 'background', 'desktop');
@@ -24,25 +28,6 @@ export default function Entourage() {
         border: '1px solid rgba(107, 29, 47, 0.15)',
         boxShadow: '0 4px 12px rgba(107, 29, 47, 0.04)',
     }));
-            
-    const [CONTENT_ENTOURAGE, setContent] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function loadAllData() {
-            const [contentData] = await Promise.all([
-                fetchPageContent('entourage')
-            ]);
-
-            setContent(contentData);
-            setLoading(false);
-        }
-        loadAllData();
-    }, []);
-
-    if (loading) {
-        return <CircularProgress />;
-    }
 
     return (
         <React.Fragment>

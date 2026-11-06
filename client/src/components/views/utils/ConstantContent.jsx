@@ -1,44 +1,80 @@
-// src/services/contentService.js
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { 
   CONTENT as STATIC_CONTENT,
+  CONTENT_FOOTER as STATIC_FOOTER,
   CONTENT_ENVELOPE as STATIC_ENVELOPE,
   CONTENT_HOME as STATIC_HOME,
-  CONTENT_WEDDING as STATIC_WEDDING,
-  CONTENT_PROPOSAL as STATIC_PROPOSAL,
-  CONTENT_FOOTER as STATIC_FOOTER,
   CONTENT_STORY as STATIC_STORY,
+  CONTENT_WEDDING as STATIC_WEDDING,
   CONTENT_ENTOURAGE as STATIC_ENTOURAGE,
   CONTENT_ATTIRE as STATIC_ATTIRE,
   CONTENT_FAQ as STATIC_FAQ,
-  CONTENT_GIFT as STATIC_GIFT
-} from '../utils/Constants';
+  CONTENT_GIFT as STATIC_GIFT,
+  CONTENT_PROPOSAL as STATIC_PROPOSAL,
+} from './Constants';
 
 const STATIC_FALLBACKS = {
   global: STATIC_CONTENT,
+  footer: STATIC_FOOTER,
   envelope: STATIC_ENVELOPE,
   home: STATIC_HOME,
-  wedding: STATIC_WEDDING,
-  proposal: STATIC_PROPOSAL,
-  footer: STATIC_FOOTER,
   story: STATIC_STORY,
+  wedding: STATIC_WEDDING,
   entourage: STATIC_ENTOURAGE,
   attire: STATIC_ATTIRE,
   faq: STATIC_FAQ,
   gift: STATIC_GIFT,
+  proposal: STATIC_PROPOSAL,
 };
 
-export async function fetchPageContent(pageKey) {
-  try {
-    const response = await fetch(`/api/content/${pageKey}`);
-    const result = await response.json();
+const ContentContext = createContext();
 
-    if (result.success && result.data?.content) {
-      return result.data.content;
+export function ContentProvider({ children }) {
+  const [allContent, setAllContent] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function preloadAllContent() {
+      const pageKeys = Object.keys(STATIC_FALLBACKS);
+      const preloadedData = {};
+
+      // Fetch all pages in parallel on initial load
+      await Promise.all(
+        pageKeys.map(async (key) => {
+          try {
+            const res = await fetch(`/api/content/${key}`);
+            const json = await res.json();
+            if (json.success && json.data?.content) {
+              preloadedData[key] = json.data.content;
+            } else {
+              preloadedData[key] = STATIC_FALLBACKS[key];
+            }
+          } catch (err) {
+            console.warn(`Failed to preload ${key}, using static fallback.`, err);
+            preloadedData[key] = STATIC_FALLBACKS[key];
+          }
+        })
+      );
+
+      setAllContent(preloadedData);
+      setLoading(false);
     }
-  } catch (err) {
-    console.warn(`API offline for ${pageKey}, falling back to static constants.`);
-  }
 
-  // Fallback to static defaults
-  return STATIC_FALLBACKS[pageKey] || {};
+    preloadAllContent();
+  }, []);
+
+  // Helper function to get content for a specific page instantly without network delay
+  const getPageContent = (pageKey) => {
+    return allContent[pageKey] || STATIC_FALLBACKS[pageKey] || {};
+  };
+
+  return (
+    <ContentContext.Provider value={{ allContent, getPageContent, loading }}>
+      {children}
+    </ContentContext.Provider>
+  );
+}
+
+export function useContent() {
+  return useContext(ContentContext);
 }

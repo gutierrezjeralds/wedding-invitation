@@ -1,39 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Container, Box, Link, CircularProgress } from '@mui/material';
+import { Container, Box, Link } from '@mui/material';
 import { Text, FavoriteDividerSmall } from '../utils/CustomComponents';
 import GlobalButterflies from '../utils/GlobalButterfliesAnimation';
 import { useMedia } from '../utils/MediaContext';
-import { fetchPageContent } from '../utils/ConstantContent';
+import { useContent } from '../utils/ConstantContent';
 
 export default function Envelope() {
+    // Retrieval from context cache
+    const { getPageContent } = useContent();
+    const CONTENT = getPageContent('global');
+    const CONTENT_ENVELOPE = getPageContent('envelope');
+
     // Mongoose Assets
     const { getAsset } = useMedia();
     const sPageBackgroundDesktop = getAsset('envelope', 'background', 'desktop');
     const sPageBackgroundMobile = getAsset('envelope', 'background', 'mobile');
     const sPageEnvelope = getAsset('envelope', 'envelope');
-        
-    const [CONTENT, setGlobalContent] = useState(null);
-    const [CONTENT_ENVELOPE, setContent] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function loadAllData() {
-            const [globalData, contentData] = await Promise.all([
-                fetchPageContent('global'),
-                fetchPageContent('envelope')
-            ]);
-
-            setGlobalContent(globalData);
-            setContent(contentData);
-            setLoading(false);
-        }
-        loadAllData();
-    }, []);
-
-    if (loading) {
-        return <CircularProgress />;
-    }
 
     return (
         <React.Fragment>

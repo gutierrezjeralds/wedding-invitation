@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Container, Stack, Paper, Box, Button, Tabs, Tab, Chip, CircularProgress } from '@mui/material';
+import { Container, Stack, Paper, Box, Button, Tabs, Tab, Chip } from '@mui/material';
 import { 
     Church, AccessTimeFilled, Map, WineBar, Send
 } from '@mui/icons-material';
 import { Text, PageTitle } from '../utils/CustomComponents';
 import ViewMapModal from './modals/ViewMap';
 import { useMedia } from '../utils/MediaContext';
-import { fetchPageContent } from '../utils/ConstantContent';
+import { useContent } from '../utils/ConstantContent';
 import { DynamicIcon } from '../utils/IconMap';
 
 function TabPanel(props) {
@@ -27,6 +27,11 @@ function TabPanel(props) {
 }
 
 export default function Wedding() {
+    // Retrieval from context cache
+    const { getPageContent } = useContent();
+    const CONTENT = getPageContent('global');
+    const CONTENT_WEDDING = getPageContent('wedding');
+
     // Mongoose Assets
     const { getAsset } = useMedia();
     const sPageBackgroundDesktop = getAsset('wedding', 'background', 'desktop');
@@ -47,28 +52,6 @@ export default function Wedding() {
     };
     
     const handleCloseViewMapModal = () => setOpenViewMapModal(false);
-        
-    const [CONTENT, setGlobalContent] = useState(null);
-    const [CONTENT_WEDDING, setContent] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function loadAllData() {
-            const [globalData, contentData] = await Promise.all([
-                fetchPageContent('global'),
-                fetchPageContent('wedding')
-            ]);
-
-            setGlobalContent(globalData);
-            setContent(contentData);
-            setLoading(false);
-        }
-        loadAllData();
-    }, []);
-
-    if (loading) {
-        return <CircularProgress />;
-    }
 
     return (
         <React.Fragment>

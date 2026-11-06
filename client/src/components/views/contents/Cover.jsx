@@ -2,9 +2,9 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { Text } from '../utils/CustomComponents';
-import { CONTENT } from '../utils/Constants';
 import { motion } from 'framer-motion';
 import { useMedia } from '../utils/MediaContext';
+import { useContent } from '../utils/ConstantContent';
 
 // --- Sparkling 4-Point Star Component ---
 function SparklingStar({ color, size }) {
@@ -174,6 +174,10 @@ function ElegantSequenceDigit({ digit, sequenceIndex, isSevenColumn }) {
 }
 
 export default function CurtainIntro() {
+    // Retrieval from preloaded context cache
+    const { getPageContent } = useContent();
+    const CONTENT = getPageContent('global');
+
     const { getAsset } = useMedia();
     const sPageBackground = getAsset('cover', 'background');
 
@@ -367,7 +371,7 @@ export default function CurtainIntro() {
                         bgcolor: '#121914',
                     }}
                 >
-                    <CoverContent isOpening={isOpening} sPageBackground={sPageBackground} side="left" />
+                    <CoverContent isOpening={isOpening} sPageBackground={sPageBackground} CONTENT={CONTENT} side="left" />
                 </Box>
             </motion.div>
 
@@ -399,7 +403,7 @@ export default function CurtainIntro() {
                         bgcolor: '#121914',
                     }}
                 >
-                    <CoverContent isOpening={isOpening} sPageBackground={sPageBackground} side="right" />
+                    <CoverContent isOpening={isOpening} sPageBackground={sPageBackground} CONTENT={CONTENT} side="right" />
                 </Box>
             </motion.div>
         </Box>
@@ -407,7 +411,7 @@ export default function CurtainIntro() {
 }
 
 // Full Magazine Cover with proper full-screen background alignment across panels
-function CoverContent({ isOpening, sPageBackground }) {
+function CoverContent({ isOpening, sPageBackground, CONTENT, side }) {
     return (
         <Box
             sx={{
@@ -534,7 +538,7 @@ function CoverContent({ isOpening, sPageBackground }) {
                             color: '#FAF5ED',
                             textShadow: '0px 2px 12px rgba(0,0,0,0.8)',
                         }}
-                        textKey={CONTENT.TITLE_NAME}
+                        textKey={CONTENT?.TITLE_NAME}
                     />
                 </motion.div>
             </Box>

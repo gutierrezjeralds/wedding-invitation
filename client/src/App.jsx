@@ -9,8 +9,12 @@ import {
   Button,
   Box,
   Typography,
-  Alert
+  Alert,
+  CircularProgress
 } from '@mui/material';
+import { ContentProvider, useContent } from './components/views/utils/ConstantContent';
+import DynamicThemeProvider from './components/views/utils/ThemeWrapper';
+import { MediaProvider } from './components/views/utils/MediaContext';
 import Header from './components/views/Header';
 import Footer from './components/views/Footer';
 import Envelope from './components/views/contents/Envelope';
@@ -163,8 +167,30 @@ function AdminProtectedRoute({ children }) {
 // ============================================================
 // Main App Component
 // ============================================================
-export default function App() {
+function AppRoutes() {
+  const { loading } = useContent();
   const location = useLocation();
+
+  // Show a full-screen loading spinner until all page content is preloaded
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+          backgroundColor: '#faf8f5',
+        }}
+      >
+        <CircularProgress color="primary" />
+        <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary' }}>
+          Loading wedding invitation...
+        </Typography>
+      </Box>
+    );
+  }
 
   // Array of paths where public Header/Footer should NOT appear
   const isProposalPath = location.pathname.startsWith('/proposal');
@@ -217,5 +243,18 @@ export default function App() {
 
       {showHeader && <Footer />}
     </React.Fragment>
+  );
+}
+
+
+export default function App() {
+  return (
+    <ContentProvider>
+      <DynamicThemeProvider>
+        <MediaProvider>
+          <AppRoutes />
+        </MediaProvider>
+      </DynamicThemeProvider>
+    </ContentProvider>
   );
 }
