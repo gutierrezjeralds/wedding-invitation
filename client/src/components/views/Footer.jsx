@@ -63,7 +63,7 @@ export default function WeddingFooter() {
                             <Text
                                 variant="h2"
                                 className="corinthia-regular"
-                                textKey={CONTENT_FOOTER.NAME.GROOM_FN}
+                                textKey={CONTENT_FOOTER?.NAME?.GROOM_FN}
                             />
 
                             <Text
@@ -75,7 +75,7 @@ export default function WeddingFooter() {
                             <Text
                                 variant="h2"
                                 className="corinthia-regular"
-                                textKey={CONTENT_FOOTER.NAME.BRIDE_FN}
+                                textKey={CONTENT_FOOTER?.NAME?.BRIDE_FN}
                             />
                         </Box>
 
@@ -92,13 +92,13 @@ export default function WeddingFooter() {
                             <Text
                                 variant="caption"
                                 className="cormorant-sc-regular text-uppercase text-wedding-secondary"
-                                textKey={CONTENT_FOOTER.NAME.GROOM_MN_LN}
+                                textKey={CONTENT_FOOTER?.NAME?.GROOM_MN_LN}
                             />
 
                             <Text
                                 variant="caption"
                                 className="cormorant-sc-regular text-uppercase text-wedding-secondary"
-                                textKey={CONTENT_FOOTER.NAME.BRIDE_MN_LN}
+                                textKey={CONTENT_FOOTER?.NAME?.BRIDE_MN_LN}
                             />
                         </Box>
 
@@ -112,7 +112,7 @@ export default function WeddingFooter() {
                                 fontSize: '0.75rem',
                                 textAlign: 'center',
                             }}
-                            textKey={CONTENT_FOOTER.TAGLINE}
+                            textKey={CONTENT_FOOTER?.TAGLINE}
                         />
                     </Box>
 
@@ -140,7 +140,7 @@ export default function WeddingFooter() {
                                 variant="body2"
                                 color="text.secondary"
                                 className="cormorant-sc-regular"
-                                textKey={CONTENT.TITLE_DATE_V2}
+                                textKey={CONTENT?.TITLE_DATE_V2}
                             />
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
@@ -149,7 +149,7 @@ export default function WeddingFooter() {
                                 variant="body2"
                                 color="text.secondary"
                                 className="cormorant-sc-regular"
-                                textKey={CONTENT.TITLE_CHURCH}
+                                textKey={CONTENT?.TITLE_CHURCH}
                             />
                         </Box>
                     </Box>
@@ -165,7 +165,7 @@ export default function WeddingFooter() {
                                 textTransform: 'uppercase',
                                 textAlign: 'center',
                             }}
-                            textKey={CONTENT.TITLE_HASHTAG}
+                            textKey={CONTENT?.TITLE_HASHTAG}
                         />
                     </Box>
 
@@ -176,7 +176,7 @@ export default function WeddingFooter() {
                         variant="caption"
                         color="text.secondary"
                         sx={{ textAlign: 'center', width: '100%' }}
-                        textKey={`${CONTENT_FOOTER.CRIGHT} ${new Date().getFullYear()}`}
+                        textKey={`${CONTENT_FOOTER?.CRIGHT} ${new Date().getFullYear()}`}
                     />
                 </Stack>
             </Container>
