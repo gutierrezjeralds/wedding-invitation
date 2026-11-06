@@ -22,7 +22,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  IconButton
+  IconButton,
+  Tooltip
 } from '@mui/material';
 import {
   Save,
@@ -33,7 +34,8 @@ import {
   ExpandMore,
   FolderOpen,
   Add,
-  Delete
+  Delete,
+  Edit
 } from '@mui/icons-material';
 
 // Import static constants as defaults / fallbacks
@@ -68,7 +70,7 @@ const PAGE_OPTIONS = [
 /**
  * RECURSIVE SUB-COMPONENT SUPPORTING DYNAMIC ARRAYS, OBJECTS, & ID-BASED DICTIONARIES
  */
-function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem, onAddKey }) {
+function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem, onAddKey, onDeleteKey, onRenameKey }) {
   if (data === null || data === undefined) return null;
 
   // 1. Primitive Leaf Node (String or Number) - Converted to Textarea
@@ -142,6 +144,8 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                   onAddItem={onAddItem}
                   onDeleteItem={onDeleteItem}
                   onAddKey={onAddKey}
+                  onDeleteKey={onDeleteKey}
+                  onRenameKey={onRenameKey}
                 />
               </CardContent>
             </Card>
@@ -168,7 +172,6 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
     return (
       <Stack spacing={2} sx={{ width: '100%', my: 1 }}>
         {Object.entries(data).map(([key, value]) => {
-          // Exclude render functions or react element markers
           if (typeof value === 'function' || (typeof value === 'object' && value?.render)) return null;
 
           const currentPath = path ? `${path}.${key}` : key;
@@ -211,13 +214,37 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                 }}
               >
                 <AccordionSummary expandIcon={<ExpandMore sx={{ color: 'primary.main' }} />}>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: '100%', pr: 2 }}>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: '100%', pr: 1 }}>
                     <Stack direction="row" alignItems="center" spacing={1}>
                       <FolderOpen sx={{ color: 'secondary.main', fontSize: 18 }} />
                       <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'secondary.main', textTransform: 'uppercase' }}>
                         {key.replace(/_/g, ' ')}
                       </Typography>
                     </Stack>
+
+                    {/* Actions for Dynamic Object Keys (e.g., Proposal Letter IDs) */}
+                    {isLetterDict && (
+                      <Stack direction="row" spacing={0.5} onClick={(e) => e.stopPropagation()}>
+                        <Tooltip title="Edit Letter ID Key">
+                          <IconButton
+                            size="small"
+                            color="primary"
+                            onClick={() => onRenameKey(path, key)}
+                          >
+                            <Edit fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete Letter Block">
+                          <IconButton
+                            size="small"
+                            color="error"
+                            onClick={() => onDeleteKey(path, key)}
+                          >
+                            <Delete fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      </Stack>
+                    )}
                   </Stack>
                 </AccordionSummary>
                 <AccordionDetails sx={{ width: '100%', display: 'block', pt: 0 }}>
@@ -228,6 +255,8 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                     onAddItem={onAddItem}
                     onDeleteItem={onDeleteItem}
                     onAddKey={onAddKey}
+                    onDeleteKey={onDeleteKey}
+                    onRenameKey={onRenameKey}
                   />
                 </AccordionDetails>
               </Accordion>
@@ -246,6 +275,8 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                 onAddItem={onAddItem}
                 onDeleteItem={onDeleteItem}
                 onAddKey={onAddKey}
+                onDeleteKey={onDeleteKey}
+                onRenameKey={onRenameKey}
               />
             </Box>
           );
@@ -382,6 +413,60 @@ export default function AdminContentManager() {
         const sampleKey = Object.keys(curr)[0];
         curr[newId] = sampleKey ? JSON.parse(JSON.stringify(curr[sampleKey], (k, v) => (typeof v === 'string' ? '' : v))) : { NAME: '', MESSAGE: '' };
       }
+      return cloned;
+    });
+  };
+
+  const handleDeleteKey = (path, targetKey) => {
+    setFormContent((prev) => {
+      const cloned = JSON.parse(JSON.stringify(prev));
+      const keys = path.replace(/\[(\d+)\]/g, '.$1').split('.');
+      let curr = cloned;
+      for (let i = 0; i < keys.length; i++) {
+        curr = curr[keys[i]];
+      }
+      if (curr && typeof curr === 'object') {
+        delete curr[targetKey];
+      }
+      return cloned;
+    });
+  };
+
+  const handleRenameKey = (path, oldKey) => {
+    const newKey = prompt(`Edit ID Key Name (currently: "${oldKey}"):`, oldKey);
+    if (!newKey || newKey === oldKey) return;
+
+    setFormContent((prev) => {
+      const cloned = JSON.parse(JSON.stringify(prev));
+      const keys = path.replace(/\[(\d+)\]/g, '.$1').split('.');
+      let curr = cloned;
+      for (let i = 0; i < keys.length; i++) {
+        curr = curr[keys[i]];
+      }
+
+      if (curr && typeof curr === 'object') {
+        if (curr[newKey]) {
+          alert(`Key "${newKey}" already exists! Please use a unique key.`);
+          return prev;
+        }
+
+        const updatedObject = {};
+        Object.keys(curr).forEach((k) => {
+          if (k === oldKey) {
+            updatedObject[newKey] = curr[oldKey];
+          } else {
+            updatedObject[k] = curr[k];
+          }
+        });
+
+        const parentKeys = path.replace(/\[(\d+)\]/g, '.$1').split('.');
+        let parent = cloned;
+        for (let i = 0; i < parentKeys.length - 1; i++) {
+          parent = parent[parentKeys[i]];
+        }
+        parent[parentKeys[parentKeys.length - 1]] = updatedObject;
+      }
+
       return cloned;
     });
   };
@@ -545,6 +630,8 @@ export default function AdminContentManager() {
                       onAddItem={handleAddItem}
                       onDeleteItem={handleDeleteItem}
                       onAddKey={handleAddKey}
+                      onDeleteKey={handleDeleteKey}
+                      onRenameKey={handleRenameKey}
                     />
                   </CardContent>
                 </Card>
@@ -552,42 +639,42 @@ export default function AdminContentManager() {
             ))}
           </Box>
 
-            {/* Action Bar */}
-            <Divider sx={{ my: 4 }} />
-            <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center" spacing={2}>
-                {/* <Button
-                    fullWidth={{ xs: true, sm: false }}
-                    variant="outlined"
-                    color="inherit"
-                    startIcon={<Refresh />}
-                    onClick={handleResetToDefault}
-                    sx={{ borderRadius: 2.5, textTransform: 'none' }}
-                >
-                    Reset to Defaults
-                </Button> */}
-                <Button
-                    fullWidth={{ xs: true, sm: false }}
-                    variant="contained"
-                    size="large"
-                    startIcon={saving ? <CircularProgress size={20} color="inherit" /> : <Save />}
-                    onClick={handleSave}
-                    disabled={saving}
-                    sx={{
-                        bgcolor: 'primary.main',
-                        color: 'primary.contrastText',
-                        px: 5,
-                        borderRadius: 2.5,
-                        fontWeight: 700,
-                        textTransform: 'none',
-                        boxShadow: '0 4px 12px rgba(107, 29, 47, 0.2)',
-                        '&:hover': {
-                            bgcolor: 'secondary.main',
-                        },
-                    }}
-                >
-                    {saving ? 'Publishing...' : 'Save & Publish Changes'}
-                </Button>
-            </Stack>
+          {/* Action Bar */}
+          <Divider sx={{ my: 4 }} />
+          <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center" spacing={2}>
+            {/* <Button
+              fullWidth={{ xs: true, sm: false }}
+              variant="outlined"
+              color="inherit"
+              startIcon={<Refresh />}
+              onClick={handleResetToDefault}
+              sx={{ borderRadius: 2.5, textTransform: 'none' }}
+            >
+              Reset to Defaults
+            </Button> */}
+            <Button
+              fullWidth={{ xs: true, sm: false }}
+              variant="contained"
+              size="large"
+              startIcon={saving ? <CircularProgress size={20} color="inherit" /> : <Save />}
+              onClick={handleSave}
+              disabled={saving}
+              sx={{
+                bgcolor: 'primary.main',
+                color: 'primary.contrastText',
+                px: 5,
+                borderRadius: 2.5,
+                fontWeight: 700,
+                textTransform: 'none',
+                boxShadow: '0 4px 12px rgba(107, 29, 47, 0.2)',
+                '&:hover': {
+                  bgcolor: 'secondary.main',
+                },
+              }}
+            >
+              {saving ? 'Publishing...' : 'Save & Publish Changes'}
+            </Button>
+          </Stack>
         </Paper>
       )}
 

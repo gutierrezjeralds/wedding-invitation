@@ -79,13 +79,13 @@ export default function Proposal() {
 
         // Pull attire dresses & palettes dynamically from MediaContext
         if (sIdLower === "principal" || sIdLower === "secondary") {
-            imgAttireDress = getGalleryAssets('attire', 'gallery', 'principal');
-            imgAttirePalette = getGalleryAssets('attire', 'palette', 'principal');
+            imgAttireDress = getGalleryAssets('attire', 'gallery', 'sponsors');
+            imgAttirePalette = getGalleryAssets('attire', 'palette', 'sponsors');
         } else if (sIdLower === "entourage") {
             if (sIdSubLower === "bridemaids" || sIdSubLower === "groomsmen") {
-                imgAttireDress = getGalleryAssets('attire', 'gallery', 'entourage');
+                imgAttireDress = getGalleryAssets('attire', 'gallery', 'entourage-adults');
             } else {
-                imgAttireDress = getGalleryAssets('attire', 'gallery', 'parents');
+                imgAttireDress = getGalleryAssets('attire', 'gallery', 'entourage-childs');
             }
             imgAttirePalette = getGalleryAssets('attire', 'palette', 'guest');
         } else if (sIdLower === "parents") {
