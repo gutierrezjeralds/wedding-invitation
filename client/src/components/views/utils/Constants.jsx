@@ -1,7 +1,3 @@
-import { 
-    FavoriteBorder, AccessTimeFilled, Church, PhotoCamera, WineBar, Gite, AutoAwesome, Groups, Checkroom
-} from '@mui/icons-material';
-
 export const CONTENT_ATTIRE_DONT = {
     NOTE_TITLE: "A Gentle Note on Attire",
     NOTE_SUBTITLE: "To maintain the elegant and cohesive atmosphere of our celebration, please kindly avoid the following:",

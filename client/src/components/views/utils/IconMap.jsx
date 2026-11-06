@@ -20,6 +20,6 @@ export function DynamicIcon({ iconName, sx, fontSize }) {
   }
 
   // Fallback default icon
-  const DefaultIcon = Icons.HelpOutline;
+  const DefaultIcon = Icons.Help;
   return <DefaultIcon sx={sx} fontSize={fontSize} />;
 }

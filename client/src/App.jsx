@@ -15,6 +15,8 @@ import {
 import { ContentProvider, useContent } from './components/views/utils/ConstantContent';
 import DynamicThemeProvider from './components/views/utils/ThemeWrapper';
 import { MediaProvider } from './components/views/utils/MediaContext';
+
+// Pages
 import Header from './components/views/Header';
 import Footer from './components/views/Footer';
 import Envelope from './components/views/contents/Envelope';
