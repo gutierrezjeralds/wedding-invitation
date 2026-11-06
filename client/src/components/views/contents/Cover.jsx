@@ -183,6 +183,7 @@ export default function CurtainIntro() {
 
     const navigate = useNavigate();
     const [isOpening, setIsOpening] = useState(false);
+    const [isCurtainOpened, setIsCurtainOpened] = useState(false);
 
     const butterflySwarm = useMemo(() => {
         return Array.from({ length: 20 }).map((_, i) => {
@@ -216,12 +217,18 @@ export default function CurtainIntro() {
             setIsOpening(true);
         }, 3000);
 
+        // The curtains take 2.8 seconds to finish opening after the 3-second hold.
+        const curtainOpenedTimer = setTimeout(() => {
+            setIsCurtainOpened(true);
+        }, 5800);
+
         const redirectTimer = setTimeout(() => {
             navigate('/home', { replace: true });
-        }, 5800);
+        }, 6500);
 
         return () => {
             clearTimeout(openTimer);
+            clearTimeout(curtainOpenedTimer);
             clearTimeout(redirectTimer);
         };
     }, [navigate]);
@@ -234,15 +241,42 @@ export default function CurtainIntro() {
                 zIndex: 9999,
                 overflow: 'hidden',
                 bgcolor: '#121914', 
-                background: 'radial-gradient(circle at 50% 50%, #223225 0%, #0c120d 90%)',
+                background: '#121914',
             }}
         >
-            {/* --- ENCHANTED REVEAL BACKGROUND --- */}
+            {/* Fixed editorial background: stays in place while the curtains move. */}
+            <Box
+                component="img"
+                src={sPageBackground}
+                alt="Wedding Editorial Cover"
+                sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    zIndex: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: 'grayscale(50%) contrast(110%) brightness(80%)',
+                    pointerEvents: 'none',
+                }}
+            />
             <Box
                 sx={{
                     position: 'absolute',
                     inset: 0,
                     zIndex: 0,
+                    background: 'radial-gradient(circle at 50% 50%, rgba(107, 29, 47, 0.25) 0%, rgba(0, 0, 0, 0.70) 80%)',
+                    mixBlendMode: 'multiply',
+                    pointerEvents: 'none',
+                }}
+            />
+
+            {/* --- ENCHANTED REVEAL BACKGROUND --- */}
+            <Box
+                sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    zIndex: 1,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -305,7 +339,7 @@ export default function CurtainIntro() {
             </Box>
 
             {/* --- ENCHANTED FAIRY BUTTERFLY SWARM --- */}
-            {isOpening && butterflySwarm.map((b) => (
+            {!isCurtainOpened && butterflySwarm.map((b) => (
                 <SwarmButterflyItem
                     key={b.id}
                     idPrefix={b.idPrefix}
@@ -368,10 +402,10 @@ export default function CurtainIntro() {
                         width: '100vw',
                         height: '100vh',
                         position: 'relative',
-                        bgcolor: '#121914',
+                        bgcolor: 'transparent',
                     }}
                 >
-                    <CoverContent isOpening={isOpening} sPageBackground={sPageBackground} CONTENT={CONTENT} side="left" />
+                    <CoverContent CONTENT={CONTENT} />
                 </Box>
             </motion.div>
 
@@ -400,10 +434,10 @@ export default function CurtainIntro() {
                         height: '100vh',
                         position: 'relative',
                         left: '-50vw',
-                        bgcolor: '#121914',
+                        bgcolor: 'transparent',
                     }}
                 >
-                    <CoverContent isOpening={isOpening} sPageBackground={sPageBackground} CONTENT={CONTENT} side="right" />
+                    <CoverContent CONTENT={CONTENT} />
                 </Box>
             </motion.div>
         </Box>
@@ -411,7 +445,7 @@ export default function CurtainIntro() {
 }
 
 // Full Magazine Cover with proper full-screen background alignment across panels
-function CoverContent({ isOpening, sPageBackground, CONTENT, side }) {
+function CoverContent({ CONTENT }) {
     return (
         <Box
             sx={{
@@ -421,46 +455,9 @@ function CoverContent({ isOpening, sPageBackground, CONTENT, side }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'relative',
-                bgcolor: '#121914',
+                bgcolor: 'transparent',
             }}
         >
-            {/* Background Editorial Image */}
-            <motion.div
-                animate={{ scale: isOpening ? 1.08 : 1 }}
-                transition={{ duration: 3.5, ease: "easeOut" }}
-                style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100vw',
-                    height: '100vh',
-                }}
-            >
-                <Box
-                    component="img"
-                    src={sPageBackground}
-                    alt="Wedding Editorial Cover"
-                    sx={{
-                        width: '100vw',
-                        height: '100vh',
-                        objectFit: 'cover',
-                        filter: 'grayscale(50%) contrast(110%) brightness(80%)',
-                    }}
-                />
-            </motion.div>
-
-            {/* Warm Soft Vignette Tint */}
-            <Box
-                sx={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100vw',
-                    height: '100vh',
-                    background:
-                        'radial-gradient(circle at 50% 50%, rgba(107, 29, 47, 0.25) 0%, rgba(0, 0, 0, 0.70) 80%)',
-                    mixBlendMode: 'multiply',
-                }}
-            />
-
             {/* Stacked 07 / 17 / 27 Typography */}
             <Box
                 sx={{
