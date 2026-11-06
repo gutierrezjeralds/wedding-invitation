@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
-import { PeopleAlt, Palette, Backup } from '@mui/icons-material';
+import { Box, Typography, Grid, Card, CardContent, Stack } from '@mui/material';
+import { PeopleAlt, Palette, Backup, EditNote, Home } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { PageTitle } from '../../utils/CustomComponents';
 
@@ -11,10 +11,76 @@ export default function AdminHome() {
     <Box sx={{ py: 2, px: 2, maxWidth: 1200, mx: 'auto' }}>
       <PageTitle
         title="Welcome to Admin Dashboard"
-        subtitle="Manage website assets, dynamic colors, view real-time RSVP analytics, and export guest check-in sheets."
+        subtitle="Manage website content, assets, dynamic colors, view real-time RSVP analytics, and preview your wedding site."
       />
 
       <Grid container spacing={3} sx={{ mt: 3 }}>
+        {/* Back to Live Website Card */}
+        <Grid item class="w-100">
+          <Card
+            elevation={0}
+            onClick={() => navigate('/')}
+            sx={{
+              p: 2,
+              height: '100%',
+              border: '1px solid rgba(107, 29, 47, 0.15)',
+              borderRadius: 3,
+              cursor: 'pointer',
+              bgcolor: 'background.paper',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 24px rgba(107, 29, 47, 0.12)',
+              },
+            }}
+          >
+            <CardContent>
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1 }}>
+                <Home sx={{ fontSize: 28, color: 'primary.main' }} />
+                <Typography variant="h6" sx={{ color: 'secondary.main', fontWeight: 700 }}>
+                  View Live Website
+                </Typography>
+              </Stack>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                Return to the home page root (`/`) to preview how your changes look live for guests visiting your wedding invitation site.
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Content Management System Card */}
+        <Grid item class="w-100">
+          <Card
+            elevation={0}
+            onClick={() => navigate('/admin/content')}
+            sx={{
+              p: 2,
+              height: '100%',
+              border: '1px solid rgba(107, 29, 47, 0.15)',
+              borderRadius: 3,
+              cursor: 'pointer',
+              bgcolor: 'background.paper',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 24px rgba(107, 29, 47, 0.12)',
+              },
+            }}
+          >
+            <CardContent>
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1 }}>
+                <EditNote sx={{ fontSize: 28, color: 'primary.main' }} />
+                <Typography variant="h6" sx={{ color: 'secondary.main', fontWeight: 700 }}>
+                  Content Management System
+                </Typography>
+              </Stack>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                Edit headlines, dates, nested entourage entries, FAQs, proposals, and dynamic text across all pages without touching code.
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
         {/* Media & Asset Manager Card */}
         <Grid item class="w-100">
           <Card
@@ -35,10 +101,12 @@ export default function AdminHome() {
             }}
           >
             <CardContent>
-              <Backup sx={{ fontSize: 44, color: 'primary.main', mb: 2 }} />
-              <Typography variant="h6" sx={{ color: 'secondary.main', fontWeight: 700, mb: 1 }}>
-                Media & Asset Manager
-              </Typography>
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1 }}>
+                <Backup sx={{ fontSize: 28, color: 'primary.main' }} />
+                <Typography variant="h6" sx={{ color: 'secondary.main', fontWeight: 700 }}>
+                  Media & Asset Manager
+                </Typography>
+              </Stack>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                 Upload, optimize, and organize site backgrounds, banners, story tabs, attire inspiration slides, and color palettes.
               </Typography>
@@ -66,10 +134,12 @@ export default function AdminHome() {
             }}
           >
             <CardContent>
-              <PeopleAlt sx={{ fontSize: 44, color: 'primary.main', mb: 2 }} />
-              <Typography variant="h6" sx={{ color: 'secondary.main', fontWeight: 700, mb: 1 }}>
-                RSVP Summary Report
-              </Typography>
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1 }}>
+                <PeopleAlt sx={{ fontSize: 28, color: 'primary.main' }} />
+                <Typography variant="h6" sx={{ color: 'secondary.main', fontWeight: 700 }}>
+                  RSVP Summary Report
+                </Typography>
+              </Stack>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                 View real-time attendance stats, expand primary and accompanying guest tree structures, and download Excel or PDF check-in lists.
               </Typography>
@@ -97,10 +167,12 @@ export default function AdminHome() {
             }}
           >
             <CardContent>
-              <Palette sx={{ fontSize: 44, color: 'primary.main', mb: 2 }} />
-              <Typography variant="h6" sx={{ color: 'secondary.main', fontWeight: 700, mb: 1 }}>
-                Theme & Typography Settings
-              </Typography>
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1 }}>
+                <Palette sx={{ fontSize: 28, color: 'primary.main' }} />
+                <Typography variant="h6" sx={{ color: 'secondary.main', fontWeight: 700 }}>
+                  Theme & Typography Settings
+                </Typography>
+              </Stack>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                 Customize palette colors, wine red accents, background shades, header typography sizes, and font styles stored directly in MongoDB.
               </Typography>

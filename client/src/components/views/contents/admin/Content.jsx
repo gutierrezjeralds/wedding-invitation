@@ -35,7 +35,8 @@ import {
   FolderOpen,
   Add,
   Delete,
-  Edit
+  Edit,
+  Download
 } from '@mui/icons-material';
 
 // Import static constants as defaults / fallbacks
@@ -307,6 +308,7 @@ export default function AdminContentManager() {
   const [searchFilter, setSearchFilter] = useState('');
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'success' });
 
   useEffect(() => {
@@ -496,6 +498,44 @@ export default function AdminContentManager() {
     }
   };
 
+  // NEW: Download All Content Backup as a JSON file
+  const handleDownloadBackup = async () => {
+    setDownloading(true);
+    try {
+      const allBackupData = {};
+
+      // Fetch all pages from backend to create a complete database backup bundle
+      for (const option of PAGE_OPTIONS) {
+        try {
+          const res = await fetch(`/api/content/${option.key}`);
+          const json = await res.json();
+          if (json.success && json.data?.content) {
+            allBackupData[option.key] = json.data.content;
+          } else {
+            allBackupData[option.key] = option.defaultData;
+          }
+        } catch {
+          allBackupData[option.key] = option.defaultData;
+        }
+      }
+
+      // Convert object to JSON string and trigger browser download
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allBackupData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `wedding-cms-backup-${new Date().toISOString().slice(0, 10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      setToast({ open: true, message: 'Complete site backup downloaded successfully!', severity: 'success' });
+    } catch (err) {
+      setToast({ open: true, message: 'Failed to generate backup file.', severity: 'error' });
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   const handleResetToDefault = () => {
     const selectedOption = PAGE_OPTIONS.find((p) => p.key === selectedPage);
     if (selectedOption) {
@@ -577,7 +617,7 @@ export default function AdminContentManager() {
           }}
         >
           <Stack spacing={2} sx={{ mb: 3, display: 'block', width: '100%' }}>
-            <Box sx={{ display: 'block', width: '100%', mb: 1 }}>
+            <Box sx={{ display: 'block', width: '100%', mb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
               <Chip
                 label={`Editing Section: ${PAGE_OPTIONS.find((p) => p.key === selectedPage)?.key.toUpperCase()}`}
                 color="primary"
@@ -585,7 +625,20 @@ export default function AdminContentManager() {
                 size="small"
                 sx={{ fontWeight: 700, display: 'inline-flex' }}
               />
+
+              {/* Download Backup Button */}
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<Download />}
+                onClick={handleDownloadBackup}
+                disabled={downloading}
+                sx={{ borderRadius: 2, textTransform: 'none', borderColor: 'primary.main', color: 'primary.main' }}
+              >
+                {downloading ? 'Preparing Backup...' : 'Download Full JSON Backup'}
+              </Button>
             </Box>
+
             <TextField
               fullWidth
               size="small"
@@ -688,7 +741,7 @@ export default function AdminContentManager() {
           onClose={() => setToast({ ...toast, open: false })}
           severity={toast.severity}
           icon={<CheckCircle fontSize="inherit" />}
-          sx={{ width: '100%', borderRadius: 3, boxShadow: '0 6px 20px rgba(0,0,0,0.15)' }}
+          sx={{ width: '100%', borderRadius: `3px`, boxShadow: '0 6px 20px rgba(0,0,0,0.15)' }}
         >
           {toast.message}
         </Alert>
