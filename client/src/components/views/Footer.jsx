@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container, Divider, Stack, CircularProgress } from '@mui/material';
+import { Box, Container, Divider, Stack } from '@mui/material';
 import { Favorite, LocationOn, CalendarToday } from '@mui/icons-material';
 import { Text } from './utils/CustomComponents';
 import { fetchPageContent } from './utils/ConstantContent';
@@ -23,9 +23,6 @@ export default function WeddingFooter() {
         loadAllData();
     }, []);
 
-    if (loading) {
-        return <CircularProgress />;
-    }
     return (
         <Box
             component="footer"
