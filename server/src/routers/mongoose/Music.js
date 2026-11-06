@@ -1,33 +1,14 @@
 import express from 'express';
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
 import dbConnect from '../../dbConn/Mongoose.js';
 import Music from '../../models/mongoose/MusicSchema.js';
 
 const router = express.Router();
 
-// Ensure an 'uploads/' directory exists on your server disk
-const uploadDir = path.join(process.cwd(), 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-// Configure multer to save files to disk storage (no 16MB MongoDB BSON limit!)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + '-' + file.originalname.replace(/\s+/g, '_'));
-  }
-});
-
+// Use memory storage (Safe for Vercel serverless - no local disk writing needed)
 const upload = multer({
-  storage: storage,
-  // No fileSize limit restrictions on multer here so it accepts any size, 
-  // and we rely on your client-side compression/optimization before upload!
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB limit
   fileFilter: (req, file, cb) => {
     if (file.mimetype === 'audio/mpeg' || file.originalname.endsWith('.mp3')) {
       cb(null, true);
@@ -62,11 +43,12 @@ router.get('/', async (req, res) => {
 
     return res.status(200).json({ success: true, data: musicTrack });
   } catch (error) {
+    console.error('GET Music Error:', error);
     return res.status(500).json({ success: false, error: error.message });
   }
 });
 
-// POST endpoint to handle uploads of any size safely via disk storage
+// POST endpoint to upload optimized MP3 tracks (Max 3 limit)
 router.post('/', upload.array('music', 3), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -77,22 +59,14 @@ router.post('/', upload.array('music', 3), async (req, res) => {
       return res.status(400).json({ success: false, message: 'Upload limit exceeded. Maximum 3 files allowed.' });
     }
 
-    // Optional: Clean up old local physical files if replacing tracks
-    const oldTracks = await Music.find({ category: 'background-music' });
-    oldTracks.forEach(track => {
-      if (track.url && track.url.startsWith('/uploads/')) {
-        const oldPath = path.join(process.cwd(), track.url);
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-      }
-    });
-
+    // Clear previous background music records
     await Music.deleteMany({ category: 'background-music' });
 
     let latestSavedTrack = null;
 
     for (const file of req.files) {
-      // Save accessible public URL path pointing to the stored disk file
-      const fileUrl = `/uploads/${file.filename}`;
+      // Store compressed buffer safely as a Base64 Data URL inside MongoDB
+      const fileUrl = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
 
       const newMusic = await Music.create({
         filename: file.originalname,
@@ -107,7 +81,7 @@ router.post('/', upload.array('music', 3), async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Background music successfully saved to server disk and registered in database!',
+      message: 'Background music successfully optimized and stored in database!',
       data: latestSavedTrack
     });
   } catch (error) {
@@ -116,20 +90,13 @@ router.post('/', upload.array('music', 3), async (req, res) => {
   }
 });
 
-// DELETE endpoint to remove background music
+// DELETE endpoint to remove background music from database
 router.delete('/', async (req, res) => {
   try {
-    const oldTracks = await Music.find({ category: 'background-music' });
-    oldTracks.forEach(track => {
-      if (track.url && track.url.startsWith('/uploads/')) {
-        const filePath = path.join(process.cwd(), track.url);
-        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-      }
-    });
-
     await Music.deleteMany({ category: 'background-music' });
-    return res.status(200).json({ success: true, message: 'All background music tracks removed successfully.' });
+    return res.status(200).json({ success: true, message: 'All background music tracks removed from database.' });
   } catch (error) {
+    console.error('DELETE Music Error:', error);
     return res.status(500).json({ success: false, error: error.message });
   }
 });
