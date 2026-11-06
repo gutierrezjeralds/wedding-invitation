@@ -36,7 +36,9 @@ import {
   Add,
   Delete,
   Edit,
-  Download
+  Download,
+  Link as LinkIcon,
+  OpenInNew
 } from '@mui/icons-material';
 
 // Import static constants as defaults / fallbacks
@@ -69,7 +71,7 @@ const PAGE_OPTIONS = [
 ];
 
 /**
- * RECURSIVE SUB-COMPONENT SUPPORTING DYNAMIC ARRAYS, OBJECTS, & ID-BASED DICTIONARIES
+- RECURSIVE SUB-COMPONENT SUPPORTING DYNAMIC ARRAYS, OBJECTS, & ID-BASED DICTIONARIES
  */
 function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem, onAddKey, onDeleteKey, onRenameKey }) {
   if (data === null || data === undefined) return null;
@@ -168,7 +170,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
 
   // 3. Nested Object / Dictionary Handling
   if (typeof data === 'object') {
-    const isLetterDict = path.endsWith('LETTER');
+    const isLetterDict = path.endsWith('LETTER') || path.includes('LETTER.');
 
     return (
       <Stack spacing={2} sx={{ width: '100%', my: 1 }}>
@@ -177,6 +179,35 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
 
           const currentPath = path ? `${path}.${key}` : key;
           const isComplex = typeof value === 'object' && value !== null;
+
+          // Determine specific route paths based on parent keys for proposals
+          let redirectPath = null;
+          const isLetterItem = path.endsWith('LETTER') && isComplex;
+          
+          if (isLetterItem) {
+            const upperPath = path.toUpperCase();
+            const lowerKey = key.toLowerCase();
+            
+            if (upperPath.includes('PRINCIPAL')) {
+              redirectPath = `/proposal/principal/${lowerKey}`;
+            } else if (upperPath.includes('SECONDARY')) {
+              redirectPath = `/proposal/secondary/${lowerKey}`;
+            } else if (upperPath.includes('BRIDESMAID')) {
+              redirectPath = `/proposal/entourage-bridesmaids/${lowerKey}`;
+            } else if (upperPath.includes('GROOMSMEN')) {
+              redirectPath = `/proposal/entourage-groomsmen/${lowerKey}`;
+            } else if (upperPath.includes('BEARER') || upperPath.includes('LITTLE')) {
+              redirectPath = `/proposal/entourage-bearer/${lowerKey}`;
+            } else if (upperPath.includes('PARENTS_BRIDE')) {
+              redirectPath = `/proposal/parents-bride/${lowerKey}`;
+            } else if (upperPath.includes('PARENTS_GROOM')) {
+              redirectPath = `/proposal/parents-groom/${lowerKey}`;
+            } else {
+              redirectPath = `/proposal/${lowerKey}`;
+            }
+          }
+
+          const fullUrl = redirectPath ? `${window.location.origin}${redirectPath}` : null;
 
           // Special handling for ICON fields to allow typing MUI Icon names as a textarea
           if (key === 'ICON') {
@@ -215,7 +246,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                 }}
               >
                 <AccordionSummary expandIcon={<ExpandMore sx={{ color: 'primary.main' }} />}>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: '100%', pr: 1 }}>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: '100%', pr: 1, flexWrap: 'wrap', gap: 1 }}>
                     <Stack direction="row" alignItems="center" spacing={1}>
                       <FolderOpen sx={{ color: 'secondary.main', fontSize: 18 }} />
                       <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'secondary.main', textTransform: 'uppercase' }}>
@@ -223,8 +254,30 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                       </Typography>
                     </Stack>
 
+                    {/* Display Clickable Redirect Link badge opening in a new tab */}
+                    {isLetterItem && fullUrl && (
+                      <Tooltip title="Open proposal page in new tab">
+                        <Chip
+                          icon={<LinkIcon sx={{ fontSize: '14px !important' }} />}
+                          label={redirectPath}
+                          component="a"
+                          href={fullUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          clickable
+                          deleteIcon={<OpenInNew sx={{ fontSize: '12px !important' }} />}
+                          onDelete={() => window.open(fullUrl, '_blank')}
+                          size="small"
+                          color="primary"
+                          variant="outlined"
+                          sx={{ fontSize: '0.7rem', height: 24, fontWeight: 600, cursor: 'pointer' }}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </Tooltip>
+                    )}
+
                     {/* Actions for Dynamic Object Keys (e.g., Proposal Letter IDs) */}
-                    {isLetterDict && (
+                    {path.endsWith('LETTER') && (
                       <Stack direction="row" spacing={0.5} onClick={(e) => e.stopPropagation()}>
                         <Tooltip title="Edit Letter ID Key">
                           <IconButton
@@ -284,7 +337,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
         })}
 
         {/* Dynamic Key Addition for Letter objects with custom IDs */}
-        {isLetterDict && (
+        {path.endsWith('LETTER') && (
           <Button
             variant="outlined"
             size="small"
@@ -292,7 +345,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
             onClick={() => onAddKey(path, data)}
             sx={{ alignSelf: 'flex-start', borderRadius: 2, textTransform: 'none', mt: 1 }}
           >
-            Add New Letter ID (e.g. yuson-999)
+            Add New Letter ID (e.g. principal-999)
           </Button>
         )}
       </Stack>
@@ -303,7 +356,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
 }
 
 export default function AdminContentManager() {
-  const [selectedPage, setSelectedPage] = useState('global');
+  const [selectedPage, setSelectedPage] = useState('proposal');
   const [formContent, setFormContent] = useState({});
   const [searchFilter, setSearchFilter] = useState('');
   const [loading, setLoading] = useState(false);
@@ -401,7 +454,7 @@ export default function AdminContentManager() {
   };
 
   const handleAddKey = (path, obj) => {
-    const newId = prompt('Enter unique ID (e.g., yuson-999):');
+    const newId = prompt('Enter unique ID (e.g., principal-999):');
     if (!newId) return;
 
     setFormContent((prev) => {
@@ -498,13 +551,11 @@ export default function AdminContentManager() {
     }
   };
 
-  // NEW: Download All Content Backup as a JSON file
   const handleDownloadBackup = async () => {
     setDownloading(true);
     try {
       const allBackupData = {};
 
-      // Fetch all pages from backend to create a complete database backup bundle
       for (const option of PAGE_OPTIONS) {
         try {
           const res = await fetch(`/api/content/${option.key}`);
@@ -519,7 +570,6 @@ export default function AdminContentManager() {
         }
       }
 
-      // Convert object to JSON string and trigger browser download
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allBackupData, null, 2));
       const downloadAnchor = document.createElement('a');
       downloadAnchor.setAttribute("href", dataStr);
@@ -533,14 +583,6 @@ export default function AdminContentManager() {
       setToast({ open: true, message: 'Failed to generate backup file.', severity: 'error' });
     } finally {
       setDownloading(false);
-    }
-  };
-
-  const handleResetToDefault = () => {
-    const selectedOption = PAGE_OPTIONS.find((p) => p.key === selectedPage);
-    if (selectedOption) {
-      setFormContent(selectedOption.defaultData);
-      setToast({ open: true, message: 'Reset to default static values. Click Save to publish.', severity: 'info' });
     }
   };
 
@@ -626,7 +668,6 @@ export default function AdminContentManager() {
                 sx={{ fontWeight: 700, display: 'inline-flex' }}
               />
 
-              {/* Download Backup Button */}
               <Button
                 variant="outlined"
                 size="small"
@@ -692,19 +733,8 @@ export default function AdminContentManager() {
             ))}
           </Box>
 
-          {/* Action Bar */}
           <Divider sx={{ my: 4 }} />
           <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center" spacing={2}>
-            {/* <Button
-              fullWidth={{ xs: true, sm: false }}
-              variant="outlined"
-              color="inherit"
-              startIcon={<Refresh />}
-              onClick={handleResetToDefault}
-              sx={{ borderRadius: 2.5, textTransform: 'none' }}
-            >
-              Reset to Defaults
-            </Button> */}
             <Button
               fullWidth={{ xs: true, sm: false }}
               variant="contained"
