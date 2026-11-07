@@ -32,6 +32,7 @@ import ThemeSettings from './components/views/contents/admin/ThemeSettings';
 
 import ScrollToTop from './components/views/utils/ScrollToTop';
 import BackgroundMusic from './components/views/utils/BackgroundMusic';
+import WeddingDetailsFab from './components/views/utils/WeddingDetailsFab';
 
 // ============================================================
 // Protected Route Component using the separate Modal
@@ -139,6 +140,7 @@ function AppRoutes() {
 
       {showHeader && <Footer />}
 
+      <WeddingDetailsFab isAdminPath={isAdminPath} />
       <BackgroundMusic isAdminPath={isAdminPath} />
     </React.Fragment>
   );

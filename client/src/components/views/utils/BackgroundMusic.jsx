@@ -130,20 +130,20 @@ export default function BackgroundMusic({ isAdminPath = false }) {
                 loop={playlist.length === 1}
             />
 
-            <Tooltip title={isPlaying ? `Playing: ${playlist[currentTrackIndex].title}` : "Play Music"} placement="top">
+            <Tooltip title={isPlaying ? `Playing: ${playlist[currentTrackIndex].title}` : "Play Music"} placement="left">
                 <Fab
                     color="primary"
-                    size="small"
+                    size="large"
                     onClick={togglePlay}
                     aria-label="toggle background music"
                     sx={{
                         boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
                         bgcolor: isPlaying ? 'primary.main' : 'grey.400',
-                        width: 28,
-                        height: 28,
-                        minHeight: 28,
+                        width: 44,
+                        height: 44,
+                        minHeight: 44,
                         '& .MuiSvgIcon-root': {
-                            fontSize: '0.9rem',
+                            fontSize: '1.4rem',
                         },
                     }}
                 >
@@ -155,17 +155,17 @@ export default function BackgroundMusic({ isAdminPath = false }) {
                 <Tooltip title="Next Track" placement="top">
                     <Fab
                         color="primary"
-                        size="small"
+                        size="large"
                         onClick={handleNextTrack}
                         aria-label="next background music track"
                         sx={{
                             boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
                             bgcolor: 'primary.main',
-                            width: 28,
-                            height: 28,
-                            minHeight: 28,
+                            width: 44,
+                            height: 44,
+                            minHeight: 44,
                             '& .MuiSvgIcon-root': {
-                                fontSize: '0.9rem',
+                                fontSize: '1.4rem',
                             },
                         }}
                     >

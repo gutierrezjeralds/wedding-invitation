@@ -20,7 +20,6 @@ import { useMedia } from './utils/MediaContext';
 import imgLogo from '../assets/img/header/header_logo.png';
 import ParallaxBanner from '../views/utils/ParallaxBanner';
 import { useContent } from './utils/ConstantContent';
-import { downloadWeddingDetailsPdf } from './utils/GenerateWeddingPdf';
 
 export default function Header() {
   // Retrieval from context cache
@@ -45,10 +44,6 @@ export default function Header() {
 
   const handleDrawerToggle = () => {
       setMobileOpen((prev) => !prev);
-  };
-
-  const handleDownloadPdf = () => {
-      downloadWeddingDetailsPdf(CONTENT, CONTENT_ENTOURAGE);
   };
 
   // Determine current page key (e.g., 'home', 'story', 'attire', etc.)
@@ -114,31 +109,6 @@ export default function Header() {
                 if (isRsvp) {
                   return (
                     <React.Fragment key={item.href}>
-                      {/* PDF DOWNLOAD BUTTON (BEside RSVP) */}
-                      <Tooltip title="Download Wedding Details & Entourage PDF" placement="bottom">
-                        <Button
-                          variant="outlined"
-                          onClick={handleDownloadPdf}
-                          startIcon={<PictureAsPdf />}
-                          sx={{
-                            ml: 1,
-                            px: 2,
-                            py: 0.8,
-                            borderRadius: '20px',
-                            borderColor: '#7A1C31',
-                            color: '#7A1C31',
-                            fontWeight: 700,
-                            letterSpacing: '0.03em',
-                            '&:hover': {
-                              borderColor: '#8B263E',
-                              bgcolor: 'rgba(122, 28, 49, 0.04)',
-                            },
-                          }}
-                        >
-                          PDF
-                        </Button>
-                      </Tooltip>
-
                       {/* RSVP BUTTON */}
                       <Button
                         component={RouterLink}

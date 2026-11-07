@@ -22,30 +22,43 @@ export default function WeddingDetailsFab({ isAdminPath = false }) {
         <Box
             sx={{
                 position: 'fixed',
-                bottom: 16,
-                right: 60, // Positioned right next to the music widget
+                bottom: 74, // Positioned vertically above the music widget
+                right: 16,  // Aligned vertically on the right edge
                 zIndex: 9999,
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
             }}
         >
-            <Tooltip title="Download Wedding Details PDF" placement="top">
+            <Tooltip title="Download Wedding Details PDF" placement="left">
                 <Fab
                     color="primary"
-                    size="small"
+                    size="large"
                     onClick={handleDownload}
                     aria-label="download wedding details pdf"
                     sx={{
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                        boxShadow: '0 4px 15px rgba(107, 29, 47, 0.4)',
                         bgcolor: 'primary.main',
-                        width: 28,
-                        height: 28,
-                        minHeight: 28,
+                        width: 44,
+                        height: 44,
+                        minHeight: 44,
+                        animation: 'continuousBounce 2s infinite ease-in-out',
+                        '@keyframes continuousBounce': {
+                            '0%, 100%': {
+                                transform: 'translateY(0) scale(1)',
+                                boxShadow: '0 4px 12px rgba(107, 29, 47, 0.3)',
+                            },
+                            '50%': {
+                                transform: 'translateY(-6px) scale(1.08)',
+                                boxShadow: '0 8px 20px rgba(107, 29, 47, 0.6)',
+                            },
+                        },
                         '&:hover': {
                             bgcolor: 'secondary.main',
+                            transform: 'scale(1.15)',
                         },
                         '& .MuiSvgIcon-root': {
-                            fontSize: '0.9rem',
+                            fontSize: '1.4rem',
                         },
                     }}
                 >

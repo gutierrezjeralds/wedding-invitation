@@ -16,6 +16,7 @@ export const CONTENT_ATTIRE_DONT = {
 };
 
 export const CONTENT = {
+    DATE_COUNTDOWN: "",
     TITLE_NAME: "",
     TITLE_DATE: "",
     TITLE_DATE_V2: "",
