@@ -1,32 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Paper } from '@mui/material';
-
-// ==========================================
-// 🎨 GLOBAL CONFIGURATION
-// ==========================================
-const GLOBAL_CONFIG = {
-  TARGET_DATE: '2027-07-17T10:00:00',
-  
-  // Color Palette
-  NUMBER_COLOR: '#7A1424',
-  LABEL_COLOR: '#8F3948',                   // Champagne Gold
-  BORDER_COLOR: '#F7E7CE', // Translucent Gold Border
-  COLON_COLOR: '#7A1424',
-  CARD_BACKGROUND: 'rgba(255, 255, 255, 0.05)', // Transparent Glass Fill
-
-  // Sizing & Scaling (Adjust values to scale the entire component)
-  SIZE: {
-    numberFontSize: { xs: '1.5rem', sm: '1.8rem', md: '1.8rem' }, // Number text size
-    labelFontSize: { xs: '0.45rem', sm: '0.55rem' },              // Label text size
-    cardPadding: { xs: 1.5, sm: 1.5, md: 1.5 },                     // Card internal padding
-    minCardWidth: { xs: 65, sm: 65, md: 80 },                   // Minimum card width
-    colonSize: { xs: '2rem', sm: '2rem' },                    // Separator colon size
-    gap: { xs: 1, sm: 1, md: 1 },                               // Gap between cards
-  },
-};
+import { useContent } from '../utils/ConstantContent';
 
 export default function LuxuryCountdownTimer() {
-  const targetTimestamp = new Date(GLOBAL_CONFIG.TARGET_DATE).getTime();
+  // Retrieval from context cache
+  const { getPageContent } = useContent();
+  const CONTENT = getPageContent('global');
+
+  // Extract wedding date from CONTENT with fallback to default
+  const targetDateString = CONTENT?.WEDDING_DATE;
+  const targetTimestamp = new Date(targetDateString).getTime();
+
+  // Dynamically derive motif/color settings from ATTIRE_COLORS if available
+  const attireColors = CONTENT?.ATTIRE_COLORS;
+  let primaryColor = '#7A1424'; // Default Wine Red
+  let labelColor = '#8F3948';   // Default Accent
+  let borderColor = '#F7E7CE';  // Default Gold Border
+
+  if (attireColors && typeof attireColors === 'object') {
+    const colorValues = Object.values(attireColors);
+    if (colorValues.length > 0 && colorValues[0]?.HEX) {
+      primaryColor = colorValues[0].HEX;
+    }
+  }
+
+  // ==========================================
+  // 🎨 GLOBAL CONFIGURATION
+  // ==========================================
+  const GLOBAL_CONFIG = {
+    TARGET_DATE: targetDateString,
+    
+    // Color Palette bound dynamically from ATTIRE_COLORS / Theme
+    NUMBER_COLOR: primaryColor,
+    LABEL_COLOR: labelColor,
+    BORDER_COLOR: borderColor,
+    COLON_COLOR: primaryColor,
+    CARD_BACKGROUND: 'rgba(255, 255, 255, 0.05)', // Transparent Glass Fill
+
+    // Sizing & Scaling (Adjust values to scale the entire component)
+    SIZE: {
+      numberFontSize: { xs: '1.5rem', sm: '1.8rem', md: '1.8rem' }, // Number text size
+      labelFontSize: { xs: '0.45rem', sm: '0.55rem' },              // Label text size
+      cardPadding: { xs: 1.5, sm: 1.5, md: 1.5 },                     // Card internal padding
+      minCardWidth: { xs: 65, sm: 65, md: 80 },                   // Minimum card width
+      colonSize: { xs: '2rem', sm: '2rem' },                    // Separator colon size
+      gap: { xs: 1, sm: 1, md: 1 },                               // Gap between cards
+    },
+  };
+
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   function calculateTimeLeft() {
@@ -51,7 +72,7 @@ export default function LuxuryCountdownTimer() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [targetTimestamp]);
 
   const timeUnits = [
     { label: 'DAYS', value: timeLeft.days },
