@@ -17,8 +17,11 @@ export const CONTENT_ATTIRE_DONT = {
 
 export const CONTENT = {
     WEDDING_DATE: "",
-    WEDDING_MOTIF: {
-        CHAMPAGNE_GOLD: "#F7E7CE",
+    ATTIRE_COLORS: {
+        CHAMPAGNE_GOLD: {
+            HEX: "#F7E7CE",
+            APPLIES_TO: ["Parent", "Principal", "Entourage", "Guest"]
+        },
     },
     TITLE_NAME: "",
     TITLE_DATE: "",

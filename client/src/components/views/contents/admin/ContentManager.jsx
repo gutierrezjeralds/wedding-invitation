@@ -10,6 +10,9 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Checkbox,
+  ListItemText,
+  OutlinedInput,
   CircularProgress,
   Alert,
   Stack,
@@ -71,16 +74,18 @@ const PAGE_OPTIONS = [
   { key: 'proposal', label: 'Proposals (CONTENT_PROPOSAL)', defaultData: STATIC_PROPOSAL },
 ];
 
+const ROLE_OPTIONS = ['Parent', 'Principal', 'Entourage', 'Guest'];
+
 /**
 - RECURSIVE SUB-COMPONENT SUPPORTING DYNAMIC ARRAYS, OBJECTS, & ID-BASED DICTIONARIES
  */
 function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem, onAddKey, onDeleteKey, onRenameKey }) {
   if (data === null || data === undefined) return null;
 
-  // 1. Primitive Leaf Node (String or Number) - Converted to Color Picker if part of WEDDING_MOTIF/WEDDING_MODIF, Date/Time Picker, or Textarea
+  // 1. Primitive Leaf Node (String or Number)
   if (typeof data === 'string' || typeof data === 'number') {
     const isCountdownField = path.toUpperCase().endsWith('WEDDING_DATE');
-    const isMotifColor = path.toUpperCase().includes('WEDDING_MOTIF') || path.toUpperCase().includes('WEDDING_MODIF');
+    const isMotifColor = path.toUpperCase().includes('ATTIRE_COLORS') && path.toUpperCase().endsWith('.HEX');
 
     if (isMotifColor) {
       return (
@@ -151,8 +156,47 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
     );
   }
 
-  // 2. Array Handling with Dynamic Add/Remove
+  // 2. Array Handling (or multi-select chips array)
   if (Array.isArray(data)) {
+    const isRolesArray = path.toUpperCase().endsWith('APPLIES_TO');
+
+    if (isRolesArray) {
+      const handleRoleChange = (event) => {
+        const {
+          target: { value },
+        } = event;
+        const selectedValues = typeof value === 'string' ? value.split(',') : value;
+        
+        // Rule: Must have at least one selected
+        if (selectedValues.length === 0) {
+          return; // Prevent clearing the last selection
+        }
+
+        onChange(path, selectedValues);
+      };
+
+      return (
+        <FormControl fullWidth size="small" sx={{ my: 1 }}>
+          <InputLabel>Applies To</InputLabel>
+          <Select
+            multiple
+            value={data}
+            onChange={handleRoleChange}
+            input={<OutlinedInput label="Applies To" />}
+            renderValue={(selected) => selected.join(', ')}
+            sx={{ borderRadius: 2, bgcolor: '#fff' }}
+          >
+            {ROLE_OPTIONS.map((role) => (
+              <MenuItem key={role} value={role}>
+                <Checkbox checked={data.indexOf(role) > -1} />
+                <ListItemText primary={role} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      );
+    }
+
     return (
       <Stack spacing={2} sx={{ width: '100%', pl: { xs: 1, sm: 2 }, borderLeft: '3px solid rgba(107, 29, 47, 0.2)', my: 1.5 }}>
         {data.map((item, index) => {
@@ -215,8 +259,48 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
   // 3. Nested Object / Dictionary Handling
   if (typeof data === 'object') {
     const isLetterDict = path.endsWith('LETTER') || path.includes('LETTER.');
-    const isMotifObject = path.toUpperCase().includes('WEDDING_MOTIF') || path.toUpperCase().includes('WEDDING_MODIF');
+    const isAttireColorsObject = path.toUpperCase().includes('ATTIRE_COLORS');
+    const isSingleColorSwatch = isAttireColorsObject && 'HEX' in data && 'APPLIES_TO' in data;
     const entries = Object.entries(data).filter(([key, value]) => !(typeof value === 'function' || (typeof value === 'object' && value?.render)));
+
+    if (isSingleColorSwatch) {
+      return (
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ width: '100%', my: 1 }} alignItems="center">
+          {/* Color Picker on the Left */}
+          <Box sx={{ width: { xs: '100%', sm: '50%' } }}>
+            <Typography variant="caption" sx={{ fontWeight: 700, color: 'primary.main', display: 'block', mb: 0.5 }}>
+              COLOR HEX
+            </Typography>
+            <NestedFieldEditor
+              data={data.HEX}
+              path={`${path}.HEX`}
+              onChange={onChange}
+              onAddItem={onAddItem}
+              onDeleteItem={onDeleteItem}
+              onAddKey={onAddKey}
+              onDeleteKey={onDeleteKey}
+              onRenameKey={onRenameKey}
+            />
+          </Box>
+          {/* Multi-select on the Right */}
+          <Box sx={{ width: { xs: '100%', sm: '50%' } }}>
+            <Typography variant="caption" sx={{ fontWeight: 700, color: 'primary.main', display: 'block', mb: 0.5 }}>
+              APPLIES TO
+            </Typography>
+            <NestedFieldEditor
+              data={data.APPLIES_TO}
+              path={`${path}.APPLIES_TO`}
+              onChange={onChange}
+              onAddItem={onAddItem}
+              onDeleteItem={onDeleteItem}
+              onAddKey={onAddKey}
+              onDeleteKey={onDeleteKey}
+              onRenameKey={onRenameKey}
+            />
+          </Box>
+        </Stack>
+      );
+    }
 
     return (
       <Stack spacing={2} sx={{ width: '100%', my: 1 }}>
@@ -299,11 +383,35 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
               >
                 <AccordionSummary expandIcon={<ExpandMore sx={{ color: 'primary.main' }} />}>
                   <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: '100%', pr: 1, flexWrap: 'wrap', gap: 1 }}>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      {isMotifObject ? <Palette sx={{ color: 'secondary.main', fontSize: 18 }} /> : <FolderOpen sx={{ color: 'secondary.main', fontSize: 18 }} />}
-                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'secondary.main', textTransform: 'uppercase' }}>
+                    <Stack direction="row" alignItems="center" spacing={1.5}>
+                      {isAttireColorsObject ? <Palette sx={{ color: 'secondary.main', fontSize: 20 }} /> : <FolderOpen sx={{ color: 'secondary.main', fontSize: 18 }} />}
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'secondary.main', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                         {key.replace(/_/g, ' ')}
                       </Typography>
+                      {isAttireColorsObject && (
+                        <Stack direction="row" spacing={0.5} onClick={(e) => e.stopPropagation()}>
+                          <Tooltip title="Edit Color Label Name">
+                            <IconButton
+                              size="small"
+                              color="primary"
+                              onClick={() => onRenameKey(path, key)}
+                              sx={{ p: 0.5 }}
+                            >
+                              <Edit sx={{ fontSize: 16 }} />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Delete Color Swatch">
+                            <IconButton
+                              size="small"
+                              color="error"
+                              onClick={() => onDeleteKey(path, key)}
+                              sx={{ p: 0.5 }}
+                            >
+                              <Delete sx={{ fontSize: 16 }} />
+                            </IconButton>
+                          </Tooltip>
+                        </Stack>
+                      )}
                     </Stack>
 
                     {/* Display Clickable Redirect Link badge opening in a new tab */}
@@ -328,53 +436,27 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                       </Tooltip>
                     )}
 
-                    {/* Actions for Dynamic Object Keys (e.g., Proposal Letter IDs or Motif Colors) */}
-                    {(path.endsWith('LETTER') || isMotifObject) && (
+                    {/* Actions for Letter ID Keys */}
+                    {path.endsWith('LETTER') && (
                       <Stack direction="row" spacing={0.5} onClick={(e) => e.stopPropagation()}>
-                        {isMotifObject && (
-                          <>
-                            <Tooltip title="Edit Color Label Name">
-                              <IconButton
-                                size="small"
-                                color="primary"
-                                onClick={() => onRenameKey(path, key)}
-                              >
-                                <Edit fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Delete Color Swatch">
-                              <IconButton
-                                size="small"
-                                color="error"
-                                onClick={() => onDeleteKey(path, key)}
-                              >
-                                <Delete fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                          </>
-                        )}
-                        {path.endsWith('LETTER') && (
-                          <>
-                            <Tooltip title="Edit Letter ID Key">
-                              <IconButton
-                                size="small"
-                                color="primary"
-                                onClick={() => onRenameKey(path, key)}
-                              >
-                                <Edit fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Delete Letter Block">
-                              <IconButton
-                                size="small"
-                                color="error"
-                                onClick={() => onDeleteKey(path, key)}
-                              >
-                                <Delete fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                          </>
-                        )}
+                        <Tooltip title="Edit Letter ID Key">
+                          <IconButton
+                            size="small"
+                            color="primary"
+                            onClick={() => onRenameKey(path, key)}
+                          >
+                            <Edit fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete Letter Block">
+                          <IconButton
+                            size="small"
+                            color="error"
+                            onClick={() => onDeleteKey(path, key)}
+                          >
+                            <Delete fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
                       </Stack>
                     )}
                   </Stack>
@@ -401,30 +483,6 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                 <Typography variant="caption" sx={{ fontWeight: 700, color: 'primary.main', letterSpacing: '0.05em' }}>
                   {key.replace(/_/g, ' ')}
                 </Typography>
-                {isMotifObject && (
-                  <Stack direction="row" spacing={0.5}>
-                    <Tooltip title="Edit Color Label Name">
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={() => onRenameKey(path, key)}
-                        sx={{ p: 0.5 }}
-                      >
-                        <Edit sx={{ fontSize: 16 }} />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Color Swatch">
-                      <IconButton
-                        size="small"
-                        color="error"
-                        onClick={() => onDeleteKey(path, key)}
-                        sx={{ p: 0.5 }}
-                      >
-                        <Delete sx={{ fontSize: 16 }} />
-                      </IconButton>
-                    </Tooltip>
-                  </Stack>
-                )}
               </Stack>
               <NestedFieldEditor
                 data={value}
@@ -440,7 +498,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
           );
         })}
 
-        {/* Dynamic Key Addition for Letter objects with custom IDs or Wedding Motif color labels */}
+        {/* Dynamic Key Addition for Letter objects with custom IDs or Attire Colors */}
         {path.endsWith('LETTER') && (
           <Button
             variant="outlined"
@@ -453,7 +511,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
           </Button>
         )}
 
-        {isMotifObject && (
+        {isAttireColorsObject && (
           <Button
             variant="outlined"
             size="small"
@@ -461,7 +519,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
             onClick={() => onAddKey(path, data)}
             sx={{ alignSelf: 'flex-start', borderRadius: 2, textTransform: 'none', mt: 1 }}
           >
-            Add New Motif Color (e.g. SAGE_GREEN)
+            Add New Attire Color (e.g. SAGE_GREEN)
           </Button>
         )}
       </Stack>
@@ -570,8 +628,8 @@ export default function AdminContentManager() {
   };
 
   const handleAddKey = (path, obj) => {
-    const isMotif = path.toUpperCase().includes('WEDDING_MOTIF') || path.toUpperCase().includes('WEDDING_MODIF');
-    const promptMessage = isMotif ? 'Enter color label name:' : 'Enter unique ID (e.g., principal-999):';
+    const isAttireColors = path.toUpperCase().includes('ATTIRE_COLORS');
+    const promptMessage = isAttireColors ? 'Enter color label name (e.g., CHAMPAGNE_GOLD):' : 'Enter unique ID (e.g., principal-999):';
     const newId = prompt(promptMessage);
     if (!newId) return;
 
@@ -583,8 +641,11 @@ export default function AdminContentManager() {
         curr = curr[keys[i]];
       }
       if (curr && typeof curr === 'object') {
-        if (isMotif) {
-          curr[newId.toUpperCase().replace(/\s+/g, '_')] = '#6b1d2f';
+        if (isAttireColors) {
+          curr[newId.toUpperCase().replace(/\s+/g, '_')] = {
+            HEX: '#6b1d2f',
+            APPLIES_TO: ['Principal']
+          };
         } else {
           const sampleKey = Object.keys(curr)[0];
           curr[newId] = sampleKey ? JSON.parse(JSON.stringify(curr[sampleKey], (k, v) => (typeof v === 'string' ? '' : v))) : { NAME: '', MESSAGE: '' };
@@ -610,12 +671,12 @@ export default function AdminContentManager() {
   };
 
   const handleRenameKey = (path, oldKey) => {
-    const isMotif = path.toUpperCase().includes('WEDDING_MOTIF') || path.toUpperCase().includes('WEDDING_MODIF');
-    const promptTitle = isMotif ? `Edit Color Label Name (currently: "${oldKey}"):` : `Edit ID Key Name (currently: "${oldKey}"):`;
+    const isAttireColors = path.toUpperCase().includes('ATTIRE_COLORS');
+    const promptTitle = isAttireColors ? `Edit Color Label Name (currently: "${oldKey}"):` : `Edit ID Key Name (currently: "${oldKey}"):`;
     const newKey = prompt(promptTitle, oldKey);
     if (!newKey || newKey === oldKey) return;
 
-    const formattedNewKey = isMotif ? newKey.toUpperCase().replace(/\s+/g, '_') : newKey;
+    const formattedNewKey = isAttireColors ? newKey.toUpperCase().replace(/\s+/g, '_') : newKey;
 
     setFormContent((prev) => {
       const cloned = JSON.parse(JSON.stringify(prev));
@@ -653,6 +714,17 @@ export default function AdminContentManager() {
   };
 
   const handleSave = async () => {
+    // Validation check: Ensure ATTIRE_COLORS has at least 1 motif input if present in state
+    for (const [key, val] of Object.entries(formContent)) {
+      if (key.toUpperCase() === 'ATTIRE_COLORS' && typeof val === 'object' && val !== null) {
+        const count = Object.keys(val).length;
+        if (count < 1) {
+          setToast({ open: true, message: 'Validation Error: You must have at least 1 attire color input!', severity: 'error' });
+          return;
+        }
+      }
+    }
+
     setSaving(true);
     try {
       const response = await fetch(`/api/content/${selectedPage}`, {

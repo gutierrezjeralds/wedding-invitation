@@ -7,6 +7,7 @@ export async function downloadWeddingDetailsPdf(CONTENT, CONTENT_ENTOURAGE) {
         const ceremonyAddress = CONTENT?.TITLE_CHURCH_ADDRESS;
         const receptionVenue = CONTENT?.TITLE_RECEPTION;
         const receptionAddress = CONTENT?.TITLE_RECEPTION_ADDRESS;
+        const attireColors = CONTENT?.ATTIRE_COLORS;
 
         const doc = new jsPDF();
         const primaryColor = [107, 29, 47]; // #6B1D2F (Wine Red)
@@ -185,7 +186,7 @@ export async function downloadWeddingDetailsPdf(CONTENT, CONTENT_ENTOURAGE) {
             renderCategoryCard('Entourage', {
                 'Maid of Honor': CONTENT_ENTOURAGE.ENTOURAGE.BRIDAL_PRIMARY?.MOH?.NAME,
                 'Best Man': CONTENT_ENTOURAGE.ENTOURAGE.BRIDAL_PRIMARY?.BEST_MAN?.NAME,
-                'Bridesmaids': CONTENT_ENTOURAGE.ENTOURAGE.BRIDAL_GROUP?.BRIDESMAIDS?.NAMES,
+                'Bridesmaids': CONTENT_ENTOURAGE.ENTOURAGE.BRIDAL_GROUP?.BRIDSEMAIDS?.NAMES || CONTENT_ENTOURAGE.ENTOURAGE.BRIDAL_GROUP?.BRIDESMAIDS?.NAMES,
                 'Groomsmen': CONTENT_ENTOURAGE.ENTOURAGE.BRIDAL_GROUP?.GROOMSMEN?.NAMES
             });
         }
@@ -201,8 +202,94 @@ export async function downloadWeddingDetailsPdf(CONTENT, CONTENT_ENTOURAGE) {
             });
         }
 
-        if (CONTENT_ENTOURAGE?.LINEUP?.LIST?.length > 0) {
-            renderCategoryCard('Processional Line-up', CONTENT_ENTOURAGE.LINEUP.LIST);
+        // --- ATTIRE COLOR PALETTE (BOTTOM PART) ---
+        if (attireColors && typeof attireColors === 'object') {
+            const colorEntries = Object.entries(attireColors);
+            if (colorEntries.length > 0) {
+                const swatchRadius = 6; // Circle radius
+                const spacingX = 32;    // Horizontal spacing between center points of individual color columns
+                const totalWidth = (colorEntries.length - 1) * spacingX;
+                const startX = 105 - (totalWidth / 2); // Center horizontally in document (Page width = 210)
+
+                // Calculate dynamic card height based on items
+                let cardHeight = 24; // Header + padding
+                colorEntries.forEach(([_, val]) => {
+                    if (val?.APPLIES_TO && Array.isArray(val.APPLIES_TO)) {
+                        const allRoles = ['Parent', 'Principal', 'Entourage', 'Guest'];
+                        const isAll = allRoles.every(role => val.APPLIES_TO.includes(role)) && val.APPLIES_TO.length === allRoles.length;
+                        if (!isAll) cardHeight += 8; // Extra vertical space for box if subtitle exists
+                    }
+                });
+
+                // Page overflow check
+                if (yPos + cardHeight > 280) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+
+                // Render Main Card Background
+                doc.setFillColor(...cardBgColor);
+                doc.setDrawColor(...borderColor);
+                doc.roundedRect(14, yPos, 182, cardHeight, 3, 3, 'FD');
+
+                // Card Title
+                doc.setTextColor(...primaryColor);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(11);
+                doc.text('ATTIRE & COLOR MOTIF', 105, yPos + 9, { align: 'center' });
+
+                let itemStartY = yPos + 14;
+
+                // Render each color item with its own individual rounded border box
+                colorEntries.forEach(([key, val], index) => {
+                    const cx = startX + (index * spacingX);
+                    const hex = val?.HEX || '#FFFFFF';
+                    const appliesTo = val?.APPLIES_TO || [];
+                    
+                    const allRoles = ['Parent', 'Principal', 'Entourage', 'Guest'];
+                    const isAll = allRoles.every(role => appliesTo.includes(role)) && appliesTo.length === allRoles.length;
+
+                    // Convert Hex to RGB array for jsPDF
+                    let r = 255, g = 255, b = 255;
+                    if (hex.startsWith('#') && hex.length === 7) {
+                        r = parseInt(hex.slice(1, 3), 16);
+                        g = parseInt(hex.slice(3, 5), 16);
+                        b = parseInt(hex.slice(5, 7), 16);
+                    }
+
+                    // Individual Item Box Dimensions
+                    const boxWidth = 26;
+                    const boxHeight = isAll ? 16 : 22;
+                    const boxX = cx - (boxWidth / 2);
+                    const boxY = itemStartY;
+
+                    // Draw individual rounded border box around the swatch (and title if present)
+                    doc.setFillColor(255, 255, 255);
+                    doc.setDrawColor(...borderColor);
+                    doc.roundedRect(boxX, boxY, boxWidth, boxHeight, 2, 2, 'FD');
+
+                    // Draw circular swatch inside the box
+                    const circleY = boxY + 8;
+                    doc.setFillColor(r, g, b);
+                    doc.setDrawColor(...primaryColor);
+                    doc.setLineWidth(0.4);
+                    doc.circle(cx, circleY, swatchRadius, 'FD');
+
+                    // Render Subtitle / Applies To labels inside the box if not 'All'
+                    if (!isAll) {
+                        const labelText = appliesTo.join(', ');
+                        doc.setTextColor(...darkTextColor);
+                        doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(6.5);
+                        
+                        // Handle text wrapping if label is slightly long
+                        const splitLabel = doc.splitTextToSize(labelText, boxWidth - 4);
+                        doc.text(splitLabel, cx, boxY + 17, { align: 'center' });
+                    }
+                });
+
+                yPos += cardHeight + 6;
+            }
         }
 
         // --- FOOTER ---
