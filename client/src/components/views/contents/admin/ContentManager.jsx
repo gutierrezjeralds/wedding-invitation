@@ -38,7 +38,8 @@ import {
   Edit,
   Download,
   Link as LinkIcon,
-  OpenInNew
+  OpenInNew,
+  Palette
 } from '@mui/icons-material';
 
 // Import static constants as defaults / fallbacks
@@ -76,18 +77,60 @@ const PAGE_OPTIONS = [
 function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem, onAddKey, onDeleteKey, onRenameKey }) {
   if (data === null || data === undefined) return null;
 
-  // 1. Primitive Leaf Node (String or Number) - Converted to Textarea
+  // 1. Primitive Leaf Node (String or Number) - Converted to Color Picker if part of WEDDING_MOTIF/WEDDING_MODIF, Date/Time Picker, or Textarea
   if (typeof data === 'string' || typeof data === 'number') {
+    const isCountdownField = path.toUpperCase().endsWith('WEDDING_DATE');
+    const isMotifColor = path.toUpperCase().includes('WEDDING_MOTIF') || path.toUpperCase().includes('WEDDING_MODIF');
+
+    if (isMotifColor) {
+      return (
+        <Stack direction="row" spacing={1.5} alignItems="center" sx={{ my: 1, width: '100%' }}>
+          {/* Native Color Picker Box */}
+          <input
+            type="color"
+            value={typeof data === 'string' && data.startsWith('#') ? data : '#000000'}
+            onChange={(e) => onChange(path, e.target.value)}
+            style={{
+              width: '45px',
+              height: '38px',
+              border: '1px solid rgba(107, 29, 47, 0.2)',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              backgroundColor: '#fff',
+              padding: '2px'
+            }}
+          />
+          {/* Hex Code Text Input */}
+          <TextField
+            fullWidth
+            value={data}
+            onChange={(e) => onChange(path, e.target.value)}
+            variant="outlined"
+            size="small"
+            placeholder="#HEXCODE"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+                bgcolor: '#ffffff',
+              }
+            }}
+          />
+        </Stack>
+      );
+    }
+
     return (
       <TextField
         fullWidth
+        type={isCountdownField ? 'datetime-local' : 'text'}
         value={data}
         onChange={(e) => onChange(path, e.target.value)}
-        multiline
-        rows={3}
+        multiline={!isCountdownField}
+        rows={isCountdownField ? undefined : 3}
         variant="outlined"
         size="small"
         placeholder="Enter value..."
+        InputLabelProps={isCountdownField ? { shrink: true } : undefined}
         sx={{
           display: 'block',
           width: '100%',
@@ -97,6 +140,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
             bgcolor: '#ffffff',
             display: 'block',
             width: '100%',
+            pr: isCountdownField ? 3 : 1, 
           },
           '& .MuiInputBase-input': {
             display: 'block',
@@ -171,12 +215,20 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
   // 3. Nested Object / Dictionary Handling
   if (typeof data === 'object') {
     const isLetterDict = path.endsWith('LETTER') || path.includes('LETTER.');
+    const isMotifObject = path.toUpperCase().includes('WEDDING_MOTIF') || path.toUpperCase().includes('WEDDING_MODIF');
+    const entries = Object.entries(data).filter(([key, value]) => !(typeof value === 'function' || (typeof value === 'object' && value?.render)));
 
     return (
       <Stack spacing={2} sx={{ width: '100%', my: 1 }}>
-        {Object.entries(data).map(([key, value]) => {
-          if (typeof value === 'function' || (typeof value === 'object' && value?.render)) return null;
+        {entries.length === 0 && (
+          <Box sx={{ p: 2, border: '1px dashed rgba(107, 29, 47, 0.3)', borderRadius: 2, bgcolor: 'background.default', textAlign: 'center' }}>
+            <Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
+              No entries added yet. Click below to add items.
+            </Typography>
+          </Box>
+        )}
 
+        {entries.map(([key, value]) => {
           const currentPath = path ? `${path}.${key}` : key;
           const isComplex = typeof value === 'object' && value !== null;
 
@@ -248,7 +300,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                 <AccordionSummary expandIcon={<ExpandMore sx={{ color: 'primary.main' }} />}>
                   <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: '100%', pr: 1, flexWrap: 'wrap', gap: 1 }}>
                     <Stack direction="row" alignItems="center" spacing={1}>
-                      <FolderOpen sx={{ color: 'secondary.main', fontSize: 18 }} />
+                      {isMotifObject ? <Palette sx={{ color: 'secondary.main', fontSize: 18 }} /> : <FolderOpen sx={{ color: 'secondary.main', fontSize: 18 }} />}
                       <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'secondary.main', textTransform: 'uppercase' }}>
                         {key.replace(/_/g, ' ')}
                       </Typography>
@@ -276,27 +328,53 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                       </Tooltip>
                     )}
 
-                    {/* Actions for Dynamic Object Keys (e.g., Proposal Letter IDs) */}
-                    {path.endsWith('LETTER') && (
+                    {/* Actions for Dynamic Object Keys (e.g., Proposal Letter IDs or Motif Colors) */}
+                    {(path.endsWith('LETTER') || isMotifObject) && (
                       <Stack direction="row" spacing={0.5} onClick={(e) => e.stopPropagation()}>
-                        <Tooltip title="Edit Letter ID Key">
-                          <IconButton
-                            size="small"
-                            color="primary"
-                            onClick={() => onRenameKey(path, key)}
-                          >
-                            <Edit fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete Letter Block">
-                          <IconButton
-                            size="small"
-                            color="error"
-                            onClick={() => onDeleteKey(path, key)}
-                          >
-                            <Delete fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
+                        {isMotifObject && (
+                          <>
+                            <Tooltip title="Edit Color Label Name">
+                              <IconButton
+                                size="small"
+                                color="primary"
+                                onClick={() => onRenameKey(path, key)}
+                              >
+                                <Edit fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Delete Color Swatch">
+                              <IconButton
+                                size="small"
+                                color="error"
+                                onClick={() => onDeleteKey(path, key)}
+                              >
+                                <Delete fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                          </>
+                        )}
+                        {path.endsWith('LETTER') && (
+                          <>
+                            <Tooltip title="Edit Letter ID Key">
+                              <IconButton
+                                size="small"
+                                color="primary"
+                                onClick={() => onRenameKey(path, key)}
+                              >
+                                <Edit fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Delete Letter Block">
+                              <IconButton
+                                size="small"
+                                color="error"
+                                onClick={() => onDeleteKey(path, key)}
+                              >
+                                <Delete fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                          </>
+                        )}
                       </Stack>
                     )}
                   </Stack>
@@ -319,9 +397,35 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
 
           return (
             <Box key={key} sx={{ width: '100%', display: 'block', mb: 1.5 }}>
-              <Typography variant="caption" sx={{ fontWeight: 700, color: 'primary.main', display: 'block', mb: 0.5, letterSpacing: '0.05em' }}>
-                {key.replace(/_/g, ' ')}
-              </Typography>
+              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
+                <Typography variant="caption" sx={{ fontWeight: 700, color: 'primary.main', letterSpacing: '0.05em' }}>
+                  {key.replace(/_/g, ' ')}
+                </Typography>
+                {isMotifObject && (
+                  <Stack direction="row" spacing={0.5}>
+                    <Tooltip title="Edit Color Label Name">
+                      <IconButton
+                        size="small"
+                        color="primary"
+                        onClick={() => onRenameKey(path, key)}
+                        sx={{ p: 0.5 }}
+                      >
+                        <Edit sx={{ fontSize: 16 }} />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete Color Swatch">
+                      <IconButton
+                        size="small"
+                        color="error"
+                        onClick={() => onDeleteKey(path, key)}
+                        sx={{ p: 0.5 }}
+                      >
+                        <Delete sx={{ fontSize: 16 }} />
+                      </IconButton>
+                    </Tooltip>
+                  </Stack>
+                )}
+              </Stack>
               <NestedFieldEditor
                 data={value}
                 path={currentPath}
@@ -336,7 +440,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
           );
         })}
 
-        {/* Dynamic Key Addition for Letter objects with custom IDs */}
+        {/* Dynamic Key Addition for Letter objects with custom IDs or Wedding Motif color labels */}
         {path.endsWith('LETTER') && (
           <Button
             variant="outlined"
@@ -348,6 +452,18 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
             Add New Letter ID (e.g. principal-999)
           </Button>
         )}
+
+        {isMotifObject && (
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<Add />}
+            onClick={() => onAddKey(path, data)}
+            sx={{ alignSelf: 'flex-start', borderRadius: 2, textTransform: 'none', mt: 1 }}
+          >
+            Add New Motif Color (e.g. SAGE_GREEN)
+          </Button>
+        )}
       </Stack>
     );
   }
@@ -356,7 +472,7 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
 }
 
 export default function AdminContentManager() {
-  const [selectedPage, setSelectedPage] = useState('proposal');
+  const [selectedPage, setSelectedPage] = useState('global');
   const [formContent, setFormContent] = useState({});
   const [searchFilter, setSearchFilter] = useState('');
   const [loading, setLoading] = useState(false);
@@ -454,7 +570,9 @@ export default function AdminContentManager() {
   };
 
   const handleAddKey = (path, obj) => {
-    const newId = prompt('Enter unique ID (e.g., principal-999):');
+    const isMotif = path.toUpperCase().includes('WEDDING_MOTIF') || path.toUpperCase().includes('WEDDING_MODIF');
+    const promptMessage = isMotif ? 'Enter color label name:' : 'Enter unique ID (e.g., principal-999):';
+    const newId = prompt(promptMessage);
     if (!newId) return;
 
     setFormContent((prev) => {
@@ -465,8 +583,12 @@ export default function AdminContentManager() {
         curr = curr[keys[i]];
       }
       if (curr && typeof curr === 'object') {
-        const sampleKey = Object.keys(curr)[0];
-        curr[newId] = sampleKey ? JSON.parse(JSON.stringify(curr[sampleKey], (k, v) => (typeof v === 'string' ? '' : v))) : { NAME: '', MESSAGE: '' };
+        if (isMotif) {
+          curr[newId.toUpperCase().replace(/\s+/g, '_')] = '#6b1d2f';
+        } else {
+          const sampleKey = Object.keys(curr)[0];
+          curr[newId] = sampleKey ? JSON.parse(JSON.stringify(curr[sampleKey], (k, v) => (typeof v === 'string' ? '' : v))) : { NAME: '', MESSAGE: '' };
+        }
       }
       return cloned;
     });
@@ -488,8 +610,12 @@ export default function AdminContentManager() {
   };
 
   const handleRenameKey = (path, oldKey) => {
-    const newKey = prompt(`Edit ID Key Name (currently: "${oldKey}"):`, oldKey);
+    const isMotif = path.toUpperCase().includes('WEDDING_MOTIF') || path.toUpperCase().includes('WEDDING_MODIF');
+    const promptTitle = isMotif ? `Edit Color Label Name (currently: "${oldKey}"):` : `Edit ID Key Name (currently: "${oldKey}"):`;
+    const newKey = prompt(promptTitle, oldKey);
     if (!newKey || newKey === oldKey) return;
+
+    const formattedNewKey = isMotif ? newKey.toUpperCase().replace(/\s+/g, '_') : newKey;
 
     setFormContent((prev) => {
       const cloned = JSON.parse(JSON.stringify(prev));
@@ -500,15 +626,15 @@ export default function AdminContentManager() {
       }
 
       if (curr && typeof curr === 'object') {
-        if (curr[newKey]) {
-          alert(`Key "${newKey}" already exists! Please use a unique key.`);
+        if (curr[formattedNewKey]) {
+          alert(`Key "${formattedNewKey}" already exists! Please use a unique key.`);
           return prev;
         }
 
         const updatedObject = {};
         Object.keys(curr).forEach((k) => {
           if (k === oldKey) {
-            updatedObject[newKey] = curr[oldKey];
+            updatedObject[formattedNewKey] = curr[oldKey];
           } else {
             updatedObject[k] = curr[k];
           }
@@ -548,6 +674,14 @@ export default function AdminContentManager() {
       setToast({ open: true, message: err.message || 'Error saving changes to server.', severity: 'error' });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleResetToDefault = () => {
+    const selectedOption = PAGE_OPTIONS.find((p) => p.key === selectedPage);
+    if (selectedOption) {
+      setFormContent(selectedOption.defaultData);
+      setToast({ open: true, message: 'Reset to default static values. Click Save to publish.', severity: 'info' });
     }
   };
 
@@ -735,6 +869,16 @@ export default function AdminContentManager() {
 
           <Divider sx={{ my: 4 }} />
           <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center" spacing={2}>
+            {/* <Button
+                fullWidth={{ xs: true, sm: false }}
+                variant="outlined"
+                color="inherit"
+                startIcon={<Refresh />}
+                onClick={handleResetToDefault}
+                sx={{ borderRadius: 2.5, textTransform: 'none' }}
+            >
+                Reset to Defaults
+            </Button> */}
             <Button
               fullWidth={{ xs: true, sm: false }}
               variant="contained"

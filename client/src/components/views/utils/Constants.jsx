@@ -16,7 +16,10 @@ export const CONTENT_ATTIRE_DONT = {
 };
 
 export const CONTENT = {
-    DATE_COUNTDOWN: "",
+    WEDDING_DATE: "",
+    WEDDING_MOTIF: {
+        CHAMPAGNE_GOLD: "#F7E7CE",
+    },
     TITLE_NAME: "",
     TITLE_DATE: "",
     TITLE_DATE_V2: "",
