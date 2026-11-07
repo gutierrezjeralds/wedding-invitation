@@ -64,6 +64,7 @@ function AdminProtectedRoute({ children }) {
 // Main App Routes
 // ============================================================
 function AppRoutes() {
+  const [hasMusicVisible, setHasMusicVisible] = useState(true);
   const { loading } = useContent();
   const location = useLocation();
 
@@ -140,8 +141,8 @@ function AppRoutes() {
 
       {showHeader && <Footer />}
 
-      <WeddingDetailsFab isAdminPath={isAdminPath} />
-      <BackgroundMusic isAdminPath={isAdminPath} />
+      <WeddingDetailsFab isAdminPath={isAdminPath} hasMusic={hasMusicVisible} />
+      <BackgroundMusic isAdminPath={isAdminPath} onMusicStateChange={setHasMusicVisible} />
     </React.Fragment>
   );
 }

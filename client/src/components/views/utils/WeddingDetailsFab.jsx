@@ -4,7 +4,7 @@ import { PictureAsPdf } from '@mui/icons-material';
 import { useContent } from '../utils/ConstantContent';
 import { downloadWeddingDetailsPdf } from '../utils/GenerateWeddingPdf';
 
-export default function WeddingDetailsFab({ isAdminPath = false }) {
+export default function WeddingDetailsFab({ isAdminPath = false, hasMusic = false }) {
     const { getPageContent } = useContent();
     const CONTENT = getPageContent('global');
     const CONTENT_ENTOURAGE = getPageContent('entourage');
@@ -22,12 +22,13 @@ export default function WeddingDetailsFab({ isAdminPath = false }) {
         <Box
             sx={{
                 position: 'fixed',
-                bottom: 74, // Positioned vertically above the music widget
-                right: 16,  // Aligned vertically on the right edge
+                bottom: hasMusic ? 74 : 16, 
+                right: 16,  
                 zIndex: 9999,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                transition: 'bottom 0.3s ease-in-out', // Smooth transition if toggled
             }}
         >
             <Tooltip title="Download Wedding Details PDF" placement="left">

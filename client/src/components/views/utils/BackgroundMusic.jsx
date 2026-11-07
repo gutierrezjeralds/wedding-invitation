@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Box, Fab, Tooltip } from '@mui/material';
 import { MusicNote, MusicOff, SkipNext } from '@mui/icons-material';
 
-export default function BackgroundMusic({ isAdminPath = false }) {
+export default function BackgroundMusic({ isAdminPath = false, onMusicStateChange }) {
     const [playlist, setPlaylist] = useState([]);
     const [isMusicEnabled, setIsMusicEnabled] = useState(false);
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -86,6 +86,16 @@ export default function BackgroundMusic({ isAdminPath = false }) {
         }
     }, [currentTrackIndex, playlist]);
 
+    // Check if the component should be visible
+    const isVisible = !isAdminPath && isMusicEnabled && playlist.length > 0 && Boolean(playlist[currentTrackIndex]?.src);
+
+    // Notify parent component whenever the visibility changes so it can adapt spacing
+    useEffect(() => {
+        if (onMusicStateChange) {
+            onMusicStateChange(isVisible);
+        }
+    }, [isVisible, onMusicStateChange]);
+
     const togglePlay = () => {
         if (!audioRef.current) return;
 
@@ -106,7 +116,7 @@ export default function BackgroundMusic({ isAdminPath = false }) {
     };
 
     // Render Guard: Hide widget completely if on admin path, music disabled, or no tracks loaded
-    if (isAdminPath || !isMusicEnabled || playlist.length === 0 || !playlist[currentTrackIndex]?.src) {
+    if (!isVisible) {
         return null;
     }
 
