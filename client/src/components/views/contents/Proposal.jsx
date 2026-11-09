@@ -136,16 +136,16 @@ export default function Proposal() {
                     <Container maxWidth="lg" className="py-5">
                         <Box>
                             <Text
-                                className="cormorant-garamond-regular fs-5 mb-3"
+                                className="cormorant-garamond-regular fs-4 mb-3"
                                 textKey={CONTENT_PROPOSAL.TO?.replace('{{0}}', oLetter.NAME)}
                             />
                             <Text
-                                className="my-4 cormorant-garamond-regular fs-6"
+                                className="my-4 cormorant-garamond-regular fs-5"
                                 sx={{ pb: { xs: 0, sm: 5 } }}
                                 textKey={oLetter.MESSAGE}
                             />
                             <Text
-                                className="text-center text-uppercase playfair-display-regular mt-5"
+                                className="text-center text-uppercase playfair-display-regular mt-5 fs-5"
                                 textKey={oLetter.QUESTION?.WHAT}
                             />
                             <Text
@@ -236,7 +236,7 @@ export default function Proposal() {
                                 {/* RIGHT SIDE: Palette & Details */}
                                 <Box>
                                     <Text
-                                        className="mb-3 fs-8 cormorant-garamond-regular"
+                                        className="mb-3 fs-6 cormorant-garamond-regular"
                                         textKey={oText?.ATTIRE?.MESSAGE}
                                     />
                                     <Stack spacing={2}>
