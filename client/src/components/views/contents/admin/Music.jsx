@@ -494,7 +494,7 @@ export default function MusicManager() {
         open={toast.open}
         autoHideDuration={4000}
         onClose={() => setToast({ ...toast, open: false })}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <Alert
           onClose={() => setToast({ ...toast, open: false })}

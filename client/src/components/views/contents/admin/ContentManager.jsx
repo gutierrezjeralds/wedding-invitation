@@ -613,6 +613,8 @@ export default function AdminContentManager() {
   };
 
   const handleDeleteItem = (path, index) => {
+    let preventDelete = false;
+
     setFormContent((prev) => {
       const cloned = JSON.parse(JSON.stringify(prev));
       const keys = path.replace(/\[(\d+)\]/g, '.$1').split('.');
@@ -621,10 +623,22 @@ export default function AdminContentManager() {
         curr = curr[keys[i]];
       }
       if (Array.isArray(curr)) {
+        if (curr.length <= 1) {
+          preventDelete = true;
+          return prev;
+        }
         curr.splice(index, 1);
       }
       return cloned;
     });
+
+    if (preventDelete) {
+      setToast({
+        open: true,
+        message: 'At least one item must be available before deleting. Edit existing if you want to delete.',
+        severity: 'error'
+      });
+    }
   };
 
   const handleAddKey = (path, obj) => {
@@ -656,6 +670,8 @@ export default function AdminContentManager() {
   };
 
   const handleDeleteKey = (path, targetKey) => {
+    let preventDelete = false;
+
     setFormContent((prev) => {
       const cloned = JSON.parse(JSON.stringify(prev));
       const keys = path.replace(/\[(\d+)\]/g, '.$1').split('.');
@@ -664,10 +680,23 @@ export default function AdminContentManager() {
         curr = curr[keys[i]];
       }
       if (curr && typeof curr === 'object') {
+        const remainingKeys = Object.keys(curr);
+        if (remainingKeys.length <= 1) {
+          preventDelete = true;
+          return prev;
+        }
         delete curr[targetKey];
       }
       return cloned;
     });
+
+    if (preventDelete) {
+      setToast({
+        open: true,
+        message: 'At least one item must be available before deleting. Edit existing if you want to delete.',
+        severity: 'error'
+      });
+    }
   };
 
   const handleRenameKey = (path, oldKey) => {
@@ -719,7 +748,7 @@ export default function AdminContentManager() {
       if (key.toUpperCase() === 'ATTIRE_COLORS' && typeof val === 'object' && val !== null) {
         const count = Object.keys(val).length;
         if (count < 1) {
-          setToast({ open: true, message: 'Validation Error: You must have at least 1 attire color input!', severity: 'error' });
+          setToast({ open: true, message: 'You must have at least 1 attire color input!', severity: 'error' });
           return;
         }
       }
@@ -981,7 +1010,7 @@ export default function AdminContentManager() {
         open={toast.open}
         autoHideDuration={4000}
         onClose={() => setToast({ ...toast, open: false })}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <Alert
           onClose={() => setToast({ ...toast, open: false })}
