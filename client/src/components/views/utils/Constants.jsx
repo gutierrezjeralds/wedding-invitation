@@ -332,14 +332,32 @@ export const CONTENT_PROPOSAL = {
     },
     PRINCIPAL: {
         TITLE: "",
-        LETTER: {},
+        LETTER: {
+            "1": {
+                "NAME": "",
+                "MESSAGE": "",
+                "QUESTION": {
+                    "WHAT": "",
+                    "WHO": ""
+                }
+            }
+        },
         ATTIRE: {
             MESSAGE: ""
         }
     },
     SECONDARY: {
         TITLE: "",
-        LETTER: {},
+        LETTER: {
+            "1": {
+                "NAME": "",
+                "MESSAGE": "",
+                "QUESTION": {
+                    "WHAT": "",
+                    "WHO": ""
+                }
+            }
+        },
         ATTIRE: {
             MESSAGE: ""
         }
@@ -347,21 +365,48 @@ export const CONTENT_PROPOSAL = {
     ENTOURAGE: {
         BRIDESMAIDS: {
             TITLE: "",
-            LETTER: {},
+            LETTER: {
+                "1": {
+                    "NAME": "",
+                    "MESSAGE": "",
+                    "QUESTION": {
+                        "WHAT": "",
+                        "WHO": ""
+                    }
+                }
+            },
             ATTIRE: {
                 MESSAGE: ""
             }
         },
         GROOMSMEN: {
             TITLE: "",
-            LETTER: {},
+            LETTER: {
+                "1": {
+                    "NAME": "",
+                    "MESSAGE": "",
+                    "QUESTION": {
+                        "WHAT": "",
+                        "WHO": ""
+                    }
+                }
+            },
             ATTIRE: {
                 MESSAGE: ""
             }
         },
         BEARER: {
             TITLE: "",
-            LETTER: {},
+            LETTER: {
+                "1": {
+                    "NAME": "",
+                    "MESSAGE": "",
+                    "QUESTION": {
+                        "WHAT": "",
+                        "WHO": ""
+                    }
+                }
+            },
             ATTIRE: {
                 MESSAGE: ""
             }
@@ -370,14 +415,32 @@ export const CONTENT_PROPOSAL = {
     PARENTS: {
         BRIDE: {
             TITLE: "",
-            LETTER: {},
+            LETTER: {
+                "1": {
+                    "NAME": "",
+                    "MESSAGE": "",
+                    "QUESTION": {
+                        "WHAT": "",
+                        "WHO": ""
+                    }
+                }
+            },
             ATTIRE: {
                 MESSAGE: ""
             }
         },
         GROOM: {
             TITLE: "",
-            LETTER: {},
+            LETTER: {
+                "1": {
+                    "NAME": "",
+                    "MESSAGE": "",
+                    "QUESTION": {
+                        "WHAT": "",
+                        "WHO": ""
+                    }
+                }
+            },
             ATTIRE: {
                 MESSAGE: ""
             }
