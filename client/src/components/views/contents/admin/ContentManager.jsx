@@ -61,17 +61,17 @@ import {
 } from '../../utils/Constants';
 
 const PAGE_OPTIONS = [
-  { key: 'global', label: 'Global Info (CONTENT)', defaultData: STATIC_CONTENT },
-  { key: 'footer', label: 'Footer (CONTENT_FOOTER)', defaultData: STATIC_FOOTER },
-  { key: 'envelope', label: 'Envelope (CONTENT_ENVELOPE)', defaultData: STATIC_ENVELOPE },
-  { key: 'home', label: 'Home Page (CONTENT_HOME)', defaultData: STATIC_HOME },
-  { key: 'story', label: 'Story Page (CONTENT_STORY)', defaultData: STATIC_STORY },
-  { key: 'wedding', label: 'Wedding Page (CONTENT_WEDDING)', defaultData: STATIC_WEDDING },
-  { key: 'entourage', label: 'Entourage (CONTENT_ENTOURAGE)', defaultData: STATIC_ENTOURAGE },
-  { key: 'attire', label: 'Attire Guide (CONTENT_ATTIRE)', defaultData: STATIC_ATTIRE },
-  { key: 'faq', label: 'FAQ Page (CONTENT_FAQ)', defaultData: STATIC_FAQ },
-  { key: 'gift', label: 'Gifts & Registry (CONTENT_GIFT)', defaultData: STATIC_GIFT },
-  { key: 'proposal', label: 'Proposals (CONTENT_PROPOSAL)', defaultData: STATIC_PROPOSAL },
+  { key: 'global', label: 'Global Info', defaultData: STATIC_CONTENT },
+  { key: 'footer', label: 'Footer', defaultData: STATIC_FOOTER },
+  { key: 'envelope', label: 'Envelope', defaultData: STATIC_ENVELOPE },
+  { key: 'home', label: 'Home Page', defaultData: STATIC_HOME },
+  { key: 'story', label: 'Story Page', defaultData: STATIC_STORY },
+  { key: 'wedding', label: 'Wedding Page', defaultData: STATIC_WEDDING },
+  { key: 'entourage', label: 'Entourage', defaultData: STATIC_ENTOURAGE },
+  { key: 'attire', label: 'Attire Guide', defaultData: STATIC_ATTIRE },
+  { key: 'faq', label: 'FAQ Page', defaultData: STATIC_FAQ },
+  { key: 'gift', label: 'Gifts & Registry', defaultData: STATIC_GIFT },
+  { key: 'proposal', label: 'Proposals', defaultData: STATIC_PROPOSAL },
 ];
 
 const ROLE_OPTIONS = ['Parent', 'Principal', 'Entourage', 'Guest'];
@@ -895,14 +895,21 @@ export default function AdminContentManager() {
         >
           <Stack spacing={2} sx={{ mb: 3, display: 'block', width: '100%' }}>
             <Box sx={{ display: 'block', width: '100%', mb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-              <Chip
-                label={`Editing Section: ${PAGE_OPTIONS.find((p) => p.key === selectedPage)?.key.toUpperCase()}`}
-                color="primary"
-                variant="outlined"
+              <TextField
                 size="small"
-                sx={{ fontWeight: 700, display: 'inline-flex' }}
+                placeholder="Search field name..."
+                value={searchFilter}
+                onChange={(e) => setSearchFilter(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search sx={{ color: 'text.secondary', fontSize: 20 }} />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ display: 'block', '& .MuiOutlinedInput-root': { borderRadius: 2, display: 'block', width: '100%' } }}
               />
-
+              
               <Button
                 variant="outlined"
                 size="small"
@@ -914,22 +921,6 @@ export default function AdminContentManager() {
                 {downloading ? 'Preparing Backup...' : 'Download Full JSON Backup'}
               </Button>
             </Box>
-
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Search field name..."
-              value={searchFilter}
-              onChange={(e) => setSearchFilter(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search sx={{ color: 'text.secondary', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ display: 'block', width: '100%', '& .MuiOutlinedInput-root': { borderRadius: 2, display: 'block', width: '100%' } }}
-            />
           </Stack>
 
           <Divider sx={{ mb: 4, display: 'block', width: '100%' }} />
