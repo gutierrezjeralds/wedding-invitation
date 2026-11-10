@@ -182,8 +182,7 @@ export default function CurtainIntro() {
     const sPageBackground = getAsset('cover', 'background');
 
     const navigate = useNavigate();
-    const [isOpening, setIsOpening] = useState(false);
-    const [isCurtainOpened, setIsCurtainOpened] = useState(false);
+    const [isFadingOut, setIsFadingOut] = useState(false);
 
     const butterflySwarm = useMemo(() => {
         return Array.from({ length: 20 }).map((_, i) => {
@@ -213,38 +212,36 @@ export default function CurtainIntro() {
     }, []);
 
     useEffect(() => {
-        const openTimer = setTimeout(() => {
-            setIsOpening(true);
-        }, 3000);
+        // Trigger fade out after 3.5 seconds
+        const fadeTimer = setTimeout(() => {
+            setIsFadingOut(true);
+        }, 3500);
 
-        // The curtains take 2.8 seconds to finish opening after the 3-second hold.
-        const curtainOpenedTimer = setTimeout(() => {
-            setIsCurtainOpened(true);
-        }, 5800);
-
+        // Redirect after fade animation completes (3.5s + 1.5s fade duration)
         const redirectTimer = setTimeout(() => {
             navigate('/home', { replace: true });
-        }, 6500);
+        }, 5000);
 
         return () => {
-            clearTimeout(openTimer);
-            clearTimeout(curtainOpenedTimer);
+            clearTimeout(fadeTimer);
             clearTimeout(redirectTimer);
         };
     }, [navigate]);
 
     return (
-        <Box
-            sx={{
+        <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: isFadingOut ? 0 : 1 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            style={{
                 position: 'fixed',
                 inset: 0,
                 zIndex: 9999,
                 overflow: 'hidden',
-                bgcolor: '#121914', 
-                background: '#121914',
+                backgroundColor: '#121914', 
             }}
         >
-            {/* Fixed editorial background: stays in place while the curtains move. */}
+            {/* Fixed editorial background */}
             <Box
                 component="img"
                 src={sPageBackground}
@@ -286,8 +283,8 @@ export default function CurtainIntro() {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ 
-                        opacity: isOpening ? [0, 1, 0.65] : 0, 
-                        scale: isOpening ? [0.5, 1.45, 1.25] : 0.5 
+                        opacity: [0, 1, 0.65], 
+                        scale: [0.5, 1.45, 1.25] 
                     }}
                     transition={{ duration: 3.0, ease: "easeOut" }}
                     style={{
@@ -315,12 +312,12 @@ export default function CurtainIntro() {
                                 scale: 0.2,
                                 rotate: 0,
                             }}
-                            animate={isOpening ? {
+                            animate={{
                                 y: [Math.floor(i / 10 - 2) * 110, Math.floor(i / 10 - 2) * 110 - 120],
                                 opacity: [0, 1, 0.8, 0],
                                 scale: [0.2, 1.3, 0.6, 0.1],
                                 rotate: [0, 90, 180],
-                            } : { opacity: 0 }}
+                            }}
                             transition={{
                                 duration: 2.4 + (i % 5) * 0.3,
                                 repeat: Infinity,
@@ -339,7 +336,7 @@ export default function CurtainIntro() {
             </Box>
 
             {/* --- ENCHANTED FAIRY BUTTERFLY SWARM --- */}
-            {!isCurtainOpened && butterflySwarm.map((b) => (
+            {butterflySwarm.map((b) => (
                 <SwarmButterflyItem
                     key={b.id}
                     idPrefix={b.idPrefix}
@@ -357,119 +354,39 @@ export default function CurtainIntro() {
                 />
             ))}
 
-            {/* --- WINE RED & GOLD MAGIC SEAM BURST --- */}
-            <motion.div
-                initial={{ opacity: 0, scaleY: 0 }}
-                animate={{ 
-                    opacity: isOpening ? [0, 1, 0] : 0,
-                    scaleY: isOpening ? [0, 1, 1] : 0,
-                }}
-                transition={{ duration: 1.1, ease: [0.65, 0, 0.35, 1] }}
-                style={{
+            {/* --- FULL MAGAZINE COVER CONTENT --- */}
+            <Box
+                sx={{
                     position: 'absolute',
-                    top: 0,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: '4px',
-                    height: '100vh',
-                    background: 'linear-gradient(to bottom, transparent, #FAF5ED, #D8A7B1, #6B1D2F, #FAF5ED, transparent)',
-                    boxShadow: '0 0 35px 12px rgba(107, 29, 47, 0.85), 0 0 20px 6px #D8A7B1',
-                    zIndex: 5,
-                }}
-            />
-
-            {/* --- LEFT CURTAIN PANEL --- */}
-            <motion.div
-                initial={{ x: '0%' }}
-                animate={{ x: isOpening ? '-100%' : '0%' }}
-                transition={{ 
-                    duration: 2.8,
-                    ease: [0.65, 0, 0.35, 1] 
-                }}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '50vw',
-                    height: '100vh',
-                    overflow: 'hidden',
-                    zIndex: 2,
-                    willChange: 'transform',
+                    inset: 0,
+                    zIndex: 3,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                 }}
             >
-                <Box
-                    sx={{
-                        width: '100vw',
-                        height: '100vh',
-                        position: 'relative',
-                        bgcolor: 'transparent',
-                    }}
-                >
-                    <CoverContent CONTENT={CONTENT} />
-                </Box>
-            </motion.div>
-
-            {/* --- RIGHT CURTAIN PANEL --- */}
-            <motion.div
-                initial={{ x: '0%' }}
-                animate={{ x: isOpening ? '100%' : '0%' }}
-                transition={{ 
-                    duration: 2.8,
-                    ease: [0.65, 0, 0.35, 1] 
-                }}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    width: '50vw',
-                    height: '100vh',
-                    overflow: 'hidden',
-                    zIndex: 2,
-                    willChange: 'transform',
-                }}
-            >
-                <Box
-                    sx={{
-                        width: '100vw',
-                        height: '100vh',
-                        position: 'relative',
-                        left: '-50vw',
-                        bgcolor: 'transparent',
-                    }}
-                >
-                    <CoverContent CONTENT={CONTENT} />
-                </Box>
-            </motion.div>
-        </Box>
+                <CoverContent CONTENT={CONTENT} />
+            </Box>
+        </motion.div>
     );
 }
 
-// Full Magazine Cover with proper full-screen background alignment across panels
+// Full Magazine Cover Content centered on screen
 function CoverContent({ CONTENT }) {
     return (
         <Box
             sx={{
-                width: '100vw',
-                height: '100vh',
+                width: '100%',
+                height: '100%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'relative',
-                bgcolor: 'transparent',
+                textAlign: 'center',
+                userSelect: 'none',
             }}
         >
-            {/* Stacked 07 / 17 / 27 Typography */}
-            <Box
-                sx={{
-                    position: 'absolute',
-                    left: '50vw',
-                    transform: 'translateX(-50%)',
-                    zIndex: 1,
-                    textAlign: 'center',
-                    userSelect: 'none',
-                    width: '100vw',
-                }}
-            >
+            <Box>
                 {/* FIRST LINE: 07 */}
                 <Typography
                     variant="h1"
