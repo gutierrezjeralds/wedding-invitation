@@ -196,17 +196,11 @@ export default function Wedding() {
                                                 className="mb-1"
                                                 textKey={CONTENT.TITLE_CHURCH}
                                             />
-                                            
-                                            <Text
-                                                variant="caption"
-                                                sx={{ display: 'block', mb: 2 }}
-                                                textKey={CONTENT.TITLE_DATE_V2}
-                                            />
 
                                             <Text
                                                 variant="body1"
                                                 className="py-2"
-                                                textKey={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.CHURCH_TAGLINE}
+                                                textKey={CONTENT_WEDDING.TAB.VENUE_AND_LOCATION.CEREMONY_TAGLINE}
                                             />
 
                                             <Chip
@@ -307,12 +301,6 @@ export default function Wedding() {
                                                 variant="h5"
                                                 className="mb-1"
                                                 textKey={CONTENT.TITLE_RECEPTION}
-                                            />
-
-                                            <Text
-                                                variant="caption"
-                                                sx={{ display: 'block', mb: 2 }}
-                                                textKey={CONTENT.TITLE_DATE_V4}
                                             />
 
                                             <Text

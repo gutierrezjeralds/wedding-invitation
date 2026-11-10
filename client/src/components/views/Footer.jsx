@@ -127,7 +127,8 @@ export default function WeddingFooter() {
                                 variant="body2"
                                 color="text.secondary"
                                 className="cormorant-sc-regular"
-                                textKey={CONTENT?.TITLE_DATE_V2}
+                                textKey={CONTENT?.WEDDING_DATE}
+                                dateFormat="MMMM DD, YYYY"
                             />
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>

@@ -57,7 +57,8 @@ export default function Envelope() {
                         <Text
                             variant="caption"
                             className="mt-5"
-                            textKey={CONTENT.TITLE_DATE}
+                            textKey={CONTENT.WEDDING_DATE}
+                            dateFormat="dddd, MMMM DD, YYYY [at] hh:mm A"
                         />
 
                         <Text

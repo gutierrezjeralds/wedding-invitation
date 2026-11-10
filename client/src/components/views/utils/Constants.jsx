@@ -24,10 +24,6 @@ export const CONTENT = {
         },
     },
     TITLE_NAME: "",
-    TITLE_DATE: "",
-    TITLE_DATE_V2: "",
-    TITLE_DATE_V3: "",
-    TITLE_DATE_V4: "",
     TITLE_CHURCH: "",
     TITLE_CHURCH_ADDRESS: "",
     TITLE_RECEPTION: "",
@@ -94,12 +90,12 @@ export const CONTENT_WEDDING = {
     SUBTITLE: "",
     TAB: {
         VENUE_AND_LOCATION: {
-            TITLE: "",
-            CEREMONY: "",
-            RECEPTION: "",
-            CHURCH_TAGLINE: "",
-            RECEPTION_TAGLINE: "",
-            MAP_BUTTON: ""
+            "TITLE": "",
+            "CEREMONY": "",
+            "CEREMONY_TAGLINE": "",
+            "RECEPTION": "",
+            "RECEPTION_TAGLINE": "",
+            "MAP_BUTTON": ""
         },
         DAY_SCHEDULE: {
             TITLE: "",

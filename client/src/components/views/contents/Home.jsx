@@ -64,7 +64,8 @@ export default function Home() {
                             letterSpacing="wide"
                             variant="h6"
                             className="cormorant-garamond-regular m-2 text-wedding-primary"
-                            textKey={CONTENT.TITLE_DATE_V3}
+                            textKey={CONTENT.WEDDING_DATE}
+                            dateFormat="MMMM DD, YYYY"
                         />
 
                         <FavoriteDividerSmall />
