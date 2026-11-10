@@ -131,7 +131,6 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
         value={data}
         onChange={(e) => onChange(path, e.target.value)}
         multiline={!isCountdownField}
-        rows={isCountdownField ? undefined : 3}
         variant="outlined"
         size="small"
         placeholder="Enter value..."
@@ -356,7 +355,6 @@ function NestedFieldEditor({ data, path = '', onChange, onAddItem, onDeleteItem,
                 <TextField
                   fullWidth
                   multiline
-                  rows={2}
                   value={typeof iconName === 'string' ? iconName : 'IconComponent'}
                   onChange={(e) => onChange(currentPath, e.target.value)}
                   size="small"
