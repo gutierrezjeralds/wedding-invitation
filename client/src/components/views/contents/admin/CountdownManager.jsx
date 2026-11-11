@@ -22,13 +22,10 @@ import {
   AutoAwesome,
   Save,
   Restore,
-  Tune,
   Park,
   EmojiEvents,
   Style,
-  CheckCircle,
-  ColorLens,
-  Brush
+  CheckCircle
 } from '@mui/icons-material';
 import { PageTitle } from '../../utils/CustomComponents';
 
@@ -281,12 +278,12 @@ export default function AdminCountdownConfig() {
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04)',
         }}
       >
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', mb: 3 }}>
           <Typography variant="h6" sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 700, color: '#6B1D2F' }}>
             Countdown Visual Settings
           </Typography>
           <Tooltip title="Reset to Defaults">
-            <IconButton onClick={() => handleApplyPreset('garden')} size="small" color="primary">
+            <IconButton onClick={() => handleApplyPreset('garden')} size="small" color="primary" sx={{ flexShrink: 0 }}>
               <Restore />
             </IconButton>
           </Tooltip>
@@ -333,47 +330,101 @@ export default function AdminCountdownConfig() {
         {/* COLOR PICKERS */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={4}>
-            <Typography variant="caption" sx={{ color: '#666', fontWeight: 600 }}>
+            <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
               Number Color (Burgundy/Wine)
             </Typography>
-            <Box display="flex" alignItems="center" gap={1} mt={0.5}>
-              <input
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
+              <Box
+                component="input"
                 type="color"
                 value={primaryColor}
                 onChange={(e) => setPrimaryColor(e.target.value)}
-                style={{ width: 40, height: 36, borderRadius: 6, border: '1px solid #ccc', cursor: 'pointer' }}
+                sx={{
+                  width: '40px',
+                  height: '40px',
+                  minWidth: '40px',
+                  p: 0.5,
+                  borderRadius: '6px',
+                  border: '1px solid rgba(0, 0, 0, 0.23)',
+                  bgcolor: '#fff',
+                  cursor: 'pointer',
+                  '&::-webkit-color-swatch-wrapper': { p: 0 },
+                  '&::-webkit-color-swatch': { border: 'none', borderRadius: '4px' }
+                }}
               />
-              <TextField size="small" value={primaryColor} onChange={(e) => setPrimaryColor(e.target.value)} fullWidth />
+              <TextField 
+                size="small" 
+                value={primaryColor} 
+                onChange={(e) => setPrimaryColor(e.target.value)} 
+                fullWidth 
+                sx={{ '& .MuiOutlinedInput-root': { height: '40px' } }}
+              />
             </Box>
           </Grid>
 
           <Grid item xs={12} sm={4}>
-            <Typography variant="caption" sx={{ color: '#666', fontWeight: 600 }}>
+            <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
               Gold Accent / Border Color
             </Typography>
-            <Box display="flex" alignItems="center" gap={1} mt={0.5}>
-              <input
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
+              <Box
+                component="input"
                 type="color"
                 value={goldColor}
                 onChange={(e) => setGoldColor(e.target.value)}
-                style={{ width: 40, height: 36, borderRadius: 6, border: '1px solid #ccc', cursor: 'pointer' }}
+                sx={{
+                  width: '40px',
+                  height: '40px',
+                  minWidth: '40px',
+                  p: 0.5,
+                  borderRadius: '6px',
+                  border: '1px solid rgba(0, 0, 0, 0.23)',
+                  bgcolor: '#fff',
+                  cursor: 'pointer',
+                  '&::-webkit-color-swatch-wrapper': { p: 0 },
+                  '&::-webkit-color-swatch': { border: 'none', borderRadius: '4px' }
+                }}
               />
-              <TextField size="small" value={goldColor} onChange={(e) => setGoldColor(e.target.value)} fullWidth />
+              <TextField 
+                size="small" 
+                value={goldColor} 
+                onChange={(e) => setGoldColor(e.target.value)} 
+                fullWidth 
+                sx={{ '& .MuiOutlinedInput-root': { height: '40px' } }}
+              />
             </Box>
           </Grid>
 
           <Grid item xs={12} sm={4}>
-            <Typography variant="caption" sx={{ color: '#666', fontWeight: 600 }}>
+            <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
               Label Text Color
             </Typography>
-            <Box display="flex" alignItems="center" gap={1} mt={0.5}>
-              <input
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
+              <Box
+                component="input"
                 type="color"
                 value={labelColor}
                 onChange={(e) => setLabelColor(e.target.value)}
-                style={{ width: 40, height: 36, borderRadius: 6, border: '1px solid #ccc', cursor: 'pointer' }}
+                sx={{
+                  width: '40px',
+                  height: '40px',
+                  minWidth: '40px',
+                  p: 0.5,
+                  borderRadius: '6px',
+                  border: '1px solid rgba(0, 0, 0, 0.23)',
+                  bgcolor: '#fff',
+                  cursor: 'pointer',
+                  '&::-webkit-color-swatch-wrapper': { p: 0 },
+                  '&::-webkit-color-swatch': { border: 'none', borderRadius: '4px' }
+                }}
               />
-              <TextField size="small" value={labelColor} onChange={(e) => setLabelColor(e.target.value)} fullWidth />
+              <TextField 
+                size="small" 
+                value={labelColor} 
+                onChange={(e) => setLabelColor(e.target.value)} 
+                fullWidth 
+                sx={{ '& .MuiOutlinedInput-root': { height: '40px' } }}
+              />
             </Box>
           </Grid>
         </Grid>

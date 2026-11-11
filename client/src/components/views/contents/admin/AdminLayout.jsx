@@ -22,7 +22,7 @@ export default function AdminLayout() {
   const menuItems = [
     { text: 'Admin Home', icon: <Dashboard />, path: '/admin' },
     { text: 'Content', icon: <TextSnippet />, path: '/admin/content' },
-    { text: 'Countdown', icon: <HourglassTop />, path: '/admin/countdown' },
+    // { text: 'Countdown', icon: <HourglassTop />, path: '/admin/countdown' },
     { text: 'Media', icon: <Backup />, path: '/admin/media' },
     { text: 'Music', icon: <LibraryMusic />, path: '/admin/music' },
     { text: 'RSVP Report', icon: <PeopleAlt />, path: '/admin/rsvp' },

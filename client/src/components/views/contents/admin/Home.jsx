@@ -82,7 +82,7 @@ export default function AdminHome() {
         </Grid>
 
         {/* Countdown Timer Style Card */}
-        <Grid item class="w-100">
+        {/* <Grid item class="w-100">
           <Card
             elevation={0}
             onClick={() => navigate('/admin/countdown')}
@@ -112,7 +112,7 @@ export default function AdminHome() {
               </Typography>
             </CardContent>
           </Card>
-        </Grid>
+        </Grid> */}
 
         {/* Media & Asset Manager Card */}
         <Grid item class="w-100">
