@@ -44,6 +44,7 @@ import {
   OpenInNew,
   Palette
 } from '@mui/icons-material';
+import { PageTitle } from '../../utils/CustomComponents';
 
 // Import static constants as defaults / fallbacks
 import {
@@ -825,6 +826,11 @@ export default function AdminContentManager() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
+      <PageTitle
+        title="Content Management System"
+        subtitle="Easily edit headlines, dates, nested lists, icons, and dynamic items across your entire website."
+      />
+
       <Paper
         elevation={0}
         sx={{
@@ -839,18 +845,6 @@ export default function AdminContentManager() {
         }}
       >
         <Stack spacing={3} sx={{ display: 'block', width: '100%' }}>
-          <Box sx={{ display: 'block', width: '100%', mb: 2 }}>
-            <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 0.5 }}>
-              <EditNote sx={{ fontSize: 32, color: 'primary.main' }} />
-              <Typography variant="h5" sx={{ fontWeight: 700, fontFamily: '"Cormorant Garamond", serif', color: 'primary.main' }}>
-                Content Management System
-              </Typography>
-            </Stack>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              Easily edit headlines, dates, nested lists, icons, and dynamic items across your entire website.
-            </Typography>
-          </Box>
-
           <FormControl fullWidth size="small" sx={{ display: 'block', width: '100%' }}>
             <InputLabel id="page-select-label">Select Page</InputLabel>
             <Select

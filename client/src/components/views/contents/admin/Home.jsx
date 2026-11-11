@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Grid, Card, CardContent, Stack } from '@mui/material';
-import { PeopleAlt, Palette, Backup, EditNote, Home, MusicNote } from '@mui/icons-material';
+import { PeopleAlt, Palette, Backup, EditNote, Home, MusicNote, HourglassEmpty } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { PageTitle } from '../../utils/CustomComponents';
 
@@ -76,6 +76,39 @@ export default function AdminHome() {
               </Stack>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                 Edit headlines, dates, nested entourage entries, FAQs, proposals, and dynamic text across all pages without touching code.
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Countdown Timer Style Card */}
+        <Grid item class="w-100">
+          <Card
+            elevation={0}
+            onClick={() => navigate('/admin/countdown')}
+            sx={{
+              p: 2,
+              height: '100%',
+              border: '1px solid rgba(107, 29, 47, 0.15)',
+              borderRadius: 3,
+              cursor: 'pointer',
+              bgcolor: 'background.paper',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 24px rgba(107, 29, 47, 0.12)',
+              },
+            }}
+          >
+            <CardContent>
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1 }}>
+                <HourglassEmpty sx={{ fontSize: 28, color: 'primary.main' }} />
+                <Typography variant="h6" sx={{ color: 'secondary.main', fontWeight: 700 }}>
+                  Countdown Timer Style
+                </Typography>
+              </Stack>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                Dynamically customize the visual theme, colors, opacity, and botanical leaf sprigs of your website timer.
               </Typography>
             </CardContent>
           </Card>

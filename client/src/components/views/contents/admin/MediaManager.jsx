@@ -12,9 +12,11 @@ import {
   Alert,
   CircularProgress,
   Divider,
+  Container,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { PageTitle } from '../../utils/CustomComponents';
 
 const PAGES = [
   { value: 'envelope', label: 'Envelope' },
@@ -264,13 +266,11 @@ export default function AdminMediaPanel() {
   }
 
   return (
-    <Box sx={{ maxWidth: 1000, mx: 'auto', p: 3 }}>
-      <Typography variant="h4" gutterBottom fontWeight="bold" sx={{ color: '#4a3b32' }}>
-        Media & Asset Manager
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Upload, optimize, and manage site backgrounds, banners, story tabs, attire inspiration slides, and color palettes directly in MongoDB.
-      </Typography>
+    <Container maxWidth="lg"  sx={{ py: 4 }}>
+      <PageTitle
+        title="Media & Asset Manager"
+        subtitle="Upload, optimize, and manage site backgrounds, banners, story tabs, attire inspiration slides, and color palettes directly in MongoDB."
+      />
 
       {message.text && (
         <Alert severity={message.type} sx={{ mb: 3 }}>
@@ -474,6 +474,6 @@ export default function AdminMediaPanel() {
           ))}
         </Grid>
       )}
-    </Box>
+    </Container>
   );
 }

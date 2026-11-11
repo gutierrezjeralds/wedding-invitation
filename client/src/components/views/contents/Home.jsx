@@ -20,13 +20,16 @@ export default function Home() {
     const sPageBackgroundMobile = getAsset('home', 'background', 'mobile');
     
     const Item = styled(Paper)(({ theme }) => ({
-            backgroundColor: '#fff',
-            ...theme.typography.body2,
-            padding: theme.spacing(1),
-            textAlign: 'center',
-            color: (theme.vars ?? theme).palette.text.secondary,
-            ...theme.applyStyles('dark', {
-                backgroundColor: '#1A2027',
+        backgroundColor: '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: (theme.vars ?? theme).palette.text.secondary,
+        // Added subtle inset shadow for the inner depth effect
+        boxShadow: 'inset 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 0 12px rgba(197, 160, 89, 0.15)',
+        ...theme.applyStyles('dark', {
+            backgroundColor: '#1A2027',
+            boxShadow: 'inset 0 2px 8px rgba(0, 0, 0, 0.4)',
         }),
     }));
 
@@ -78,18 +81,32 @@ export default function Home() {
 
                         <Countdown />
 
-                        <Text
-                            letterSpacing="wide"
-                            variant="h6"
-                            className="cormorant-garamond-regular mt-4"
-                            textKey={CONTENT_HOME.GUIDE_TITLE}
-                        />
-
-                        <Text
-                            variant="body1"
-                            className="cormorant-garamond-regular"
-                            textKey={CONTENT_HOME.GUIDE_SUBTITLE}
-                        />
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                my: 3,
+                                gap: 2,
+                                width: '100%',
+                            }}
+                        >
+                            <Box sx={{ flex: 1, maxWidth: 100, height: '1px', backgroundColor: '#C5A059' }} />
+                            <Box className="text-center" sx={{ px: 2 }}>
+                                <Text
+                                    letterSpacing="wide"
+                                    variant="h6"
+                                    className="cormorant-garamond-regular text-wedding-primary"
+                                    textKey={CONTENT_HOME.GUIDE_TITLE}
+                                />
+                                <Text
+                                    variant="body2"
+                                    className="cormorant-garamond-regular text-muted"
+                                    textKey={CONTENT_HOME.GUIDE_SUBTITLE}
+                                />
+                            </Box>
+                            <Box sx={{ flex: 1, maxWidth: 100, height: '1px', backgroundColor: '#C5A059' }} />
+                        </Box>
 
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="mt-4">
                             {CONTENT_HOME.ITEM_NAVIGATION.map((item) => {

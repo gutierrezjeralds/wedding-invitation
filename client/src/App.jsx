@@ -25,8 +25,9 @@ import AdminLoginModal from './components/views/contents/admin/LoginModal';
 import AdminLayout from './components/views/contents/admin/AdminLayout';
 import AdminHome from './components/views/contents/admin/Home';
 import ContentManager from './components/views/contents/admin/ContentManager';
+import CountdownConfig from './components/views/contents/admin/CountdownManager'
 import MediaManager from './components/views/contents/admin/MediaManager';
-import MusicManager from './components/views/contents/admin/Music';
+import MusicManager from './components/views/contents/admin/MusicManager';
 import RsvpReport from './components/views/contents/admin/RsvpReport';
 import ThemeSettings from './components/views/contents/admin/ThemeSettings';
 
@@ -129,6 +130,7 @@ function AppRoutes() {
         >
           <Route index element={<AdminHome />} />
           <Route path="content" element={<ContentManager />} />
+          <Route path="countdown" element={<CountdownConfig />} />
           <Route path="media" element={<MediaManager />} />
           <Route path="music" element={<MusicManager />} />
           <Route path="rsvp" element={<RsvpReport />} />

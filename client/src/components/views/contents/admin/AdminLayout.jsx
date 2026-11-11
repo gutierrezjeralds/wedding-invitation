@@ -10,7 +10,7 @@ import {
   Toolbar,
   Typography
 } from '@mui/material';
-import { Dashboard, PeopleAlt, Palette, Backup, TextSnippet, LibraryMusic } from '@mui/icons-material';
+import { Dashboard, PeopleAlt, Palette, Backup, TextSnippet, LibraryMusic, HourglassTop } from '@mui/icons-material';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 
 const DRAWER_WIDTH = 260;
@@ -22,6 +22,7 @@ export default function AdminLayout() {
   const menuItems = [
     { text: 'Admin Home', icon: <Dashboard />, path: '/admin' },
     { text: 'Content', icon: <TextSnippet />, path: '/admin/content' },
+    { text: 'Countdown', icon: <HourglassTop />, path: '/admin/countdown' },
     { text: 'Media', icon: <Backup />, path: '/admin/media' },
     { text: 'Music', icon: <LibraryMusic />, path: '/admin/music' },
     { text: 'RSVP Report', icon: <PeopleAlt />, path: '/admin/rsvp' },
